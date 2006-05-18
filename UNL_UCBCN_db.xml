@@ -1,0 +1,1749 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+
+ <name>eventcal</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+
+ <table>
+
+  <name>account</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>user_has_permission_user_calnetuid</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>user_has_permission_permission_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>shortname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>streetaddress1</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>streetaddress2</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>city</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>state</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zip</name>
+    <type>text</type>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>phone</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>fax</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>eventreleasepreference</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>accountstatus</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calendardaterange</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>formatcalendardata</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>emaillists</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>datecreated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidcreated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datelastupdated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidlastupdated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>account_has_event</name>
+
+  <declaration>
+
+   <field>
+    <name>account_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>source</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datecreated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidcreated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datelastupdated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidlastupdated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>admissioncharge</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>admissioninfogroup_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>price</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>admissioninfogroup</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>ticketpolicy</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>ticketcontactname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>ticketcontactphone</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>ticketcontacturl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>ticketsonsaledate</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>ticketadditionalinfo</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>reservationpolicy</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>reservationcontactname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>reservationcontactphone</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>reservationcontacturl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>reservationadditionalinfo</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>freeevent</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>soldout</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>otheraudience</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>admissioninfogroup_has_audience</name>
+
+  <declaration>
+
+   <field>
+    <name>admissioninfogroup_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>audience_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>attendancerestriction</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>audience</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>document</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>url</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>event</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>eventtype_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>title</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>subtitle</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>othertype</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>subtype</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>shortdescription</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>refreshments</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>networkclassification</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>approvedforcirculation</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>ownerid</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>privatecomment</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>otherkeyword</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>imagetitle</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>imageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>webpageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>listingcontactcalnetuid</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datecreated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidcreated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datelastupdated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidlastupdated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>event_has_location</name>
+
+  <declaration>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>location_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>event_has_sponsor</name>
+
+  <declaration>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>sponsor_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>eventtype</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>featuretype</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>keyword</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>location</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>streetaddress1</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>streetaddress2</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>room</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>city</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>state</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zip</name>
+    <type>text</type>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>mapurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>webpageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>hours</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>additionalpublicinfo</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>phone</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>performer</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>performertype_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>personalname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>otherperformertype</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>jobtitle</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>organizationname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>personalwebpageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>organizationwebpageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>performertype</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>permission</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>publiccontact</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>jobtitle</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>organization</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>addressline1</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>addressline2</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>city</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>state</name>
+    <type>text</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zip</name>
+    <type>text</type>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>emailaddress</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>phone</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>fax</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>webpageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>relatedevent</name>
+
+  <declaration>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>relatedeventid</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>relationtype</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>sponsor</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>level</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>logotitle</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>logourl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>webpageurl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>subscription</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>account_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>automaticapproval</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>timeperiod</name>
+    <type>date</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>expirationdate</name>
+    <type>date</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>searchcriteria</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>datecreated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidcreated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datelastupdated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidlastupdated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>user</name>
+
+  <declaration>
+
+   <field>
+    <name>calnetuid</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>account_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>accountstatus</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datecreated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidcreated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datelastupdated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calnetuidlastupdated</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>user_has_permission</name>
+
+  <declaration>
+
+   <field>
+    <name>permission_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>user_calnetuid</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>accoun</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>webcast</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>title</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>dateavailable</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>playertype</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>webcastlink</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>webcast_id</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>url</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>sequencenumber</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+</database>

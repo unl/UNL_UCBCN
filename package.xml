@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+    http://pear.php.net/dtd/tasks-1.0.xsd
+    http://pear.php.net/dtd/package-2.0
+    http://pear.php.net/dtd/package-2.0.xsd">
+ <name>UNL_UCBCN</name>
+ <channel>pear.unl.edu</channel>
+ <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
+ <description>This package creates and upgrades a relational database used to store event publishing details
+					formatted using the University of California Berkeley Calendar Network schema.</description>
+ <lead>
+  <name>Brett Bieber</name>
+  <user>saltybeagle</user>
+  <email>brett.bieber@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2006-05-18</date>
+ <time>16:28:04</time>
+ <version>
+  <release>0.0.1</release>
+  <api>0.0.1</api>
+ </version>
+ <stability>
+  <release>alpha</release>
+  <api>alpha</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>First attempt at a release.</notes>
+ <contents>
+  <dir baseinstalldir="UNL" name="/">
+   <dir name="UCBCN">
+    <file name="Account.php" role="php" />
+    <file name="Account_has_event.php" role="php" />
+    <file name="Admissioncharge.php" role="php" />
+    <file name="Admissioninfogroup.php" role="php" />
+    <file name="Admissioninfogroup_has_audience.php" role="php" />
+    <file name="Attendancerestriction.php" role="php" />
+    <file name="Audience.php" role="php" />
+    <file name="config.inc.php" role="php" />
+    <file name="Document.php" role="php" />
+    <file name="Event.php" role="php" />
+    <file name="eventcal.ini" role="data" />
+    <file name="eventcal.links.ini" role="data" />
+    <file name="Eventtype.php" role="php" />
+    <file name="Event_has_location.php" role="php" />
+    <file name="Event_has_sponsor.php" role="php" />
+    <file name="Featuretype.php" role="php" />
+    <file name="Keyword.php" role="php" />
+    <file name="Location.php" role="php" />
+    <file name="Performer.php" role="php" />
+    <file name="Performertype.php" role="php" />
+    <file name="Permission.php" role="php" />
+    <file name="Publiccontact.php" role="php" />
+    <file name="Relatedevent.php" role="php" />
+    <file name="Sponsor.php" role="php" />
+    <file name="Subscription.php" role="php" />
+    <file name="User.php" role="php" />
+    <file name="User_has_permission.php" role="php" />
+    <file name="Webcast.php" role="php" />
+    <file name="Webcastlink.php" role="php" />
+   </dir> <!-- //UCBCN -->
+   <file name="eventcal.sql" role="data" />
+   <file name="sample_data.sql" role="data" />
+   <file name="UCBCN.php" role="php">
+    <tasks:replace from="@PHP_BIN@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@PHP_DIR@" to="php_dir" type="pear-config" />
+    <tasks:replace from="@DATA_DIR@" to="data_dir" type="pear-config" />
+    <tasks:replace from="@DOC_DIR@" to="doc_dir" type="pear-config" />
+   </file>
+   <file name="UNL_UCBCN_db.xml" role="data">
+    <tasks:replace from="@PHP_BIN@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@PHP_DIR@" to="php_dir" type="pear-config" />
+    <tasks:replace from="@DATA_DIR@" to="data_dir" type="pear-config" />
+    <tasks:replace from="@DOC_DIR@" to="doc_dir" type="pear-config" />
+   </file>
+   <file name="UNL_UCBCN_setup.php" role="php">
+    <tasks:replace from="@PHP_BIN@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@PHP_DIR@" to="php_dir" type="pear-config" />
+    <tasks:replace from="@DATA_DIR@" to="data_dir" type="pear-config" />
+    <tasks:replace from="@DOC_DIR@" to="doc_dir" type="pear-config" />
+    <tasks:postinstallscript>
+     <tasks:paramgroup>
+      <tasks:id>questionCreate</tasks:id>
+      <tasks:param>
+       <tasks:name>createdb</tasks:name>
+       <tasks:prompt>Create/Upgrade database for UNL_UCBCN?</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>yes</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+     <tasks:paramgroup>
+      <tasks:id>databaseSetup</tasks:id>
+      <tasks:param>
+       <tasks:name>dbtype</tasks:name>
+       <tasks:prompt>Database/connection type</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>mysqli</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>database</tasks:name>
+       <tasks:prompt>Calendar database</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>eventcal</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>user</tasks:name>
+       <tasks:prompt>Username (must have create permision)</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>eventcal</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>password</tasks:name>
+       <tasks:prompt>Mysql password</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>eventcal</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>dbhost</tasks:name>
+       <tasks:prompt>Database Host</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>localhost</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+    </tasks:postinstallscript>
+   </file>
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+   <package>
+    <name>DB_DataObject</name>
+    <channel>pear.php.net</channel>
+    <min>0.8</min>
+   </package>
+   <package>
+    <name>Savant3</name>
+    <channel>savant.pearified.com</channel>
+    <min>3.0.0</min>
+   </package>
+   <package>
+    <name>MDB2_Schema</name>
+    <channel>pear.php.net</channel>
+    <min>0.5.0</min>
+   </package>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.0.1</release>
+    <api>0.0.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-05-18</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>First attempt at a release.</notes>
+  </release>
+ </changelog>
+</package>
