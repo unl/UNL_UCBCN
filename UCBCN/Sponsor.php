@@ -10,13 +10,13 @@ class UNL_UCBCN_Sponsor extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'sponsor';                         // table name
-    public $ID;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $Name;                            // string(255)  
-    public $Level;                           // string(100)  
-    public $LogoTitle;                       // string(100)  
-    public $LogoURL;                         // blob(65535)  blob
-    public $Description;                     // blob(65535)  blob
-    public $WebPageURL;                      // blob(65535)  blob
+    public $id;                              // int(11)  not_null primary_key auto_increment
+    public $name;                            // string(255)  
+    public $level;                           // string(100)  
+    public $logotitle;                       // string(100)  
+    public $logourl;                         // blob(-1)  blob
+    public $description;                     // blob(-1)  blob
+    public $webpageurl;                      // blob(-1)  blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Sponsor',$k,$v); }

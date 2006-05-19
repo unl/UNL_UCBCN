@@ -10,28 +10,28 @@ class UNL_UCBCN_Account extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'account';                         // table name
-    public $ID;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $User_has_Permission_User_CalNetUID;    // string(100)  not_null
-    public $User_has_Permission_Permission_ID;    // int(10)  not_null multiple_key unsigned
-    public $Name;                            // string(100)  
-    public $ShortName;                       // string(100)  
-    public $StreetAddress1;                  // string(255)  
-    public $StreetAddress2;                  // string(255)  
-    public $City;                            // string(100)  
-    public $State;                           // string(2)  
-    public $Zip;                             // string(10)  
-    public $Phone;                           // string(50)  
-    public $Fax;                             // string(50)  
-    public $Email;                           // string(100)  
-    public $EventReleasePreference;          // string(100)  
-    public $AccountStatus;                   // string(100)  
-    public $CalendarDateRange;               // string(100)  
-    public $FormatCalendarData;              // blob(65535)  blob
-    public $EmailLists;                      // blob(65535)  blob
-    public $DateCreated;                     // datetime(19)  
-    public $CalNetUIDCreated;                // string(100)  
-    public $DateLastUpdated;                 // timestamp(14)  not_null unsigned zerofill timestamp
-    public $CalNetUIDLastUpdated;            // string(100)  
+    public $id;                              // int(11)  not_null primary_key auto_increment
+    public $user_has_permission_user_calnetuid;    // string(100)  not_null
+    public $user_has_permission_permission_id;    // int(11)  not_null
+    public $name;                            // string(100)  
+    public $shortname;                       // string(100)  
+    public $streetaddress1;                  // string(255)  
+    public $streetaddress2;                  // string(255)  
+    public $city;                            // string(100)  
+    public $state;                           // string(2)  
+    public $zip;                             // string(10)  
+    public $phone;                           // string(50)  
+    public $fax;                             // string(50)  
+    public $email;                           // string(100)  
+    public $eventreleasepreference;          // string(100)  
+    public $accountstatus;                   // string(100)  
+    public $calendardaterange;               // string(100)  
+    public $formatcalendardata;              // blob(-1)  blob
+    public $emaillists;                      // blob(-1)  blob
+    public $datecreated;                     // datetime(19)  binary
+    public $calnetuidcreated;                // string(100)  
+    public $datelastupdated;                 // datetime(19)  binary
+    public $calnetuidlastupdated;            // string(100)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Account',$k,$v); }

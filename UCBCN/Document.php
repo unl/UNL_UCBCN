@@ -10,10 +10,10 @@ class UNL_UCBCN_Document extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'document';                        // table name
-    public $ID;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $Event_ID;                        // int(10)  not_null multiple_key unsigned
-    public $Name;                            // string(100)  
-    public $URL;                             // blob(65535)  blob
+    public $id;                              // int(11)  not_null primary_key auto_increment
+    public $event_id;                        // int(11)  not_null
+    public $name;                            // string(100)  
+    public $url;                             // blob(-1)  blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Document',$k,$v); }

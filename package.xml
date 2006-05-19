@@ -14,8 +14,8 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-05-18</date>
- <time>16:28:04</time>
+ <date>2006-05-19</date>
+ <time>10:45:52</time>
  <version>
   <release>0.0.1</release>
   <api>0.0.1</api>
@@ -161,7 +161,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-05-18</date>
+   <date>2006-05-19</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>First attempt at a release.</notes>
   </release>

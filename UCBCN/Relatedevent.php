@@ -10,9 +10,9 @@ class UNL_UCBCN_Relatedevent extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'relatedevent';                    // table name
-    public $Event_ID;                        // int(10)  not_null primary_key multiple_key unsigned
-    public $RelatedEventID;                  // int(10)  not_null primary_key unsigned
-    public $RelationType;                    // string(100)  not_null primary_key
+    public $event_id;                        // int(11)  not_null
+    public $relatedeventid;                  // int(11)  not_null
+    public $relationtype;                    // string(100)  not_null
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Relatedevent',$k,$v); }

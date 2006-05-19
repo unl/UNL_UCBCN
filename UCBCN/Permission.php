@@ -10,9 +10,9 @@ class UNL_UCBCN_Permission extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'permission';                      // table name
-    public $ID;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $Name;                            // string(100)  
-    public $Description;                     // string(255)  
+    public $id;                              // int(11)  not_null primary_key auto_increment
+    public $name;                            // string(100)  
+    public $description;                     // string(255)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Permission',$k,$v); }

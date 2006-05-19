@@ -10,13 +10,13 @@ class UNL_UCBCN_User extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'user';                            // table name
-    public $CalNetUID;                       // string(100)  not_null primary_key
-    public $Account_ID;                      // int(10)  not_null multiple_key unsigned
-    public $AccountStatus;                   // string(100)  
-    public $DateCreated;                     // datetime(19)  
-    public $CalNetUIDCreated;                // string(100)  
-    public $DateLastUpdated;                 // timestamp(14)  not_null unsigned zerofill timestamp
-    public $CalNetUIDLastUpdated;            // string(100)  
+    public $calnetuid;                       // string(100)  not_null
+    public $account_id;                      // int(11)  not_null
+    public $accountstatus;                   // string(100)  
+    public $datecreated;                     // datetime(19)  binary
+    public $calnetuidcreated;                // string(100)  
+    public $datelastupdated;                 // datetime(19)  binary
+    public $calnetuidlastupdated;            // string(100)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_User',$k,$v); }

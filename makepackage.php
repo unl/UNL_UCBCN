@@ -24,7 +24,8 @@ $pfm->setOptions(array(
 						'*CVS/*',
 						'.cache',
 						'dataobject.ini',
-						'DBDataObjects'),
+						'DBDataObjects',
+						'insert_sample_data.php'),
 	'simpleoutput' => true,
 	'roles'=>array('php'=>'php'	),
 	'exceptions'=>array()
