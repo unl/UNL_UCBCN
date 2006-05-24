@@ -18,9 +18,9 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     public $expirationdate;                  // date(10)  binary
     public $searchcriteria;                  // blob(-1)  blob
     public $datecreated;                     // datetime(19)  binary
-    public $calnetuidcreated;                // string(100)  
+    public $uidcreated;                      // string(100)  
     public $datelastupdated;                 // datetime(19)  binary
-    public $calnetuidlastupdated;            // string(100)  
+    public $uidlastupdated;                  // string(100)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Subscription',$k,$v); }

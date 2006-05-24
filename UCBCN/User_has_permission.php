@@ -11,8 +11,8 @@ class UNL_UCBCN_User_has_permission extends DB_DataObject
 
     public $__table = 'user_has_permission';             // table name
     public $permission_id;                   // int(11)  not_null
-    public $user_calnetuid;                  // string(100)  not_null
-    public $accoun;                          // int(11)  
+    public $user_uid;                        // string(100)  not_null
+    public $account_id;                      // int(11)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_User_has_permission',$k,$v); }

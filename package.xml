@@ -14,8 +14,8 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-05-19</date>
- <time>10:45:52</time>
+ <date>2006-05-24</date>
+ <time>11:18:55</time>
  <version>
   <release>0.0.1</release>
   <api>0.0.1</api>
@@ -60,7 +60,6 @@
     <file name="Webcastlink.php" role="php" />
    </dir> <!-- //UCBCN -->
    <file name="eventcal.sql" role="data" />
-   <file name="sample_data.sql" role="data" />
    <file name="UCBCN.php" role="php">
     <tasks:replace from="@PHP_BIN@" to="php_bin" type="pear-config" />
     <tasks:replace from="@PHP_DIR@" to="php_dir" type="pear-config" />
@@ -161,7 +160,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-05-19</date>
+   <date>2006-05-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>First attempt at a release.</notes>
   </release>

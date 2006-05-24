@@ -11,7 +11,7 @@ class UNL_UCBCN_Account extends DB_DataObject
 
     public $__table = 'account';                         // table name
     public $id;                              // int(11)  not_null primary_key auto_increment
-    public $user_has_permission_user_calnetuid;    // string(100)  not_null
+    public $user_has_permission_user_uid;    // string(100)  not_null
     public $user_has_permission_permission_id;    // int(11)  not_null
     public $name;                            // string(100)  
     public $shortname;                       // string(100)  
@@ -29,9 +29,9 @@ class UNL_UCBCN_Account extends DB_DataObject
     public $formatcalendardata;              // blob(-1)  blob
     public $emaillists;                      // blob(-1)  blob
     public $datecreated;                     // datetime(19)  binary
-    public $calnetuidcreated;                // string(100)  
+    public $uidcreated;                      // string(100)  
     public $datelastupdated;                 // datetime(19)  binary
-    public $calnetuidlastupdated;            // string(100)  
+    public $uidlastupdated;                  // string(100)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Account',$k,$v); }

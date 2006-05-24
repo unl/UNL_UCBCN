@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE database SYSTEM "http://cvs.php.net/viewcvs.cgi/*checkout*/pear/MDB2_Schema/docs/MDB.dtd">
 <database>
 
  <name>eventcal</name>
@@ -21,7 +22,7 @@
    </field>
 
    <field>
-    <name>user_has_permission_user_calnetuid</name>
+    <name>user_has_permission_user_uid</name>
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
@@ -160,7 +161,7 @@
    </field>
 
    <field>
-    <name>calnetuidcreated</name>
+    <name>uidcreated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -175,7 +176,7 @@
    </field>
 
    <field>
-    <name>calnetuidlastupdated</name>
+    <name>uidlastupdated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -232,7 +233,7 @@
    </field>
 
    <field>
-    <name>calnetuidcreated</name>
+    <name>uidcreated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -247,7 +248,7 @@
    </field>
 
    <field>
-    <name>calnetuidlastupdated</name>
+    <name>uidlastupdated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -577,6 +578,15 @@
     <notnull>false</notnull>
    </field>
 
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -593,6 +603,7 @@
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
+    <autoincrement>1</autoincrement>
    </field>
 
    <field>
@@ -724,7 +735,7 @@
    </field>
 
    <field>
-    <name>listingcontactcalnetuid</name>
+    <name>listingcontactuid</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -739,7 +750,7 @@
    </field>
 
    <field>
-    <name>calnetuidcreated</name>
+    <name>uidcreated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -754,12 +765,21 @@
    </field>
 
    <field>
-    <name>calnetuidlastupdated</name>
+    <name>uidlastupdated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
     <default></default>
    </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -829,6 +849,7 @@
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
+    <autoincrement>1</autoincrement>
    </field>
 
    <field>
@@ -872,6 +893,7 @@
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
+    <autoincrement>1</autoincrement>
    </field>
 
    <field>
@@ -897,6 +919,15 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -914,6 +945,7 @@
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
+    <autoincrement>1</autoincrement>
    </field>
 
    <field>
@@ -931,6 +963,15 @@
     <notnull>true</notnull>
     <default>0</default>
    </field>
+   
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -1138,6 +1179,15 @@
     <type>clob</type>
     <notnull>false</notnull>
    </field>
+   
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -1348,6 +1398,15 @@
     <notnull>false</notnull>
    </field>
 
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -1523,7 +1582,7 @@
    </field>
 
    <field>
-    <name>calnetuidcreated</name>
+    <name>uidcreated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -1538,12 +1597,21 @@
    </field>
 
    <field>
-    <name>calnetuidlastupdated</name>
+    <name>uidlastupdated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -1556,7 +1624,7 @@
   <declaration>
 
    <field>
-    <name>calnetuid</name>
+    <name>uid</name>
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
@@ -1587,7 +1655,7 @@
    </field>
 
    <field>
-    <name>calnetuidcreated</name>
+    <name>uidcreated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -1602,7 +1670,7 @@
    </field>
 
    <field>
-    <name>calnetuidlastupdated</name>
+    <name>uidlastupdated</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -1628,7 +1696,7 @@
    </field>
 
    <field>
-    <name>user_calnetuid</name>
+    <name>user_uid</name>
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
@@ -1636,7 +1704,7 @@
    </field>
 
    <field>
-    <name>accoun</name>
+    <name>account_id</name>
     <type>integer</type>
     <length>4</length>
     <notnull>false</notnull>
@@ -1700,6 +1768,15 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -1741,6 +1818,15 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
