@@ -92,7 +92,6 @@ class UNL_UCBCN_setup_postinstall
                 , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
             if (PEAR::isError($operation)) {
                 $this->_ui->outputData($operation->getMessage() . ' ' . $operation->getUserInfo());
-                $this->_ui->outputData($manager->getDebugOutput());
                 $this->noDBsetup = true;
                 return false;
             } else {

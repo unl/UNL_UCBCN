@@ -618,7 +618,7 @@
     <name>title</name>
     <type>text</type>
     <length>100</length>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default></default>
    </field>
 

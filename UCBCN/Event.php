@@ -12,7 +12,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     public $__table = 'event';                           // table name
     public $id;                              // int(11)  not_null primary_key auto_increment
     public $eventtype_id;                    // int(11)  not_null
-    public $title;                           // string(100)  
+    public $title;                           // string(100)  not_null
     public $subtitle;                        // string(100)  
     public $othertype;                       // string(255)  
     public $subtype;                         // string(100)  

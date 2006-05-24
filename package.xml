@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
-    http://pear.php.net/dtd/tasks-1.0.xsd
-    http://pear.php.net/dtd/package-2.0
-    http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -15,9 +12,9 @@
   <active>yes</active>
  </lead>
  <date>2006-05-24</date>
- <time>11:18:55</time>
+ <time>14:35:43</time>
  <version>
-  <release>0.0.1</release>
+  <release>0.0.2</release>
   <api>0.0.1</api>
  </version>
  <stability>
@@ -25,7 +22,10 @@
   <api>alpha</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>First attempt at a release.</notes>
+ <notes>Fix/Add Database indexes
+		Correct links.ini file to lowercase field names.
+		Add hidden field declarations to event dataobject.
+		Better field labels for dataobjects.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -163,6 +163,22 @@
    <date>2006-05-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>First attempt at a release.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.2</release>
+    <api>0.0.1</api>
+   </version>
+   <stability>
+    <release>alpha</release>
+    <api>alpha</api>
+   </stability>
+   <date>2006-05-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Fix/Add Database indexes
+		Correct links.ini file to lowercase field names.
+		Add hidden field declarations to event dataobject.
+		Better field labels for dataobjects.</notes>
   </release>
  </changelog>
 </package>
