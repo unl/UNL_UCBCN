@@ -43,7 +43,8 @@ $pfm->setReleaseVersion('0.0.2');
 $pfm->setNotes('Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
 		Add hidden field declarations to event dataobject.
-		Better field labels for dataobjects.');
+		Better field labels for dataobjects.
+		Error handling.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
