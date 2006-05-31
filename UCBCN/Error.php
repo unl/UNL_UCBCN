@@ -1,5 +1,5 @@
 <?php
-require_once 'PEAR.php'
+require_once 'PEAR.php';
 /**
  * UNL UCBCN error handler, loaded on demand... based on the DB_DataObject_Error code.
  *
@@ -20,7 +20,7 @@ require_once 'PEAR.php'
 class UNL_UCBCN_Error extends PEAR_Error
 {
 	/**
-	 * DB_DataObject_Error constructor.
+	 * UNL_UCBCN_Error constructor.
 	 *
 	 * @param mixed   $code   Error code, or string with error message.
 	 * @param integer $mode   what "error mode" to operate in
@@ -31,9 +31,9 @@ class UNL_UCBCN_Error extends PEAR_Error
 	 *
 	 * @see PEAR_Error
 	 */
-	function __construct($message = '', $code = DB_ERROR, $mode = PEAR_ERROR_RETURN,
+	function UNL_UCBCN_Error($message = '', $code = NULL, $mode = PEAR_ERROR_RETURN,
 			$level = E_USER_NOTICE)
 	{
-		$this->PEAR_Error('DB_DataObject Error: ' . $message, $code, $mode, $level);
+		$this->PEAR_Error('UNL_UCBCN Error: ' . $message, $code, $mode, $level);
 	}
 }
