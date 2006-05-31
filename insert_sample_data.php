@@ -92,3 +92,37 @@ foreach ($types as $type) {
 	}
 }
 
+$permissions = array(
+					'Event Create',
+					'Event Delete',
+					'Event Post',
+					'Event Send Event to Pending Queue',
+					'Event Edit',
+					'Event Recommend',
+					'Event Remove from Pending',
+					'Event Remove from Posted',
+					'Event Remove from System ',
+					'Event View Queue',
+					'Event Export',
+					'Event Upload',
+					'Subscriptions Create',
+					'Subscriptions Edit',
+					'Subscriptions Delete',
+					'Subscriptions View',
+					'Account Create',
+					'Account Add User',
+					'Calendar Format',
+					'Calendar Change Format',
+					'Calendar Delete');
+foreach ($permissions as $p_type) {
+	$p = $backend->factory('permission');
+	$p->name = $p_type;
+	if (!$p->find()) {
+		$p->name = $p_type;
+		$p->description = $p_type;
+		$p->insert();
+	} else {
+		echo "Sorry, $p_type already exists.\n";
+	}
+}
+
