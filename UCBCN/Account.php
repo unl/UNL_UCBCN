@@ -38,4 +38,31 @@ class UNL_UCBCN_Account extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    var $fb_fieldLabels = array(
+    						'name'		=> 'Account Name',
+    						'shortname'	=> 'Calendar Short Name',
+    						'streetaddress1' => 'Address',
+    						'streetaddress2' => '',
+    						'eventreleasepreference' => 'Event Release Preference',
+    						'emaillists' => 'Email Lists'
+    						);
+    
+    var $fb_hiddenFields = array(
+								'datecreated',
+								'uidcreated',
+								'datelastupdated',
+								'uidlastupdated',
+								'user_has_permission_user_uid',
+								'user_has_permission_permission_id',
+								'formatcalendardata',
+								'calendardaterange',
+								'accountstatus');
+    
+    function preGenerateForm(&$fb)
+    {
+    	foreach ($this->fb_hiddenFields as $el) {
+    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$el,$el);
+    	}
+    }
 }
