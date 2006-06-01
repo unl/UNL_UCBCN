@@ -15,6 +15,7 @@
  * 
  */
 require_once 'DB/DataObject.php';
+require_once 'UNL/UCBCN/Error.php';
 
 class UNL_UCBCN
 {
