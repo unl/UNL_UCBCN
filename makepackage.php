@@ -25,7 +25,8 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
 						'.cache',
 						'dataobject.ini',
 						'DBDataObjects',
-						'insert_sample_data.php'),
+						'insert_sample_data.php',
+						'install.sh'),
 	'simpleoutput' => true,
 	'roles'=>array('php'=>'php'	),
 	'exceptions'=>array()
@@ -44,7 +45,8 @@ $pfm->setNotes('Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
 		Add hidden field declarations to event dataobject.
 		Better field labels for dataobjects.
-		Error handling.');
+		Error handling.
+		Added Event startdate and starttime.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');

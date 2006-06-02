@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.6" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -11,8 +11,8 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-05-26</date>
- <time>20:47:13</time>
+ <date>2006-06-02</date>
+ <time>13:39:32</time>
  <version>
   <release>0.0.2</release>
   <api>0.0.1</api>
@@ -25,7 +25,9 @@
  <notes>Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
 		Add hidden field declarations to event dataobject.
-		Better field labels for dataobjects.</notes>
+		Better field labels for dataobjects.
+		Error handling.
+		Added Event startdate and starttime.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -38,6 +40,7 @@
     <file name="Audience.php" role="php" />
     <file name="config.inc.php" role="php" />
     <file name="Document.php" role="php" />
+    <file name="Error.php" role="php" />
     <file name="Event.php" role="php" />
     <file name="eventcal.ini" role="data" />
     <file name="eventcal.links.ini" role="data" />
@@ -173,12 +176,14 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-05-26</date>
-   <license>PHP License</license>
+   <date>2006-06-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
 		Add hidden field declarations to event dataobject.
-		Better field labels for dataobjects.</notes>
+		Better field labels for dataobjects.
+		Error handling.
+		Added Event startdate and starttime.</notes>
   </release>
  </changelog>
 </package>
