@@ -18,6 +18,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     public $subtype;                         // string(100)  
     public $description;                     // blob(-1)  blob
     public $shortdescription;                // string(255)  
+    public $startdate;                       // date(10)  not_null binary
+    public $starttime;                       // time(8)  binary
     public $refreshments;                    // string(255)  
     public $networkclassification;           // string(100)  
     public $approvedforcirculation;          // int(1)  
@@ -43,6 +45,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     var $fb_fieldLabels = array(	'eventtype_id'		=> 'Event Type',
     								'othertype'			=> 'Secondary Event Type',
     								'shortdescription'	=> 'Short Description',
+    								'startdate'			=> 'Start Date',
+    								'starttime'			=> 'Start Time',
     								'webpageurl'		=> 'Event Webpage',
     								'privatecomment'	=> 'Internal Note',
     								'imageurl'			=> 'Add An Image',

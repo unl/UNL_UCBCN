@@ -661,6 +661,18 @@
    </field>
 
    <field>
+    <name>startdate</name>
+    <type>date</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>starttime</name>
+    <type>time</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
     <name>refreshments</name>
     <type>text</type>
     <length>255</length>
