@@ -61,4 +61,10 @@ class UNL_UCBCN_Event extends DB_DataObject
     	}
     	$this->fb_preDefElements['imageurl'] = HTML_QuickForm::createElement('file','imageurl',$this->fb_fieldLabels['imageurl']);
     }
+    
+    function postGenerateForm(&$form, &$formBuilder)
+    {
+    	$form->insertElementBefore(HTML_QuickForm::createElement('html','<fieldset>'),'startdate');
+    	$form->insertElementBefore(HTML_QuickForm::createElement('html','</fieldset>'),'refreshments');
+    }
 }
