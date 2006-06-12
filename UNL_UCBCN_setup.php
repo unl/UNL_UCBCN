@@ -87,7 +87,7 @@ class UNL_UCBCN_setup_postinstall
 			 * @todo copy the MDB xml file to a filename corresponding to the database name. IE: copy(UNL_UCBCN_db.xml, UNL_UCBCN_$answers['db']);
 			 * 			then perform comparison install & upgrade on that file to allow installation to multiple databases. 
 			 */
-			//unlink('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
+			unlink('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
 			$operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml'
                 , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
             if (PEAR::isError($operation)) {

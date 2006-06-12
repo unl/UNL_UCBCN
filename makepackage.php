@@ -47,7 +47,8 @@ $pfm->setNotes('Fix/Add Database indexes
 		Better field labels for dataobjects.
 		Error handling.
 		Added Event startdate and starttime.
-		Some database re-structuring.');
+		Some database re-structuring from Berkeley.
+		Basic permission and account functions.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
@@ -56,6 +57,7 @@ $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.4.3');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'savant.pearified.com', '3.0.0');
+$pfm->addPackageDepWithChannel('required', 'NET_URL', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.5.0');
 foreach (array('UCBCN.php','dataobject.ini','UNL_UCBCN_setup.php','UNL_UCBCN_db.xml') as $file) {
 	$pfm->addReplacement($file, 'pear-config', '@PHP_BIN@', 'php_bin');

@@ -54,7 +54,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     								'imageurl'			=> 'Add An Image',
     								'imagetitle'		=> 'Image Title');
 
-    var $fb_hiddenFields = array('datecreated','uidcreated','datelastupdated','uidlastupdated');
+    var $fb_hiddenFields = array('datecreated','uidcreated','datelastupdated','uidlastupdated','imagedata','imagemime','icalendar');
     
     function preGenerateForm(&$fb)
     {
@@ -66,7 +66,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     function postGenerateForm(&$form, &$formBuilder)
     {
-    	$form->insertElementBefore(HTML_QuickForm::createElement('html','<fieldset>'),'eventtype_id');
+    	$form->insertElementBefore(HTML_QuickForm::createElement('html','<fieldset>'),'title');
     	$form->insertElementBefore(HTML_QuickForm::createElement('html','</fieldset>'),'webpageurl');
     }
 }

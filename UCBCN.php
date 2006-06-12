@@ -104,6 +104,67 @@ class UNL_UCBCN
 		return DB_DataObject::factory($table);
 	}
 	
+	/**
+	 * creates a new user record and returns it.
+	 * @param string uid unique id of the user to create
+	 * @param string optional unique id of the user who created this user.
+	 */
+	function createUser($uid,$uidcreated=NULL)
+	{
+		$values = array(
+			'uid' 				=> $uid,
+			'datecreated'		=> date('Y-m-d H:i:s'),
+			'uidcreated'		=> $uidcreated,
+			'datelastupdated' 	=> date('Y-m-d H:i:s'),
+			'uidlastupdated'	=> $uidcreated);
+		return $this->dbInsert('user',$values);
+	}
+	
+	/**
+	 * This function is a general insert function,
+	 * given the table name and an assoc array of values, 
+	 * it will return the inserted record.
+	 * 
+	 * @param string $table Name of the table
+	 * @param array $values assoc array of values to insert.
+	 * @return object on success, failed return value on failure.
+	 */
+	function dbInsert($table,$values)
+	{
+		$rec = $this->factory($table);
+		$vars = get_object_vars($rec);
+		foreach ($values as $var=>$value) {
+			if (in_array($var,$vars)) {
+				$rec->$var = $value;
+			}
+		}
+		$result = $rec->insert();
+		if (!$result) {
+			return $result;
+		} else {
+			return $rec;
+		}
+	}
+	
+	/**
+	 * Checks if a user has a given permission over the account.
+	 * 
+	 * @param object UNL_UCBCN_User
+	 * @param string permission
+	 * @param object UNL_UCBCN_Account
+	 * @return bool true or false
+	 */
+	 function userHasPermission($user,$permission,$account)
+	 {
+	 	$permission				= $this->factory('permission');
+	 	$permission->name		= $permission;
+	 	$user_has_permission	= $this->factory('user_has_permission');
+	 	$user_has_permission->linkAdd($permission);
+	 	$user_has_permission->linkAdd($account);
+	 	$user_has_permission->user_uid = $user->uid;
+	 	return $user_has_permission->find();
+	 }
+	
 	function showError($description)
 	{
 		$this->displayRegion($description);
@@ -139,6 +200,153 @@ class UNL_UCBCN
 		} else {
 			echo $content;
 		}
+	}
+	
+	/**
+	 * This function adds the given permission for the user.
+	 * 
+	 * @param string $uid Username to add permission for.
+	 * @param int $account_id ID of the account to add permission for.
+	 * @param int $permission_id ID of the permission you wish to add for the person.
+	 */
+	function grantPermission($uid,$calendar_id,$permission_id)
+	{
+		$values = array(
+						'calendar_id'	=> $calendar_id,
+						'user_uid'		=> $uid,
+						'permission_id'=>	$permission_id
+						);
+		return $this->dbInsert('user_has_permission',$values);
+	}
+	
+	/**
+	 * This function creates a calendar account.
+	 * 
+	 * @param array $values assoc array of field values for the account.
+	 */
+	function createAccount($values = array())
+	{
+		$defaults = array(
+				'datecreated'		=> date('Y-m-d H:i:s'),
+				'datelastupdated'	=> date('Y-m-d H:i:s'),
+				'uidlastupdated'	=> 'system',
+				'uidcreated'		=> 'system');
+		$values = array_merge($defaults,$values);
+		return $this->dbInsert('account',$values);
+	}
+	
+	/**
+	 * Adds an event to a calendar.
+	 * 
+	 * @param object calendar, UNL_UCBCN_Calendar object.
+	 * @param object UNL_UCBCN_Event object.
+	 * @param sring status=[pending|posted|archived]
+	 * @param object UNL_UCBCN_User object
+	 * 
+	 * @return object UNL_UCBCN_Account_has_event
+	 */
+	function addCalendarHasEvent($calendar,$event,$status,$user)
+	{
+		$values = array(
+						'calendar_id'	=> $calendar->id,
+						'event_id'		=> $event->id,
+						'uid_created'	=> $user->uid,
+						'date_last_updated'	=> date('Y-m-d H:i:s'),
+						'uid_last_updated'	=> $user->uid,
+						'status'		=> $status);
+		return $this->dbInsert('calendar_has_event',$values);
+	}
+	
+	/**
+	 * This function returns a object for the user with
+	 * the given uid.
+	 * If a record does not exist, one is inserted then returned.
+	 * 
+	 * @param string $uid The unique user identifier for the user you wish to get (username/ldap uid).
+	 * @return object UNL_UCBCN_User
+	 */
+	function getUser($uid)
+	{
+		$user = $this->factory('user');
+		$user->uid = $uid;
+		if ($user->find()) {
+			$user->fetch();
+			return $user;
+		} else {
+			return $this->createUser($uid,$uid);
+		}
+	}
+	
+	/**
+	 * Gets the account record(s) that the given user has permission to.
+	 * If an account does not exist, one is created and returned. Optionally
+	 * the user can be redirected on creation of a new account.
+	 * 
+	 * @param string $uid User id to get an account from.
+	 * @param string $redirecturl URL to redirect on new account creation.
+	 */
+	function getAccount($uid,$redirecturl = NULL)
+	{
+		$account = $this->factory('account');
+		$user_has_permission = $this->factory('user_has_permission');
+		$user_has_permission->user_uid = $uid;
+		$account->linkAdd($user_has_permission);
+		if ($account->find() && $account->fetch()) {
+			return $account;
+		} else {
+			$user = $this->getUser($uid);
+			// No account exists!
+			$values = array(
+						'name'				=> ucfirst($user->uid).'\'s Event Publisher!',
+						'uidcreated'		=> $user->uid,
+						'uidlastupdated'	=> $user->uid);
+			$account = $this->createAccount($values);
+			$permissions = $this->factory('permission');
+			$permissions->whereAdd('name LIKE "Event%"');
+			if ($permissions->find()) {
+				while ($permissions->fetch()) {
+					$this->grantPermission($uid,$account->id,$permissions->id);
+				}
+			}
+			if (isset($redirecturl)) {
+				// Account has been created, but has no details, send the user to the edit account page?
+				$this->localRedirect($redirecturl);
+			} else {
+				return $account;
+			}
+		}
+	}
+	
+	/**
+	 * Redirects to the given full or partial URL.
+	 * will turn the given url into an absolute url
+	 * using the above getURL() function. This function
+	 * does not return.
+	 *
+	 * @param string $url Full/partial url to redirect to
+	 * @param  bool  $keepProtocol Whether to keep the current protocol or to force HTTP
+	 */
+	function localRedirect($url, $keepProtocol = true)
+	{
+		$url = self::getURL($url, $keepProtocol);
+		if  ($keepProtocol == false) {
+			$url = preg_replace("/^https/", "http", $url);
+		}
+		header('Location: ' . $url);
+		exit;
+	}
+	
+	/**
+	 * Returns an absolute URL using Net_URL
+	 *
+	 * @param  string $url All/part of a url
+	 * @return string      Full url
+	 */
+	function getURL($url)
+	{
+		include_once 'Net/URL.php';
+		$obj = new Net_URL($url);
+		return $obj->getURL();
 	}
 	
 	/**
