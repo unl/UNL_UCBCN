@@ -67,6 +67,6 @@ class UNL_UCBCN_Event extends DB_DataObject
     function postGenerateForm(&$form, &$formBuilder)
     {
     	$form->insertElementBefore(HTML_QuickForm::createElement('html','<fieldset>'),'eventtype_id');
-    	$form->insertElementAfter(HTML_QuickForm::createElement('html','</fieldset>'),'Listingcontactuid');
+    	$form->insertElementBefore(HTML_QuickForm::createElement('html','</fieldset>'),'webpageurl');
     }
 }
