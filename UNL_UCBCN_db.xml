@@ -15,6 +15,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -22,31 +23,7 @@
    </field>
 
    <field>
-    <name>user_has_permission_user_uid</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>user_has_permission_permission_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
     <name>name</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>shortname</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -118,14 +95,6 @@
    </field>
 
    <field>
-    <name>eventreleasepreference</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>accountstatus</name>
     <type>text</type>
     <length>100</length>
@@ -134,9 +103,358 @@
    </field>
 
    <field>
-    <name>calendardaterange</name>
+    <name>datecreated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>datelastupdated</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>sponsor_id</name>
+    <type>integer</type>
+    <unsigned>false</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>website</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>P</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>admissioncharge</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>admissioninfogroup_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>price</name>
     <type>text</type>
     <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>admissioninfo</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>type</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>obligation</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contactname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contactphone</name>
+    <type>text</type>
+    <length>50</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contactemail</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>contacturl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>additionalinfo</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>deadline</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>opendate</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>attendancerestriction</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>description</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>audience</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>standard</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>y</default>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>calendar</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>account_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>shortname</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>eventreleasepreference</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>calendardaterange</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -148,9 +466,29 @@
    </field>
 
    <field>
+    <name>uploadedcss</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>uploadedxsl</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
     <name>emaillists</name>
     <type>clob</type>
     <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>calendarstatus</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
    </field>
 
    <field>
@@ -163,7 +501,7 @@
    <field>
     <name>uidcreated</name>
     <type>text</type>
-    <length>100</length>
+    <length>255</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -178,10 +516,27 @@
    <field>
     <name>uidlastupdated</name>
     <type>text</type>
-    <length>100</length>
+    <length>255</length>
     <notnull>false</notnull>
     <default></default>
    </field>
+
+   <field>
+    <name>externalforms</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -189,13 +544,14 @@
 
  <table>
 
-  <name>account_has_event</name>
+  <name>calendar_has_event</name>
 
   <declaration>
 
    <field>
-    <name>account_id</name>
+    <name>calendar_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -204,6 +560,7 @@
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -261,288 +618,6 @@
 
  <table>
 
-  <name>admissioncharge</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>admissioninfogroup_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>price</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>description</name>
-    <type>text</type>
-    <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>admissioninfogroup</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>event_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ticketpolicy</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ticketcontactname</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ticketcontactphone</name>
-    <type>text</type>
-    <length>50</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ticketcontacturl</name>
-    <type>clob</type>
-    <notnull>false</notnull>
-   </field>
-
-   <field>
-    <name>ticketsonsaledate</name>
-    <type>timestamp</type>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ticketadditionalinfo</name>
-    <type>text</type>
-    <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>reservationpolicy</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>reservationcontactname</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>reservationcontactphone</name>
-    <type>text</type>
-    <length>50</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>reservationcontacturl</name>
-    <type>clob</type>
-    <notnull>false</notnull>
-   </field>
-
-   <field>
-    <name>reservationadditionalinfo</name>
-    <type>text</type>
-    <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>freeevent</name>
-    <type>integer</type>
-    <length>1</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>soldout</name>
-    <type>boolean</type>
-    <length>1</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>otheraudience</name>
-    <type>text</type>
-    <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>admissioninfogroup_has_audience</name>
-
-  <declaration>
-
-   <field>
-    <name>admissioninfogroup_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>audience_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>attendancerestriction</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>event_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>name</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>description</name>
-    <type>text</type>
-    <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>audience</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>name</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <index>
-    <name>primary</name>
-    <primary>true</primary>
-    <field>
-     <name>id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
   <name>document</name>
 
   <declaration>
@@ -550,6 +625,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -559,6 +635,7 @@
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -574,12 +651,14 @@
 
    <field>
     <name>url</name>
-    <type>clob</type>
+    <type>text</type>
+    <length>255</length>
     <notnull>false</notnull>
+    <default></default>
    </field>
 
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -600,6 +679,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -607,19 +687,11 @@
    </field>
 
    <field>
-    <name>eventtype_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
     <name>title</name>
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
-    <default></default>
+    <default> </default>
    </field>
 
    <field>
@@ -631,17 +703,9 @@
    </field>
 
    <field>
-    <name>othertype</name>
+    <name>othereventtype</name>
     <type>text</type>
     <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>subtype</name>
-    <type>text</type>
-    <length>100</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -661,18 +725,6 @@
    </field>
 
    <field>
-    <name>startdate</name>
-    <type>date</type>
-    <notnull>true</notnull>
-   </field>
-
-   <field>
-    <name>starttime</name>
-    <type>time</type>
-    <notnull>false</notnull>
-   </field>
-
-   <field>
     <name>refreshments</name>
     <type>text</type>
     <length>255</length>
@@ -681,7 +733,7 @@
    </field>
 
    <field>
-    <name>networkclassification</name>
+    <name>classification</name>
     <type>text</type>
     <length>100</length>
     <notnull>false</notnull>
@@ -691,7 +743,16 @@
    <field>
     <name>approvedforcirculation</name>
     <type>boolean</type>
+    <unsigned>false</unsigned>
     <length>1</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>transparency</name>
+    <type>text</type>
+    <length>255</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -705,21 +766,13 @@
    </field>
 
    <field>
-    <name>ownerid</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>privatecomment</name>
     <type>clob</type>
     <notnull>false</notnull>
    </field>
 
    <field>
-    <name>otherkeyword</name>
+    <name>otherkeywords</name>
     <type>text</type>
     <length>255</length>
     <notnull>false</notnull>
@@ -749,7 +802,51 @@
    <field>
     <name>listingcontactuid</name>
     <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>listingcontactname</name>
+    <type>text</type>
     <length>100</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>listingcontactphone</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>listingcontactemail</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>icalendar</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>imagedata</name>
+    <type>blob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>imagemime</name>
+    <type>text</type>
+    <length>255</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -785,7 +882,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -799,24 +896,54 @@
 
  <table>
 
-  <name>event_has_location</name>
+  <name>event_has_eventtype</name>
 
   <declaration>
 
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
-    <default>0</default>
+    <default></default>
    </field>
 
    <field>
-    <name>location_id</name>
+    <name>eventtype_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
-    <default>0</default>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>event_has_keyword</name>
+
+  <declaration>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>keyword_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
    </field>
 
   </declaration>
@@ -832,6 +959,7 @@
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -840,10 +968,156 @@
    <field>
     <name>sponsor_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>event_isopento_audience</name>
+
+  <declaration>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>audience_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>event_targets_audience</name>
+
+  <declaration>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>audience_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>eventdatetime</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>location_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>starttime</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>endtime</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>room</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>hours</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>directions</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>additionalpublicinfo</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -858,6 +1132,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -865,11 +1140,20 @@
    </field>
 
    <field>
+    <name>calendar_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>name</name>
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
-    <default></default>
+    <default> </default>
    </field>
 
    <field>
@@ -880,60 +1164,24 @@
     <default></default>
    </field>
 
-   <index>
-    <name>primary</name>
-    <primary>true</primary>
-    <field>
-     <name>id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>featuretype</name>
-
-  <declaration>
-
    <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>name</name>
+    <name>eventtypegroup</name>
     <type>text</type>
-    <length>100</length>
-    <notnull>true</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>event_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>description</name>
-    <type>text</type>
-    <length>255</length>
+    <length>8</length>
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
+   <field>
+    <name>standard</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>y</default>
+   </field>
+
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -954,6 +1202,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -968,16 +1217,8 @@
     <default></default>
    </field>
 
-   <field>
-    <name>event_id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-   
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -998,6 +1239,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1081,6 +1323,12 @@
    </field>
 
    <field>
+    <name>directions</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
     <name>additionalpublicinfo</name>
     <type>text</type>
     <length>255</length>
@@ -1104,8 +1352,16 @@
     <default></default>
    </field>
 
+   <field>
+    <name>standard</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>y</default>
+   </field>
+
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1126,6 +1382,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1133,16 +1390,27 @@
    </field>
 
    <field>
-    <name>performertype_id</name>
+    <name>performer_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
+    <name>role_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1157,7 +1425,7 @@
    </field>
 
    <field>
-    <name>otherperformertype</name>
+    <name>name</name>
     <type>text</type>
     <length>255</length>
     <notnull>false</notnull>
@@ -1191,45 +1459,9 @@
     <type>clob</type>
     <notnull>false</notnull>
    </field>
-   
-   <index>
-    <name>primary</name>
-    <primary>true</primary>
-    <field>
-     <name>id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>performertype</name>
-
-  <declaration>
 
    <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>4</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <field>
-    <name>name</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>description</name>
+    <name>type</name>
     <type>text</type>
     <length>255</length>
     <notnull>false</notnull>
@@ -1237,7 +1469,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1258,6 +1490,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1281,7 +1514,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1302,6 +1535,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1311,6 +1545,7 @@
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1350,6 +1585,14 @@
 
    <field>
     <name>addressline2</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>room</name>
     <type>text</type>
     <length>255</length>
     <notnull>false</notnull>
@@ -1411,7 +1654,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1432,14 +1675,16 @@
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
    </field>
 
    <field>
-    <name>relatedeventid</name>
+    <name>related_event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1459,6 +1704,90 @@
 
  <table>
 
+  <name>role</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>name</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>standard</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>y</default>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>session</name>
+
+  <declaration>
+
+   <field>
+    <name>user_uid</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>lastaction</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>data</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>user_uid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
   <name>sponsor</name>
 
   <declaration>
@@ -1466,6 +1795,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1481,31 +1811,19 @@
    </field>
 
    <field>
-    <name>level</name>
+    <name>standard</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>y</default>
+   </field>
+
+   <field>
+    <name>sponsortype</name>
     <type>text</type>
-    <length>100</length>
+    <length>255</length>
     <notnull>false</notnull>
     <default></default>
-   </field>
-
-   <field>
-    <name>logotitle</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>logourl</name>
-    <type>clob</type>
-    <notnull>false</notnull>
-   </field>
-
-   <field>
-    <name>description</name>
-    <type>clob</type>
-    <notnull>false</notnull>
    </field>
 
    <field>
@@ -1515,7 +1833,7 @@
    </field>
 
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1536,6 +1854,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1543,11 +1862,11 @@
    </field>
 
    <field>
-    <name>account_id</name>
-    <type>integer</type>
-    <length>4</length>
+    <name>user_uid</name>
+    <type>text</type>
+    <length>255</length>
     <notnull>true</notnull>
-    <default>0</default>
+    <default></default>
    </field>
 
    <field>
@@ -1561,6 +1880,7 @@
    <field>
     <name>automaticapproval</name>
     <type>boolean</type>
+    <unsigned>false</unsigned>
     <length>1</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1615,9 +1935,9 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1640,12 +1960,13 @@
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
-    <default></default>
+    <default> </default>
    </field>
 
    <field>
     <name>account_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1702,6 +2023,7 @@
    <field>
     <name>permission_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1712,15 +2034,16 @@
     <type>text</type>
     <length>100</length>
     <notnull>true</notnull>
-    <default></default>
+    <default> </default>
    </field>
 
    <field>
-    <name>account_id</name>
+    <name>calendar_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
-    <notnull>false</notnull>
-    <default></default>
+    <notnull>true</notnull>
+    <default>0</default>
    </field>
 
   </declaration>
@@ -1736,6 +2059,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1745,6 +2069,7 @@
    <field>
     <name>event_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1780,9 +2105,23 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
+   <field>
+    <name>bandwidth</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>additionalinfo</name>
+    <type>clob</type>
+    <notnull>false</notnull>
+   </field>
+
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>
@@ -1803,6 +2142,7 @@
    <field>
     <name>id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1812,6 +2152,7 @@
    <field>
     <name>webcast_id</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -1826,13 +2167,22 @@
    <field>
     <name>sequencenumber</name>
     <type>integer</type>
+    <unsigned>true</unsigned>
     <length>4</length>
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
+   <field>
+    <name>related</name>
+    <type>text</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>n</default>
+   </field>
+
    <index>
-    <name>primary</name>
+    <name>PRIMARY</name>
     <primary>true</primary>
     <field>
      <name>id</name>

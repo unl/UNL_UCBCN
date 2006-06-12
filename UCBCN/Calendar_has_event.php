@@ -1,17 +1,17 @@
 <?php
 /**
- * Table Definition for account_has_event
+ * Table Definition for calendar_has_event
  */
 require_once 'DB/DataObject.php';
 
-class UNL_UCBCN_Account_has_event extends DB_DataObject 
+class UNL_UCBCN_Calendar_has_event extends DB_DataObject 
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    public $__table = 'account_has_event';               // table name
-    public $account_id;                      // int(11)  not_null
-    public $event_id;                        // int(11)  not_null
+    public $__table = 'calendar_has_event';              // table name
+    public $calendar_id;                     // int(10)  not_null unsigned
+    public $event_id;                        // int(10)  not_null unsigned
     public $status;                          // string(100)  
     public $source;                          // string(100)  
     public $datecreated;                     // datetime(19)  binary
@@ -20,7 +20,7 @@ class UNL_UCBCN_Account_has_event extends DB_DataObject
     public $uidlastupdated;                  // string(100)  
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Account_has_event',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Calendar_has_event',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

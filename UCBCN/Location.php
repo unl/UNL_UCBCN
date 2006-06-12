@@ -10,7 +10,7 @@ class UNL_UCBCN_Location extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'location';                        // table name
-    public $id;                              // int(11)  not_null primary_key auto_increment
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)  
     public $streetaddress1;                  // string(255)  
     public $streetaddress2;                  // string(255)  
@@ -21,9 +21,11 @@ class UNL_UCBCN_Location extends DB_DataObject
     public $mapurl;                          // blob(-1)  blob
     public $webpageurl;                      // blob(-1)  blob
     public $hours;                           // string(255)  
+    public $directions;                      // blob(-1)  blob
     public $additionalpublicinfo;            // string(255)  
     public $type;                            // string(100)  
     public $phone;                           // string(50)  
+    public $standard;                        // int(1)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Location',$k,$v); }

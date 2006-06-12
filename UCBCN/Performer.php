@@ -10,15 +10,17 @@ class UNL_UCBCN_Performer extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'performer';                       // table name
-    public $id;                              // int(11)  not_null primary_key auto_increment
-    public $performertype_id;                // int(11)  not_null
-    public $event_id;                        // int(11)  not_null
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
+    public $performer_id;                    // int(10)  not_null unsigned
+    public $role_id;                         // int(10)  not_null unsigned
+    public $event_id;                        // int(10)  not_null unsigned
     public $personalname;                    // string(100)  
-    public $otherperformertype;              // string(255)  
+    public $name;                            // string(255)  
     public $jobtitle;                        // string(100)  
     public $organizationname;                // string(100)  
     public $personalwebpageurl;              // blob(-1)  blob
     public $organizationwebpageurl;          // blob(-1)  blob
+    public $type;                            // string(255)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Performer',$k,$v); }

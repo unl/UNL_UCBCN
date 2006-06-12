@@ -11,8 +11,8 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-06-02</date>
- <time>13:39:32</time>
+ <date>2006-06-12</date>
+ <time>14:25:13</time>
  <version>
   <release>0.0.2</release>
   <api>0.0.1</api>
@@ -27,34 +27,39 @@
 		Add hidden field declarations to event dataobject.
 		Better field labels for dataobjects.
 		Error handling.
-		Added Event startdate and starttime.</notes>
+		Added Event startdate and starttime.
+		Some database re-structuring.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
     <file name="Account.php" role="php" />
-    <file name="Account_has_event.php" role="php" />
     <file name="Admissioncharge.php" role="php" />
-    <file name="Admissioninfogroup.php" role="php" />
-    <file name="Admissioninfogroup_has_audience.php" role="php" />
+    <file name="Admissioninfo.php" role="php" />
     <file name="Attendancerestriction.php" role="php" />
     <file name="Audience.php" role="php" />
+    <file name="Calendar.php" role="php" />
+    <file name="Calendar_has_event.php" role="php" />
     <file name="config.inc.php" role="php" />
     <file name="Document.php" role="php" />
     <file name="Error.php" role="php" />
     <file name="Event.php" role="php" />
     <file name="eventcal.ini" role="data" />
     <file name="eventcal.links.ini" role="data" />
+    <file name="Eventdatetime.php" role="php" />
     <file name="Eventtype.php" role="php" />
-    <file name="Event_has_location.php" role="php" />
+    <file name="Event_has_eventtype.php" role="php" />
+    <file name="Event_has_keyword.php" role="php" />
     <file name="Event_has_sponsor.php" role="php" />
-    <file name="Featuretype.php" role="php" />
+    <file name="Event_isopento_audience.php" role="php" />
+    <file name="Event_targets_audience.php" role="php" />
     <file name="Keyword.php" role="php" />
     <file name="Location.php" role="php" />
     <file name="Performer.php" role="php" />
-    <file name="Performertype.php" role="php" />
     <file name="Permission.php" role="php" />
     <file name="Publiccontact.php" role="php" />
     <file name="Relatedevent.php" role="php" />
+    <file name="Role.php" role="php" />
+    <file name="Session.php" role="php" />
     <file name="Sponsor.php" role="php" />
     <file name="Subscription.php" role="php" />
     <file name="User.php" role="php" />
@@ -176,14 +181,15 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-06-02</date>
+   <date>2006-06-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
 		Add hidden field declarations to event dataobject.
 		Better field labels for dataobjects.
 		Error handling.
-		Added Event startdate and starttime.</notes>
+		Added Event startdate and starttime.
+		Some database re-structuring.</notes>
   </release>
  </changelog>
 </package>

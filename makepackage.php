@@ -46,7 +46,8 @@ $pfm->setNotes('Fix/Add Database indexes
 		Add hidden field declarations to event dataobject.
 		Better field labels for dataobjects.
 		Error handling.
-		Added Event startdate and starttime.');
+		Added Event startdate and starttime.
+		Some database re-structuring.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');

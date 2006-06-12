@@ -10,8 +10,8 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'subscription';                    // table name
-    public $id;                              // int(11)  not_null primary_key auto_increment
-    public $account_id;                      // int(11)  not_null
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
+    public $user_uid;                        // string(255)  not_null
     public $name;                            // string(100)  
     public $automaticapproval;               // int(1)  not_null
     public $timeperiod;                      // date(10)  binary

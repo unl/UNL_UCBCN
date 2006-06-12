@@ -10,27 +10,29 @@ class UNL_UCBCN_Event extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'event';                           // table name
-    public $id;                              // int(11)  not_null primary_key auto_increment
-    public $eventtype_id;                    // int(11)  not_null
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $title;                           // string(100)  not_null
     public $subtitle;                        // string(100)  
-    public $othertype;                       // string(255)  
-    public $subtype;                         // string(100)  
+    public $othereventtype;                  // string(255)  
     public $description;                     // blob(-1)  blob
     public $shortdescription;                // string(255)  
-    public $startdate;                       // date(10)  not_null binary
-    public $starttime;                       // time(8)  binary
     public $refreshments;                    // string(255)  
-    public $networkclassification;           // string(100)  
+    public $classification;                  // string(100)  
     public $approvedforcirculation;          // int(1)  
+    public $transparency;                    // string(255)  
     public $status;                          // string(100)  
-    public $ownerid;                         // int(11)  
     public $privatecomment;                  // blob(-1)  blob
-    public $otherkeyword;                    // string(255)  
+    public $otherkeywords;                   // string(255)  
     public $imagetitle;                      // string(100)  
     public $imageurl;                        // blob(-1)  blob
     public $webpageurl;                      // blob(-1)  blob
-    public $listingcontactuid;               // string(100)  
+    public $listingcontactuid;               // string(255)  
+    public $listingcontactname;              // string(100)  
+    public $listingcontactphone;             // string(255)  
+    public $listingcontactemail;             // string(255)  
+    public $icalendar;                       // blob(-1)  blob
+    public $imagedata;                       // blob(-1)  blob binary
+    public $imagemime;                       // string(255)  
     public $datecreated;                     // datetime(19)  binary
     public $uidcreated;                      // string(100)  
     public $datelastupdated;                 // datetime(19)  binary
