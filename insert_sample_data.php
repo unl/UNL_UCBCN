@@ -105,12 +105,7 @@ $permissions = array(
 					'Event View Queue',
 					'Event Export',
 					'Event Upload',
-					'Subscriptions Create',
-					'Subscriptions Edit',
-					'Subscriptions Delete',
-					'Subscriptions View',
-					'Account Create',
-					'Account Add User',
+					'Calendar Add User',
 					'Calendar Format',
 					'Calendar Change Format',
 					'Calendar Delete');

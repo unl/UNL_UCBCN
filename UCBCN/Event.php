@@ -44,17 +44,26 @@ class UNL_UCBCN_Event extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_fieldLabels = array(	'eventtype_id'		=> 'Event Type',
-    								'othertype'			=> 'Secondary Event Type',
-    								'shortdescription'	=> 'Short Description',
-    								'startdate'			=> 'Start Date',
-    								'starttime'			=> 'Start Time',
-    								'webpageurl'		=> 'Event Webpage',
-    								'privatecomment'	=> 'Internal Note',
-    								'imageurl'			=> 'Add An Image',
-    								'imagetitle'		=> 'Image Title');
+    var $fb_fieldLabels = array(	'othereventtype'		=> 'Secondary Event Type',
+    								'shortdescription'		=> 'Short Description',
+    								'webpageurl'			=> 'Event Webpage',
+    								'privatecomment'		=> 'Internal Note',
+    								'imageurl'				=> 'Add An Image',
+    								'imagetitle'			=> 'Image Title',
+    								'approvedforcirculation'=>'Approved for Circulation',
+    								'otherkeywords'			=> 'Other Keywords',
+    								'listingcontactname'	=> 'Listing Contact Name',
+    								'listingcontactphone'	=> 'Listing Contact Phone',
+    								'listingcontactemail'	=> 'Listing Contact Email',
+    								'__reverseLink_eventdatetime_event_id' => 'Event Location, Date and Time');
 
-    var $fb_hiddenFields = array('datecreated','uidcreated','datelastupdated','uidlastupdated','imagedata','imagemime','icalendar');
+    var $fb_hiddenFields = array(	'datecreated',
+									'uidcreated',
+									'datelastupdated',
+									'uidlastupdated',
+									'imagedata',
+									'imagemime',
+									'icalendar');
     
     function preGenerateForm(&$fb)
     {
@@ -69,4 +78,37 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$form->insertElementBefore(HTML_QuickForm::createElement('html','<fieldset>'),'title');
     	$form->insertElementBefore(HTML_QuickForm::createElement('html','</fieldset>'),'webpageurl');
     }
+    
+    function prepareLinkedDataObject(&$linkedDataObject, $field) {
+		if ($linkedDataObject->tableName() == 'eventdatetime') {
+			// Here we are limiting the reverseLink records to only relevant records.
+			if (ctype_digit($this->id)) {
+				$linkedDataObject->event_id 	= $this->id;
+			} else {
+				$linkedDataObject->id			= 0;
+			}
+		}
+	}
+	
+	function insert()
+	{
+		$result = parent::insert();
+		if ($result) {
+			// If insert was successful, set a global variable for any child elements to see the event_id foreign key.
+			$GLOBALS['event_id'] = $this->id;
+		}
+		return $result;
+	}
+	
+	function delete() {
+		// Delete child elements that would be orphaned.
+		if (ctype_digit($this->id)) {
+			foreach (array('event_has_keywords') as $table) {
+				$do = DB_DataObject::factory($table);
+				$do->event_id = $this->id;
+				$do->delete();
+			}
+		}
+		return parent::delete();
+	}
 }

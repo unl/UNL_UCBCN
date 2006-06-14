@@ -11,8 +11,8 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-06-12</date>
- <time>14:25:13</time>
+ <date>2006-06-14</date>
+ <time>10:54:31</time>
  <version>
   <release>0.0.2</release>
   <api>0.0.1</api>
@@ -28,7 +28,8 @@
 		Better field labels for dataobjects.
 		Error handling.
 		Added Event startdate and starttime.
-		Some database re-structuring.</notes>
+		Some database re-structuring from Berkeley.
+		Basic permission and account functions.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -151,6 +152,11 @@
     <min>3.0.0</min>
    </package>
    <package>
+    <name>NET_URL</name>
+    <channel>pear.php.net</channel>
+    <min>1.0</min>
+   </package>
+   <package>
     <name>MDB2_Schema</name>
     <channel>pear.php.net</channel>
     <min>0.5.0</min>
@@ -181,7 +187,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-06-12</date>
+   <date>2006-06-14</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
@@ -189,7 +195,8 @@
 		Better field labels for dataobjects.
 		Error handling.
 		Added Event startdate and starttime.
-		Some database re-structuring.</notes>
+		Some database re-structuring from Berkeley.
+		Basic permission and account functions.</notes>
   </release>
  </changelog>
 </package>

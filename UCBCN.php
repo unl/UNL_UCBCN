@@ -78,19 +78,19 @@ class UNL_UCBCN
 		}
 	}
 	
-	function getEventList($date='')
+	/**
+	 * This function gets the count of events for the given status.
+	 * 
+	 * @param object UNL_UCBCN_Calendar object
+	 * @param string status [pending|posted|archived]
+	 * @return int count
+	 */
+	function getEventCount($calendar,$status='posted')
 	{
-		$list = '';
-		$events = DB_DataObject::factory('event');
-		$events->eventDate = $date;
-		if ($events->find()) {
-			while ($events->fetch()) {
-				$list .= $events->strTitle;
-			}
-		} else {
-			$list .= 'No events';
-		}
-		return $list;
+		$e = $this->factory('calendar_has_event');
+		$e->calendar_id = $calendar->id;
+		$e->status = $status;
+		return $e->find();
 	}
 	
 	/**
@@ -228,9 +228,7 @@ class UNL_UCBCN
 	{
 		$defaults = array(
 				'datecreated'		=> date('Y-m-d H:i:s'),
-				'datelastupdated'	=> date('Y-m-d H:i:s'),
-				'uidlastupdated'	=> 'system',
-				'uidcreated'		=> 'system');
+				'datelastupdated'	=> date('Y-m-d H:i:s'));
 		$values = array_merge($defaults,$values);
 		return $this->dbInsert('account',$values);
 	}
@@ -278,43 +276,86 @@ class UNL_UCBCN
 	}
 	
 	/**
-	 * Gets the account record(s) that the given user has permission to.
+	 * Gets the account record(s) 
 	 * If an account does not exist, one is created and returned. Optionally
 	 * the user can be redirected on creation of a new account.
 	 * 
-	 * @param string $uid User id to get an account from.
-	 * @param string $redirecturl URL to redirect on new account creation.
+	 * @param object $calendar UNL_UCBCN_Calendar object.
 	 */
-	function getAccount($uid,$redirecturl = NULL)
+	function getAccount($calendar)
 	{
 		$account = $this->factory('account');
-		$user_has_permission = $this->factory('user_has_permission');
-		$user_has_permission->user_uid = $uid;
-		$account->linkAdd($user_has_permission);
+		$account->linkAdd($calendar);
 		if ($account->find() && $account->fetch()) {
 			return $account;
 		} else {
-			$user = $this->getUser($uid);
 			// No account exists!
-			$values = array(
-						'name'				=> ucfirst($user->uid).'\'s Event Publisher!',
-						'uidcreated'		=> $user->uid,
-						'uidlastupdated'	=> $user->uid);
-			$account = $this->createAccount($values);
-			$permissions = $this->factory('permission');
-			$permissions->whereAdd('name LIKE "Event%"');
-			if ($permissions->find()) {
-				while ($permissions->fetch()) {
-					$this->grantPermission($uid,$account->id,$permissions->id);
+			return new UNL_UCBCN_Error('No Account exists for the given calendar.');
+		}
+	}
+	
+	/**
+	 * Gets the calendar(s) for the given account that the given user has permission to.
+	 * Optionally the user can be redirected on creation of a new calendar.
+	 * 
+	 * @param object $user UNL_UCBCN_User object.
+	 * @param bool $return_false If true, will return false if no account exists, if false, it will invoke createCalendar.
+	 * @param string redirect_url A url to redirect on creation of a new record. If set the user will be redirected, otherwise the account will be returned.
+	 */
+	function getCalendar($user,$return_false = true, $redirecturl=NULL)
+	{
+		$user_has_permission = $this->factory('user_has_permission');
+		$user_has_permission->user_uid = $user->uid;
+		$calendar = $this->factory('calendar');
+		$calendar->linkAdd($user_has_permission);
+		if ($calendar->find() && $calendar->fetch()) {
+			return $calendar;
+		} else {
+			// No Calendar exists for the given account...
+			if ($return_false == true) {
+				return false;
+			} else {
+				// Create a new calendar and account and return the calendar.
+				$values = array(
+							'name'				=> ucfirst($user->uid).' Calendar Manager');
+				$account = $this->createAccount($values);
+				$values = array(
+							'name'				=> ucfirst($user->uid).'\'s Event Publisher!',
+							'shortname'			=> $user->uid,
+							'uidcreated'		=> $user->uid,
+							'uidlastupdated'	=> $user->uid,
+							'account_id'		=> $account->id);
+				$calendar = $this->createCalendar($values);
+				$permissions = $this->factory('permission');
+				$permissions->whereAdd('name LIKE "Event%"');
+				if ($permissions->find()) {
+					while ($permissions->fetch()) {
+						$this->grantPermission($user->uid,$calendar->id,$permissions->id);
+					}
+				}
+				if (isset($redirecturl)) {
+					$this->localRedirect($redirecturl);
+				} else {
+					return $calendar;	
 				}
 			}
-			if (isset($redirecturl)) {
-				// Account has been created, but has no details, send the user to the edit account page?
-				$this->localRedirect($redirecturl);
-			} else {
-				return $account;
-			}
 		}
+	}
+	
+	/**
+	 * This function creates a calendar for an account.
+	 * 
+	 * @param array $values assoc array of field values for the calendar.
+	 */
+	function createCalendar($values = array())
+	{
+		$defaults = array(
+				'datecreated'		=> date('Y-m-d H:i:s'),
+				'datelastupdated'	=> date('Y-m-d H:i:s'),
+				'uidlastupdated'	=> 'system',
+				'uidcreated'		=> 'system');
+		$values = array_merge($defaults,$values);
+		return $this->dbInsert('calendar',$values);
 	}
 	
 	/**
