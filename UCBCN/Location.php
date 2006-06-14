@@ -34,4 +34,5 @@ class UNL_UCBCN_Location extends DB_DataObject
     ###END_AUTOCODE
     
     var $fb_linkDisplayFields		= array('name');
+    var $fb_linkNewValue = true;
 }

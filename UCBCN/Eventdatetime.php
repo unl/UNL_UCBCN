@@ -31,6 +31,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     								'endtime'		=> 'End Time');
     var $fb_hiddenFields	= array('event_id');
     var $fb_excludeFromAutoRules = array('event_id');
+    var $fb_linkNewValue = true;
     
     function preGenerateForm(&$fb)
     {
