@@ -248,9 +248,10 @@ class UNL_UCBCN
 		$values = array(
 						'calendar_id'	=> $calendar->id,
 						'event_id'		=> $event->id,
-						'uid_created'	=> $user->uid,
-						'date_last_updated'	=> date('Y-m-d H:i:s'),
-						'uid_last_updated'	=> $user->uid,
+						'uidcreated'	=> $user->uid,
+						'datecreated'	=> date('Y-m-d H:i:s'),
+						'datelastupdated'	=> date('Y-m-d H:i:s'),
+						'uidlastupdated'	=> $user->uid,
 						'status'		=> $status);
 		return $this->dbInsert('calendar_has_event',$values);
 	}
