@@ -106,12 +106,14 @@ class UNL_UCBCN
 	
 	/**
 	 * creates a new user record and returns it.
+	 * @param object account UNL_UCBCN_Account object
 	 * @param string uid unique id of the user to create
 	 * @param string optional unique id of the user who created this user.
 	 */
-	function createUser($uid,$uidcreated=NULL)
+	function createUser($account,$uid,$uidcreated=NULL)
 	{
 		$values = array(
+			'account_id'		=> $account->id,
 			'uid' 				=> $uid,
 			'datecreated'		=> date('Y-m-d H:i:s'),
 			'uidcreated'		=> $uidcreated,
@@ -272,26 +274,27 @@ class UNL_UCBCN
 			$user->fetch();
 			return $user;
 		} else {
-			return $this->createUser($uid,$uid);
+			$values = array(
+				'name'				=> ucfirst($user->uid).' Calendar Manager');
+			$account = $this->createAccount($values);
+			return $this->createUser($account,$uid,$uid);
 		}
 	}
 	
 	/**
-	 * Gets the account record(s) 
-	 * If an account does not exist, one is created and returned. Optionally
-	 * the user can be redirected on creation of a new account.
+	 * Gets the account record(s) for the user
 	 * 
-	 * @param object $calendar UNL_UCBCN_Calendar object.
+	 * @param object $user UNL_UCBCN_User object
 	 */
-	function getAccount($calendar)
+	function getAccount($user)
 	{
 		$account = $this->factory('account');
-		$account->linkAdd($calendar);
+		$account->id = $user->account_id;
 		if ($account->find() && $account->fetch()) {
 			return $account;
 		} else {
 			// No account exists!
-			return new UNL_UCBCN_Error('No Account exists for the given calendar.');
+			return new UNL_UCBCN_Error('No Account exists for the given user.');
 		}
 	}
 	
@@ -300,15 +303,16 @@ class UNL_UCBCN
 	 * Optionally the user can be redirected on creation of a new calendar.
 	 * 
 	 * @param object $user UNL_UCBCN_User object.
+	 * @param object $account UNL_UCBCN_Account object
 	 * @param bool $return_false If true, will return false if no account exists, if false, it will invoke createCalendar.
 	 * @param string redirect_url A url to redirect on creation of a new record. If set the user will be redirected, otherwise the account will be returned.
 	 */
-	function getCalendar($user,$return_false = true, $redirecturl=NULL)
+	function getCalendar($user,$account,$return_false = true, $redirecturl=NULL)
 	{
 		$user_has_permission = $this->factory('user_has_permission');
 		$user_has_permission->user_uid = $user->uid;
 		$calendar = $this->factory('calendar');
-		$calendar->linkAdd($user_has_permission);
+		$calendar->joinAdd($user_has_permission);
 		if ($calendar->find() && $calendar->fetch()) {
 			return $calendar;
 		} else {
@@ -317,9 +321,6 @@ class UNL_UCBCN
 				return false;
 			} else {
 				// Create a new calendar and account and return the calendar.
-				$values = array(
-							'name'				=> ucfirst($user->uid).' Calendar Manager');
-				$account = $this->createAccount($values);
 				$values = array(
 							'name'				=> ucfirst($user->uid).'\'s Event Publisher!',
 							'shortname'			=> $user->uid,
