@@ -34,5 +34,11 @@ class UNL_UCBCN_Location extends DB_DataObject
     ###END_AUTOCODE
     
     var $fb_linkDisplayFields		= array('name');
-    var $fb_linkNewValue = true;
+    var $fb_linkNewValue			= true;
+    var $fb_fieldLabels			= array(	'streetaddress1'		=> 'Address',
+    											'streetaddress2'		=> '',
+    											'additionalpublicinfo'	=> 'Additional Public Info',
+    											'mapurl'				=> 'Map URL',
+    											'webpageurl'			=> 'Web Page',
+    											'standard'				=> 'Make this location always available');
 }
