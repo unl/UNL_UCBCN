@@ -71,6 +71,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 									'uidlastupdated',
 									'status',
 									'classification',
+									'transparency',
 									'imagedata',
 									'imagemime',
 									'icalendar');
