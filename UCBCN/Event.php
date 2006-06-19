@@ -68,7 +68,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     function preGenerateForm(&$fb)
     {
     	foreach ($this->fb_hiddenFields as $el) {
-    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$el,$el);
+    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
     	$this->fb_preDefElements['imageurl'] = HTML_QuickForm::createElement('file','imageurl',$this->fb_fieldLabels['imageurl']);
     }

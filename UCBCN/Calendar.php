@@ -32,4 +32,28 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    var $fb_hiddenFields 	= array(	'account_id',
+										'uploadedcss',
+										'uploadedxsl',
+										'calendarstatus',
+										'formatcalendardata',
+										'calendardaterange',
+										'datecreated',
+										'uidcreated',
+										'datelastupdated',
+										'uidlastupdated',
+										'externalforms');
+    var $fb_fieldLabels	= array(	'eventreleasepreference'=>'Event Release Preference',
+    									'shortname'		=> 'Short Name (this will change your calendar web address)',
+    									'emaillists'	=> 'Email Lists (separated by commas)');
+    var $fb_enumFields		= array('eventreleasepreference');
+    var $fb_enumOptions	= array('eventreleasepreference'=>array('Immediate','Pending'));
+    
+    function preGenerateForm(&$fb)
+    {
+    	foreach ($this->fb_hiddenFields as $el) {
+    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
+    	}
+    }
 }
