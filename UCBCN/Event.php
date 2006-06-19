@@ -44,6 +44,13 @@ class UNL_UCBCN_Event extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
+    var $fb_preDefOrder = array(
+    								'title',
+    								'subtitle',
+    								'__reverseLink_event_has_eventtype_event_id',
+    								'othereventtype',
+    								'__reverseLink_eventdatetime_event_id');
+    
     var $fb_fieldLabels = array(	'othereventtype'		=> 'Secondary Event Type',
     								'shortdescription'		=> 'Short Description',
     								'webpageurl'			=> 'Event Webpage',
@@ -55,15 +62,27 @@ class UNL_UCBCN_Event extends DB_DataObject
     								'listingcontactname'	=> 'Listing Contact Name',
     								'listingcontactphone'	=> 'Listing Contact Phone',
     								'listingcontactemail'	=> 'Listing Contact Email',
-    								'__reverseLink_eventdatetime_event_id' => 'Event Location, Date and Time');
+    								'__reverseLink_eventdatetime_event_id' => '',
+    								'__reverseLink_event_has_eventtype_event_id'=>'');
 
     var $fb_hiddenFields = array(	'datecreated',
 									'uidcreated',
 									'datelastupdated',
 									'uidlastupdated',
+									'status',
+									'classification',
 									'imagedata',
 									'imagemime',
 									'icalendar');
+    
+    var $fb_linkNewValue			= array(
+											'__reverseLink_eventdatetime_event_idlocation_id_1',
+											'location_id');
+
+	var $fb_reverseLinks			= array(array(	'table'=>'eventdatetime'),
+											array(	'table'=>'event_has_eventtype'));
+	var $fb_reverseLinkNewValue	= true;
+	var $fb_linkElementTypes		= array('__reverseLink_eventdatetime_event_id'=>'subForm');
     
     function preGenerateForm(&$fb)
     {
@@ -92,12 +111,20 @@ class UNL_UCBCN_Event extends DB_DataObject
 	
 	function insert()
 	{
+		$this->datecreated = date('Y-m-d H:i:s');
+		$this->datelastupdated = date('Y-m-d H:i:s');
 		$result = parent::insert();
 		if ($result) {
 			// If insert was successful, set a global variable for any child elements to see the event_id foreign key.
 			$GLOBALS['event_id'] = $this->id;
 		}
 		return $result;
+	}
+	
+	function update()
+	{
+		$this->datelastupdated = date('Y-m-d H:i:s');
+		return parent::update();
 	}
 	
 	function delete() {
