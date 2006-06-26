@@ -334,6 +334,9 @@ class UNL_UCBCN
 					while ($permissions->fetch()) {
 						$this->grantPermission($user->uid,$calendar->id,$permissions->id);
 					}
+				} else {
+					// Setup default permissions...?
+					return new UNL_UCBCN_Error('No permissions could be added for the new user! Permissions need to be added to the permission table.');
 				}
 				if (isset($redirecturl)) {
 					$this->localRedirect($redirecturl);

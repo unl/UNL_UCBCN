@@ -1,5 +1,11 @@
 <?php
+/**
+ * This is the setup file for the UNL UCBCN Calendar System.
+ * This file installs/upgrades the database and inserts the default 
+ * permissions.
+ */
 require_once 'MDB2/Schema.php';
+require_once 'UNL/UCBCN.php';
 
 class UNL_UCBCN_setup_postinstall
 {
@@ -37,7 +43,8 @@ class UNL_UCBCN_setup_postinstall
     			return $this->createDB;
             case 'databaseSetup' :
             	if ($this->createDB) {
-               		return $this->createDatabase($answers);
+               		$r = $this->createDatabase($answers);
+               		return ($r && $this->setupPermissions($answers));
             	} else {
             		return true;
             	}
@@ -130,6 +137,43 @@ class UNL_UCBCN_setup_postinstall
     			$this->_ui->outputData($file.' does not exist!');
     		}
     	}
+    }
+    
+    /**
+     * This function calls the backend and inserts the default permissions for the system.
+     */
+    function setupPermissions($answers)
+    {
+		$backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
+		$permissions = array(
+							'Event Create',
+							'Event Delete',
+							'Event Post',
+							'Event Send Event to Pending Queue',
+							'Event Edit',
+							'Event Recommend',
+							'Event Remove from Pending',
+							'Event Remove from Posted',
+							'Event Remove from System ',
+							'Event View Queue',
+							'Event Export',
+							'Event Upload',
+							'Calendar Add User',
+							'Calendar Format',
+							'Calendar Change Format',
+							'Calendar Delete');
+		foreach ($permissions as $p_type) {
+			$p = $backend->factory('permission');
+			$p->name = $p_type;
+			if (!$p->find()) {
+				$p->name = $p_type;
+				$p->description = $p_type;
+				$p->insert();
+			} else {
+				echo "Sorry, $p_type already exists.\n";
+			}
+		}
+		return true;
     }
 }
 ?>
