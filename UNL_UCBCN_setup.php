@@ -72,7 +72,7 @@ class UNL_UCBCN_setup_postinstall
     	$this->dsn = $answers['dbtype'].'://'.$answers['user'].':'.$answers['password'].'@'.$answers['dbhost'].'/'.$answers['database'];
     	$db = MDB2::connect($this->dsn);
     	if (PEAR::isError($db)) {
-		    $this->_ui->outputData('Could not create database connection. "'.$db->getMessage().'"');
+		    $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
 		    $this->noDBsetup = true;
 		    return false;
 		}
@@ -85,7 +85,7 @@ class UNL_UCBCN_setup_postinstall
 		}
     	$manager =& MDB2_Schema::factory($db);
 		if (PEAR::isError($manager)) {
-		   $this->_ui->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
+		   $this->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
 		   $this->noDBsetup = true;
 		   return false;
 		} else {
@@ -98,11 +98,11 @@ class UNL_UCBCN_setup_postinstall
 			$operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml'
                 , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
             if (PEAR::isError($operation)) {
-                $this->_ui->outputData($operation->getMessage() . ' ' . $operation->getUserInfo());
+                $this->outputData($operation->getMessage() . ' ' . $operation->getUserInfo());
                 $this->noDBsetup = true;
                 return false;
             } else {
-				$this->_ui->outputData('Successfully connected and created '.$this->dsn."\n");
+				$this->outputData('Successfully connected and created '.$this->dsn."\n");
             	return true;
             }
 		}
@@ -127,14 +127,14 @@ class UNL_UCBCN_setup_postinstall
 				$a = fwrite($fp, $contents, strlen($contents));
 				fclose($fp);
 				if ($a) {
-					$this->_ui->outputData($file);
+					$this->outputData($file);
 					return true;
 				} else {
-					$this->_ui->outputData('Could not update ' . $file);
+					$this->outputData('Could not update ' . $file);
 					return false;
 				}
     		} else {
-    			$this->_ui->outputData($file.' does not exist!');
+    			$this->outputData($file.' does not exist!');
     		}
     	}
     }
@@ -174,6 +174,18 @@ class UNL_UCBCN_setup_postinstall
 			}
 		}
 		return true;
+    }
+    
+    /**
+     * takes in a string and sends it to the client.
+     */
+    function outputData($msg)
+    {
+    	if (isset($this->_ui)) {
+    		$this->_ui->outputData($msg);
+    	} else {
+    		echo $msg;
+    	}
     }
 }
 ?>
