@@ -76,13 +76,27 @@ class UNL_UCBCN_setup_postinstall
 		    $this->noDBsetup = true;
 		    return false;
 		}
-		$a = self::file_str_replace(	'<name>eventcal</name>',
-										'<name>'.$answers['database'].'</name>',
-										'@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
-		if ($a != true) {
-			$this->noDBsetup = true;
-			return $a;
-		}
+		
+		if ($answers['database'] != 'eventcal') {
+			$a = self::file_str_replace(	'<name>eventcal</name>',
+											'<name>'.$answers['database'].'</name>',
+											'@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
+			if ($a != true) {
+				$this->noDBsetup = true;
+				return $a;
+			}
+            $ds = DIRECTORY_SEPARATOR;
+            $this->outputData('Copying DB_DataObject config file to "@DATA_DIR@' .
+                $ds.'UNL_UCBCN'.$ds.'UCBCN'.$ds.$answers['database'].'.ini"');
+            copy('@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
+                    'eventcal.ini',
+                '@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
+                    $answers['database'] . '.ini');
+            copy('@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
+                    'eventcal.links.ini',
+                '@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
+                    $answers['database'] . '.links.ini');
+        }
     	$manager =& MDB2_Schema::factory($db);
 		if (PEAR::isError($manager)) {
 		   $this->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
