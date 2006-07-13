@@ -22,6 +22,7 @@ class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
     var $fb_hiddenFields			= array('event_id');
     var $fb_excludeFromAutoRules	= array('event_id');
     var $fb_fieldLabels			= array('eventtype_id'=>'Event Type');
+    var $fb_addFormHeader			= false;
     var $fb_formHeaderText			= 'Event Type';
     
     function preGenerateForm(&$fb)

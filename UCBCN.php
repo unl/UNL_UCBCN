@@ -64,12 +64,13 @@ class UNL_UCBCN
 			if (property_exists($this,$option)) {
 				switch($option) {
 					case 'template':
+					case 'template_path':
 						/* 
 						 * Set a global variable for the template type so that static functions know
 						 * what template to render pages in. 
 						 */ 
-						$GLOBALS['template'] = $val;
-					break;		
+						$GLOBALS[$option] = $val;
+					break;
 				}
 				$this->$option = $val;
 			} else {
@@ -403,9 +404,13 @@ class UNL_UCBCN
 	function getTemplateFilename($cname)
 	{
 		$cname = str_replace('UNL_UCBCN_','',$cname);
-		$templatefile = 'templates' . DIRECTORY_SEPARATOR .
-						$GLOBALS['template'] . DIRECTORY_SEPARATOR .
-						$cname . '.php';
+		if (!empty($GLOBALS['template_path'])) {
+			$templatefile = $GLOBALS['template_path'] . DIRECTORY_SEPARATOR . $cname . '.php';
+		} else {
+			$templatefile = 'templates' . DIRECTORY_SEPARATOR .
+							$GLOBALS['template'] . DIRECTORY_SEPARATOR .
+							$cname . '.php';
+		}
 		return $templatefile;
 	}
 }

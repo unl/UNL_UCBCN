@@ -34,6 +34,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     var $fb_hiddenFields			= array('event_id');
     var $fb_excludeFromAutoRules	= array('event_id');
     var $fb_linkNewValue			= true;
+    var $fb_addFormHeader			= false;
     var $fb_formHeaderText			= 'Event Location, Date and Time';
     
     function preGenerateForm(&$fb)
