@@ -44,6 +44,15 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     	}
     }
     
+    function postGenerateForm(&$form, &$formBuilder)
+    {
+		$el = $form->getElement('starttime');
+		$group_els = $el->getElements();
+		foreach ($group_els as $select) {
+			$form->updateElementAttrs($select,'id="'.$select->getName().'"');
+		}
+    }
+    
     function preProcessForm(&$values, &$formBuilder)
     {
     	// Capture event_id foreign key if needed.
