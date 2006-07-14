@@ -50,7 +50,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 		if (!PEAR::isError($el)) {
 			$group_els = $el->getElements();
 			foreach ($group_els as $select) {
-				$form->updateElementAttrs($select,'id="'.$select->getName().'"');
+				$form->updateElementAttr($select,'id="'.$select->getName().'"');
 			}
 		}
     }
