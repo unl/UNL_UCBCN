@@ -98,6 +98,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventtypeheader','Event Type'),'__reverseLink_event_has_eventtype_event_id');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventlocationheader','Event Location, Date and Time'),'__reverseLink_eventdatetime_event_id');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'description');
+    	$form->updateElementAttr('approvedforcirculation','id="approvedforcirculation"');
     }
     
     function prepareLinkedDataObject(&$linkedDataObject, $field) {
