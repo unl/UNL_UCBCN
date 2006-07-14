@@ -46,10 +46,12 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     
     function postGenerateForm(&$form, &$formBuilder)
     {
-		$el = $form->getElement('starttime');
-		$group_els = $el->getElements();
-		foreach ($group_els as $select) {
-			$form->updateElementAttrs($select,'id="'.$select->getName().'"');
+		$el = $form->getElement($this->fb_elementPrefix.'starttime'.$this->fb_elementPostfix);
+		if (!PEAR::isError($el)) {
+			$group_els = $el->getElements();
+			foreach ($group_els as $select) {
+				$form->updateElementAttrs($select,'id="'.$select->getName().'"');
+			}
 		}
     }
     
