@@ -10,6 +10,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'calendar_has_event';              // table name
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $calendar_id;                     // int(10)  not_null unsigned
     public $event_id;                        // int(10)  not_null unsigned
     public $status;                          // string(100)  
