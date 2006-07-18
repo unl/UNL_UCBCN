@@ -23,4 +23,34 @@ class UNL_UCBCN_User extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    var $fb_hiddenFields = array('account_id','datecreated','uidcreated','datelastupdated','uidlastupdated','accountstatus');
+    
+    function preGenerateForm(&$fb)
+    {
+    	foreach ($this->fb_hiddenFields as $el) {
+    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
+    	}
+    }
+    
+    function postGenerateForm(&$form, &$formBuilder)
+    {
+    	if (isset($this->uid) && !empty($this->uid)) {
+    		$el =& $form->getElement('uid');
+    		$el->freeze();
+    	}
+    }
+    
+    function update()
+    {
+    	$this->datelastupdated = date('Y-m-d H:i:s');
+		return parent::update();
+    }
+    
+    function insert()
+	{
+		$this->datecreated = date('Y-m-d H:i:s');
+		$this->datelastupdated = date('Y-m-d H:i:s');
+		return parent::insert();
+	}
 }
