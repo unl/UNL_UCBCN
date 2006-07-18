@@ -154,18 +154,22 @@ class UNL_UCBCN
 	 * 
 	 * @param object UNL_UCBCN_User
 	 * @param string permission
-	 * @param object UNL_UCBCN_Account
+	 * @param object UNL_UCBCN_Calendar
 	 * @return bool true or false
 	 */
-	 function userHasPermission($user,$permission,$account)
+	 function userHasPermission($user,$permission_name,$calendar)
 	 {
 	 	$permission				= $this->factory('permission');
-	 	$permission->name		= $permission;
-	 	$user_has_permission	= $this->factory('user_has_permission');
-	 	$user_has_permission->linkAdd($permission);
-	 	$user_has_permission->linkAdd($account);
-	 	$user_has_permission->user_uid = $user->uid;
-	 	return $user_has_permission->find();
+	 	$permission->name		= $permission_name;
+	 	if ($permission->find() && $permission->fetch()) {
+		 	$user_has_permission	= $this->factory('user_has_permission');
+		 	$user_has_permission->permission_id = $permission->id;
+		 	$user_has_permission->calendar_id = $calendar->id;
+		 	$user_has_permission->user_uid = $user->uid;
+		 	return $user_has_permission->find();
+	 	} else {
+	 		return new UNL_UCBCN_Error('The permission you requested to check for \''.$permission.'\', does not exist.');
+	 	}
 	 }
 	
 	function showError($description)
@@ -330,7 +334,8 @@ class UNL_UCBCN
 							'account_id'		=> $account->id);
 				$calendar = $this->createCalendar($values);
 				$permissions = $this->factory('permission');
-				$permissions->whereAdd('name LIKE "Event%"');
+				//$permissions->whereAdd('name LIKE "Event%"');
+				// grant all permissions to this new user for this new calendar.
 				if ($permissions->find()) {
 					while ($permissions->fetch()) {
 						$this->grantPermission($user->uid,$calendar->id,$permissions->id);
