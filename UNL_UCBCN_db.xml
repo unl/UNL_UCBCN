@@ -2028,6 +2028,15 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>uid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 

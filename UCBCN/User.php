@@ -10,7 +10,7 @@ class UNL_UCBCN_User extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'user';                            // table name
-    public $uid;                             // string(100)  not_null
+    public $uid;                             // string(100)  not_null primary_key
     public $account_id;                      // int(10)  not_null unsigned
     public $accountstatus;                   // string(100)  
     public $datecreated;                     // datetime(19)  binary
@@ -24,6 +24,7 @@ class UNL_UCBCN_User extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
+    var $fb_hidePrimaryKey = false;
     var $fb_hiddenFields = array('account_id','datecreated','uidcreated','datelastupdated','uidlastupdated','accountstatus');
     
     function preGenerateForm(&$fb)

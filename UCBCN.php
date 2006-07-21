@@ -60,6 +60,7 @@ class UNL_UCBCN
 	 */
 	function setOptions($options)
 	{
+		global $_UNL_UCBCN;
 		foreach ($options as $option=>$val) {
 			if (property_exists($this,$option)) {
 				switch($option) {
@@ -69,7 +70,7 @@ class UNL_UCBCN
 						 * Set a global variable for the template type so that static functions know
 						 * what template to render pages in. 
 						 */ 
-						$GLOBALS[$option] = $val;
+						$_UNL_UCBCN[$option] = $val;
 					break;
 				}
 				$this->$option = $val;
@@ -279,10 +280,22 @@ class UNL_UCBCN
 			$user->fetch();
 			return $user;
 		} else {
-			$values = array(
-				'name'				=> ucfirst($user->uid).' Calendar Manager');
-			$account = $this->createAccount($values);
-			return $this->createUser($account,$uid,$uid);
+			if (!isset($this->account)) {
+				// No account is currently set, create one for this user.
+				$values = array(
+					'name'				=> ucfirst($user->uid).' Calendar Manager');
+				$account = $this->createAccount($values);
+			} else {
+				$account = $this->account;
+			}
+			if (!isset($this->user)) {
+				// No current user... this user has created his own user entry.
+				$created_by = $uid;
+			} else {
+				// Another user has created this user.
+				$created_by = $this->user->uid;
+			}
+			return $this->createUser($account,$uid,$created_by);
 		}
 	}
 	
@@ -408,15 +421,31 @@ class UNL_UCBCN
 	 */
 	function getTemplateFilename($cname)
 	{
+		global $_UNL_UCBCN;
+		if (isset($_UNL_UCBCN['output_template'][$cname])) {
+			$cname = $_UNL_UCBCN['output_template'][$cname];
+		}
 		$cname = str_replace('UNL_UCBCN_','',$cname);
-		if (!empty($GLOBALS['template_path'])) {
-			$templatefile = $GLOBALS['template_path'] . DIRECTORY_SEPARATOR . $cname . '.php';
+		if (!empty($_UNL_UCBCN['template_path'])) {
+			$templatefile = $_UNL_UCBCN['template_path'] . DIRECTORY_SEPARATOR . $cname . '.tpl.php';
 		} else {
 			$templatefile = 'templates' . DIRECTORY_SEPARATOR .
-							$GLOBALS['template'] . DIRECTORY_SEPARATOR .
-							$cname . '.php';
+							$_UNL_UCBCN['template'] . DIRECTORY_SEPARATOR .
+							$cname . '.tpl.php';
 		}
 		return $templatefile;
+	}
+	
+	/**
+	 * Gets or sets the output template for a given class.
+	 */
+	function outputTemplate($cname,$templatename=NULL)
+	{
+		global $_UNL_UCBCN;
+		if (isset($templatename)) {
+			$_UNL_UCBCN['output_template'][$cname] = $templatename;
+		}
+		return UNL_UCBCN::getTemplateFilename($cname);
 	}
 }
 ?>

@@ -19,4 +19,6 @@ class UNL_UCBCN_User_has_permission extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    var $fb_excludeFromAutoRules = array('permission_id','user_uid','calendar_id');
 }
