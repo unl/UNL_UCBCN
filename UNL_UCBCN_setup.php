@@ -176,6 +176,7 @@ class UNL_UCBCN_setup_postinstall
 							'Calendar Delete User',
 							'Calendar Change User Permissions',
 							'Calendar Format',
+							'Calendar Edit',
 							'Calendar Change Format',
 							'Calendar Delete');
 		foreach ($permissions as $p_type) {
