@@ -16,6 +16,7 @@
  */
 require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN/Error.php';
+require_once 'MDB2.php';
 
 class UNL_UCBCN
 {
@@ -50,6 +51,7 @@ class UNL_UCBCN
 		    'class_location'   => '@PHP_DIR@/UNL/UCBCN',
 		    'require_prefix'   => '@PHP_DIR@/UNL/UCBCN',
 		    'class_prefix'     => 'UNL_UCBCN_',
+		    'db_driver'			=> 'MDB'
 		);
 	}
 	
@@ -434,6 +436,19 @@ class UNL_UCBCN
 							$cname . '.tpl.php';
 		}
 		return $templatefile;
+	}
+	
+	/**
+	 * Gets an MDB2 connection object and returns it.
+	 */
+	function getDatabaseConnection()
+	{
+		$mdb2 =& MDB2::connect($this->dsn);
+		if (PEAR::isError($mdb2)) {
+		    return new UNL_UCBCN_Error($mdb2->getMessage());
+		} else {
+			return $mdb2;
+		}
 	}
 	
 	/**
