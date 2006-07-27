@@ -308,6 +308,14 @@
     </field>
    </index>
 
+   <index>
+    <name>event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -348,6 +356,14 @@
     <primary>true</primary>
     <field>
      <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>event_id</name>
+    <field>
+     <name>event_id</name>
      <sorting>ascending</sorting>
     </field>
    </index>
@@ -537,6 +553,14 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>account_id</name>
+    <field>
+     <name>account_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -627,6 +651,22 @@
     <primary>true</primary>
     <field>
      <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>calendar_id</name>
+    <field>
+     <name>calendar_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>event_id</name>
+    <field>
+     <name>event_id</name>
      <sorting>ascending</sorting>
     </field>
    </index>
@@ -1134,6 +1174,22 @@
     <primary>true</primary>
     <field>
      <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>location_id</name>
+    <field>
+     <name>location_id</name>
      <sorting>ascending</sorting>
     </field>
    </index>
