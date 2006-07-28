@@ -41,18 +41,8 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.1.0');
-$pfm->setReleaseVersion('0.2.0');
-$pfm->setNotes('* Fix/Add Database indexes
-		* Correct links.ini file to lowercase field names.
-		* Add hidden field declarations to event dataobject.
-		* Better field labels for dataobjects.
-		* Error handling.
-		* Added Event startdate and starttime.
-		* Some database re-structuring from Berkeley.
-		* Basic permission and account functions.
-		* Database driver is now MDB2
-		* Template files now .tpl
-		* Permissions now inside install script.');
+$pfm->setReleaseVersion('0.2.5');
+$pfm->setNotes('* Fixes');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
