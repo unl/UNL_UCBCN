@@ -16,7 +16,7 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
 //$pfm->setOptions(array(
 	'packagedirectory' => dirname(__FILE__),
 	'baseinstalldir' => 'UNL',
-	'filelistgenerator' => 'file',
+	'filelistgenerator' => 'cvs',
 	'ignore' => array(	'package.xml',
 						'.project',
 						'*.tgz',
@@ -35,20 +35,24 @@ $pfm->setPackage('UNL_UCBCN');
 $pfm->setPackageType('php'); // this is a PEAR-style php script package
 $pfm->setSummary('This package provides the database interactions for a UC Berkeley Calendar system.');
 $pfm->setDescription('This package creates and upgrades a relational database used to store event publishing details
-					formatted using the University of California Berkeley Calendar Network schema.');
+					formatted using the University of California Berkeley Calendar Network schema. The backend provides
+					basic functions for an event management frontend, as well as a public frontend.');
 $pfm->setChannel('pear.unl.edu');
-$pfm->setAPIStability('alpha');
-$pfm->setReleaseStability('alpha');
-$pfm->setAPIVersion('0.0.1');
-$pfm->setReleaseVersion('0.0.2');
-$pfm->setNotes('Fix/Add Database indexes
-		Correct links.ini file to lowercase field names.
-		Add hidden field declarations to event dataobject.
-		Better field labels for dataobjects.
-		Error handling.
-		Added Event startdate and starttime.
-		Some database re-structuring from Berkeley.
-		Basic permission and account functions.');
+$pfm->setAPIStability('beta');
+$pfm->setReleaseStability('beta');
+$pfm->setAPIVersion('0.1.0');
+$pfm->setReleaseVersion('0.2.0');
+$pfm->setNotes('* Fix/Add Database indexes
+		* Correct links.ini file to lowercase field names.
+		* Add hidden field declarations to event dataobject.
+		* Better field labels for dataobjects.
+		* Error handling.
+		* Added Event startdate and starttime.
+		* Some database re-structuring from Berkeley.
+		* Basic permission and account functions.
+		* Database driver is now MDB2
+		* Template files now .tpl
+		* Permissions now inside install script.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');

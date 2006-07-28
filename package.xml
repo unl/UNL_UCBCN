@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.10RC1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.10" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
  <description>This package creates and upgrades a relational database used to store event publishing details
-					formatted using the University of California Berkeley Calendar Network schema.</description>
+					formatted using the University of California Berkeley Calendar Network schema. The backend provides
+					basic functions for an event management frontend, as well as a public frontend.</description>
  <lead>
   <name>Brett Bieber</name>
   <user>saltybeagle</user>
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-07-13</date>
- <time>11:40:37</time>
+ <date>2006-07-28</date>
+ <time>08:27:42</time>
  <version>
-  <release>0.0.2</release>
-  <api>0.0.1</api>
+  <release>0.2.0</release>
+  <api>0.1.0</api>
  </version>
  <stability>
-  <release>alpha</release>
-  <api>alpha</api>
+  <release>beta</release>
+  <api>beta</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>Fix/Add Database indexes
-		Correct links.ini file to lowercase field names.
-		Add hidden field declarations to event dataobject.
-		Better field labels for dataobjects.
-		Error handling.
-		Added Event startdate and starttime.
-		Some database re-structuring from Berkeley.
-		Basic permission and account functions.</notes>
+ <notes>* Fix/Add Database indexes
+		* Correct links.ini file to lowercase field names.
+		* Add hidden field declarations to event dataobject.
+		* Better field labels for dataobjects.
+		* Error handling.
+		* Added Event startdate and starttime.
+		* Some database re-structuring from Berkeley.
+		* Basic permission and account functions.
+		* Database driver is now MDB2
+		* Template files now .tpl
+		* Permissions now inside install script.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -189,7 +193,7 @@
     <release>alpha</release>
     <api>alpha</api>
    </stability>
-   <date>2006-07-13</date>
+   <date>2006-07-27</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Fix/Add Database indexes
 		Correct links.ini file to lowercase field names.
@@ -199,6 +203,29 @@
 		Added Event startdate and starttime.
 		Some database re-structuring from Berkeley.
 		Basic permission and account functions.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-07-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix/Add Database indexes
+		* Correct links.ini file to lowercase field names.
+		* Add hidden field declarations to event dataobject.
+		* Better field labels for dataobjects.
+		* Error handling.
+		* Added Event startdate and starttime.
+		* Some database re-structuring from Berkeley.
+		* Basic permission and account functions.
+		* Database driver is now MDB2
+		* Template files now .tpl
+		* Permissions now inside install script.</notes>
   </release>
  </changelog>
 </package>
