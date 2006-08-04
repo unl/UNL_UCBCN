@@ -42,13 +42,14 @@ $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.1.0');
 $pfm->setReleaseVersion('0.2.5');
-$pfm->setNotes('* Fixes');
+$pfm->setNotes('* Caching now supported for template output.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.4.3');
+$pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'savant.pearified.com', '3.0.0');
 $pfm->addPackageDepWithChannel('required', 'NET_URL', 'pear.php.net', '1.0');

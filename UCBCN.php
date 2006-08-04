@@ -192,20 +192,26 @@ class UNL_UCBCN
 	 * 		objects use a corresponding savant template,
 	 * 		arrays get rendered one by one
 	 */
-	function displayRegion($content)
+	function displayRegion($content,$cachekey=NULL)
 	{
-		require_once 'Savant3.php';
-		$savant = new Savant3();
+		global $_UNL_UCBCN;
 		if (is_object($content)) {
-			// Set up the template to display.
-			foreach (get_object_vars($content) as $key=>$var) {
-				$savant->$key = $var;
-			}
-			$templatefile = UNL_UCBCN::getTemplateFilename(get_class($content));
-			if (file_exists($templatefile)) {
-				$savant->display($templatefile);
+			if (method_exists($content,'getCacheKey') && method_exists($content,'run')) {
+				require_once 'Cache/Lite.php';
+				$cache = new Cache_Lite();
+				if ($data = $cache->get($content->getCacheKey())) {
+				} else {
+					ob_start();
+					$content->run();
+					UNL_UCBCN::sendObjectOutput($content);
+					$data = ob_get_contents();
+					$cache->save($data);
+					ob_end_clean();
+				}
+				echo $data;
 			} else {
-				echo 'Sorry, '.$templatefile.' was not found.';
+				// Set up the template to display.
+				UNL_UCBCN::sendObjectOutput($content);
 			}
 		} elseif(is_array($content)) {
 			foreach($content as $contentregion) {
@@ -213,6 +219,21 @@ class UNL_UCBCN
 			}
 		} else {
 			echo $content;
+		}
+	}
+	
+	function sendObjectOutput($content)
+	{
+		require_once 'Savant3.php';
+		$savant = new Savant3();
+		foreach (get_object_vars($content) as $key=>$var) {
+			$savant->$key = $var;
+		}
+		$templatefile = UNL_UCBCN::getTemplateFilename(get_class($content));
+		if (file_exists($templatefile)) {
+			$savant->display($templatefile);
+		} else {
+			echo 'Sorry, '.$templatefile.' was not found.';
 		}
 	}
 	
