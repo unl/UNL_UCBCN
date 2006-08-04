@@ -68,9 +68,13 @@ class UNL_UCBCN
 				switch($option) {
 					case 'template':
 					case 'template_path':
+					case 'frontenduri':
+					case 'manageruri':
+					case 'uri':
+					case 'defaultcalendarid':
+					case 'uriformat':
 						/* 
-						 * Set a global variable for the template type so that static functions know
-						 * what template to render pages in. 
+						 * Set a global variable for this value, it is used in static functions. 
 						 */ 
 						$_UNL_UCBCN[$option] = $val;
 					break;
@@ -395,7 +399,7 @@ class UNL_UCBCN
 	 */
 	function localRedirect($url, $keepProtocol = true)
 	{
-		$url = self::getURL($url, $keepProtocol);
+		$url = self::getAbsoluteURL($url, $keepProtocol);
 		if  ($keepProtocol == false) {
 			$url = preg_replace("/^https/", "http", $url);
 		}
@@ -409,7 +413,7 @@ class UNL_UCBCN
 	 * @param  string $url All/part of a url
 	 * @return string      Full url
 	 */
-	function getURL($url)
+	function getAbsoluteURL($url)
 	{
 		include_once 'Net/URL.php';
 		$obj = new Net_URL($url);
@@ -461,6 +465,19 @@ class UNL_UCBCN
 			$_UNL_UCBCN['output_template'][$cname] = $templatename;
 		}
 		return UNL_UCBCN::getTemplateFilename($cname);
+	}
+	
+	/**
+	 * Returns the URL for the calendar system.
+	 */
+	function getURL()
+	{
+		global $_UNL_UCBCN;
+		if (isset($_UNL_UCBCN['frontenduri'])) {
+			return $_UNL_UCBCN['frontenduri'];
+		} else {
+			return '?';
+		}
 	}
 }
 ?>
