@@ -200,8 +200,10 @@ class UNL_UCBCN
 				require_once 'Cache/Lite.php';
 				$cache = new Cache_Lite();
 				if ($data = $cache->get($content->getCacheKey())) {
+					$content->preRun(true);
 				} else {
 					ob_start();
+					$content->preRun(false);
 					$content->run();
 					UNL_UCBCN::sendObjectOutput($content);
 					$data = ob_get_contents();
