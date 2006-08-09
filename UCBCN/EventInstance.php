@@ -52,7 +52,7 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
 		return UNL_UCBCN_Frontend::formatURL(array(	'y'=>$date[0],
 														'm'=>$date[1],
 														'd'=>$day[0],
-														'id'=>$this->eventdatetime->id));
+														'eventdatetime_id'=>$this->eventdatetime->id));
 	}
 }
 

@@ -191,6 +191,13 @@ class UNL_UCBCN
 	 * IE: 	strings and ints get echoed
 	 * 		objects use a corresponding savant template,
 	 * 		arrays get rendered one by one
+	 * 
+	 * For caching support the object being outputted must implement
+	 * three methods:
+	 * getCacheKey()				Return a unique string for this object and output.
+	 * preRun(bool $cache_hit)		Function which will be called before run (implement cache hit recording here and header() output)
+	 * run()						This function must populate the object and get it prepped for output.
+	 * 
 	 */
 	function displayRegion($content,$cachekey=NULL)
 	{
