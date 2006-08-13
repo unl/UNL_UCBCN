@@ -509,5 +509,28 @@ class UNL_UCBCN
 			return '?';
 		}
 	}
+	
+	/**
+	 * This function changes the status for events in the 
+	 * past to 'archived.'
+	 * 
+	 * @param UNL_UCBCN_Calendar object
+	 * @return num of affected rows or mdb2 error object
+	 */
+	function archiveEvents($cal=NULL)
+	{
+		$mdb2 = UNL_UCBCN::getDatabaseConnection();
+		$q = 'UPDATE calendar_has_event,event,eventdatetime 
+						SET calendar_has_event.status=\'archived\' WHERE ';
+		if (isset($cal)) {
+			$q .= ' calendar_has_event.calendar_id = '.$cal->id.' AND ';
+		}
+		$q .= 			'	calendar_has_event.event_id = event.id AND 
+							eventdatetime.event_id = event.id AND 
+							eventdatetime.starttime<\''.date('Y-m-d H:i:s').'\' AND 
+							eventdatetime.endtime<\''.date('Y-m-d H:i:s').'\';';
+		$r = $mdb2->exec($q);
+		return $r;
+	}
 }
 ?>
