@@ -56,4 +56,9 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
     }
+    
+    function postGenerateForm(&$form,&$formBuilder) {
+		$el =& $form->getElement('shortname');
+		$el->freeze();
+	}
 }
