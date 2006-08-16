@@ -71,7 +71,7 @@ class UNL_UCBCN
 					case 'frontenduri':
 					case 'manageruri':
 					case 'uri':
-					case 'defaultcalendarid':
+					case 'default_calendar_id':
 					case 'uriformat':
 						/* 
 						 * Set a global variable for this value, it is used in static functions. 
