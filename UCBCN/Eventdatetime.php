@@ -30,7 +30,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     										'starttime'				=> 'Start Time',
     										'endtime'				=> 'End Time',
     										'additionalpublicinfo'	=> 'Additional Public Info');
-    var $fb_dateTimeElementFormat	= 'g:i a M d Y';
+    var $fb_dateTimeElementFormat	= 'h:i a M d Y';
     var $fb_hiddenFields			= array('event_id');
     var $fb_excludeFromAutoRules	= array('event_id');
     var $fb_linkNewValue			= true;
