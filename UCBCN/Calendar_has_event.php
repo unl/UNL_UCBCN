@@ -49,4 +49,14 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     	}
     	return $r;
     }
+    
+    function delete()
+    {
+    	$r = parent::delete();
+    	if ($r) {
+    		// Clean the cache on successful delete.
+    		UNL_UCBCN::cleanCache();
+    	}
+    	return $r;
+    }
 }
