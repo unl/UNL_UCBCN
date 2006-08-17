@@ -16,6 +16,7 @@
  */
 require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN/Error.php';
+require_once 'Cache/Lite.php';
 require_once 'MDB2.php';
 
 class UNL_UCBCN
@@ -204,7 +205,6 @@ class UNL_UCBCN
 		global $_UNL_UCBCN;
 		if (is_object($content)) {
 			if (method_exists($content,'getCacheKey') && method_exists($content,'run')) {
-				require_once 'Cache/Lite.php';
 				$cache = new Cache_Lite();
 				if ($data = $cache->get($content->getCacheKey())) {
 					$content->preRun(true);
