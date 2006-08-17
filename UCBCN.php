@@ -532,5 +532,19 @@ class UNL_UCBCN
 		$r = $mdb2->exec($q);
 		return $r;
 	}
+	
+	/**
+	 * Cleans the cache.
+	 * 
+	 * @param mixed Pass a cached object to clean it's cache, or a string id.
+	 */
+	function cleanCache($o=NULL){
+		$c = new Cache_Lite();
+		if (isset($o)) {
+			// Add in cache cleaning for individual objects.
+		} else {
+			return $c->clean();
+		}
+	}
 }
 ?>
