@@ -3,6 +3,7 @@
  * Table Definition for calendar_has_event
  */
 require_once 'DB/DataObject.php';
+require_once 'UNL/UCBCN.php';
 
 class UNL_UCBCN_Calendar_has_event extends DB_DataObject 
 {
@@ -30,12 +31,22 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     {
     	$this->datecreated		= date('Y-m-d H:i:s');
     	$this->datelastupdated = date('Y-m-d H:i:s');
-    	return parent::insert();
+    	$r = parent::insert();
+    	if ($r) {
+    		// Clean the cache on successful insert.
+    		UNL_UCBCN::cleanCache();
+    	}
+    	return $r;
     }
     
     function update()
     {
     	$this->datelastupdated = date('Y-m-d H:i:s');
-    	return parent::update();
+    	$r = parent::update();
+    	if ($r) {
+    		// Clean the cache on successful update.
+    		UNL_UCBCN::cleanCache();
+    	}
+    	return $r;
     }
 }
