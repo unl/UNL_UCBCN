@@ -62,4 +62,15 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     		$values['event_id'] = $GLOBALS['event_id'];
     	}
     }
+    
+	function prepareLinkedDataObject(&$linkedDataObject, $field) {
+		//you may want to include one or both of these
+		if ($linkedDataObject->tableName() == 'location') {
+			if (isset($this->location_id)) {
+				$linkedDataObject->whereAdd('standard=1 OR id='.$this->location_id);
+			} else {
+				$linkedDataObject->standard = 1;
+			}
+		}
+  }
 }
