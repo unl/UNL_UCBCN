@@ -31,6 +31,10 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     {
     	$this->datecreated		= date('Y-m-d H:i:s');
     	$this->datelastupdated = date('Y-m-d H:i:s');
+    	if (isset($_SESSION['_authsession'])) {
+	    	$this->uidcreated=$_SESSION['_authsession']['username'];
+	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
+    	}
     	$r = parent::insert();
     	if ($r) {
     		// Clean the cache on successful insert.
@@ -42,6 +46,9 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     function update()
     {
     	$this->datelastupdated = date('Y-m-d H:i:s');
+    	if (isset($_SESSION['_authsession'])) {
+	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
+    	}
     	$r = parent::update();
     	if ($r) {
     		// Clean the cache on successful update.
