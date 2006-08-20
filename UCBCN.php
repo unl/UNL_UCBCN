@@ -27,6 +27,8 @@ class UNL_UCBCN
 	var $template_path;
 	/** A string containing connection details in the format dbtype://user:pass@www.example.com:port/database */
 	var $dsn;
+	/** Default calendar to use throughout the system. */
+	public $default_calendar_id = 1;
 	
 	/**
 	 * Constructor for the UCBCN object, initializes member variables and sets up 

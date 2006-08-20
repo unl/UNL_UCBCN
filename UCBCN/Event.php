@@ -63,7 +63,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     								'listingcontactphone'	=> 'Listing Contact Phone',
     								'listingcontactemail'	=> 'Listing Contact Email',
     								'__reverseLink_eventdatetime_event_id' => '',
-    								'__reverseLink_event_has_eventtype_event_id'=>'');
+    								'__reverseLink_event_has_eventtype_event_id'=>'',
+    								'consider'=>'Please Consider Event for Main UNL Calendar');
 
     var $fb_hiddenFields = array(	'datecreated',
 									'uidcreated',
@@ -87,10 +88,14 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     function preGenerateForm(&$fb)
     {
+		global $_UNL_UCBCN;
     	foreach ($this->fb_hiddenFields as $el) {
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
     	$this->fb_preDefElements['imageurl'] = HTML_QuickForm::createElement('file','imageurl',$this->fb_fieldLabels['imageurl']);
+		if (isset($_UNL_UCBCN['default_calendar_id'])) {
+			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider']);
+		}
     }
     
     function postGenerateForm(&$form, &$formBuilder)
@@ -99,10 +104,13 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventlocationheader','Event Location, Date and Time'),'__reverseLink_eventdatetime_event_id');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'description');
     	$form->updateElementAttr('approvedforcirculation','id="approvedforcirculation"');
+    	$defaults = array();
+    	$defaults['approvedforcirculation'] = true;
     	if (isset($_SESSION['_authsession'])) {
-	    	$form->setDefaults(array(	'uidcreated'=>$_SESSION['_authsession']['username'],
-	    								'uidlastupdated'=>$_SESSION['_authsession']['username']));
+	    	$defaults['uidcreated']=$_SESSION['_authsession']['username'];
+	    	$defaults['uidlastupdated']=$_SESSION['_authsession']['username'];
     	}
+    	$form->setDefaults($defaults);
     }
     
     function prepareLinkedDataObject(&$linkedDataObject, $field) {
@@ -116,8 +124,19 @@ class UNL_UCBCN_Event extends DB_DataObject
 		}
 	}
 	
+	function table()
+	{
+		global $_UNL_UCBCN;
+		if (isset($_UNL_UCBCN['default_calendar_id'])) {
+			return array_merge(parent::table(), array('consider' => DB_DATAOBJECT_INT));
+		}
+	}
+	
 	function insert()
 	{
+		if (isset($this->consider)) {
+            unset($this->consider);
+        }
 		$this->datecreated = date('Y-m-d H:i:s');
 		$this->datelastupdated = date('Y-m-d H:i:s');
 		if (isset($_SESSION['_authsession'])) {
@@ -132,8 +151,14 @@ class UNL_UCBCN_Event extends DB_DataObject
 		return $result;
 	}
 	
-	function update()
+	function update($do=false)
 	{
+		if (isset($this->consider)) {
+            unset($this->consider);
+        }
+		if (is_object($do) && isset($do->consider)) {
+            unset($do->consider);
+        }
 		$this->datelastupdated = date('Y-m-d H:i:s');
 		if (isset($_SESSION['_authsession'])) {
 	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
