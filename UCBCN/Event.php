@@ -3,6 +3,7 @@
  * Table Definition for event
  */
 require_once 'DB/DataObject.php';
+require_once 'UNL/UCBCN.php';
 
 class UNL_UCBCN_Event extends DB_DataObject 
 {
@@ -135,7 +136,11 @@ class UNL_UCBCN_Event extends DB_DataObject
 	function insert()
 	{
 		if (isset($this->consider)) {
+			// The user has checked the 'Please consider this event for the main calendar'
+			$add_to_default = $this->consider;
             unset($this->consider);
+        } else {
+        	$add_to_default = 0;
         }
 		$this->datecreated = date('Y-m-d H:i:s');
 		$this->datelastupdated = date('Y-m-d H:i:s');
@@ -147,6 +152,18 @@ class UNL_UCBCN_Event extends DB_DataObject
 		if ($result) {
 			// If insert was successful, set a global variable for any child elements to see the event_id foreign key.
 			$GLOBALS['event_id'] = $this->id;
+			if ($add_to_default) {
+				// Add this as a pending event to the default calendar.
+				$values = array(
+						'calendar_id'	=> $_UNL_UCBCN['default_calendar_id'],
+						'event_id'		=> $this->id,
+						'uidcreated'	=> $_SESSION['_authsession']['username'],
+						'datecreated'	=> date('Y-m-d H:i:s'),
+						'datelastupdated'	=> date('Y-m-d H:i:s'),
+						'uidlastupdated'	=> $_SESSION['_authsession']['username'],
+						'status'		=> 'pending');
+				UNL_UCBCN::dbInsert('calendar_has_event',$values);
+			}
 		}
 		return $result;
 	}
