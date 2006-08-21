@@ -36,6 +36,7 @@ class UNL_UCBCN_Account extends DB_DataObject
     						'name'		=> 'Account Name',
     						'streetaddress1' => 'Address',
     						'streetaddress2' => '',
+    						'sponsor_id'	=> 'Sponsor'
     						);
     
     var $fb_hiddenFields = array(
