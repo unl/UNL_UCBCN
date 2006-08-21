@@ -54,7 +54,7 @@ class UNL_UCBCN
 		    'class_location'   => '@PHP_DIR@/UNL/UCBCN',
 		    'require_prefix'   => '@PHP_DIR@/UNL/UCBCN',
 		    'class_prefix'     => 'UNL_UCBCN_',
-		    'db_driver'			=> 'MDB'
+		    'db_driver'			=> 'MDB2'
 		);
 	}
 	
