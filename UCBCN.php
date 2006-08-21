@@ -527,10 +527,11 @@ class UNL_UCBCN
 		if (isset($cal)) {
 			$q .= ' calendar_has_event.calendar_id = '.$cal->id.' AND ';
 		}
-		$q .= 			'	calendar_has_event.event_id = event.id AND 
+		$q .= 			'	calendar_has_event.status = \'posted\' AND 
+							calendar_has_event.event_id = event.id AND 
 							eventdatetime.event_id = event.id AND 
-							eventdatetime.starttime<\''.date('Y-m-d H:i:s').'\' AND 
-							eventdatetime.endtime<\''.date('Y-m-d H:i:s').'\';';
+							eventdatetime.starttime<\''.date('Y-m-d').' 00:00:00\' AND 
+							eventdatetime.endtime<\''.date('Y-m-d').' 00:00:00\';';
 		$r = $mdb2->exec($q);
 		return $r;
 	}
