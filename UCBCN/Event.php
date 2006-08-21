@@ -94,7 +94,9 @@ class UNL_UCBCN_Event extends DB_DataObject
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
     	$this->fb_preDefElements['imageurl'] = HTML_QuickForm::createElement('file','imageurl',$this->fb_fieldLabels['imageurl']);
-		if (isset($_UNL_UCBCN['default_calendar_id'])) {
+		if (isset($_UNL_UCBCN['default_calendar_id']) &&
+			isset($_SESSION['calendar_id']) &&
+			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
 			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider']);
 		}
     }
@@ -128,13 +130,18 @@ class UNL_UCBCN_Event extends DB_DataObject
 	function table()
 	{
 		global $_UNL_UCBCN;
-		if (isset($_UNL_UCBCN['default_calendar_id'])) {
+		if (isset($_UNL_UCBCN['default_calendar_id']) &&
+			isset($_SESSION['calendar_id']) &&
+			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
 			return array_merge(parent::table(), array('consider' => DB_DATAOBJECT_INT));
+		} else {
+			return parent::table();
 		}
 	}
 	
 	function insert()
 	{
+		global $_UNL_UCBCN;
 		if (isset($this->consider)) {
 			// The user has checked the 'Please consider this event for the main calendar'
 			$add_to_default = $this->consider;
@@ -152,7 +159,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 		if ($result) {
 			// If insert was successful, set a global variable for any child elements to see the event_id foreign key.
 			$GLOBALS['event_id'] = $this->id;
-			if ($add_to_default) {
+			if ($add_to_default && isset($_UNL_UCBCN['default_calendar_id'])) {
 				// Add this as a pending event to the default calendar.
 				$values = array(
 						'calendar_id'	=> $_UNL_UCBCN['default_calendar_id'],
