@@ -41,16 +41,8 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.1.0');
-$pfm->setReleaseVersion('0.2.5');
-$pfm->setNotes("* Caching now supported for template output. Output is now cached until the calendar_has_event status has changed, this greatly improves the speed.\n" .
-		"Objects implementing caching have to support three methods:\n" .
-		"getCacheKey()\n" .
-		"preRun(bool \$cache_hit)\n" .
-		"run()\n" .
-		"* Cache_Lite dependency\n" .
-		"* DB_DataObject backend driver is now MDB2\n" .
-		"* Archive events function.\n" .
-		"* Clean cache function.\n");
+$pfm->setReleaseVersion('0.3.0');
+$pfm->setNotes("* Fix");
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
