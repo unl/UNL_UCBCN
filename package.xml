@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.10" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.4.11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -12,10 +12,10 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-07-28</date>
- <time>08:27:42</time>
+ <date>2006-08-22</date>
+ <time>13:01:40</time>
  <version>
-  <release>0.2.0</release>
+  <release>0.2.5</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -23,17 +23,16 @@
   <api>beta</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>* Fix/Add Database indexes
-		* Correct links.ini file to lowercase field names.
-		* Add hidden field declarations to event dataobject.
-		* Better field labels for dataobjects.
-		* Error handling.
-		* Added Event startdate and starttime.
-		* Some database re-structuring from Berkeley.
-		* Basic permission and account functions.
-		* Database driver is now MDB2
-		* Template files now .tpl
-		* Permissions now inside install script.</notes>
+ <notes>* Caching now supported for template output. Output is now cached until the calendar_has_event status has changed, this greatly improves the speed.
+Objects implementing caching have to support three methods:
+getCacheKey()
+preRun(bool $cache_hit)
+run()
+* Cache_Lite dependency
+* DB_DataObject backend driver is now MDB2
+* Archive events function.
+* Clean cache function.
+ </notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -148,6 +147,11 @@
     <min>1.4.3</min>
    </pearinstaller>
    <package>
+    <name>Cache_Lite</name>
+    <channel>pear.php.net</channel>
+    <min>1.0</min>
+   </package>
+   <package>
     <name>DB_DataObject</name>
     <channel>pear.php.net</channel>
     <min>0.8</min>
@@ -226,6 +230,28 @@
 		* Database driver is now MDB2
 		* Template files now .tpl
 		* Permissions now inside install script.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.5</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-08-22</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Caching now supported for template output. Output is now cached until the calendar_has_event status has changed, this greatly improves the speed.
+Objects implementing caching have to support three methods:
+getCacheKey()
+preRun(bool $cache_hit)
+run()
+* Cache_Lite dependency
+* DB_DataObject backend driver is now MDB2
+* Archive events function.
+* Clean cache function.
+   </notes>
   </release>
  </changelog>
 </package>
