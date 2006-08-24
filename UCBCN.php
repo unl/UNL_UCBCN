@@ -303,6 +303,27 @@ class UNL_UCBCN
 	}
 	
 	/**
+	 * Checks whether a calendar has an event or not.
+	 * 
+	 * @param object UNL_UCBCN_Calendar
+	 * @param object UNL_UCBCN_Event
+	 * 
+	 * @return bool|object false on error, object on success.
+	 */
+	function calendarHasEvent($calendar,$event)
+	{
+		$che = UNL_UCBCN::factory('calendar_has_event');
+		$che->calendar_id	= $calendar->id;
+		$che->event_id		= $event->id;
+		if ($che->find()) {
+			$che->fetch();
+			return $che;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	 * This function returns a object for the user with
 	 * the given uid.
 	 * If a record does not exist, one is inserted then returned.
