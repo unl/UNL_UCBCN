@@ -45,9 +45,13 @@ class UNL_UCBCN_Event extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
+    var $fb_formHeaderText	= 'Event Sharing Status';
     var $fb_preDefOrder = array(
-    								'title',
+    								'approvedforcirculation',
+    								'consider',
+									'title',
     								'subtitle',
+    								'description',
     								'__reverseLink_event_has_eventtype_event_id',
     								'othereventtype',
     								'__reverseLink_eventdatetime_event_id');
@@ -58,7 +62,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     								'privatecomment'		=> 'Internal Note',
     								'imageurl'				=> 'Add An Image',
     								'imagetitle'			=> 'Image Title',
-    								'approvedforcirculation'=>'Approved for Circulation',
+    								'approvedforcirculation'=>'',
     								'otherkeywords'			=> 'Other Keywords',
     								'listingcontactname'	=> 'Listing Contact Name',
     								'listingcontactphone'	=> 'Listing Contact Phone',
@@ -78,6 +82,10 @@ class UNL_UCBCN_Event extends DB_DataObject
 									'imagemime',
 									'icalendar');
     
+    var $fb_enumFields				= array('approvedforcirculation');
+    var $fb_enumOptions			= array('approvedforcirculation'=>array(	'Private (Your event will only be available to your calendar)<br />',
+																				'Public (Your event will be available to any university calendar)<br />'));
+    
     var $fb_linkNewValue			= array(
 											'__reverseLink_eventdatetime_event_idlocation_id_1',
 											'location_id');
@@ -85,7 +93,8 @@ class UNL_UCBCN_Event extends DB_DataObject
 	var $fb_reverseLinks			= array(array(	'table'=>'eventdatetime'),
 											array(	'table'=>'event_has_eventtype'));
 	var $fb_reverseLinkNewValue	= true;
-	var $fb_linkElementTypes		= array('__reverseLink_eventdatetime_event_id'=>'subForm');
+	var $fb_linkElementTypes		= array('__reverseLink_eventdatetime_event_id'=>'subForm',
+											'approvedforcirculation'=>'radio');
     
     function preGenerateForm(&$fb)
     {
@@ -103,16 +112,20 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     function postGenerateForm(&$form, &$formBuilder)
     {
+    	$form->insertElementBefore(HTML_QuickForm::createElement('header','detailsheader','Event Details'),'title');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventtypeheader','Event Type'),'__reverseLink_event_has_eventtype_event_id');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventlocationheader','Event Location, Date and Time'),'__reverseLink_eventdatetime_event_id');
-    	$form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'description');
+    	$form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'shortdescription');
     	$form->updateElementAttr('approvedforcirculation','id="approvedforcirculation"');
+
     	$defaults = array();
     	$defaults['approvedforcirculation'] = true;
     	if (isset($_SESSION['_authsession'])) {
 	    	$defaults['uidcreated']=$_SESSION['_authsession']['username'];
 	    	$defaults['uidlastupdated']=$_SESSION['_authsession']['username'];
     	}
+    	$el =& $form->getElement('approvedforcirculation');
+    	unset($el->_elements[0]);
     	$form->setDefaults($defaults);
     }
     
