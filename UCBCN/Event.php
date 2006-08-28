@@ -181,7 +181,8 @@ class UNL_UCBCN_Event extends DB_DataObject
 						'datecreated'	=> date('Y-m-d H:i:s'),
 						'datelastupdated'	=> date('Y-m-d H:i:s'),
 						'uidlastupdated'	=> $_SESSION['_authsession']['username'],
-						'status'		=> 'pending');
+						'status'		=> 'pending',
+						'source'		=> 'checked consider event');
 				UNL_UCBCN::dbInsert('calendar_has_event',$values);
 			}
 		}
