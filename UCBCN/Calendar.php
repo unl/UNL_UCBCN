@@ -11,7 +11,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 
     public $__table = 'calendar';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $account_id;                      // int(10)  not_null unsigned
+    public $account_id;                      // int(10)  not_null multiple_key unsigned
     public $name;                            // string(255)  
     public $shortname;                       // string(100)  
     public $eventreleasepreference;          // string(255)  
