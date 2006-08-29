@@ -169,10 +169,10 @@ class UNL_UCBCN
 	 */
 	 function userHasPermission($user,$permission_name,$calendar)
 	 {
-	 	$permission				= $this->factory('permission');
+	 	$permission				= UNL_UCBCN::factory('permission');
 	 	$permission->name		= $permission_name;
 	 	if ($permission->find() && $permission->fetch()) {
-		 	$user_has_permission	= $this->factory('user_has_permission');
+		 	$user_has_permission	= UNL_UCBCN::factory('user_has_permission');
 		 	$user_has_permission->permission_id = $permission->id;
 		 	$user_has_permission->calendar_id = $calendar->id;
 		 	$user_has_permission->user_uid = $user->uid;
@@ -289,7 +289,7 @@ class UNL_UCBCN
 	 * 
 	 * @return object UNL_UCBCN_Account_has_event
 	 */
-	function addCalendarHasEvent($calendar,$event,$status,$user)
+	function addCalendarHasEvent($calendar,$event,$status,$user,$source=NULL)
 	{
 		$values = array(
 						'calendar_id'	=> $calendar->id,
@@ -299,6 +299,9 @@ class UNL_UCBCN
 						'datelastupdated'	=> date('Y-m-d H:i:s'),
 						'uidlastupdated'	=> $user->uid,
 						'status'		=> $status);
+		if (isset($source)) {
+			$values['source'] = $source;
+		}
 		return $this->dbInsert('calendar_has_event',$values);
 	}
 	
@@ -568,6 +571,43 @@ class UNL_UCBCN
 			// Add in cache cleaning for individual objects.
 		} else {
 			return $c->clean();
+		}
+	}
+	
+	/**
+	 * This function simply determines if a user can edit the details of a specific event.
+	 * 
+	 * Permission relies on a couple requirements:
+	 * 	User has 'Event Edit' rights over the calendar the event was originally created under.
+	 *  The event was 'recommended for the default calendar', and this user has permission over the default calendar.
+	 * 
+	 * @param object UNL_UCBCN_User
+	 * @param object UNL_UCBCN_Event
+	 */
+	function userCanEditEvent($user,$event)
+	{
+		if (gettype($user)=='string') {
+			$uid = $user;
+			$user = UNL_UCBCN::factory('user');
+			if (!$user->get($uid)) {
+				return false;
+			}
+		}
+		// Find the originating calendar:
+		$che = UNL_UCBCN::factory('calendar_has_event');
+		$che->event_id = $event->id;
+		$che->whereAdd('source=\'create event form\' OR source=\'checked consider event\'');
+		if ($che->find()) {
+			while ($che->fetch()) {
+				$c = UNL_UCBCN::factory('calendar');
+				$c->get($che->calendar_id);
+				if (UNL_UCBCN::userHasPermission($user,'Event Edit',$c)) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return false;
 		}
 	}
 }
