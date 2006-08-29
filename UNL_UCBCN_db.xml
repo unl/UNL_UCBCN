@@ -2046,6 +2046,15 @@
     <notnull>true</notnull>
     <default>0</default>
    </field>
+   
+   <field>
+    <name>calendar_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
 
    <field>
     <name>accountstatus</name>
