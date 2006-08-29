@@ -11,8 +11,8 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 
     public $__table = 'eventdatetime';                   // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $event_id;                        // int(10)  not_null unsigned
-    public $location_id;                     // int(10)  not_null unsigned
+    public $event_id;                        // int(10)  not_null multiple_key unsigned
+    public $location_id;                     // int(10)  not_null multiple_key unsigned
     public $starttime;                       // datetime(19)  binary
     public $endtime;                         // datetime(19)  binary
     public $room;                            // string(255)  
