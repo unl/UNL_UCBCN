@@ -1193,6 +1193,22 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>starttime</name>
+    <field>
+     <name>starttime</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>endtime</name>
+    <field>
+     <name>endtime</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
