@@ -208,7 +208,8 @@ class UNL_UCBCN
 		if (is_object($content)) {
 			if (method_exists($content,'getCacheKey') && method_exists($content,'run')) {
 				$cache = new Cache_Lite();
-				if ($data = $cache->get($content->getCacheKey())) {
+				$key = $content->getCacheKey();
+				if (($key !== false) && ($data = $cache->get($key))) {
 					$content->preRun(true);
 				} else {
 					ob_start();
