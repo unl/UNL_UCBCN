@@ -17,6 +17,8 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
 	var $eventdatetime;
 	/** Optional calendar associated with this event instance */
 	var $calendar;	
+	/** URL to this event instance */
+	var $url;
 	
 	/**
 	 * constructor
@@ -47,10 +49,12 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
 				}
 			}
 		}
+		$this->url = $this->getURL();
 	}
 	
 	/**
 	 * This function returns the URL for this event instance.
+	 * @return string URL to this event instance.
 	 */
 	function getURL()
 	{
