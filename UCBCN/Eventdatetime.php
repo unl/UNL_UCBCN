@@ -29,6 +29,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     var $fb_fieldLabels			= array('location_id'			=> 'Location',
     										'starttime'				=> 'Start Time',
     										'endtime'				=> 'End Time',
+    										'hours'					=> 'Building Hours',
     										'additionalpublicinfo'	=> 'Additional Public Info');
     var $fb_dateTimeElementFormat	= 'h:i a M d Y';
     var $fb_hiddenFields			= array('event_id');
