@@ -97,6 +97,7 @@ class UNL_UCBCN_EventListing
                                 'WHERE calendar_has_event.calendar_id='.$calendar->id.' ' .
                                                 'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
                                                 'AND calendar_has_event.event_id = eventdatetime.event_id ' .
+                                                'AND calendar_has_event.event_id = event.id ' .
                                                 'AND eventdatetime.starttime > \'' . date('Y-m-d') . '\' '.
                                 'ORDER BY '.$orderby.' LIMIT '.$limit;
         } else {
