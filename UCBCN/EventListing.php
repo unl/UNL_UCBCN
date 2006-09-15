@@ -24,6 +24,9 @@ class UNL_UCBCN_EventListing
 		    case 'day':
 		        $this->constructDayEventInstanceList($options);
 	        break;
+	        case 'upcoming':
+                    $this->constructUpcomingEventList($options);
+            break;
 		    default:
 		    break;
 		}
@@ -70,4 +73,45 @@ class UNL_UCBCN_EventListing
 		}
 	}
 	
+	 /**
+     * Constructs a list of upcoming events for the given calendar.
+     *
+     * @param unknown_type $options
+     */
+    function constructUpcomingEventList($options)
+    {
+        if (isset($options['orderby'])) {
+            $orderby =  $options['orderby'];
+        } else {
+            $orderby = 'eventdatetime.starttime ASC';
+        }
+        if (isset($options['limit'])) {
+            $limit = $options['limit'];
+        } else {
+            $limit = 10;
+        }
+        if (isset($options['calendar'])) {
+            $calendar =& $options['calendar'];
+            $mdb2 = $calendar->getDatabaseConnection();
+            $sql = 'SELECT eventdatetime.id FROM event,calendar_has_event,eventdatetime ' .
+                                'WHERE calendar_has_event.calendar_id='.$calendar->id.' ' .
+                                                'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
+                                                'AND calendar_has_event.event_id = eventdatetime.event_id ' .
+                                                'AND eventdatetime.starttime > \'' . date('Y-m-d') . '\' '.
+                                'ORDER BY '.$orderby.' LIMIT '.$limit;
+        } else {
+        	$mdb2 = UNL_UCBCN::getDatabaseConnection();
+        	$calendar = NULL;
+            $sql = 'SELECT eventdatetime.id FROM eventdatetime WHERE '.
+                    'eventdatetime.starttime > \'' . date('Y-m-d') . '\' '.
+                                'ORDER BY '.$orderby.' LIMIT '.$limit;
+        }
+        $res = $mdb2->query($sql);
+        if ($res->numRows()) {
+            while ($row = $res->fetchRow()) {
+                // Populate the events to display.
+                $this->events[] = new UNL_UCBCN_EventInstance($row[0],$calendar);
+            }
+        }
+    }
 }
