@@ -95,8 +95,8 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 	{
 	    if (isset($this->id)&&isset($user->uid)) {
 		    $sql = 'DELETE FROM user_has_permission WHERE user_uid = \''.$user->uid.'\' AND calendar_id ='.$this->id;
-		    $mdb2 = UNL_UCBCN::getDatabaseConnection();
-	        return $mdb2->execute($sql);
+		    $mdb2 = $this->getDatabaseConnection();
+	        return $mdb2->exec($sql);
 	    } else {
 	        return false;
 	    }
