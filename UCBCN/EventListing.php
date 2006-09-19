@@ -28,8 +28,11 @@ class UNL_UCBCN_EventListing
 		        $this->constructDayEventInstanceList($options);
 	        break;
 	        case 'upcoming':
-                    $this->constructUpcomingEventList($options);
+                $this->constructUpcomingEventList($options);
             break;
+	        case 'ongoing':
+	            $this->constructOngoingEventList($options);
+	        break;
 		    default:
 		    break;
 		}
