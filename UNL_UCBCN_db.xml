@@ -457,6 +457,14 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <field>
+    <name>website</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
 
    <field>
     <name>eventreleasepreference</name>

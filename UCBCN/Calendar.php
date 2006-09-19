@@ -26,6 +26,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(255)  
     public $externalforms;                   // string(255)  
+    public $website;                         // string(255)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Calendar',$k,$v); }
