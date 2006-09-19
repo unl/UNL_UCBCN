@@ -27,6 +27,7 @@ class UNL_UCBCN_User extends DB_DataObject
     
     var $fb_hidePrimaryKey = false;
     var $fb_hiddenFields = array('account_id','datecreated','uidcreated','datelastupdated','uidlastupdated','accountstatus');
+    var $fb_fieldLabels = array('calendar_id'=>'Default Calendar');
     
     function preGenerateForm(&$fb)
     {
@@ -42,6 +43,13 @@ class UNL_UCBCN_User extends DB_DataObject
     		$el->freeze();
     	}
     }
+    
+	function prepareLinkedDataObject(&$ldo, $field) {
+		//you may want to include one or both of these
+		if ($ldo->tableName() == 'user_has_permission' && isset($_SESSION['calendar_id'])) {
+		    $ldo->calendar_id = $_SESSION['calendar_id'];
+		}
+	}
     
     function update()
     {

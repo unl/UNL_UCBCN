@@ -13,6 +13,7 @@ class UNL_UCBCN_User_has_permission extends DB_DataObject
     public $permission_id;                   // int(10)  not_null unsigned
     public $user_uid;                        // string(100)  not_null
     public $calendar_id;                     // int(10)  not_null unsigned
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_User_has_permission',$k,$v); }
@@ -21,4 +22,25 @@ class UNL_UCBCN_User_has_permission extends DB_DataObject
     ###END_AUTOCODE
     
     var $fb_excludeFromAutoRules = array('permission_id','user_uid','calendar_id');
+    var $fb_fieldLabels = array('calendar_id'=>'Calendar');
+    
+    function insert()
+    {
+        $check = UNL_UCBCN::factory('user_has_permission');
+        $check->permission_id = $this->permission_id;
+        $check->user_uid = $this->user_uid;
+        if (isset($this->calendar_id)) {
+            $check->calendar_id = $this->calendar_id;
+        } elseif (isset($_SESSION['calendar_id'])) {
+            $check->calendar_id = $this->calendar_id = $_SESSION['calendar_id'];
+        } else {
+            return false;
+        }
+        if (!$check->find()) {
+            return parent::insert();
+        } else {
+            return true;
+        }
+    }
+    
 }

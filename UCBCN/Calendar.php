@@ -49,6 +49,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     									'emaillists'	=> 'Email Lists (separated by commas)');
     var $fb_enumFields		= array('eventreleasepreference');
     var $fb_enumOptions	= array('eventreleasepreference'=>array('Immediate','Pending'));
+    var $fb_linkDisplayFields = array('name','shortname');
     
     function preGenerateForm(&$fb)
     {
@@ -60,5 +61,44 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     function postGenerateForm(&$form,&$formBuilder) {
 		$el =& $form->getElement('shortname');
 		$el->freeze();
+	}
+	
+	/**
+	 * Adds a user to the calendar. Grants all permissions to the 
+	 * user for the current calendar.
+	 *
+	 * @param UNL_UCBCN_User $user
+	 */
+	function addUser($user)
+	{
+	    if (isset($this->id)) {
+		    $p = UNL_UCBCN::factory('permission');
+	        $p->find();
+	        while ($p->fetch()) {
+	                if (!$b->userHasPermission($user,$p->name,$this)) {
+	                        $b->grantPermission($user->uid,$this->id,$p->id);
+	                }
+	        }
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+	
+	/**
+	 * Removes a user from the current calendar.
+	 * Basically removes all permissions for the user on the current calendar.
+	 *
+	 * @param UNL_UCBCN_User $user
+	 */
+	function removeUser($user)
+	{
+	    if (isset($this->id)&&isset($user->uid)) {
+		    $sql = 'DELETE FROM user_has_permission WHERE user_uid = \''.$user->uid.'\' AND calendar_id ='.$this->id;
+		    $mdb2 = UNL_UCBCN::getDatabaseConnection();
+	        return $mdb2->execute($sql);
+	    } else {
+	        return false;
+	    }
 	}
 }
