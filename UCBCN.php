@@ -126,6 +126,7 @@ class UNL_UCBCN
 		$values = array(
 			'account_id'		=> $account->id,
 			'uid' 				=> $uid,
+		    'calendar_id'       => 0,
 			'datecreated'		=> date('Y-m-d H:i:s'),
 			'uidcreated'		=> $uidcreated,
 			'datelastupdated' 	=> date('Y-m-d H:i:s'),
@@ -390,11 +391,16 @@ class UNL_UCBCN
 	 */
 	function getCalendar($user,$account,$return_false = true, $redirecturl=NULL)
 	{
-		$user_has_permission = $this->factory('user_has_permission');
-		$user_has_permission->user_uid = $user->uid;
-		$calendar = $this->factory('calendar');
-		$calendar->joinAdd($user_has_permission);
-		if ($calendar->find() && $calendar->fetch()) {
+		
+	    $mdb2 = $account->getDatabaseConnection();
+	    $res =& $mdb2->query('SELECT calendar.id FROM calendar,user_has_permission 
+							WHERE user_has_permission.user_uid = \''.$user->uid.'\' 
+							AND user_has_permission.calendar_id = calendar.id 
+							GROUP BY calendar.id');
+		if (!(PEAR::isError($res)) && ($res->numRows() > 0)) {
+		    $row = $res->fetchRow();
+		    $calendar = $this->factory('calendar');
+		    $calendar->get($row[0]);
 			return $calendar;
 		} else {
 			// No Calendar exists for the given account...
