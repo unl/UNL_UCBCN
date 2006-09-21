@@ -96,6 +96,8 @@ class UNL_UCBCN_Event extends DB_DataObject
 	var $fb_linkElementTypes		= array('__reverseLink_eventdatetime_event_id'=>'subForm',
 	                                        '__reverseLink_event_has_eventtype_event_id'=>'subForm',
 											'approvedforcirculation'=>'radio');
+	
+	var $fb_textAreaFields        = array('description');
     
     function preGenerateForm(&$fb)
     {
@@ -118,7 +120,22 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventlocationheader','Event Location, Date and Time'),'__reverseLink_eventdatetime_event_id');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'shortdescription');
     	$form->updateElementAttr('approvedforcirculation','id="approvedforcirculation"');
-
+    	
+    	foreach ($this->fb_textAreaFields as $name) {
+		    $el =& $form->getElement($name);
+		    $el->setRows(4);
+		    $el->setCols(50);
+		}
+		
+		foreach (array('title','subtitle') as $name) {
+		    $el =& $form->getElement($name);
+		    $el->setSize(50);
+		}
+		
+		$el =& $form->getElement('webpageurl');
+		$el->setCols(50);
+		$el->setRows(2);
+    	
     	$defaults = array();
     	$defaults['approvedforcirculation'] = true;
     	if (isset($_SESSION['_authsession'])) {
