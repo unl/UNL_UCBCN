@@ -234,4 +234,18 @@ class UNL_UCBCN_Event extends DB_DataObject
 		}
 		return parent::delete();
 	}
+	
+	/**
+	 * Check whether this event belongs to any calendars.
+	 */
+	function isOrphaned()
+	{
+	    if (isset($this->id)) {
+	        $calendar_has_event = $this->factory('calendar_has_event');
+	        $calendar_has_event->event_id = $this->id;
+	        return !$calendar_has_event->find();
+	    } else {
+	        return false;
+	    }
+	}
 }
