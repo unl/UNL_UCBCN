@@ -94,6 +94,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 											array(	'table'=>'event_has_eventtype'));
 	var $fb_reverseLinkNewValue	= true;
 	var $fb_linkElementTypes		= array('__reverseLink_eventdatetime_event_id'=>'subForm',
+	                                        '__reverseLink_event_has_eventtype_event_id'=>'subForm',
 											'approvedforcirculation'=>'radio');
     
     function preGenerateForm(&$fb)
@@ -130,7 +131,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     }
     
     function prepareLinkedDataObject(&$linkedDataObject, $field) {
-		if ($linkedDataObject->tableName() == 'eventdatetime') {
+		if ($linkedDataObject->tableName() == 'eventdatetime' || $linkedDataObject->tableName() == 'event_has_eventtype') {
 			// Here we are limiting the reverseLink records to only relevant records.
 			if (ctype_digit($this->id)) {
 				$linkedDataObject->event_id 	= $this->id;
@@ -191,6 +192,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 	
 	function update($do=false)
 	{
+	    $GLOBALS['event_id'] = $this->id;
 		if (isset($this->consider)) {
             unset($this->consider);
         }
@@ -207,7 +209,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 	function delete() {
 		// Delete child elements that would be orphaned.
 		if (ctype_digit($this->id)) {
-			foreach (array('event_has_keywords') as $table) {
+			foreach (array('event_has_keywords','eventdatetime','event_has_eventtype') as $table) {
 				$do = DB_DataObject::factory($table);
 				$do->event_id = $this->id;
 				$do->delete();

@@ -12,6 +12,7 @@ class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
     public $__table = 'event_has_eventtype';             // table name
     public $event_id;                        // int(10)  not_null unsigned
     public $eventtype_id;                    // int(10)  not_null unsigned
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Event_has_eventtype',$k,$v); }
