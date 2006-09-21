@@ -57,6 +57,26 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     	return $r;
     }
     
+    /**
+     * Returns bool false if the calendar does not have the event, 
+     * otherwise returns status.
+     *
+     * @param UNL_UCBCN_Calendar $calendar
+     * @param UNL_UCBCN_Event $event
+     */
+    function calendarHasEvent($calendar,$event)
+    {
+        $che = UNL_UCBCN::factory('calendar_has_event');
+        $che->calendar_id = $calendar->id;
+        $che->event_id = $event->id;
+        if ($che->find()) {
+            $che->fetch();
+            return $che->status;
+        } else {
+            return false;
+        }
+    }
+    
     function delete()
     {
     	$r = parent::delete();
