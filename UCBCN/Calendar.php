@@ -102,4 +102,21 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 	        return false;
 	    }
 	}
+	
+	/**
+	 * Removes the given event from the calendar_has_event table.
+	 *
+	 * @param UNL_UCBCN_Event $event
+	 */
+	function removeEvent($event)
+	{
+	    if (isset($this->id) && isset($event->id)) {
+		    $calendar_has_event = $this->factory('calendar_has_event');
+	        $calendar_has_event->calendar_id = $this->id;
+	        $calendar_has_event->event_id = $event->id;
+	        return $calendar_has_event->delete();
+	    } else {
+	        return false;
+	    }
+	}
 }
