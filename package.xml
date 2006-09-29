@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0a1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -12,27 +12,20 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-08-22</date>
- <time>13:01:40</time>
+ <date>2006-09-29</date>
+ <time>15:42:59</time>
  <version>
-  <release>0.2.5</release>
-  <api>0.1.0</api>
+  <release>0.3.0</release>
+  <api>0.3.0</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>* Caching now supported for template output. Output is now cached until the calendar_has_event status has changed, this greatly improves the speed.
-Objects implementing caching have to support three methods:
-getCacheKey()
-preRun(bool $cache_hit)
-run()
-* Cache_Lite dependency
-* DB_DataObject backend driver is now MDB2
-* Archive events function.
-* Clean cache function.
- </notes>
+ <notes>* Fix bug #22 Calendar ID is not grabbed correctly for new users
+				Backend re-organization, many useful functions now within dataobject files.
+				Small database fixes, many more indexes, some reorganization.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -250,8 +243,22 @@ run()
 * Cache_Lite dependency
 * DB_DataObject backend driver is now MDB2
 * Archive events function.
-* Clean cache function.
-   </notes>
+* Clean cache function.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.3.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-09-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix bug #22 Calendar ID is not grabbed correctly for new users
+				Backend re-organization, many useful functions now within dataobject files.
+				Small database fixes, many more indexes, some reorganization.</notes>
   </release>
  </changelog>
 </package>
