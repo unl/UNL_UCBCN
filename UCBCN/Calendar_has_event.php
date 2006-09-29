@@ -4,6 +4,7 @@
  */
 require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN.php';
+require_once 'UNL/UCBCN/Subscription.php';
 
 class UNL_UCBCN_Calendar_has_event extends DB_DataObject 
 {
@@ -39,8 +40,31 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     	if ($r) {
     		// Clean the cache on successful insert.
     		UNL_UCBCN::cleanCache();
+    		if (self::processSubscriptions() && $this->status != 'pending') {
+    		    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
+    		}
     	}
     	return $r;
+    }
+    
+    /**
+     * sets or gets the current status of process subscriptions.
+     *
+     * @param bool $status true or false
+     */
+    function processSubscriptions($status = NULL)
+    {
+        global $_UNL_UCBCN;
+        if (isset($status)) {
+            $_UNL_UCBCN['process_subscriptions'] = (bool) $status;
+        } else {
+            if (isset($_UNL_UCBCN['process_subscriptions'])) {
+                return $_UNL_UCBCN['process_subscriptions'];
+            } else {
+                $_UNL_UCBCN['process_subscriptions'] = true;
+            }
+        }
+        return $_UNL_UCBCN['process_subscriptions'];
     }
     
     function update()
@@ -53,6 +77,9 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     	if ($r) {
     		// Clean the cache on successful update.
     		UNL_UCBCN::cleanCache();
+    		if ($this->status != 'pending' && $this->status != 'archived') {
+    		    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
+    		}
     	}
     	return $r;
     }

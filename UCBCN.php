@@ -293,18 +293,7 @@ class UNL_UCBCN
 	 */
 	function addCalendarHasEvent($calendar,$event,$status,$user,$source=NULL)
 	{
-		$values = array(
-						'calendar_id'	=> $calendar->id,
-						'event_id'		=> $event->id,
-						'uidcreated'	=> $user->uid,
-						'datecreated'	=> date('Y-m-d H:i:s'),
-						'datelastupdated'	=> date('Y-m-d H:i:s'),
-						'uidlastupdated'	=> $user->uid,
-						'status'		=> $status);
-		if (isset($source)) {
-			$values['source'] = $source;
-		}
-		return $this->dbInsert('calendar_has_event',$values);
+		return $calendar->addEvent($event,$status,$user,$source);
 	}
 	
 	/**
