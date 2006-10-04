@@ -111,6 +111,11 @@ class UNL_UCBCN_Event extends DB_DataObject
 			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
 			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider']);
 		}
+		if (isset($this->uidcreated)) {
+		    $el = HTML_QuickForm::createElement('text','uidcreated','Originally Created By',$this->uidcreated);
+		    $el->freeze();
+		    $this->fb_preDefElements['uidcreated'] =& $el;
+		}
     }
     
     function postGenerateForm(&$form, &$formBuilder)
@@ -120,6 +125,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','eventlocationheader','Event Location, Date and Time'),'__reverseLink_eventdatetime_event_id');
     	$form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'shortdescription');
     	$form->updateElementAttr('approvedforcirculation','id="approvedforcirculation"');
+    	$form->updateElementAttr('uidcreated','id="uidcreated"');
     	
     	foreach ($this->fb_textAreaFields as $name) {
 		    $el =& $form->getElement($name);
