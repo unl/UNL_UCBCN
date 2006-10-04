@@ -145,7 +145,9 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$defaults = array();
     	$defaults['approvedforcirculation'] = true;
     	if (isset($_SESSION['_authsession'])) {
-	    	$defaults['uidcreated']=$_SESSION['_authsession']['username'];
+	    	if (!isset($this->uidcreated)) {
+	    	    $defaults['uidcreated']=$_SESSION['_authsession']['username'];
+	    	}
 	    	$defaults['uidlastupdated']=$_SESSION['_authsession']['username'];
     	}
     	$el =& $form->getElement('approvedforcirculation');
