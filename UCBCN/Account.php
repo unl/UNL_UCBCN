@@ -43,11 +43,42 @@ class UNL_UCBCN_Account extends DB_DataObject
 								'datecreated',
 								'datelastupdated',
 								'accountstatus');
-    
+
     function preGenerateForm(&$fb)
     {
     	foreach ($this->fb_hiddenFields as $el) {
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$el,$el);
     	}
+    }
+    
+    /**
+     * Adds a calendar under this account.
+     *
+     * @param string $name Name for the calendar
+     * @param string $shortname shortname for the calendar.
+     * @param UNL_UCBCN_User $user
+     * @param bool Grant user access to the calendar?
+     */
+    function addCalendar($name,$shortname,$user,$grant = true)
+    {
+        
+		$calendar = new UNL_UCBCN_Calendar();
+		$calendar->shortname = $name;
+		if ($calendar->find()) {
+		    // calendar name already exists
+		    return false;
+		}
+		$calendar->shortname = $name;
+		$calendar->name = $shortname;
+		$calendar->account_id = $this->id;
+		$calendar->uidcreated = $user->uid;
+		$calendar->uidlastupdated = $user->uid;
+		$calendar->datecreated = $calendar->datelastupdated = date('Y-m-d H:i:s');
+		
+		$res = $calendar->insert();
+		if ($res && $grant) {
+		    $calendar->addUser($user);
+		}
+		return $res;
     }
 }
