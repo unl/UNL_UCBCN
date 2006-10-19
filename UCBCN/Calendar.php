@@ -76,8 +76,8 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 		    $p = UNL_UCBCN::factory('permission');
 	        $p->find();
 	        while ($p->fetch()) {
-	                if (!$b->userHasPermission($user,$p->name,$this)) {
-	                        $b->grantPermission($user->uid,$this->id,$p->id);
+	                if (!UNL_UCBCN::userHasPermission($user,$p->name,$this)) {
+	                        UNL_UCBCN::grantPermission($user->uid,$this->id,$p->id);
 	                }
 	        }
 	        return true;

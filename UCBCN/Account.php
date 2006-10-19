@@ -62,7 +62,7 @@ class UNL_UCBCN_Account extends DB_DataObject
     function addCalendar($name,$shortname,$user,$grant = true)
     {
         
-		$calendar = new UNL_UCBCN_Calendar();
+		$calendar = UNL_UCBCN::factory('calendar');
 		$calendar->shortname = $name;
 		if ($calendar->find()) {
 		    // calendar name already exists
