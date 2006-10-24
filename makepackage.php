@@ -42,11 +42,9 @@ $pfm->setDescription('This package creates and upgrades a relational database us
 $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
-$pfm->setAPIVersion('0.3.0');
-$pfm->setReleaseVersion('0.3.0');
-$pfm->setNotes("* Fix bug #22 Calendar ID is not grabbed correctly for new users
-				Backend re-organization, many useful functions now within dataobject files.
-				Small database fixes, many more indexes, some reorganization.");
+$pfm->setAPIVersion('0.3.1');
+$pfm->setReleaseVersion('0.3.1');
+$pfm->setNotes("Schema updates to use unique index names so sqlite can be used.");
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
