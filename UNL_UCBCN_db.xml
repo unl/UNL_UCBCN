@@ -361,7 +361,7 @@
    </index>
    
    <index>
-    <name>event_id</name>
+    <name>attendancerestriction_event_id</name>
     <field>
      <name>event_id</name>
      <sorting>ascending</sorting>
@@ -664,7 +664,7 @@
    </index>
    
    <index>
-    <name>calendar_id</name>
+    <name>che_calendar_id</name>
     <field>
      <name>calendar_id</name>
      <sorting>ascending</sorting>
@@ -672,7 +672,7 @@
    </index>
    
    <index>
-    <name>event_id</name>
+    <name>che_event_id</name>
     <field>
      <name>event_id</name>
      <sorting>ascending</sorting>
@@ -680,7 +680,7 @@
    </index>
    
    <index>
-    <name>status</name>
+    <name>che_status</name>
     <field>
      <name>status</name>
      <sorting>ascending</sorting>
@@ -1214,7 +1214,7 @@
    </index>
 
    <index>
-    <name>event_id</name>
+    <name>edt_event_id</name>
     <field>
      <name>event_id</name>
      <sorting>ascending</sorting>
@@ -1222,7 +1222,7 @@
    </index>
 
    <index>
-    <name>location_id</name>
+    <name>edt_location_id</name>
     <field>
      <name>location_id</name>
      <sorting>ascending</sorting>
@@ -1230,7 +1230,7 @@
    </index>
    
    <index>
-    <name>starttime</name>
+    <name>edt_starttime</name>
     <field>
      <name>starttime</name>
      <sorting>ascending</sorting>
@@ -1238,7 +1238,7 @@
    </index>
    
    <index>
-    <name>endtime</name>
+    <name>edt_endtime</name>
     <field>
      <name>endtime</name>
      <sorting>ascending</sorting>
@@ -2155,7 +2155,7 @@
    </field>
    
    <index>
-    <name>PRIMARY</name>
+    <name>user_primary</name>
     <primary>true</primary>
     <field>
      <name>uid</name>

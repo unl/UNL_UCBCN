@@ -26,7 +26,9 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
 						'dataobject.ini',
 						'DBDataObjects',
 						'insert_sample_data.php',
-						'install.sh'),
+						'install.sh',
+						'tests',
+						'tests/*'),
 	'simpleoutput' => true,
 	'roles'=>array('php'=>'php'	),
 	'exceptions'=>array()

@@ -87,7 +87,7 @@ class UNL_UCBCN_setup_postinstall
 			}
             $ds = DIRECTORY_SEPARATOR;
             $this->outputData('Copying DB_DataObject config file to "@DATA_DIR@' .
-                $ds.'UNL_UCBCN'.$ds.'UCBCN'.$ds.$answers['database'].'.ini"');
+                $ds.'UNL_UCBCN'.$ds.'UCBCN'.$ds.$answers['database'].'.ini"'."\n");
             copy('@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
                     'eventcal.ini',
                 '@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
@@ -103,14 +103,14 @@ class UNL_UCBCN_setup_postinstall
 		   $this->noDBsetup = true;
 		   return false;
 		} else {
-			// Temporary fix for me... remove before distributing.
-			/**
-			 * @todo copy the MDB xml file to a filename corresponding to the database name. IE: copy(UNL_UCBCN_db.xml, UNL_UCBCN_$answers['db']);
-			 * 			then perform comparison install & upgrade on that file to allow installation to multiple databases. 
-			 */
-			//unlink('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
+			// Check if there is an old install with no database name.
+			if (!file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old')
+			    && file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old')) {
+			    // Copy the old xml file to a correctly named file.
+			    copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old','@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+		    }
 			$operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml'
-                , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old');
+                , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
             if (PEAR::isError($operation)) {
                 $this->outputData($operation->getMessage() . ' ' . $operation->getUserInfo());
                 $this->noDBsetup = true;
@@ -141,10 +141,10 @@ class UNL_UCBCN_setup_postinstall
 				$a = fwrite($fp, $contents, strlen($contents));
 				fclose($fp);
 				if ($a) {
-					$this->outputData($file);
+					$this->outputData('Replacements made in '.$file."\n");
 					return true;
 				} else {
-					$this->outputData('Could not update ' . $file);
+					$this->outputData('Could not update '.$file."\n");
 					return false;
 				}
     		} else {
