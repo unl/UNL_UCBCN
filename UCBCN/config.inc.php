@@ -5,6 +5,10 @@
  * @package UNL_UCBCN
  * @author bbieber
  */
+
+/**
+ * Require DB_DataObject before initializing the connection details.
+ */
 require_once 'DB/DataObject.php';
 
 // Load database settings

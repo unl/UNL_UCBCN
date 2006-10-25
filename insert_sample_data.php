@@ -1,8 +1,18 @@
 <?php
 /**
  * This file is intended to insert some sample data into the calendar system.
+ * 
+ * @package UNL_UCBCN
+ */
+
+/**
+ * Utilizes the backend.
  */
 require_once 'UNL/UCBCN.php';
+
+/**
+ * require the UNL building class to pull building names to populate the locations table with data.
+ */
 require_once 'UNL/Common/Building.php';
 
 error_reporting(E_ALL);

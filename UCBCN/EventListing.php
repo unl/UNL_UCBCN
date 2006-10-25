@@ -1,9 +1,17 @@
 <?php
+/**
+ * Object related to a list ov events.
+ * @package    UNL_UCBCN
+ */
+
+/**
+ * Requires the UNL_UCBCN backend class.
+ */
 require_once 'UNL/UCBCN.php';
 
 /**
  * This class holds all the events for the list.
- * 
+ * @package UNL_UCBCN
  */
 class UNL_UCBCN_EventListing
 {

@@ -1,5 +1,17 @@
 <?php
+/**
+ * Make package file for the UNL_UCBCN package.
+ * 
+ * @package UNL_UCBCN
+ * @author Brett Bieber
+ */
+
 ini_set('display_errors',true);
+
+/**
+ * Require the PEAR_PackageFileManager2 classes, and other
+ * necessary classes for package.xml file creation.
+ */
 require_once 'PEAR/PackageFileManager2.php';
 require_once 'PEAR/PackageFileManager/File.php';
 require_once 'PEAR/Task/Postinstallscript/rw.php';

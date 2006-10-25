@@ -3,10 +3,25 @@
  * This is the setup file for the UNL UCBCN Calendar System.
  * This file installs/upgrades the database and inserts the default 
  * permissions.
+ * 
+ * @package		UNL_UCBCN
+ * @author		Brett Bieber
+ */
+
+/**
+ * Require MDB2_Schema for database interactions, and the UNL_UCBCN class
+ * for backend interactions.
  */
 require_once 'MDB2/Schema.php';
 require_once 'UNL/UCBCN.php';
 
+/**
+ * Class used by the PEAR installer which is executed after install to do
+ * post installation tasks such as database creation/updates as well as
+ * replacements and configuration.
+ *
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_setup_postinstall
 {
 	var $createDB;
@@ -66,7 +81,12 @@ class UNL_UCBCN_setup_postinstall
             break;
         }
     }
-    
+    /**
+     * Creates or updates the calendar system database.
+     *
+     * @param array $answers Associative array of responses to the questsions asked.
+     * @return bool true or false on success or error.
+     */
     function createDatabase($answers)
     {
     	$this->dsn = $answers['dbtype'].'://'.$answers['user'].':'.$answers['password'].'@'.$answers['dbhost'].'/'.$answers['database'];

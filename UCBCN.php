@@ -14,20 +14,43 @@
  * @package UNL_UCBCN
  * 
  */
+
+/**
+ * Dependencies on DB_DataObject Error object, Cache_Lite, and MDB2
+ */
 require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN/Error.php';
 require_once 'Cache/Lite.php';
 require_once 'MDB2.php';
 
+/**
+ * The backend system object for the UNL UCBCN calendar system.
+ * This object is the master object through which most calendar system
+ * interactions take place.
+ * 
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN
-{
-	/** The template chosen to display in. default */
+{	
+	/**
+	 * The template chosen to display in, defaults to default.
+	 * @var string $template
+	 */
 	var $template;
-	/** The filesystem path to the templates. */
+	/**
+	 * The filesystem path to the templates. 
+	 * @var string $template_path
+	 */
 	var $template_path;
-	/** A string containing connection details in the format dbtype://user:pass@www.example.com:port/database */
+	/**
+	 * A string containing connection details in the format dbtype://user:pass@www.example.com:port/database
+	 * @var string $dsn 
+	 */
 	var $dsn;
-	/** Default calendar to use throughout the system. */
+	/**
+	 * Default calendar to use throughout the system.
+	 * @var int $default_calendar
+	 */
 	public $default_calendar_id = 1;
 	
 	/**
@@ -183,6 +206,10 @@ class UNL_UCBCN
 	 	}
 	 }
 	
+	/**
+	 * Simple function which displays the error to the end user.
+	 * @param string $description Description of the error.
+	 */
 	function showError($description)
 	{
 		$this->displayRegion($description);
@@ -256,6 +283,7 @@ class UNL_UCBCN
 	 * @param string $uid Username to add permission for.
 	 * @param int $account_id ID of the account to add permission for.
 	 * @param int $permission_id ID of the permission you wish to add for the person.
+	 * @return mixed ID on success false on error.
 	 */
 	function grantPermission($uid,$calendar_id,$permission_id)
 	{
@@ -271,6 +299,7 @@ class UNL_UCBCN
 	 * This function creates a calendar account.
 	 * 
 	 * @param array $values assoc array of field values for the account.
+	 * @return mixed ID on success false on error.
 	 */
 	function createAccount($values = array())
 	{
@@ -356,6 +385,7 @@ class UNL_UCBCN
 	 * Gets the account record(s) for the user
 	 * 
 	 * @param object $user UNL_UCBCN_User object
+	 * @return object UNL_UCBCN_Account on success UNL_UCBCN_Error on error.
 	 */
 	function getAccount($user)
 	{
@@ -377,6 +407,7 @@ class UNL_UCBCN
 	 * @param object $account UNL_UCBCN_Account object
 	 * @param bool $return_false If true, will return false if no account exists, if false, it will invoke createCalendar.
 	 * @param string redirect_url A url to redirect on creation of a new record. If set the user will be redirected, otherwise the account will be returned.
+	 * @return mixed UNL_UCBCN_Calendar object on success false if no calendar exists and $return_false paramter was passed as true.
 	 */
 	function getCalendar($user,$account,$return_false = true, $redirecturl=NULL)
 	{
@@ -428,6 +459,7 @@ class UNL_UCBCN
 	 * This function creates a calendar for an account.
 	 * 
 	 * @param array $values assoc array of field values for the calendar.
+	 * @return mixed int ID of calendar record on success false on error.
 	 */
 	function createCalendar($values = array())
 	{
@@ -476,6 +508,7 @@ class UNL_UCBCN
 	 * This function takes in a class name and returns the correct template
 	 * for the object.
 	 * @param string $class the name of the class to get the 
+	 * @return string Filename of the output template to use for the given class.
 	 */
 	function getTemplateFilename($cname)
 	{
@@ -496,6 +529,7 @@ class UNL_UCBCN
 	
 	/**
 	 * Gets an MDB2 connection object and returns it.
+	 * @return object MDB2_Driver object on success, UNL_UCBCN_Error on error.
 	 */
 	function getDatabaseConnection()
 	{
@@ -560,6 +594,7 @@ class UNL_UCBCN
 	 * Cleans the cache.
 	 * 
 	 * @param mixed Pass a cached object to clean it's cache, or a string id.
+	 * @return bool true if cache was successfully cleared.
 	 */
 	function cleanCache($o=NULL){
 		$c = new Cache_Lite();
@@ -579,6 +614,7 @@ class UNL_UCBCN
 	 * 
 	 * @param object UNL_UCBCN_User
 	 * @param object UNL_UCBCN_Event
+	 * @return bool true or false
 	 */
 	function userCanEditEvent($user,$event)
 	{

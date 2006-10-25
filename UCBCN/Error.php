@@ -1,5 +1,4 @@
 <?php
-require_once 'PEAR.php';
 /**
  * UNL UCBCN error handler, loaded on demand... based on the DB_DataObject_Error code.
  *
@@ -17,6 +16,15 @@ require_once 'PEAR.php';
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
  */
 
+/**
+ * Require the PEAR class to extend it for error handling.
+ */
+require_once 'PEAR.php';
+
+/**
+ * Extend PEAR_Error for error handling.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_Error extends PEAR_Error
 {
 	/**

@@ -1,9 +1,20 @@
 <?php
 /**
  * Table Definition for account
+ * 
+ * @package UNL_UCBCN
+ */
+
+/**
+ * Extend DB_DataObject
  */
 require_once 'DB/DataObject.php';
 
+/**
+ * UNL_UCBCN_Account object stores information for an account record within
+ * the database.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_Account extends DB_DataObject 
 {
     ###START_AUTOCODE

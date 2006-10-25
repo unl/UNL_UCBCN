@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This class is a simple container object for all the details related to an event and its details.
  * 
@@ -7,8 +6,16 @@
  * @package UNL_UCBCN
  * @author Brett Bieber
  */
-require_once 'UNL/UCBCN.php';
 
+/**
+ * Requires the UNL_UCBCN backend class.
+ */
+require_once 'UNL/UCBCN.php';
+/**
+ * Generic object to hold a single event, and a single event date time.
+ * Together, the two represent an instance of an event at a location.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_EventInstance extends UNL_UCBCN
 {
 	/** UNL_UCBCN_Event object */

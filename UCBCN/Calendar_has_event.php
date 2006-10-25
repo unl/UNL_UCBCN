@@ -1,11 +1,28 @@
 <?php
 /**
  * Table Definition for calendar_has_event
+ * 
+ * @package UNL_UCBCN
+ */
+
+/**
+ * Require DB_DataObject to extend from it.
  */
 require_once 'DB/DataObject.php';
-require_once 'UNL/UCBCN.php';
-require_once 'UNL/UCBCN/Subscription.php';
 
+/**
+ * Backend is required for UNL_UCBCN::factory
+ */
+require_once 'UNL/UCBCN.php';
+
+/**
+ * UNL_UCBCN_Subscription is needed to determine which subscribed calendars to update.
+ */
+require_once 'UNL/UCBCN/Subscription.php';
+/**
+ * ORM for a record within the database.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_Calendar_has_event extends DB_DataObject 
 {
     ###START_AUTOCODE

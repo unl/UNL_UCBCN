@@ -1,10 +1,37 @@
 <?php
+/**
+ * This file is used to test the UNL_UCBCN installation.
+ * 
+ * @package UNL_UCBCN
+ * @author Brett Bieber
+ */
+
+/**
+ * Require the PHPUnit framework and UNL_UCBCN backend system.
+ */
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'UNL/UCBCN.php';
 
+/**
+ * InstallTest class.
+ *
+ * @package UNL_UCBCN
+ */
 class InstallTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Database connection string for the sqlite test database.
+     *
+     * @var string
+     */
     public $dsn = 'sqlite://events:password@localhost/events.db';
+    
+    /**
+     * Test the installation script
+     * 
+     * @see UNL_UCBCN_setup_postinstall
+     *
+     */
     public function testBackendInstallScript()
     {
 		require_once 'PEAR.php';
@@ -16,6 +43,10 @@ class InstallTest extends PHPUnit_Framework_TestCase
 		$installer->setupPermissions(array());
     }
     
+    /**
+     * Test that permissions were created successfully.
+     *
+     */
     public function testPermissions()
     {
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));
@@ -23,6 +54,10 @@ class InstallTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($p,0);
     }
     
+    /**
+     * Test that the backend can get a simple user.
+     *
+     */
     public function testBackendInfo()
     {
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));

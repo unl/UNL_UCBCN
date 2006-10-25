@@ -1,10 +1,18 @@
 <?php
 /**
  * Table Definition for subscription
+ * @package    UNL_UCBCN
+ */
+
+/**
+ * Require DB_DataObject to extend from it, as well as the Calendar has event class.
  */
 require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN/Calendar_has_event.php';
-
+/**
+ * ORM for a record within the database.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_Subscription extends DB_DataObject 
 {
     ###START_AUTOCODE

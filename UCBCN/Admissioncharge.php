@@ -1,9 +1,19 @@
 <?php
 /**
  * Table Definition for admissioncharge
+ * 
+ * @package UNL_UCBCN
+ */
+
+/**
+ * Require DB_DataObject to extend from it.
  */
 require_once 'DB/DataObject.php';
 
+/**
+ * ORM for a record within the database.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_Admissioncharge extends DB_DataObject 
 {
     ###START_AUTOCODE

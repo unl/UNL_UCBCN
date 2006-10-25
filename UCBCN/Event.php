@@ -1,10 +1,18 @@
 <?php
 /**
  * Table Definition for event
+ * @package    UNL_UCBCN
+ */
+
+/**
+ * Require DB_DataObject to extend from it, as well as the backend UNL_UCBCN.
  */
 require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN.php';
-
+/**
+ * ORM for a record within the database.
+ * @package UNL_UCBCN
+ */
 class UNL_UCBCN_Event extends DB_DataObject 
 {
     ###START_AUTOCODE
