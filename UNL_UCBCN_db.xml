@@ -1494,6 +1494,14 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>location_name</name>
+    <field>
+     <name>name</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
