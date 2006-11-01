@@ -129,16 +129,24 @@ class UNL_UCBCN_setup_postinstall
 			    // Copy the old xml file to a correctly named file.
 			    copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old','@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
 		    }
-			$operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml'
-                , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-            if (PEAR::isError($operation)) {
-                $this->outputData($operation->getMessage() . ' ' . $operation->getUserInfo());
-                $this->noDBsetup = true;
-                return false;
-            } else {
-				$this->outputData('Successfully connected and created '.$this->dsn."\n");
-            	return true;
-            }
+		    $previous_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+		    $current_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
+		    $changes = $manager->compareDefinitions($current_definition, $previous_definition);
+		    if (($manager->verifyAlterDatabase($changes))) {
+				$operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml'
+	                , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+	            if (PEAR::isError($operation)) {
+	                $this->outputData($operation->getMessage() . ' ' . $operation->getDebugInfo());
+	                $this->noDBsetup = true;
+	                return false;
+	            } else {
+					$this->outputData('Successfully connected and created '.$this->dsn."\n");
+	            	return true;
+	            }
+		    } else {
+		        $this->outputData('Sorry, the changes cannot be automatically applied by MDB2_Schema'."\n");
+		        return false;
+		    }
 		}
     }
     
