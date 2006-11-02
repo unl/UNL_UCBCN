@@ -1011,6 +1011,22 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>ehe_event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>ehe_eventtype_id</name>
+    <field>
+     <name>eventtype_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -1311,6 +1327,14 @@
     <primary>true</primary>
     <field>
      <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>eventtype_name</name>
+    <field>
+     <name>name</name>
      <sorting>ascending</sorting>
     </field>
    </index>
