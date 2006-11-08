@@ -964,6 +964,14 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>event_title</name>
+    <field>
+     <name>title</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
