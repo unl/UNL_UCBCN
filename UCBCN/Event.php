@@ -77,7 +77,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     								'listingcontactemail'	=> 'Listing Contact Email',
     								'__reverseLink_eventdatetime_event_id' => '',
     								'__reverseLink_event_has_eventtype_event_id'=>'',
-    								'consider'=>'Please Consider Event for Main UNL Calendar');
+    								'consider'=>'');
 
     var $fb_hiddenFields = array(	'datecreated',
 									'uidcreated',
@@ -117,7 +117,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 		if (isset($_UNL_UCBCN['default_calendar_id']) &&
 			isset($_SESSION['calendar_id']) &&
 			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
-			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider']);
+			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider'],' Please Consider Event for Main UNL Calendar');
 		}
 		if (isset($this->uidcreated)) {
 		    $el = HTML_QuickForm::createElement('text','uidcreated','Originally Created By',$this->uidcreated);
