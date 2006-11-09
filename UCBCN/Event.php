@@ -106,7 +106,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 											'approvedforcirculation'=>'radio');
 	
 	var $fb_textAreaFields        = array('description');
-    
+	
     function preGenerateForm(&$fb)
     {
 		global $_UNL_UCBCN;
@@ -158,6 +158,13 @@ class UNL_UCBCN_Event extends DB_DataObject
 	    	}
 	    	$defaults['uidlastupdated']=$_SESSION['_authsession']['username'];
     	}
+    	
+    	if (isset($this->datecreated)) {
+    	    $defaults['datecreated'] = $this->datecreated;
+    	} else {
+    	    $defaults['datecreated'] = date('Y-m-d H:i:s');
+    	}
+    	
     	$el =& $form->getElement('approvedforcirculation');
     	unset($el->_elements[0]);
     	$form->setDefaults($defaults);
@@ -177,12 +184,14 @@ class UNL_UCBCN_Event extends DB_DataObject
 	function table()
 	{
 		global $_UNL_UCBCN;
+		$table = parent::table();
+		$table['datecreated'] = DB_DATAOBJECT_TEXT;
 		if (isset($_UNL_UCBCN['default_calendar_id']) &&
 			isset($_SESSION['calendar_id']) &&
 			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
-			return array_merge(parent::table(), array('consider' => DB_DATAOBJECT_INT));
+			return array_merge($table, array('consider' => DB_DATAOBJECT_INT));
 		} else {
-			return parent::table();
+			return $table;
 		}
 	}
 	
