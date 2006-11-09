@@ -12,22 +12,35 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-09-29</date>
- <time>15:42:59</time>
+ <date>2006-11-09</date>
+ <time>16:43:19</time>
  <version>
-  <release>0.3.0</release>
-  <api>0.3.0</api>
+  <release>0.3.1</release>
+  <api>0.3.1</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>* Fix bug #22 Calendar ID is not grabbed correctly for new users
-				Backend re-organization, many useful functions now within dataobject files.
-				Small database fixes, many more indexes, some reorganization.</notes>
+ <notes>Schema updates to use unique index names so sqlite can be used.
+Backend fixes for specific instances of non-cached pages hanging.
+Fix event.datecreated from being reset.
+Added lots of documentation now available at http://pear.unl.edu/docs/UNL_UCBCN/
+
+UPGRADING NOTE!:
+Users upgrading from previous versions may have to manually add some indexes and 
+manually copy the old database file. This is due to a name change for some of the 
+indexes including the primary key for the user table which is a text field.
+
+This change was made for the calendar to support SQLite.
+ </notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
+   <dir name="tests">
+    <file name="InstallTest.php" role="test" />
+    <file name="SchemaTest.php" role="test" />
+   </dir> <!-- /tests -->
    <dir name="UCBCN">
     <file name="Account.php" role="php" />
     <file name="Admissioncharge.php" role="php" />
@@ -65,7 +78,7 @@
     <file name="User_has_permission.php" role="php" />
     <file name="Webcast.php" role="php" />
     <file name="Webcastlink.php" role="php" />
-   </dir> <!-- //UCBCN -->
+   </dir> <!-- /UCBCN -->
    <file name="eventcal.sql" role="data" />
    <file name="UCBCN.php" role="php">
     <tasks:replace from="@PHP_BIN@" to="php_bin" type="pear-config" />
@@ -259,6 +272,30 @@ run()
    <notes>* Fix bug #22 Calendar ID is not grabbed correctly for new users
 				Backend re-organization, many useful functions now within dataobject files.
 				Small database fixes, many more indexes, some reorganization.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.1</release>
+    <api>0.3.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-11-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Schema updates to use unique index names so sqlite can be used.
+Backend fixes for specific instances of non-cached pages hanging.
+Fix event.datecreated from being reset.
+Added lots of documentation now available at http://pear.unl.edu/docs/UNL_UCBCN/
+
+UPGRADING NOTE!:
+Users upgrading from previous versions may have to manually add some indexes and 
+manually copy the old database file. This is due to a name change for some of the 
+indexes including the primary key for the user table which is a text field.
+
+This change was made for the calendar to support SQLite.
+   </notes>
   </release>
  </changelog>
 </package>
