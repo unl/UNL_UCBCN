@@ -55,19 +55,8 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.3.1');
-$pfm->setReleaseVersion('0.3.1');
-$pfm->setNotes('Schema updates to use unique index names so sqlite can be used.
-Backend fixes for specific instances of non-cached pages hanging.
-Fix event.datecreated from being reset.
-Added lots of documentation now available at http://pear.unl.edu/docs/UNL_UCBCN/
-
-UPGRADING NOTE!:
-Users upgrading from previous versions may have to manually add some indexes and 
-manually copy the old database file. This is due to a name change for some of the 
-indexes including the primary key for the user table which is a text field.
-
-This change was made for the calendar to support SQLite.
-');
+$pfm->setReleaseVersion('0.3.2');
+$pfm->setNotes('Fixes');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');
