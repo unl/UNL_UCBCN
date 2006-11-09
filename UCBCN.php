@@ -237,18 +237,28 @@ class UNL_UCBCN
 			if (method_exists($content,'getCacheKey') && method_exists($content,'run')) {
 				$cache = new Cache_Lite();
 				$key = $content->getCacheKey();
-				if (($key !== false) && ($data = $cache->get($key))) {
-					$content->preRun(true);
-				} else {
-					ob_start();
-					$content->preRun(false);
+				if ($key === false) {
+				    // Content should not be cached, send output immediately.
+				    $content->preRun(false);
 					$content->run();
 					UNL_UCBCN::sendObjectOutput($content);
-					$data = ob_get_contents();
-					$cache->save($data);
-					ob_end_clean();
+				} else {
+				    // We have a valid key to store the output of this object.
+				    if ($data = $cache->get($key)) {
+				        // Tell the object we have found cached data and will output that.
+				        $content->preRun(true);
+					} else {
+					    // Content should be cached, but none could be found.
+						ob_start();
+						$content->preRun(false);
+						$content->run();
+						UNL_UCBCN::sendObjectOutput($content);
+						$data = ob_get_contents();
+						$cache->save($data);
+						ob_end_clean();
+					}
+					echo $data;
 				}
-				echo $data;
 			} else {
 				// Set up the template to display.
 				UNL_UCBCN::sendObjectOutput($content);
@@ -262,6 +272,12 @@ class UNL_UCBCN
 		}
 	}
 	
+	/**
+	 * Prepares an object for output, and displays it with a corresponding template.
+	 * 
+	 * This function is an output controller, which takes public member variables from 
+	 * an object and populates a Savant template with equivalent member variables.
+	 */
 	function sendObjectOutput($content)
 	{
 		require_once 'Savant3.php';
