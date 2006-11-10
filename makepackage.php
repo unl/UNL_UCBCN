@@ -56,7 +56,8 @@ $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.3.1');
 $pfm->setReleaseVersion('0.3.2');
-$pfm->setNotes('Fixes');
+$pfm->setNotes('Fix  Bug #31  	 Editing event sets status to public 
+Remember if an event was considered for the main calendar, and not allow unchecking the event.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');

@@ -117,7 +117,18 @@ class UNL_UCBCN_Event extends DB_DataObject
 		if (isset($_UNL_UCBCN['default_calendar_id']) &&
 			isset($_SESSION['calendar_id']) &&
 			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
+			require_once 'UNL/UCBCN/Calendar_has_event.php';
 			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider'],' Please Consider Event for Main UNL Calendar');
+			if (isset($this->id)) {
+			    $che = UNL_UCBCN::factory('calendar_has_event');
+			    $che->calendar_id = $_UNL_UCBCN['default_calendar_id'];
+			    $che->event_id = $this->id;
+			    if ($che->find()) {
+				    // This event has already been considered.
+				    $this->fb_preDefElements['consider']->setChecked(true);
+				    $this->fb_preDefElements['consider']->freeze();
+			    }
+			}
 		}
 		if (isset($this->uidcreated)) {
 		    $el = HTML_QuickForm::createElement('text','uidcreated','Originally Created By',$this->uidcreated);
@@ -151,7 +162,6 @@ class UNL_UCBCN_Event extends DB_DataObject
 		$el->setRows(2);
     	
     	$defaults = array();
-    	$defaults['approvedforcirculation'] = true;
     	if (isset($_SESSION['_authsession'])) {
 	    	if (!isset($this->uidcreated)) {
 	    	    $defaults['uidcreated']=$_SESSION['_authsession']['username'];
@@ -164,7 +174,11 @@ class UNL_UCBCN_Event extends DB_DataObject
     	} else {
     	    $defaults['datecreated'] = date('Y-m-d H:i:s');
     	}
-    	
+    	if (isset($this->approvedforcirculation)) {
+    	    $defaults['approvedforcirculation'] = $this->approvedforcirculation;
+    	} else {
+    	    $defaults['approvedforcirculation'] = 1;
+    	}
     	$el =& $form->getElement('approvedforcirculation');
     	unset($el->_elements[0]);
     	$form->setDefaults($defaults);
@@ -217,16 +231,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 			$GLOBALS['event_id'] = $this->id;
 			if ($add_to_default && isset($_UNL_UCBCN['default_calendar_id'])) {
 				// Add this as a pending event to the default calendar.
-				$values = array(
-						'calendar_id'	=> $_UNL_UCBCN['default_calendar_id'],
-						'event_id'		=> $this->id,
-						'uidcreated'	=> $_SESSION['_authsession']['username'],
-						'datecreated'	=> date('Y-m-d H:i:s'),
-						'datelastupdated'	=> date('Y-m-d H:i:s'),
-						'uidlastupdated'	=> $_SESSION['_authsession']['username'],
-						'status'		=> 'pending',
-						'source'		=> 'checked consider event');
-				UNL_UCBCN::dbInsert('calendar_has_event',$values);
+				$this->addToCalendar($_UNL_UCBCN['default_calendar_id'],'pending','checked consider event');
 			}
 		}
 		return $result;
@@ -234,9 +239,14 @@ class UNL_UCBCN_Event extends DB_DataObject
 	
 	function update($do=false)
 	{
+	    global $_UNL_UCBCN;
 	    $GLOBALS['event_id'] = $this->id;
-		if (isset($this->consider)) {
+	    if (isset($this->consider)) {
+			// The user has checked the 'Please consider this event for the main calendar'
+			$add_to_default = $this->consider;
             unset($this->consider);
+        } else {
+        	$add_to_default = 0;
         }
 		if (is_object($do) && isset($do->consider)) {
             unset($do->consider);
@@ -245,7 +255,41 @@ class UNL_UCBCN_Event extends DB_DataObject
 		if (isset($_SESSION['_authsession'])) {
 	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
     	}
-		return parent::update();
+    	$res = parent::update();
+    	if ($res) {
+    	    if ($add_to_default && isset($_UNL_UCBCN['default_calendar_id'])) {
+				// Add this as a pending event to the default calendar.
+				$che = UNL_UCBCN::factory('calendar_has_event');
+			    $che->calendar_id = $_UNL_UCBCN['default_calendar_id'];
+			    $che->event_id = $this->id;
+			    if ($che->find()==0) {
+					$this->addToCalendar($_UNL_UCBCN['default_calendar_id'],'pending','checked consider event');
+			    }
+			}
+    	}
+    	return $res;
+	}
+	
+	/**
+	 * This function will add the current event to the default calendar.
+	 * It assumes that the global default_calendar_id is set.
+	 * 
+	 * @param int ID of the calendar to add the event to
+	 * @param string Status to add as, pending | posted | archived
+	 * @param string Message for the source of this addition.
+	 */
+	function addToCalendar($calendar_id, $status='pending', $sourcemsg = 'unknown')
+	{
+	    $values = array(
+				'calendar_id'	=> $calendar_id,
+				'event_id'		=> $this->id,
+				'uidcreated'	=> $_SESSION['_authsession']['username'],
+				'datecreated'	=> date('Y-m-d H:i:s'),
+				'datelastupdated'	=> date('Y-m-d H:i:s'),
+				'uidlastupdated'	=> $_SESSION['_authsession']['username'],
+				'status'		=> $status,
+				'source'		=> $sourcemsg);
+		return UNL_UCBCN::dbInsert('calendar_has_event',$values);
 	}
 	
 	function delete() {
