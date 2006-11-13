@@ -141,11 +141,11 @@ class UNL_UCBCN_EventListing
 		if (isset($options['orderby'])) {
 		    $orderby = 	$options['orderby'];
 		} else {
-		    $orderby = 'event.title ASC';
+		    $orderby = 'eventdatetime.starttime ASC';
 		}
 		if (isset($options['calendar'])) {
 		    $calendar =& $options['calendar'];
-			$eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM event,calendar_has_event,eventdatetime ' .
+			$eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM calendar_has_event,eventdatetime ' .
 							'WHERE calendar_has_event.calendar_id='.$calendar->id.' ' .
 									'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
 									'AND calendar_has_event.event_id = eventdatetime.event_id ' .
