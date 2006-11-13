@@ -235,7 +235,6 @@ class UNL_UCBCN
 		global $_UNL_UCBCN;
 		if (is_object($content)) {
 			if (method_exists($content,'getCacheKey') && method_exists($content,'run')) {
-				$cache = new Cache_Lite();
 				$key = $content->getCacheKey();
 				if ($key === false) {
 				    // Content should not be cached, send output immediately.
@@ -243,6 +242,7 @@ class UNL_UCBCN
 					$content->run();
 					UNL_UCBCN::sendObjectOutput($content);
 				} else {
+				    $cache = new Cache_Lite(array('lifeTime'=>NULL));
 				    // We have a valid key to store the output of this object.
 				    if ($data = $cache->get($key)) {
 				        // Tell the object we have found cached data and will output that.

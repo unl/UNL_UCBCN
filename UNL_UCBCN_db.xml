@@ -569,6 +569,14 @@
      <sorting>ascending</sorting>
     </field>
    </index>
+   
+   <index>
+    <name>shortname</name>
+    <field>
+     <name>shortname</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
