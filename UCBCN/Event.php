@@ -68,7 +68,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     								'shortdescription'		=> 'Short Description',
     								'webpageurl'			=> 'Event Webpage',
     								'privatecomment'		=> 'Internal Note',
-    								'imageurl'				=> 'Add An Image',
+    								'imageurl'				=> 'Existing Image URL',
+    								'imagedata'             => 'Upload/Attach an Image',
     								'imagetitle'			=> 'Image Title',
     								'approvedforcirculation'=>'',
     								'otherkeywords'			=> 'Other Keywords',
@@ -86,7 +87,6 @@ class UNL_UCBCN_Event extends DB_DataObject
 									'status',
 									'classification',
 									'transparency',
-									'imagedata',
 									'imagemime',
 									'icalendar');
     
@@ -113,7 +113,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     	foreach ($this->fb_hiddenFields as $el) {
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
-    	$this->fb_preDefElements['imageurl'] = HTML_QuickForm::createElement('file','imageurl',$this->fb_fieldLabels['imageurl']);
+    	$this->fb_preDefElements['imagedata'] = HTML_QuickForm::createElement('file','imagedata',$this->fb_fieldLabels['imagedata']);
 		if (isset($_UNL_UCBCN['default_calendar_id']) &&
 			isset($_SESSION['calendar_id']) &&
 			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
@@ -209,6 +209,24 @@ class UNL_UCBCN_Event extends DB_DataObject
 		}
 	}
 	
+	/**
+	 * This function processes any posted files,
+	 * sepcifically the images for an event.
+	 * 
+	 * Called from insert() or update().
+	 *
+	 */
+	function processFileAttachments()
+	{
+	    if (isset($_FILES['imagedata']) 
+	        && is_uploaded_file($_FILES['imagedata']['tmp_name'])
+	        && $_FILES['imagedata']['error']==UPLOAD_ERR_OK) {
+            global $_UNL_UCBCN;
+	        $this->imagemime = $_FILES['imagedata']['type'];
+	        $this->imagedata = file_get_contents($_FILES['imagedata']['tmp_name']);
+	    }
+	}
+	
 	function insert()
 	{
 		global $_UNL_UCBCN;
@@ -219,6 +237,7 @@ class UNL_UCBCN_Event extends DB_DataObject
         } else {
         	$add_to_default = 0;
         }
+        $this->processFileAttachments();
 		$this->datecreated = date('Y-m-d H:i:s');
 		$this->datelastupdated = date('Y-m-d H:i:s');
 		if (isset($_SESSION['_authsession'])) {
@@ -255,6 +274,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 		if (isset($_SESSION['_authsession'])) {
 	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
     	}
+    	$this->processFileAttachments();
     	$res = parent::update();
     	if ($res) {
     	    if ($add_to_default && isset($_UNL_UCBCN['default_calendar_id'])) {

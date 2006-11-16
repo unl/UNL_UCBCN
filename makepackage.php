@@ -58,7 +58,9 @@ $pfm->setAPIVersion('0.3.1');
 $pfm->setReleaseVersion('0.3.2');
 $pfm->setNotes('Fix  Bug #31  	 Editing event sets status to public 
 Remember if an event was considered for the main calendar, and not allow unchecking the event.
-Improve queries for day event listings -- remove unneeded tables for performance.');
+Improve queries for day event listings -- remove unneeded tables for performance.
+Fix Account::addCalendar() function to make it work - variable name mistmatch.
+Enable event images to be uploaded.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('PHP License', 'http://www.php.net/license');

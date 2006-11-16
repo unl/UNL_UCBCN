@@ -168,7 +168,7 @@ class UNL_UCBCN
 	 */
 	function dbInsert($table,$values)
 	{
-		$rec = $this->factory($table);
+		$rec = UNL_UCBCN::factory($table);
 		$vars = get_object_vars($rec);
 		foreach ($values as $var=>$value) {
 			if (in_array($var,$vars)) {
@@ -308,7 +308,7 @@ class UNL_UCBCN
 						'user_uid'		=> $uid,
 						'permission_id'=>	$permission_id
 						);
-		return $this->dbInsert('user_has_permission',$values);
+		return UNL_UCBCN::dbInsert('user_has_permission',$values);
 	}
 	
 	/**

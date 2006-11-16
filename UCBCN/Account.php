@@ -74,13 +74,13 @@ class UNL_UCBCN_Account extends DB_DataObject
     {
         
 		$calendar = UNL_UCBCN::factory('calendar');
-		$calendar->shortname = $name;
+		$calendar->shortname = $shortname;
 		if ($calendar->find()) {
 		    // calendar name already exists
 		    return false;
 		}
-		$calendar->shortname = $name;
-		$calendar->name = $shortname;
+		$calendar->shortname = $shortname;
+		$calendar->name = $name;
 		$calendar->account_id = $this->id;
 		$calendar->uidcreated = $user->uid;
 		$calendar->uidlastupdated = $user->uid;
