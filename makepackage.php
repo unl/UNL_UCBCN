@@ -62,10 +62,11 @@ $pfm->setNotes('Fix  Bug #31  	 Editing event sets status to public
 Remember if an event was considered for the main calendar, and not allow unchecking the event.
 Improve queries for day event listings -- remove unneeded tables for performance.
 Fix Account::addCalendar() function to make it work - variable name mistmatch.
-Enable event images to be uploaded.');
+Enable event images to be uploaded.
+Switch to BSD License');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
-$pfm->setLicense('PHP License', 'http://www.php.net/license');
+$pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.4.3');

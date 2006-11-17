@@ -12,32 +12,60 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2006-11-09</date>
- <time>16:43:19</time>
+ <date>2006-11-17</date>
+ <time>16:46:20</time>
  <version>
-  <release>0.3.1</release>
+  <release>0.3.2</release>
   <api>0.3.1</api>
  </version>
  <stability>
   <release>beta</release>
   <api>beta</api>
  </stability>
- <license uri="http://www.php.net/license">PHP License</license>
- <notes>Schema updates to use unique index names so sqlite can be used.
-Backend fixes for specific instances of non-cached pages hanging.
-Fix event.datecreated from being reset.
-Added lots of documentation now available at http://pear.unl.edu/docs/UNL_UCBCN/
-
-UPGRADING NOTE!:
-Users upgrading from previous versions may have to manually add some indexes and 
-manually copy the old database file. This is due to a name change for some of the 
-indexes including the primary key for the user table which is a text field.
-
-This change was made for the calendar to support SQLite.
- </notes>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+ <notes>Fix  Bug #31  	 Editing event sets status to public 
+Remember if an event was considered for the main calendar, and not allow unchecking the event.
+Improve queries for day event listings -- remove unneeded tables for performance.
+Fix Account::addCalendar() function to make it work - variable name mistmatch.
+Enable event images to be uploaded.
+Switch to BSD License</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="tests">
+    <dir name="UNL">
+     <dir name="UCBCN">
+      <file name="AccountTest.php" role="test" />
+      <file name="AdmissionchargeTest.php" role="test" />
+      <file name="AdmissioninfoTest.php" role="test" />
+      <file name="AttendancerestrictionTest.php" role="test" />
+      <file name="AudienceTest.php" role="test" />
+      <file name="CalendarTest.php" role="test" />
+      <file name="DocumentTest.php" role="test" />
+      <file name="ErrorTest.php" role="test" />
+      <file name="EventdatetimeTest.php" role="test" />
+      <file name="EventInstanceTest.php" role="test" />
+      <file name="EventListingTest.php" role="test" />
+      <file name="EventtypeTest.php" role="test" />
+      <file name="Event_has_eventtypeTest.php" role="test" />
+      <file name="Event_has_keywordTest.php" role="test" />
+      <file name="Event_isopento_audienceTest.php" role="test" />
+      <file name="Event_targets_audienceTest.php" role="test" />
+      <file name="KeywordTest.php" role="test" />
+      <file name="LocationTest.php" role="test" />
+      <file name="PerformerTest.php" role="test" />
+      <file name="PermissionTest.php" role="test" />
+      <file name="PubliccontactTest.php" role="test" />
+      <file name="RelatedeventTest.php" role="test" />
+      <file name="RoleTest.php" role="test" />
+      <file name="SessionTest.php" role="test" />
+      <file name="SponsorTest.php" role="test" />
+      <file name="UserTest.php" role="test" />
+      <file name="User_has_permissionTest.php" role="test" />
+      <file name="WebcastlinkTest.php" role="test" />
+      <file name="WebcastTest.php" role="test" />
+     </dir> <!-- /tests/UNL/UCBCN -->
+     <file name="UCBCNTest.php" role="test" />
+    </dir> <!-- /tests/UNL -->
     <file name="InstallTest.php" role="test" />
     <file name="SchemaTest.php" role="test" />
    </dir> <!-- /tests -->
@@ -294,8 +322,25 @@ Users upgrading from previous versions may have to manually add some indexes and
 manually copy the old database file. This is due to a name change for some of the 
 indexes including the primary key for the user table which is a text field.
 
-This change was made for the calendar to support SQLite.
-   </notes>
+This change was made for the calendar to support SQLite.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.2</release>
+    <api>0.3.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2006-11-17</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+   <notes>Fix  Bug #31  	 Editing event sets status to public 
+Remember if an event was considered for the main calendar, and not allow unchecking the event.
+Improve queries for day event listings -- remove unneeded tables for performance.
+Fix Account::addCalendar() function to make it work - variable name mistmatch.
+Enable event images to be uploaded.
+Switch to BSD License</notes>
   </release>
  </changelog>
 </package>
