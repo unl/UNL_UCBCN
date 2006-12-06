@@ -160,7 +160,9 @@ class UNL_UCBCN_Event extends DB_DataObject
 		$el =& $form->getElement('webpageurl');
 		$el->setCols(50);
 		$el->setRows(2);
-    	
+     	
+		$form->addRule(array('webpageurl','imageurl'),'URL must be valid, be sure to include http://','regex','/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i','client');
+		
     	$defaults = array();
     	if (isset($_SESSION['_authsession'])) {
 	    	if (!isset($this->uidcreated)) {

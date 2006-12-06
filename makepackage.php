@@ -58,7 +58,7 @@ $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.3.1');
 $pfm->setReleaseVersion('0.3.3');
-$pfm->setNotes('Fixes');
+$pfm->setNotes('Fix  Bug #27  	 Check for properly formatted event URLs');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
