@@ -160,8 +160,9 @@ class UNL_UCBCN_Event extends DB_DataObject
 		$el =& $form->getElement('webpageurl');
 		$el->setCols(50);
 		$el->setRows(2);
-     	
-		//$form->addRule(array('webpageurl','imageurl'),'URL must be valid, be sure to include http://','regex','/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i','client');
+		
+		$form->addRule('imageurl','Image URL must be valid, be sure to include http://','callback',array('UNL_UCBCN_Event','checkURL'));
+		$form->addRule('webpageurl','Web Page URL must be valid, be sure to include http://','callback',array('UNL_UCBCN_Event','checkURL'));
 		
     	$defaults = array();
     	if (isset($_SESSION['_authsession'])) {
@@ -184,6 +185,19 @@ class UNL_UCBCN_Event extends DB_DataObject
     	$el =& $form->getElement('approvedforcirculation');
     	unset($el->_elements[0]);
     	$form->setDefaults($defaults);
+    }
+    
+    /**
+     * Simple function to test for a valid URL
+     * 
+     * Used to check webpageurl and imageurl fields.
+     *
+     * @param string $val
+     * @return int 0 | 1
+     */
+    function checkURL($val)
+    {
+        return preg_match('/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i',$val);
     }
     
     function prepareLinkedDataObject(&$linkedDataObject, $field) {
