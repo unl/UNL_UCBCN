@@ -39,6 +39,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     										'endtime'				=> 'End Time',
     										'hours'					=> 'Building Hours',
     										'additionalpublicinfo'	=> 'Additional Public Info');
+    //var $fb_elementTypeMap          = array('datetime'=>'text');
     var $fb_dateTimeElementFormat	= 'h:i a M d Y';
     var $fb_hiddenFields			= array('event_id');
     var $fb_excludeFromAutoRules	= array('event_id');
@@ -81,5 +82,32 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 				$linkedDataObject->standard = 1;
 			}
 		}
-  }
+    }
+    
+    function insert()
+    {
+        $r = parent::insert();
+        if ($r) {
+            UNL_UCBCN::cleanCache();
+        }
+        return $r;
+    }
+    
+    function update()
+    {
+        $r = parent::update();
+        if ($r) {
+            UNL_UCBCN::cleanCache();
+        }
+        return $r;
+    }
+    
+    function delete()
+    {
+        $r = parent::delete();
+        if ($r) {
+            UNL_UCBCN::cleanCache();
+        }
+        return $r;
+    }
 }

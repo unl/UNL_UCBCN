@@ -134,6 +134,8 @@ class UNL_UCBCN_Event extends DB_DataObject
 		    $el = HTML_QuickForm::createElement('text','uidcreated','Originally Created By',$this->uidcreated);
 		    $el->freeze();
 		    $this->fb_preDefElements['uidcreated'] =& $el;
+		    unset($this->fb_reverseLinks);
+		    unset($fb->reverseLinks);
 		}
     }
     
