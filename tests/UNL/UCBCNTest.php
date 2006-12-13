@@ -15,7 +15,7 @@ require_once 'UNL/UCBCN.php';
  */
 class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
     
-    public $dsn = 'sqlite://events:password@localhost/events.db';
+    public $dsn = 'sqlite:///events';
     
     /**
      * UNL_UCBCN backend system
@@ -102,7 +102,6 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * Checks the getUser() function.
      */
     public function testGetUser() {
-        
         $u = $this->b->getUser('myuser');
         $this->assertEquals(get_class($u),'UNL_UCBCN_User');
         $this->assertEquals($u->uid,'myuser');
@@ -113,40 +112,55 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      */
     public function testCreateUser() {
         
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	$a = $this->b->factory('account');
+    	$a->find();
+    	$a->fetch();
+    	$u = $this->b->createUser($a,'foo');
+    	$this->assertEquals($u->uid,'foo');
+    	$u->delete();
     }
 
     /**
      * @todo Implement testDbInsert().
      */
     public function testDbInsert() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	$values = array(
+			'account_id'		=> 1,
+			'uid' 				=> 'bar',
+		    'calendar_id'       => 0,
+			'datecreated'		=> date('Y-m-d H:i:s'),
+			'uidcreated'		=> 'foo',
+			'datelastupdated' 	=> date('Y-m-d H:i:s'),
+			'uidlastupdated'	=> 'foo');
+		$res = $this->b->dbInsert('user',$values);
+		$this->assertEquals($res->uid,'bar');
+		$res->delete();
     }
 
     /**
      * @todo Implement testUserHasPermission().
      */
     public function testUserHasPermission() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	
+    	$u = $this->b->getUser('myuser');
+    	$a = $this->b->getAccount($u);
+    	$c = $this->b->getCalendar($u,$a,true);
+    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),true);
+    	$c->removeUser($u);
+    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),false);
+    	$c->addUser($u);
+    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),true);
     }
 
     /**
      * @todo Implement testShowError().
      */
     public function testShowError() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	flush();
+    	ob_start();
+    	$this->b->showError('HAHAHA!');
+    	$this->assertEquals('HAHAHA!',ob_get_clean());
+    	ob_end_clean();
     }
 
     /**
@@ -173,10 +187,9 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testGrantPermission().
      */
     public function testGrantPermission() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	$r = $this->b->grantPermission('foo',1,1);
+    	$this->assertEquals($r->user_uid,'foo');
+    	$r->delete();
     }
 
     /**

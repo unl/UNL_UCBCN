@@ -24,7 +24,7 @@ class InstallTest extends PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    public $dsn = 'sqlite://events:password@localhost/events.db';
+    public $dsn = 'sqlite:///events';
     
     /**
      * Test the installation script
@@ -38,7 +38,7 @@ class InstallTest extends PHPUnit_Framework_TestCase
 		require_once 'UNL/UNL_UCBCN_setup.php';
 
 		$installer = new UNL_UCBCN_setup_postinstall();
-		$res = $installer->createDatabase(array('dbtype'=>'sqlite','user'=>'events','password'=>'password','dbhost'=>'localhost','database'=>'events.db'));
+		$res = $installer->createDatabase(array('dbtype'=>'sqlite','user'=>'events','password'=>'password','dbhost'=>'localhost','database'=>'events'));
 		$this->assertFalse(PEAR::isError($res));
 		$installer->setupPermissions(array());
     }
@@ -51,7 +51,8 @@ class InstallTest extends PHPUnit_Framework_TestCase
     {
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));
         $p = $b->factory('permission');
-        $this->assertNotSame($p,0);
+        $this->assertEquals(get_class($p),'UNL_UCBCN_Permission');
+        $this->assertNotEquals($p->find(),0);
     }
     
     /**
@@ -61,7 +62,12 @@ class InstallTest extends PHPUnit_Framework_TestCase
     public function testBackendInfo()
     {
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));
+        
+        $a = $b->factory('account');
+        echo $a->find();
+        //DB_DataObject::debugLevel(2);
         $u = $b->getUser('bbieber2');
+        
         $this->assertEquals($u->uid, 'bbieber2');
     }
 }
