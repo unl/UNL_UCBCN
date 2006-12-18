@@ -8,6 +8,7 @@
  * Require DB_DataObject to extend from it.
  */
 require_once 'DB/DataObject.php';
+
 /**
  * ORM for a record within the database.
  * @package UNL_UCBCN
@@ -39,8 +40,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     										'endtime'				=> 'End Time',
     										'hours'					=> 'Building Hours',
     										'additionalpublicinfo'	=> 'Additional Public Info');
-    //var $fb_elementTypeMap          = array('datetime'=>'text');
-    var $fb_dateTimeElementFormat	= 'h:i a M d Y';
+    var $fb_elementTypeMap          = array('datetime'=>'jscalendar');
     var $fb_hiddenFields			= array('event_id');
     var $fb_excludeFromAutoRules	= array('event_id');
     var $fb_linkNewValue			= true;
@@ -52,17 +52,46 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     	foreach ($this->fb_hiddenFields as $el) {
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
+	    $options = array(
+		    'baseURL' => './templates/default/jscalendar/',
+		    'styleCss' => 'calendar.css',
+		    'language' => 'en',
+		    'image' => array(
+		        'src' => './templates/default/jscalendar/cal.gif',
+		        'border' => 0
+		    ),
+		    'setup' => array(
+		        'inputField' => $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix,
+		        'ifFormat' => '%Y-%m-%d %H:%M',
+		        'showsTime' => true,
+		        'time24' => true,
+		        'weekNumbers' => false,
+		        'showOthers' => true
+		    )
+		);
+		$this->fb_preDefElements['starttime'] = new HTML_QuickForm_group('starttime_group','Start Time:',
+		    array(
+		        HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix)),
+		        HTML_QuickForm::createElement('jscalendar', 'date1_calendar', null, $options)
+		    ), null, false);
+		$options['setup']['inputfield'] = $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix;
+    	$this->fb_preDefElements['endtime'] = new HTML_QuickForm_group('endtime_group','End Time:',
+		    array(
+		        HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix)),
+		        HTML_QuickForm::createElement('jscalendar', 'date2_calendar', null, $options)
+		    ), null, false);
     }
     
     function postGenerateForm(&$form, &$formBuilder)
     {
+        /*
 		$el = $form->getElement($formBuilder->elementNamePrefix.'starttime'.$formBuilder->elementNamePostfix);
 		if (!PEAR::isError($el)) {
 			$group_els = $el->getElements();
 			foreach ($group_els as $select) {
 				$form->updateElementAttr($select->getName(),'id="'.$select->getName().'"');
 			}
-		}
+		}*/
     }
     
     function preProcessForm(&$values, &$formBuilder)
@@ -82,6 +111,11 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 				$linkedDataObject->standard = 1;
 			}
 		}
+    }
+    
+    function dateTimeOptions($field, $fb)
+    {
+        
     }
     
     function insert()
