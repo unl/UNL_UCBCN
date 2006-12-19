@@ -46,6 +46,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     var $fb_linkNewValue			= true;
     var $fb_addFormHeader			= false;
     var $fb_formHeaderText			= 'Event Location, Date and Time';
+    var $fb_dateToDatabaseCallback  = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
     
     function preGenerateForm(&$fb)
     {
@@ -85,24 +86,134 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 		    ), null, false);
     }
     
-    function postGenerateForm(&$form, &$formBuilder)
-    {
-        /*
-		$el = $form->getElement($formBuilder->elementNamePrefix.'starttime'.$formBuilder->elementNamePostfix);
-		if (!PEAR::isError($el)) {
-			$group_els = $el->getElements();
-			foreach ($group_els as $select) {
-				$form->updateElementAttr($select->getName(),'id="'.$select->getName().'"');
-			}
-		}*/
+    function postGenerateForm(&$form, &$fb)
+    {	
+		if (isset($this->starttime)) {
+            $form->setDefaults(array('starttime'=>substr($this->starttime,0,10)));
+            if (substr($this->starttime,11) != '00:00:00') {
+                $form->setDefaults(array($fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix=>substr($this->starttime,11)));
+            }
+        }
+        if (isset($this->endtime)) {
+            $form->setDefaults(array('endtime'=>substr($this->endtime,0,10)));
+            if (substr($this->endtime,11) != '00:00:00') {
+                $form->setDefaults(array($fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix=>substr($this->endtime,11)));
+            }
+        }
     }
     
-    function preProcessForm(&$values, &$formBuilder)
+    function preProcessForm(&$values, &$fb)
     {
     	// Capture event_id foreign key if needed.
     	if (isset($GLOBALS['event_id'])) {
     		$values['event_id'] = $GLOBALS['event_id'];
     	}
+    	if (isset($values['starthour'])) {
+    	   $values['starttime'] = $values['starttime'].' '.$this->_array2date($values['starthour']);
+    	}
+    	if (isset($values['endhour'])) {
+    	   $values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
+    	}
+    }
+    
+    function _array2date($dateInput, $timestamp = false)
+    {
+        if (isset($dateInput['M'])) {
+            $month = $dateInput['M'];
+        } elseif (isset($dateInput['m'])) {
+            $month = $dateInput['m'];   
+        } elseif (isset($dateInput['F'])) {
+            $month = $dateInput['F'];
+        }
+        if (isset($dateInput['Y'])) {
+            $year = $dateInput['Y'];
+        } elseif (isset($dateInput['y'])) {
+            $year = $dateInput['y'];
+        }
+        if (isset($dateInput['H'])) {
+            $hour = $dateInput['H'];
+        } elseif (isset($dateInput['h']) || isset($dateInput['g'])) {
+            if (isset($dateInput['h'])) {
+                $hour = $dateInput['h'];
+            } elseif (isset($dateInput['g'])) {
+                $hour = $dateInput['g'];
+            }
+            if (isset($dateInput['a'])) {
+                $ampm = $dateInput['a'];
+            } elseif (isset($dateInput['A'])) {
+                $ampm = $dateInput['A'];
+            }
+            if (strtolower(preg_replace('/[\.\s,]/', '', $ampm)) == 'pm') {
+                if ($hour != '12') {
+                    $hour += 12;
+                    if ($hour == 24) {
+                        $hour = '';
+                        ++$dateInput['d'];
+                    }
+                }
+            } else {
+                if ($hour == '12') {
+                    $hour = '00';
+                }
+            }
+        }
+        $strDate = '';
+        if (isset($year) || isset($month) || isset($dateInput['d'])) {
+            if (isset($year) && ($len = strlen($year)) > 0) {
+                if ($len < 2) {
+                    $year = '0'.$year;
+                }
+                if ($len < 4) {
+                    $year = substr(date('Y'), 0, 2).$year;
+                }
+            } else {
+                $year = '0000';
+            }
+            if(isset($month) && ($len = strlen($month)) > 0) {
+                if ($len < 2) {
+                    $month = '0'.$month;
+                }
+            } else {
+                $month = '00';
+            }
+            if (isset($dateInput['d']) && ($len = strlen($dateInput['d'])) > 0) {
+                if ($len < 2) {
+                    $dateInput['d'] = '0'.$dateInput['d'];
+                }
+            } else {
+                $dateInput['d'] = '00';
+            }
+            $strDate .= $year.'-'.$month.'-'.$dateInput['d'];
+        }
+        if (isset($hour) || isset($dateInput['i']) || isset($dateInput['s'])) {
+            if (isset($hour) && ($len = strlen($hour)) > 0) {
+                if ($len < 2) {
+                    $hour = '0'.$hour;
+                }
+            } else {
+                $hour = '00';
+            }
+            if (isset($dateInput['i']) && ($len = strlen($dateInput['i'])) > 0) {
+                if ($len < 2) {
+                    $dateInput['i'] = '0'.$dateInput['i'];
+                }
+            } else {
+                $dateInput['i'] = '00';
+            }
+            if (!empty($strDate)) {
+                $strDate .= ' ';
+            }
+            $strDate .= $hour.':'.$dateInput['i'];
+            if (isset($dateInput['s']) && ($len = strlen($dateInput['s'])) > 0) {
+                $strDate .= ':'.($len < 2 ? '0' : '').$dateInput['s'];
+            }
+        }
+        return $strDate;
+    }
+    
+    function dateToDatabaseCallback($value)
+    {
+        return $value;
     }
     
 	function prepareLinkedDataObject(&$linkedDataObject, $field) {
@@ -114,11 +225,6 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 				$linkedDataObject->standard = 1;
 			}
 		}
-    }
-    
-    function dateTimeOptions($field, $fb)
-    {
-        
     }
     
     function insert()
