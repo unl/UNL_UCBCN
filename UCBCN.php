@@ -202,7 +202,7 @@ class UNL_UCBCN
 		 	$user_has_permission->user_uid = $user->uid;
 		 	return $user_has_permission->find();
 	 	} else {
-	 		return new UNL_UCBCN_Error('The permission you requested to check for \''.$permission.'\', does not exist.');
+	 		return new UNL_UCBCN_Error('The permission you requested to check for \''.$permission_name.'\', does not exist.');
 	 	}
 	 }
 	
