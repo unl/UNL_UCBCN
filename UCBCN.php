@@ -107,7 +107,7 @@ class UNL_UCBCN
 				}
 				$this->$option = $val;
 			} else {
-				echo 'Warning: Trying to set unkown option ['.$option.']';
+				echo 'Warning: Trying to set unkown option ['.$option.'] for object '.get_class($this)."\n";
 			}
 		}
 	}
