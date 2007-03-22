@@ -56,9 +56,12 @@ $pfm->setDescription('This package creates and upgrades a relational database us
 $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
-$pfm->setAPIVersion('0.3.1');
-$pfm->setReleaseVersion('0.3.3');
-$pfm->setNotes('Fix  Bug #27  	 Check for properly formatted event URLs');
+$pfm->setAPIVersion('0.5.0');
+$pfm->setReleaseVersion('0.5.0');
+$pfm->setNotes('
+Add class name to the setOptions function when member variable being set is not valid.
+Fix small bug in userHasPermission function. Mismatched variable name.
+');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
