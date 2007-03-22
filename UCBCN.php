@@ -107,7 +107,7 @@ class UNL_UCBCN
 				}
 				$this->$option = $val;
 			} else {
-				echo 'Warning: Trying to set unkown option ['.$option.'] for object '.get_class($this)."\n";
+				echo 'Warning: Trying to set unkown option ['.$option.']';
 			}
 		}
 	}
@@ -202,7 +202,7 @@ class UNL_UCBCN
 		 	$user_has_permission->user_uid = $user->uid;
 		 	return $user_has_permission->find();
 	 	} else {
-	 		return new UNL_UCBCN_Error('The permission you requested to check for \''.$permission_name.'\', does not exist.');
+	 		return new UNL_UCBCN_Error('The permission you requested to check for \''.$permission.'\', does not exist.');
 	 	}
 	 }
 	
