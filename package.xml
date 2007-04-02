@@ -13,7 +13,7 @@
   <active>yes</active>
  </lead>
  <date>2007-04-02</date>
- <time>09:14:10</time>
+ <time>15:38:16</time>
  <version>
   <release>0.5.1</release>
   <api>0.5.0</api>
@@ -25,7 +25,8 @@
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
  <notes>Fix  Bug #44  	 Database not created if no .old file exists.
 New installations could not work because of missing old schema file.
-Add UNL_UCBCN_User::__toString() method which returns uid.</notes>
+Add UNL_UCBCN_User::__toString() method which returns uid.
+Fix  Bug #41  	 Ongoing events do not show up on last day.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="tests">
@@ -379,7 +380,8 @@ Fix small bug in userHasPermission function. Mismatched variable name.</notes>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
    <notes>Fix  Bug #44  	 Database not created if no .old file exists.
 New installations could not work because of missing old schema file.
-Add UNL_UCBCN_User::__toString() method which returns uid.</notes>
+Add UNL_UCBCN_User::__toString() method which returns uid.
+Fix  Bug #41  	 Ongoing events do not show up on last day.</notes>
   </release>
  </changelog>
 </package>

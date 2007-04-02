@@ -149,8 +149,8 @@ class UNL_UCBCN_EventListing
 							'WHERE calendar_has_event.calendar_id='.$calendar->id.' ' .
 									'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
 									'AND calendar_has_event.event_id = eventdatetime.event_id ' .
-									'AND eventdatetime.starttime < \''.date('Y-m-d',$day->getTimestamp()).' 00:00:00\' ' .
-			                        'AND eventdatetime.endtime >= \''.date('Y-m-d',$day->getTimestamp()).' 23:59:59\' ' .
+									'AND eventdatetime.starttime < \''.date('Y-m-d',$day->getTimestamp()).'\' ' .
+			                        'AND eventdatetime.endtime >= \''.date('Y-m-d',$day->getTimestamp()).'\' ' .
 							'ORDER BY '.$orderby);
 		} else {
 		    $calendar = NULL;
