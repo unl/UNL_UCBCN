@@ -71,4 +71,9 @@ class UNL_UCBCN_User extends DB_DataObject
 		$this->datelastupdated = date('Y-m-d H:i:s');
 		return parent::insert();
 	}
+	
+	function __toString()
+	{
+	    return $this->uid;
+	}
 }

@@ -59,7 +59,8 @@ $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.5.0');
 $pfm->setReleaseVersion('0.5.1');
 $pfm->setNotes('Fix  Bug #44  	 Database not created if no .old file exists.
-New installations could not work because of missing old schema file.');
+New installations could not work because of missing old schema file.
+Add UNL_UCBCN_User::__toString() method which returns uid.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
