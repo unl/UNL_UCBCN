@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -12,10 +12,10 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2007-03-22</date>
- <time>16:24:59</time>
+ <date>2007-04-02</date>
+ <time>08:41:23</time>
  <version>
-  <release>0.5.0</release>
+  <release>0.5.1</release>
   <api>0.5.0</api>
  </version>
  <stability>
@@ -23,10 +23,8 @@
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
- <notes>
-Add class name to the setOptions function when member variable being set is not valid.
-Fix small bug in userHasPermission function. Mismatched variable name.
- </notes>
+ <notes>Fix  Bug #44  	 Database not created if no .old file exists.
+New installations could not work because of missing old schema file.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="tests">
@@ -364,10 +362,22 @@ Switch to BSD License</notes>
    </stability>
    <date>2007-03-22</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
-   <notes>
-Add class name to the setOptions function when member variable being set is not valid.
-Fix small bug in userHasPermission function. Mismatched variable name.
-   </notes>
+   <notes>Add class name to the setOptions function when member variable being set is not valid.
+Fix small bug in userHasPermission function. Mismatched variable name.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.1</release>
+    <api>0.5.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-04-02</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+   <notes>Fix  Bug #44  	 Database not created if no .old file exists.
+New installations could not work because of missing old schema file.</notes>
   </release>
  </changelog>
 </package>

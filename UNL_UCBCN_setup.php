@@ -124,10 +124,15 @@ class UNL_UCBCN_setup_postinstall
 		   return false;
 		} else {
 			// Check if there is an old install with no database name.
-			if (!file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old')
-			    && file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old')) {
-			    // Copy the old xml file to a correctly named file.
-			    copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old','@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+			if (!file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old')) {
+			    if (file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old')) {
+			        // Copy the old xml file to a correctly named file.
+			        copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old',
+			                '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+			    } else {
+			        // Just touch the previous definition file.
+			        touch('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+			    }
 		    }
 		    $previous_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
 		    $current_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
