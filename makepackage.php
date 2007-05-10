@@ -57,11 +57,8 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.5.0');
-$pfm->setReleaseVersion('0.5.1');
-$pfm->setNotes('Fix  Bug #44  	 Database not created if no .old file exists.
-New installations could not work because of missing old schema file.
-Add UNL_UCBCN_User::__toString() method which returns uid.
-Fix  Bug #41  	 Ongoing events do not show up on last day.');
+$pfm->setReleaseVersion('0.5.2');
+$pfm->setNotes('Remove University name from the checkbox for considering event for main calendar. (bsteere)');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');

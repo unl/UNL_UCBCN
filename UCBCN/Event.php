@@ -92,7 +92,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     var $fb_enumFields				= array('approvedforcirculation');
     var $fb_enumOptions			= array('approvedforcirculation'=>array(	'Private (Your event will only be available to your calendar)<br />',
-																				'Public (Your event will be available to any university calendar)<br />'));
+																				'Public (Your event will be available to any calendar)<br />'));
     
     var $fb_linkNewValue			= array(
 											'__reverseLink_eventdatetime_event_idlocation_id_1',
@@ -118,7 +118,7 @@ class UNL_UCBCN_Event extends DB_DataObject
 			isset($_SESSION['calendar_id']) &&
 			($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
 			require_once 'UNL/UCBCN/Calendar_has_event.php';
-			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider'],' Please Consider Event for Main UNL Calendar');
+			$this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider'],' Please consider event for the main calendar');
 			if (isset($this->id)) {
 			    $che = UNL_UCBCN::factory('calendar_has_event');
 			    $che->calendar_id = $_UNL_UCBCN['default_calendar_id'];
