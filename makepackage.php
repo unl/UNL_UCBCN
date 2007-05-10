@@ -57,8 +57,10 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.5.0');
-$pfm->setReleaseVersion('0.5.2');
-$pfm->setNotes('Remove University name from the checkbox for considering event for main calendar. (bsteere)');
+$pfm->setReleaseVersion('0.5.3');
+$pfm->setNotes('
+* Coding standards... change license.
+* Add getLocation function.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');

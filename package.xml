@@ -12,10 +12,10 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2007-05-10</date>
- <time>10:45:08</time>
+ <date>2007-08-31</date>
+ <time>15:03:34</time>
  <version>
-  <release>0.5.2</release>
+  <release>0.5.3</release>
   <api>0.5.0</api>
  </version>
  <stability>
@@ -23,7 +23,9 @@
   <api>beta</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
- <notes>Remove University name from the checkbox for considering event for main calendar. (bsteere)</notes>
+ <notes>
+* Coding standards... change license.
+* Add getLocation function.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="tests">
@@ -392,6 +394,21 @@ Fix  Bug #41  	 Ongoing events do not show up on last day.</notes>
    <date>2007-05-10</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
    <notes>Remove University name from the checkbox for considering event for main calendar. (bsteere)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.3</release>
+    <api>0.5.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-08-31</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+   <notes>
+* Coding standards... change license.
+* Add getLocation function.</notes>
   </release>
  </changelog>
 </package>
