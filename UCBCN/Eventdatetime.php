@@ -35,18 +35,18 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_fieldLabels			= array('location_id'			=> 'Location',
+    public $fb_fieldLabels			= array('location_id'			=> 'Location',
     										'starttime'				=> 'Start Time',
     										'endtime'				=> 'End Time',
     										'hours'					=> 'Building Hours',
     										'additionalpublicinfo'	=> 'Additional Public Info');
-    var $fb_elementTypeMap          = array('datetime'=>'jscalendar');
-    var $fb_hiddenFields			= array('event_id');
-    var $fb_excludeFromAutoRules	= array('event_id');
-    var $fb_linkNewValue			= true;
-    var $fb_addFormHeader			= false;
-    var $fb_formHeaderText			= 'Event Location, Date and Time';
-    var $fb_dateToDatabaseCallback  = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
+    public $fb_elementTypeMap          = array('datetime'=>'jscalendar');
+    public $fb_hiddenFields			= array('event_id');
+    public $fb_excludeFromAutoRules	= array('event_id');
+    public $fb_linkNewValue			= true;
+    public $fb_addFormHeader			= false;
+    public $fb_formHeaderText			= 'Event Location, Date and Time';
+    public $fb_dateToDatabaseCallback  = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
     
     function preGenerateForm(&$fb)
     {
@@ -58,14 +58,14 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
 		    'styleCss' => 'calendar.css',
 		    'language' => 'en',
 		    'image' => array(
-		        'src' => './templates/default/jscalendar/cal.gif',
-		        'border' => 0
+		    'src' => './templates/default/jscalendar/cal.gif',
+		    'border' => 0
 		    ),
 		    'setup' => array(
-		        'inputField' => $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix,
-		        'ifFormat' => '%Y-%m-%d',
-		        'weekNumbers' => false,
-		        'showOthers' => true
+		    'inputField' => $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix,
+	        'ifFormat' => '%Y-%m-%d',
+	        'weekNumbers' => false,
+	        'showOthers' => true
 		    )
 		);
 		$dateoptions = array('format'=>'g i A',
@@ -100,6 +100,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
                 $form->setDefaults(array($fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix=>substr($this->endtime,11)));
             }
         }
+        $form->addRule('starttime_group','Start time is required.','required');
     }
     
     function preProcessForm(&$values, &$fb)
@@ -109,10 +110,18 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     		$values['event_id'] = $GLOBALS['event_id'];
     	}
     	if (isset($values['starthour'])) {
-    	   $values['starttime'] = $values['starttime'].' '.$this->_array2date($values['starthour']);
+    		//Assume today if starttime is empty
+    		if (empty($values['starttime'])) {
+    			$values['starttime'] = date('Y-m-d');
+    		}
+    		$starttime = $values['starttime'];
+    		$values['starttime'] = $values['starttime'].' '.$this->_array2date($values['starthour']);
     	}
     	if (isset($values['endhour'])) {
-    	   $values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
+    		if (empty($values['endtime'])) {
+    			$values['endtime'] = $starttime;
+    		}
+			$values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
     	}
     }
     
