@@ -5,7 +5,7 @@
  * PHP version 5
  * 
  * @category  Events 
- * @package   UNL_UCBCN_Manager
+ * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2007 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
@@ -21,7 +21,7 @@ require_once 'DB/DataObject.php';
  * ORM for a Location record within the database.
  * 
  * @category  Events
- * @package   UNL_UCBCN_Manager
+ * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2007 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
