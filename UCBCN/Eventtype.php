@@ -1,16 +1,31 @@
 <?php
 /**
  * Table Definition for eventtype
- * @package    UNL_UCBCN
+ * 
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
  * Require DB_DataObject to extend from it.
  */
 require_once 'DB/DataObject.php';
+
 /**
  * ORM for a record within the database.
- * @package UNL_UCBCN
+ * 
+ * @category  Events
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_Eventtype extends DB_DataObject 
 {
@@ -20,7 +35,7 @@ class UNL_UCBCN_Eventtype extends DB_DataObject
     public $__table = 'eventtype';                       // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $calendar_id;                     // int(10)  not_null unsigned
-    public $name;                            // string(100)  not_null
+    public $name;                            // string(100)  not_null multiple_key
     public $description;                     // string(255)  
     public $eventtypegroup;                  // string(8)  
     public $standard;                        // int(1)  
@@ -31,5 +46,5 @@ class UNL_UCBCN_Eventtype extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_linkDisplayFields = array('name');
+    public $fb_linkDisplayFields = array('name');
 }

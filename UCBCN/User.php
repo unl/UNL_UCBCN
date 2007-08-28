@@ -1,16 +1,31 @@
 <?php
 /**
  * Table Definition for user
- * @package    UNL_UCBCN
+ * 
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
  * Require DB_DataObject to extend from it.
  */
 require_once 'DB/DataObject.php';
+
 /**
  * ORM for a record within the database.
- * @package UNL_UCBCN
+ * 
+ * @category  Events
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_User extends DB_DataObject 
 {
@@ -33,18 +48,18 @@ class UNL_UCBCN_User extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_hidePrimaryKey = false;
-    var $fb_hiddenFields = array('account_id','datecreated','uidcreated','datelastupdated','uidlastupdated','accountstatus');
-    var $fb_fieldLabels = array('calendar_id'=>'Default Calendar');
+    public $fb_hidePrimaryKey = false;
+    public $fb_hiddenFields   = array('account_id','datecreated','uidcreated','datelastupdated','uidlastupdated','accountstatus');
+    public $fb_fieldLabels    = array('calendar_id'=>'Default Calendar');
     
-    function preGenerateForm(&$fb)
+    public function preGenerateForm(&$fb)
     {
     	foreach ($this->fb_hiddenFields as $el) {
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
     }
     
-    function postGenerateForm(&$form, &$formBuilder)
+    public function postGenerateForm(&$form, &$formBuilder)
     {
     	if (isset($this->uid) && !empty($this->uid)) {
     		$el =& $form->getElement('uid');
@@ -52,27 +67,27 @@ class UNL_UCBCN_User extends DB_DataObject
     	}
     }
     
-	function prepareLinkedDataObject(&$ldo, $field) {
+	public function prepareLinkedDataObject(&$ldo, $field) {
 		//you may want to include one or both of these
 		if ($ldo->tableName() == 'user_has_permission' && isset($_SESSION['calendar_id'])) {
 		    $ldo->calendar_id = $_SESSION['calendar_id'];
 		}
 	}
     
-    function update()
+    public function update()
     {
     	$this->datelastupdated = date('Y-m-d H:i:s');
 		return parent::update();
     }
     
-    function insert()
+    public function insert()
 	{
-		$this->datecreated = date('Y-m-d H:i:s');
+		$this->datecreated     = date('Y-m-d H:i:s');
 		$this->datelastupdated = date('Y-m-d H:i:s');
 		return parent::insert();
 	}
 	
-	function __toString()
+	public function __toString()
 	{
 	    return $this->uid;
 	}

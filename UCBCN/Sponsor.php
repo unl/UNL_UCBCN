@@ -1,16 +1,31 @@
 <?php
 /**
  * Table Definition for sponsor
- * @package    UNL_UCBCN
+ * 
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
  * Require DB_DataObject to extend from it.
  */
 require_once 'DB/DataObject.php';
+
 /**
  * ORM for a record within the database.
- * @package UNL_UCBCN
+ * 
+ * @category  Events
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_Sponsor extends DB_DataObject 
 {
@@ -30,5 +45,6 @@ class UNL_UCBCN_Sponsor extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_linkDisplayFields = array('name');
+    public $fb_linkDisplayFields = array('name');
+    public $fb_linkNewValue      = true;
 }
