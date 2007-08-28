@@ -2,7 +2,14 @@
 /**
  * Table Definition for account
  * 
- * @package UNL_UCBCN
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -13,7 +20,13 @@ require_once 'DB/DataObject.php';
 /**
  * UNL_UCBCN_Account object stores information for an account record within
  * the database.
- * @package UNL_UCBCN
+ * 
+ * @category  Events
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_Account extends DB_DataObject 
 {
@@ -43,23 +56,23 @@ class UNL_UCBCN_Account extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_fieldLabels = array(
-    						'name'		=> 'Account Name',
-    						'streetaddress1' => 'Address',
-    						'streetaddress2' => '',
-    						'sponsor_id'	=> 'Sponsor'
-    						);
+    public $fb_fieldLabels = array(
+                            'name'           => 'Account Name',
+                            'streetaddress1' => 'Address',
+                            'streetaddress2' => '',
+                            'sponsor_id'     => 'Sponsor'
+                            );
     
-    var $fb_hiddenFields = array(
-								'datecreated',
-								'datelastupdated',
-								'accountstatus');
+    public $fb_hiddenFields = array(
+                                'datecreated',
+                                'datelastupdated',
+                                'accountstatus');
 
-    function preGenerateForm(&$fb)
+    public function preGenerateForm(&$fb)
     {
-    	foreach ($this->fb_hiddenFields as $el) {
-    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$el,$el);
-    	}
+        foreach ($this->fb_hiddenFields as $el) {
+            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$el,$el);
+        }
     }
     
     /**
@@ -69,27 +82,29 @@ class UNL_UCBCN_Account extends DB_DataObject
      * @param string $shortname shortname for the calendar.
      * @param UNL_UCBCN_User $user
      * @param bool Grant user access to the calendar?
+     * 
+     * @return bool
      */
-    function addCalendar($name,$shortname,$user,$grant = true)
+    public function addCalendar($name,$shortname,UNL_UCBCN_User $user,$grant = true)
     {
         
-		$calendar = UNL_UCBCN::factory('calendar');
-		$calendar->shortname = $shortname;
-		if ($calendar->find()) {
-		    // calendar name already exists
-		    return false;
-		}
-		$calendar->shortname = $shortname;
-		$calendar->name = $name;
-		$calendar->account_id = $this->id;
-		$calendar->uidcreated = $user->uid;
-		$calendar->uidlastupdated = $user->uid;
-		$calendar->datecreated = $calendar->datelastupdated = date('Y-m-d H:i:s');
-		
-		$res = $calendar->insert();
-		if ($res && $grant) {
-		    $calendar->addUser($user);
-		}
-		return $res;
+        $calendar = UNL_UCBCN::factory('calendar');
+        $calendar->shortname = $shortname;
+        if ($calendar->find()) {
+            // calendar name already exists
+            return false;
+        }
+        $calendar->shortname = $shortname;
+        $calendar->name = $name;
+        $calendar->account_id = $this->id;
+        $calendar->uidcreated = $user->uid;
+        $calendar->uidlastupdated = $user->uid;
+        $calendar->datecreated = $calendar->datelastupdated = date('Y-m-d H:i:s');
+        
+        $res = $calendar->insert();
+        if ($res && $grant) {
+            $calendar->addUser($user);
+        }
+        return $res;
     }
 }

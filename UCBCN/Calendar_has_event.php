@@ -2,7 +2,14 @@
 /**
  * Table Definition for calendar_has_event
  * 
- * @package UNL_UCBCN
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -19,9 +26,16 @@ require_once 'UNL/UCBCN.php';
  * UNL_UCBCN_Subscription is needed to determine which subscribed calendars to update.
  */
 require_once 'UNL/UCBCN/Subscription.php';
+
 /**
  * ORM for a record within the database.
- * @package UNL_UCBCN
+ * 
+ * @category  Events
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_Calendar_has_event extends DB_DataObject 
 {
@@ -32,7 +46,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $calendar_id;                     // int(10)  not_null multiple_key unsigned
     public $event_id;                        // int(10)  not_null multiple_key unsigned
-    public $status;                          // string(100)  
+    public $status;                          // string(100)  multiple_key
     public $source;                          // string(100)  
     public $datecreated;                     // datetime(19)  binary
     public $uidcreated;                      // string(100)  
@@ -45,23 +59,23 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    function insert()
+    public function insert()
     {
-    	$this->datecreated		= date('Y-m-d H:i:s');
-    	$this->datelastupdated = date('Y-m-d H:i:s');
-    	if (isset($_SESSION['_authsession'])) {
-	    	$this->uidcreated=$_SESSION['_authsession']['username'];
-	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
-    	}
-    	$r = parent::insert();
-    	if ($r) {
-    		// Clean the cache on successful insert.
-    		UNL_UCBCN::cleanCache();
-    		if (self::processSubscriptions() && $this->status != 'pending') {
-    		    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
-    		}
-    	}
-    	return $r;
+        $this->datecreated     = date('Y-m-d H:i:s');
+        $this->datelastupdated = date('Y-m-d H:i:s');
+        if (isset($_SESSION['_authsession'])) {
+            $this->uidcreated     = $_SESSION['_authsession']['username'];
+            $this->uidlastupdated = $_SESSION['_authsession']['username'];
+        }
+        $r = parent::insert();
+        if ($r) {
+            // Clean the cache on successful insert.
+            UNL_UCBCN::cleanCache();
+            if (self::processSubscriptions() && $this->status != 'pending') {
+                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
+            }
+        }
+        return $r;
     }
     
     /**
@@ -69,7 +83,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
      *
      * @param bool $status true or false
      */
-    function processSubscriptions($status = NULL)
+    public function processSubscriptions($status = NULL)
     {
         global $_UNL_UCBCN;
         if (isset($status)) {
@@ -84,31 +98,33 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
         return $_UNL_UCBCN['process_subscriptions'];
     }
     
-    function update()
+    public function update()
     {
-    	$this->datelastupdated = date('Y-m-d H:i:s');
-    	if (isset($_SESSION['_authsession'])) {
-	    	$this->uidlastupdated=$_SESSION['_authsession']['username'];
-    	}
-    	$r = parent::update();
-    	if ($r) {
-    		// Clean the cache on successful update.
-    		UNL_UCBCN::cleanCache();
-    		if ($this->status != 'pending' && $this->status != 'archived') {
-    		    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
-    		}
-    	}
-    	return $r;
+        $this->datelastupdated = date('Y-m-d H:i:s');
+        if (isset($_SESSION['_authsession'])) {
+            $this->uidlastupdated = $_SESSION['_authsession']['username'];
+        }
+        $r = parent::update();
+        if ($r) {
+            // Clean the cache on successful update.
+            UNL_UCBCN::cleanCache();
+            if ($this->status != 'pending' && $this->status != 'archived') {
+                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
+            }
+        }
+        return $r;
     }
     
     /**
      * Returns bool false if the calendar does not have the event, 
      * otherwise returns status.
      *
-     * @param UNL_UCBCN_Calendar $calendar
-     * @param UNL_UCBCN_Event $event
+     * @param UNL_UCBCN_Calendar $calendar Calendar to check.
+     * @param UNL_UCBCN_Event    $event    Event to check.
+     * 
+     * @return string status, or bool false
      */
-    function calendarHasEvent($calendar,$event)
+    public function calendarHasEvent(UNL_UCBCN_Calendar $calendar,UNL_UCBCN_Event $event)
     {
         $che = UNL_UCBCN::factory('calendar_has_event');
         $che->calendar_id = $calendar->id;
@@ -121,13 +137,13 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
         }
     }
     
-    function delete()
+    public function delete()
     {
-    	$r = parent::delete();
-    	if ($r) {
-    		// Clean the cache on successful delete.
-    		UNL_UCBCN::cleanCache();
-    	}
-    	return $r;
+        $r = parent::delete();
+        if ($r) {
+            // Clean the cache on successful delete.
+            UNL_UCBCN::cleanCache();
+        }
+        return $r;
     }
 }
