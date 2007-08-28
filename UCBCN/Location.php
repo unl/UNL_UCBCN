@@ -1,7 +1,15 @@
 <?php
 /**
- * Table Definition for location
- * @package    UNL_UCBCN
+ * Details for locations within the database.
+ * 
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN_Manager
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -11,7 +19,13 @@ require_once 'DB/DataObject.php';
 
 /**
  * ORM for a Location record within the database.
- * @package UNL_UCBCN
+ * 
+ * @category  Events
+ * @package   UNL_UCBCN_Manager
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_Location extends DB_DataObject 
 {
@@ -20,7 +34,7 @@ class UNL_UCBCN_Location extends DB_DataObject
 
     public $__table = 'location';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $name;                            // string(100)  
+    public $name;                            // string(100)  multiple_key
     public $streetaddress1;                  // string(255)  
     public $streetaddress2;                  // string(255)  
     public $room;                            // string(100)  
@@ -42,12 +56,12 @@ class UNL_UCBCN_Location extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    var $fb_linkDisplayFields		= array('name');
-    var $fb_linkNewValue			= true;
-    var $fb_fieldLabels			= array(	'streetaddress1'		=> 'Address',
-    											'streetaddress2'		=> '',
-    											'additionalpublicinfo'	=> 'Additional Public Info',
-    											'mapurl'				=> 'Map URL',
-    											'webpageurl'			=> 'Web Page',
-    											'standard'				=> 'Make this location always available');
+    public $fb_linkDisplayFields = array('name');
+    public $fb_linkNewValue      = true;
+    public $fb_fieldLabels       = array('streetaddress1'       => 'Address',
+                                         'streetaddress2'       => '',
+                                         'additionalpublicinfo' => 'Additional Public Info',
+                                         'mapurl'               => 'Map URL',
+                                         'webpageurl'           => 'Web Page',
+                                         'standard'             => 'Make this location always available');
 }
