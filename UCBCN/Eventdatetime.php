@@ -35,60 +35,60 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
-    public $fb_fieldLabels			= array('location_id'			=> 'Location',
-    										'starttime'				=> 'Start Time',
-    										'endtime'				=> 'End Time',
-    										'hours'					=> 'Building Hours',
-    										'additionalpublicinfo'	=> 'Additional Public Info');
-    public $fb_elementTypeMap          = array('datetime'=>'jscalendar');
-    public $fb_hiddenFields			= array('event_id');
-    public $fb_excludeFromAutoRules	= array('event_id');
-    public $fb_linkNewValue			= true;
-    public $fb_addFormHeader			= false;
-    public $fb_formHeaderText			= 'Event Location, Date and Time';
-    public $fb_dateToDatabaseCallback  = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
+    public $fb_fieldLabels            = array('location_id'        => 'Location',
+                                            'starttime'            => 'Start Time',
+                                            'endtime'              => 'End Time',
+                                            'hours'                => 'Building Hours',
+                                            'additionalpublicinfo' => 'Additional Public Info');
+    public $fb_elementTypeMap         = array('datetime'=>'jscalendar');
+    public $fb_hiddenFields           = array('event_id');
+    public $fb_excludeFromAutoRules   = array('event_id');
+    public $fb_linkNewValue           = true;
+    public $fb_addFormHeader          = false;
+    public $fb_formHeaderText         = 'Event Location, Date and Time';
+    public $fb_dateToDatabaseCallback = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
     
-    function preGenerateForm(&$fb)
+    public function preGenerateForm(&$fb)
     {
-    	foreach ($this->fb_hiddenFields as $el) {
-    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
-    	}
-	    $options = array(
-		    'baseURL' => './templates/default/jscalendar/',
-		    'styleCss' => 'calendar.css',
-		    'language' => 'en',
-		    'image' => array(
-		    'src' => './templates/default/jscalendar/cal.gif',
-		    'border' => 0
-		    ),
-		    'setup' => array(
-		    'inputField' => $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix,
-	        'ifFormat' => '%Y-%m-%d',
-	        'weekNumbers' => false,
-	        'showOthers' => true
-		    )
-		);
-		$dateoptions = array('format'=>'g i A',
-		                    'optionIncrement'=>array('i'=>5),
-		                    'addEmptyOption'=>true);
-		$this->fb_preDefElements['starttime'] = new HTML_QuickForm_group('starttime_group','Start Time:',
-		    array(
-		        HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, 'size'=>10)),
-		        HTML_QuickForm::createElement('jscalendar', 'date1_calendar', null, $options),
-		        HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix,null, $dateoptions)
-		    ), null, false);
-		$options['setup']['inputField'] = $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix;
-    	$this->fb_preDefElements['endtime'] = new HTML_QuickForm_group('endtime_group','End Time:',
-		    array(
-		        HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, 'size'=>10)),
-		        HTML_QuickForm::createElement('jscalendar', 'date2_calendar', null, $options),
-		        HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix,null, $dateoptions)
-		    ), null, false);
+        foreach ($this->fb_hiddenFields as $el) {
+            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
+        }
+        $options = array(
+            'baseURL' => './templates/default/jscalendar/',
+            'styleCss' => 'calendar.css',
+            'language' => 'en',
+            'image' => array(
+            'src' => './templates/default/jscalendar/cal.gif',
+            'border' => 0
+            ),
+            'setup' => array(
+            'inputField' => $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix,
+            'ifFormat' => '%Y-%m-%d',
+            'weekNumbers' => false,
+            'showOthers' => true
+            )
+        );
+        $dateoptions = array('format'=>'g i A',
+                            'optionIncrement'=>array('i'=>5),
+                            'addEmptyOption'=>true);
+        $this->fb_preDefElements['starttime'] = new HTML_QuickForm_group('starttime_group','Start Time:',
+            array(
+                HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, 'size'=>10)),
+                HTML_QuickForm::createElement('jscalendar', 'date1_calendar', null, $options),
+                HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix,null, $dateoptions)
+            ), null, false);
+        $options['setup']['inputField'] = $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix;
+        $this->fb_preDefElements['endtime'] = new HTML_QuickForm_group('endtime_group','End Time:',
+            array(
+                HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, 'size'=>10)),
+                HTML_QuickForm::createElement('jscalendar', 'date2_calendar', null, $options),
+                HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix,null, $dateoptions)
+            ), null, false);
     }
     
-    function postGenerateForm(&$form, &$fb)
-    {	
-		if (isset($this->starttime)) {
+    public function postGenerateForm(&$form, &$fb)
+    {    
+        if (isset($this->starttime)) {
             $form->setDefaults(array('starttime'=>substr($this->starttime,0,10)));
             if (substr($this->starttime,11) != '00:00:00') {
                 $form->setDefaults(array($fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix=>substr($this->starttime,11)));
@@ -103,29 +103,29 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         $form->addRule('starttime_group','Start time is required.','required');
     }
     
-    function preProcessForm(&$values, &$fb)
+    public function preProcessForm(&$values, &$fb)
     {
-    	// Capture event_id foreign key if needed.
-    	if (isset($GLOBALS['event_id'])) {
-    		$values['event_id'] = $GLOBALS['event_id'];
-    	}
-    	if (isset($values['starthour'])) {
-    		//Assume today if starttime is empty
-    		if (empty($values['starttime'])) {
-    			$values['starttime'] = date('Y-m-d');
-    		}
-    		$starttime = $values['starttime'];
-    		$values['starttime'] = $values['starttime'].' '.$this->_array2date($values['starthour']);
-    	}
-    	if (isset($values['endhour'])) {
-    		if (empty($values['endtime'])) {
-    			$values['endtime'] = $starttime;
-    		}
-			$values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
-    	}
+        // Capture event_id foreign key if needed.
+        if (isset($GLOBALS['event_id'])) {
+            $values['event_id'] = $GLOBALS['event_id'];
+        }
+        if (isset($values['starthour'])) {
+            //Assume today if starttime is empty
+            if (empty($values['starttime'])) {
+                $values['starttime'] = date('Y-m-d');
+            }
+            $starttime = $values['starttime'];
+            $values['starttime'] = $values['starttime'].' '.$this->_array2date($values['starthour']);
+        }
+        if (isset($values['endhour'])) {
+            if (empty($values['endtime'])) {
+                $values['endtime'] = $starttime;
+            }
+            $values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
+        }
     }
     
-    function _array2date($dateInput, $timestamp = false)
+    public function _array2date($dateInput, $timestamp = false)
     {
         if (isset($dateInput['M'])) {
             $month = $dateInput['M'];
@@ -220,23 +220,23 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         return $strDate;
     }
     
-    function dateToDatabaseCallback($value)
+    public function dateToDatabaseCallback($value)
     {
         return $value;
     }
     
-	function prepareLinkedDataObject(&$linkedDataObject, $field) {
-		//you may want to include one or both of these
-		if ($linkedDataObject->tableName() == 'location') {
-			if (isset($this->location_id)) {
-				$linkedDataObject->whereAdd('standard=1 OR id='.$this->location_id);
-			} else {
-				$linkedDataObject->standard = 1;
-			}
-		}
+    public function prepareLinkedDataObject(&$linkedDataObject, $field) {
+        //you may want to include one or both of these
+        if ($linkedDataObject->tableName() == 'location') {
+            if (isset($this->location_id)) {
+                $linkedDataObject->whereAdd('standard=1 OR id='.$this->location_id);
+            } else {
+                $linkedDataObject->standard = 1;
+            }
+        }
     }
     
-    function insert()
+    public function insert()
     {
         $r = parent::insert();
         if ($r) {
@@ -245,7 +245,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         return $r;
     }
     
-    function update()
+    public function update()
     {
         $r = parent::update();
         if ($r) {
@@ -254,12 +254,26 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         return $r;
     }
     
-    function delete()
+    public function delete()
     {
         $r = parent::delete();
         if ($r) {
             UNL_UCBCN::cleanCache();
         }
         return $r;
+    }
+    
+    /**
+     * Gets an object for the location of this event date and time.
+     * 
+     * @return UNL_UCBCN_Location
+     */
+    public function getLocation()
+    {
+        if (isset($this->location_id)) {
+            return $this->getLink('location_id');
+        } else {
+            return false;
+        }
     }
 }
