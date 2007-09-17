@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for calendar_has_event
+ * Table definition, and processing functions for calendar_has_event
  * 
  * PHP version 5
  * 
@@ -59,6 +59,12 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
+    /**
+     * Performs an insert of a calendar_has_event record, and updates any subscribed
+     * calenars.
+     * 
+     * @return int ID of the inserted record.
+     */
     public function insert()
     {
         $this->datecreated     = date('Y-m-d H:i:s');
@@ -72,18 +78,22 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
             // Clean the cache on successful insert.
             UNL_UCBCN::cleanCache();
             if (self::processSubscriptions() && $this->status != 'pending') {
-                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
+                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
             }
         }
         return $r;
     }
     
     /**
-     * sets or gets the current status of process subscriptions.
+     * sets or gets the current status of processing subscriptions. This is used to
+     * prevent other calendars from processing additional subscriptions while one is
+     * in progress - a poor man's lock on the database.
      *
      * @param bool $status true or false
+     * 
+     * @return bool The status of processing subscriptions.
      */
-    public function processSubscriptions($status = NULL)
+    public function processSubscriptions($status = null)
     {
         global $_UNL_UCBCN;
         if (isset($status)) {
@@ -98,6 +108,11 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
         return $_UNL_UCBCN['process_subscriptions'];
     }
     
+    /**
+     * Performs an update on this calendar_has_event record.
+     * 
+     * @return bool True on sucess
+     */
     public function update()
     {
         $this->datelastupdated = date('Y-m-d H:i:s');
@@ -109,7 +124,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
             // Clean the cache on successful update.
             UNL_UCBCN::cleanCache();
             if ($this->status != 'pending' && $this->status != 'archived') {
-                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id);
+                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
             }
         }
         return $r;
@@ -126,9 +141,9 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
      */
     public function calendarHasEvent(UNL_UCBCN_Calendar $calendar,UNL_UCBCN_Event $event)
     {
-        $che = UNL_UCBCN::factory('calendar_has_event');
+        $che              = UNL_UCBCN::factory('calendar_has_event');
         $che->calendar_id = $calendar->id;
-        $che->event_id = $event->id;
+        $che->event_id    = $event->id;
         if ($che->find()) {
             $che->fetch();
             return $che->status;
@@ -137,6 +152,11 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
         }
     }
     
+    /**
+     * Removes this record - effectively removing this event from the calendar.
+     * 
+     * @return bool true on success.
+     */
     public function delete()
     {
         $r = parent::delete();
