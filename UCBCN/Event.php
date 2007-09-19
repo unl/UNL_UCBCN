@@ -76,10 +76,10 @@ class UNL_UCBCN_Event extends DB_DataObject
                                     'description',
     								'__reverseLink_event_has_eventtype_event_id',
                                     'othereventtype',
-                                    'listingcontactname',
+                                    '__reverseLink_eventdatetime_event_id',
+    								'listingcontactname',
                                     'listingcontactphone',
-                                    'listingcontactemail',
-                                    '__reverseLink_eventdatetime_event_id');
+                                    'listingcontactemail');
     
     public $fb_fieldLabels = array( 'othereventtype'         => 'Secondary Event Type',
                                     'shortdescription'       => 'Short Description',
