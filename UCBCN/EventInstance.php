@@ -2,9 +2,14 @@
 /**
  * This class is a simple container object for all the details related to an event and its details.
  * 
+ * PHP version 5
  * 
- * @package UNL_UCBCN
- * @author Brett Bieber
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -14,7 +19,12 @@ require_once 'UNL/UCBCN.php';
 /**
  * Generic object to hold a single event, and a single event date time.
  * Together, the two represent an instance of an event at a location.
- * @package UNL_UCBCN
+ * 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_EventInstance extends UNL_UCBCN
 {

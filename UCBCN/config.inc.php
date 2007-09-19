@@ -2,8 +2,14 @@
 /**
  * This file parses the configuration and connection details for the calendar database.
  * 
- * @package UNL_UCBCN
- * @author bbieber
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**

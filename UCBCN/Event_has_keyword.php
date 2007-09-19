@@ -2,7 +2,14 @@
 /**
  * Table Definition for event_has_keyword
  * 
- * @package    UNL_UCBCN
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -11,7 +18,12 @@
 require_once 'DB/DataObject.php';
 /**
  * ORM for a record within the database.
- * @package UNL_UCBCN
+ * 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_Event_has_keyword extends DB_DataObject 
 {

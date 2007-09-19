@@ -1,7 +1,15 @@
 <?php
 /**
- * Object related to a list ov events.
- * @package    UNL_UCBCN
+ * Object related to a list of events.
+ * 
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -11,7 +19,12 @@ require_once 'UNL/UCBCN.php';
 
 /**
  * This class holds all the events for the list.
- * @package UNL_UCBCN
+ * 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_EventListing
 {

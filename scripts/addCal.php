@@ -1,4 +1,17 @@
 <?php
+/**
+ * Sample script for adding calendars.
+ * 
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brian Steere
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
+ */
 if (!isset($_SERVER['argv'],$_SERVER['argv'][1])
     || $_SERVER['argv'][1] == '--help' || $_SERVER['argc'] != 4) {
         echo "This program requires 3 arguments.\n";
