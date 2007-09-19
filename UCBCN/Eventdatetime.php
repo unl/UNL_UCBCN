@@ -38,10 +38,9 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public $fb_fieldLabels            = array('location_id'        => 'Location',
                                             'starttime'            => 'Start Time',
                                             'endtime'              => 'End Time',
-                                            'hours'                => 'Building Hours',
                                             'additionalpublicinfo' => 'Additional Public Info');
     public $fb_elementTypeMap         = array('datetime'=>'jscalendar');
-    public $fb_hiddenFields           = array('event_id');
+    public $fb_hiddenFields           = array('event_id', 'hours');
     public $fb_excludeFromAutoRules   = array('event_id');
     public $fb_linkNewValue           = true;
     public $fb_addFormHeader          = false;
@@ -71,14 +70,14 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         $dateoptions = array('format'=>'g i A',
                             'optionIncrement'=>array('i'=>5),
                             'addEmptyOption'=>true);
-        $this->fb_preDefElements['starttime'] = new HTML_QuickForm_group('starttime_group','Start Time:',
+        $this->fb_preDefElements['starttime'] = new HTML_QuickForm_group('starttime_group','Start Date & Time',
             array(
                 HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix, 'size'=>10)),
                 HTML_QuickForm::createElement('jscalendar', 'date1_calendar', null, $options),
                 HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix,null, $dateoptions)
             ), null, false);
         $options['setup']['inputField'] = $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix;
-        $this->fb_preDefElements['endtime'] = new HTML_QuickForm_group('endtime_group','End Time:',
+        $this->fb_preDefElements['endtime'] = new HTML_QuickForm_group('endtime_group','End Date & Time',
             array(
                 HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, null, array('id'=>$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix, 'size'=>10)),
                 HTML_QuickForm::createElement('jscalendar', 'date2_calendar', null, $options),
