@@ -1055,6 +1055,16 @@
   <declaration>
 
    <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
     <name>event_id</name>
     <type>integer</type>
     <unsigned>true</unsigned>
@@ -1072,6 +1082,31 @@
     <default></default>
    </field>
 
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>ehk_event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>ehk_sponsor_id</name>
+    <field>
+     <name>keyword_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -1081,6 +1116,16 @@
   <name>event_has_sponsor</name>
 
   <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
 
    <field>
     <name>event_id</name>
@@ -1100,6 +1145,31 @@
     <default>0</default>
    </field>
 
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>ehs_event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>ehs_sponsor_id</name>
+    <field>
+     <name>sponsor_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -1109,6 +1179,16 @@
   <name>event_isopento_audience</name>
 
   <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
 
    <field>
     <name>event_id</name>
@@ -1127,6 +1207,31 @@
     <notnull>true</notnull>
     <default></default>
    </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>eia_event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>eia_audience_id</name>
+    <field>
+     <name>audience_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
@@ -1139,6 +1244,16 @@
   <declaration>
 
    <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
     <name>event_id</name>
     <type>integer</type>
     <unsigned>true</unsigned>
@@ -1155,6 +1270,31 @@
     <notnull>true</notnull>
     <default></default>
    </field>
+
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+   <index>
+    <name>eta_event_id</name>
+    <field>
+     <name>event_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>eta_audience_id</name>
+    <field>
+     <name>audience_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
   </declaration>
 
