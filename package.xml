@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.6.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -12,10 +12,10 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2007-08-31</date>
- <time>15:03:34</time>
+ <date>2007-09-19</date>
+ <time>16:23:20</time>
  <version>
-  <release>0.5.3</release>
+  <release>0.5.4</release>
   <api>0.5.0</api>
  </version>
  <stability>
@@ -24,48 +24,11 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
  <notes>
-* Coding standards... change license.
-* Add getLocation function.</notes>
+Database changes - add primary keys to all event_has_* tables.
+Enable sponsors for events, including some re-arrangement of event formbuilder tags.
+Additional coding standards improvements.</notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
-   <dir name="tests">
-    <dir name="UNL">
-     <dir name="UCBCN">
-      <file name="AccountTest.php" role="test" />
-      <file name="AdmissionchargeTest.php" role="test" />
-      <file name="AdmissioninfoTest.php" role="test" />
-      <file name="AttendancerestrictionTest.php" role="test" />
-      <file name="AudienceTest.php" role="test" />
-      <file name="CalendarTest.php" role="test" />
-      <file name="DocumentTest.php" role="test" />
-      <file name="ErrorTest.php" role="test" />
-      <file name="EventdatetimeTest.php" role="test" />
-      <file name="EventInstanceTest.php" role="test" />
-      <file name="EventListingTest.php" role="test" />
-      <file name="EventtypeTest.php" role="test" />
-      <file name="Event_has_eventtypeTest.php" role="test" />
-      <file name="Event_has_keywordTest.php" role="test" />
-      <file name="Event_isopento_audienceTest.php" role="test" />
-      <file name="Event_targets_audienceTest.php" role="test" />
-      <file name="KeywordTest.php" role="test" />
-      <file name="LocationTest.php" role="test" />
-      <file name="PerformerTest.php" role="test" />
-      <file name="PermissionTest.php" role="test" />
-      <file name="PubliccontactTest.php" role="test" />
-      <file name="RelatedeventTest.php" role="test" />
-      <file name="RoleTest.php" role="test" />
-      <file name="SessionTest.php" role="test" />
-      <file name="SponsorTest.php" role="test" />
-      <file name="UserTest.php" role="test" />
-      <file name="User_has_permissionTest.php" role="test" />
-      <file name="WebcastlinkTest.php" role="test" />
-      <file name="WebcastTest.php" role="test" />
-     </dir> <!-- /tests/UNL/UCBCN -->
-     <file name="UCBCNTest.php" role="test" />
-    </dir> <!-- /tests/UNL -->
-    <file name="InstallTest.php" role="test" />
-    <file name="SchemaTest.php" role="test" />
-   </dir> <!-- /tests -->
    <dir name="UCBCN">
     <file name="Account.php" role="php" />
     <file name="Admissioncharge.php" role="php" />
@@ -103,7 +66,7 @@
     <file name="User_has_permission.php" role="php" />
     <file name="Webcast.php" role="php" />
     <file name="Webcastlink.php" role="php" />
-   </dir> <!-- /UCBCN -->
+   </dir> <!-- //UCBCN -->
    <file name="eventcal.sql" role="data" />
    <file name="UCBCN.php" role="php">
     <tasks:replace from="@PHP_BIN@" to="php_bin" type="pear-config" />
@@ -404,11 +367,26 @@ Fix  Bug #41  	 Ongoing events do not show up on last day.</notes>
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2007-08-31</date>
+   <date>2007-09-19</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+   <notes>* Coding standards... change license.
+* Add getLocation function.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.4</release>
+    <api>0.5.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-09-19</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
    <notes>
-* Coding standards... change license.
-* Add getLocation function.</notes>
+Database changes - add primary keys to all event_has_* tables.
+Enable sponsors for events, including some re-arrangement of event formbuilder tags.
+Additional coding standards improvements.</notes>
   </release>
  </changelog>
 </package>

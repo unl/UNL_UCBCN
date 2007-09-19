@@ -41,8 +41,8 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
 						'DBDataObjects',
 						'insert_sample_data.php',
 						'install.sh',
-						'tests',
-						'tests/*'),
+						'*tests*',
+						'*scripts*'),
 	'simpleoutput' => true,
 	'roles'=>array('php'=>'php'	),
 	'exceptions'=>array()
@@ -57,10 +57,11 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.5.0');
-$pfm->setReleaseVersion('0.5.3');
+$pfm->setReleaseVersion('0.5.4');
 $pfm->setNotes('
-* Coding standards... change license.
-* Add getLocation function.');
+Database changes - add primary keys to all event_has_* tables.
+Enable sponsors for events, including some re-arrangement of event formbuilder tags.
+Additional coding standards improvements.');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
