@@ -104,6 +104,7 @@ class UNL_UCBCN_Event extends DB_DataObject
                                     'datelastupdated',
                                     'uidlastupdated',
                                     'status',
+                                    'othereventtype',
                                     'classification',
                                     'transparency',
                                     'imagemime',
