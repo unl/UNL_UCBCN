@@ -110,6 +110,25 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     }
     
     /**
+     * Gets a calendar by shortname.
+     *
+     * @param string $shortname The shortname of the calendar you wish to get.
+     * 
+     * @return UNL_UCBCN_Calendar
+     */
+    static function getByShortname($shortname)
+    {
+        $c = new self();
+        $c->shortname = $shortname;
+        if ($c->find()==1) {
+            $c->fetch();
+            return $c;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Removes a user from the current calendar.
      * Basically removes all permissions for the user on the current calendar.
      *
