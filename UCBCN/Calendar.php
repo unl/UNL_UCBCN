@@ -149,11 +149,13 @@ class UNL_UCBCN_Calendar extends DB_DataObject
      * Adds the event to the current calendar.
      *
      * @param UNL_UCBCN_Event $event
-     * @param string $status posted | pending | archived
-     * @param UNL_UCBCN_User $user the user adding this event
-     * @param string source create event form, subscription.
+     * @param string          $status posted | pending | archived
+     * @param UNL_UCBCN_User  $user   the user adding this event
+     * @param string          $source create event form, subscription.
+     * 
+     * @return int > 0 on success.
      */
-    public function addEvent(UNL_UCBCN_Event $event,$status, UNL_UCBCN_User $user,$source=NULL)
+    public function addEvent(UNL_UCBCN_Event $event,$status, UNL_UCBCN_User $user,$source=null)
     {
         $values = array(
                         'calendar_id'     => $this->id,
@@ -176,7 +178,9 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     /**
      * Removes the given event from the calendar_has_event table.
      *
-     * @param UNL_UCBCN_Event $event
+     * @param UNL_UCBCN_Event $event The event to remove from this calendar.
+     * 
+     * @return bool
      */
     public function removeEvent(UNL_UCBCN_Event $event)
     {
@@ -190,6 +194,11 @@ class UNL_UCBCN_Calendar extends DB_DataObject
         }
     }
     
+    /**
+     * Finds the subscriptions this calendar has, and processes them.
+     *
+     * @return void
+     */
     public function processSubscriptions()
     {
         $subscriptions = $this->factory('subscription');
