@@ -19,6 +19,10 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'UNL/UCBCNTest.php';
 require_once 'InstallTest.php';
 require_once 'SchemaTest.php';
+require_once 'UNL/UCBCN/AccountTest.php';
+require_once 'UNL/UCBCN/CalendarTest.php';
+require_once 'UNL/UCBCN/EventInstanceTest.php';
+require_once 'UNL/UCBCN/UserTest.php';
 
 class UNL_UCBCN_AllTests
 {
@@ -45,7 +49,10 @@ class UNL_UCBCN_AllTests
         $suite->addTestSuite('UNL_UCBCN_SchemaTest');
         $suite->addTestSuite('UNL_UCBCN_InstallTest');
         $suite->addTestSuite('UNL_UCBCNTest');
-        
+        $suite->addTestSuite('UNL_UCBCN_AccountTest');
+        $suite->addTestSuite('UNL_UCBCN_CalendarTest');
+        $suite->addTestSuite('UNL_UCBCN_EventInstanceTest');
+        $suite->addTestSuite('UNL_UCBCN_UserTest');
 
         return $suite;
     }

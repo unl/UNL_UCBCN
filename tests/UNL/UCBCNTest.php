@@ -92,9 +92,7 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testFactory().
      */
     public function testFactory() {
-        
         $a = $this->b->factory('account');
-        
         $this->assertEquals(get_class($a),'UNL_UCBCN_Account');
     }
 
@@ -141,11 +139,13 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testUserHasPermission().
      */
     public function testUserHasPermission() {
+    	$u =& $this->b->getUser('myuser');
+    	$a =& $this->b->getAccount($u);
+    	$c =& $this->b->getCalendar($u,$a,true);
+    	$this->assertEquals(is_object($c),true);
+    	$c->addUser($u);
     	
-    	$u = $this->b->getUser('myuser');
-    	$a = $this->b->getAccount($u);
-    	$c = $this->b->getCalendar($u,$a,true);
-    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),true);
+    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),1);
     	$c->removeUser($u);
     	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),false);
     	$c->addUser($u);
@@ -241,10 +241,9 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
     	
     	$u = $this->b->getUser('myuser');
     	$a = $this->b->getAccount($u);
-    	
     	$c = $this->b->getCalendar($u,$a,true);
     	
-    	$this->assertEquals($c->name,'Myuser\'s Event Publisher!');
+    	$this->assertEquals('Myuser\'s Event Publisher!',$c->shortname);
     	
         // Remove the following line when you implement this test.
         $this->markTestIncomplete(
