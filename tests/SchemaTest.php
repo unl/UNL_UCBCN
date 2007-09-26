@@ -7,9 +7,18 @@
  */
 
 /**
+ * Require the PHPUnit framework.
+ */
+require_once 'PHPUnit/Framework/TestCase.php';
+ini_set('display_errors',true);
+/**
  * Include MDB2_Schema for the test case.
  */
 require_once 'MDB2/Schema.php';
+
+if (!defined("PHPUnit_MAIN_METHOD")) {
+    define("PHPUnit_MAIN_METHOD", "UNL_UCBCN_SchemaTest::main");
+}
 
 /**
  * This class can be used by PHPUnit to test the UNL_UCBCN database schema.
@@ -17,7 +26,8 @@ require_once 'MDB2/Schema.php';
  * @package UNL_UCBCN
  *
  */
-class SchemaTest extends PHPUnit_Framework_TestCase {
+class UNL_UCBCN_SchemaTest extends PHPUnit_Framework_TestCase
+{
     //contains the dsn of the database we are testing
     var $dsn;
     //contains the options that should be used during testing
@@ -36,6 +46,7 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
     }
 
     function setUp() {
+        chdir(dirname(__FILE__));
         $this->dsn = 'sqlite:///eventcal';
         $this->options = array();
         $this->database = 'eventcal';
@@ -109,6 +120,11 @@ class SchemaTest extends PHPUnit_Framework_TestCase {
         );
         $this->assertFalse(PEAR::isError($result), 'Error updating database');
     }
+}
+
+// Call UNL_UCBCN_SchemaTest::main() if file is executed directly.
+if (PHPUnit_MAIN_METHOD == "UNL_UCBCN_SchemaTest::main") {
+    UNL_UCBCN_SchemaTest::main();
 }
 
 ?>

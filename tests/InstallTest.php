@@ -12,12 +12,19 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'UNL/UCBCN.php';
 
+if (!defined("PHPUnit_MAIN_METHOD")) {
+    define("PHPUnit_MAIN_METHOD", "UNL_UCBCN_InstallTest::main");
+}
+
+require_once "PHPUnit/Framework/TestCase.php";
+require_once "PHPUnit/Framework/TestSuite.php";
+
 /**
  * InstallTest class.
  *
  * @package UNL_UCBCN
  */
-class InstallTest extends PHPUnit_Framework_TestCase
+class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Database connection string for the sqlite test database.
@@ -70,5 +77,10 @@ class InstallTest extends PHPUnit_Framework_TestCase
         
         $this->assertEquals($u->uid, 'bbieber2');
     }
+}
+
+// Call Services_W3C_HTMLValidatorTest::main() if file is executed directly.
+if (PHPUnit_MAIN_METHOD == "UNL_UCBCN_InstallTest::main") {
+    UNL_UCBCN_InstallTest::main();
 }
 ?>

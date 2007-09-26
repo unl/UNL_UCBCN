@@ -226,16 +226,26 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testGetAccount().
      */
     public function testGetAccount() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	
+    	$u = $this->b->getUser('myuser');
+    	$a = $this->b->getAccount($u);
+    	
+    	$this->assertEquals(get_class($a),'UNL_UCBCN_Account');
+    	$this->assertEquals('Myuser Calendar Manager',$a->name);
     }
 
     /**
      * @todo Implement testGetCalendar().
      */
     public function testGetCalendar() {
+    	
+    	$u = $this->b->getUser('myuser');
+    	$a = $this->b->getAccount($u);
+    	
+    	$c = $this->b->getCalendar($u,$a,true);
+    	
+    	$this->assertEquals($c->name,'Myuser\'s Event Publisher!');
+    	
         // Remove the following line when you implement this test.
         $this->markTestIncomplete(
           "This test has not been implemented yet."
