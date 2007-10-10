@@ -59,6 +59,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public $fb_addFormHeader          = false;
     public $fb_formHeaderText         = 'Event Location, Date and Time';
     public $fb_dateToDatabaseCallback = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
+    public $fb_preDefOrder            = array('location_id','room');
     
     public function preGenerateForm(&$fb)
     {
