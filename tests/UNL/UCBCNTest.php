@@ -15,7 +15,8 @@ require_once 'UNL/UCBCN.php';
  */
 class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
     
-    public $dsn = 'sqlite:///events';
+    //public $dsn = 'sqlite:///events';
+    public $dsn = 'mysqli://eventcal:eventcal@localhost/eventcal';
     
     /**
      * UNL_UCBCN backend system
@@ -63,6 +64,13 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
         $this->b->setupDBconn();
         $dboptions = &PEAR::getStaticProperty('DB_DataObject','options');
         $this->assertEquals($dboptions['database'],$this->dsn);
+        $db = MDB2::connect($this->dsn);
+        $this->assertEquals(1, preg_match('/MDB2_Driver_[a-zA-Z]/',get_class($db)));
+        $res = $db->queryAll('SELECT * FROM user');
+        $this->assertTrue(is_array($res));
+        $res = $db->query('DELETE FROM user WHERE uid = \'test\'');
+        $res = $db->query('INSERT INTO user (uid) VALUES (\'test\')');
+        $res = $db->query('DELETE FROM user WHERE uid = \'test\'');
     }
 
     /**
