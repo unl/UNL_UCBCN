@@ -12,10 +12,6 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'UNL/UCBCN.php';
 
-if (!defined("PHPUnit_MAIN_METHOD")) {
-    define("PHPUnit_MAIN_METHOD", "UNL_UCBCN_InstallTest::main");
-}
-
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
@@ -31,7 +27,12 @@ class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
      *
      * @var string
      */
-    public $dsn = 'sqlite:///events';
+    public $dsn = 'mysqli://eventcal:eventcal@localhost/eventcal';
+    
+    public function setUp()
+    {
+        chdir(dirname(__FILE__));
+    }
     
     /**
      * Test the installation script
@@ -43,11 +44,13 @@ class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
     {
 		require_once 'PEAR.php';
 		require_once 'UNL/UNL_UCBCN_setup.php';
-
 		$installer = new UNL_UCBCN_setup_postinstall();
-		$res = $installer->createDatabase(array('dbtype'=>'sqlite','user'=>'events','password'=>'password','dbhost'=>'localhost','database'=>'events'));
+		$res = $installer->createDatabase(array('dbtype'=>'mysqli','user'=>'eventcal','password'=>'eventcal','dbhost'=>'localhost','database'=>'eventcal'));
 		$this->assertFalse(PEAR::isError($res));
+		flush();
+		ob_start();
 		$installer->setupPermissions(array());
+		ob_clean();
     }
     
     /**
@@ -59,7 +62,7 @@ class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));
         $p = $b->factory('permission');
         $this->assertEquals(get_class($p),'UNL_UCBCN_Permission');
-        $this->assertNotEquals($p->find(),0);
+        $this->assertNotEquals(0, $p->find());
     }
     
     /**
@@ -69,18 +72,9 @@ class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
     public function testBackendInfo()
     {
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));
-        
-        $a = $b->factory('account');
-        echo $a->find();
-        //DB_DataObject::debugLevel(2);
         $u = $b->getUser('bbieber2');
-        
-        $this->assertEquals($u->uid, 'bbieber2');
+        $this->assertEquals('bbieber2', $u->uid);
     }
 }
 
-// Call Services_W3C_HTMLValidatorTest::main() if file is executed directly.
-if (PHPUnit_MAIN_METHOD == "UNL_UCBCN_InstallTest::main") {
-    UNL_UCBCN_InstallTest::main();
-}
 ?>

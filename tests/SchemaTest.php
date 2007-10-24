@@ -15,10 +15,7 @@ ini_set('display_errors',true);
  * Include MDB2_Schema for the test case.
  */
 require_once 'MDB2/Schema.php';
-
-if (!defined("PHPUnit_MAIN_METHOD")) {
-    define("PHPUnit_MAIN_METHOD", "UNL_UCBCN_SchemaTest::main");
-}
+require_once 'MDB2/Driver/sqlite.php';
 
 /**
  * This class can be used by PHPUnit to test the UNL_UCBCN database schema.
@@ -57,7 +54,7 @@ class UNL_UCBCN_SchemaTest extends PHPUnit_Framework_TestCase
         
         $this->schema =& MDB2_Schema::factory($this->dsn, $this->options);
         if (PEAR::isError($this->schema)) {
-            $this->assertTrue(false, 'Could not connect to manager in setUp');
+            $this->assertTrue(false, 'Could not connect to manager in setUp:'.$this->schema->getUserInfo());
             exit;
         }
         $this->schema->db->setOption('debug', true);
@@ -121,10 +118,7 @@ class UNL_UCBCN_SchemaTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(PEAR::isError($result), 'Error updating database');
     }
 }
-
 // Call UNL_UCBCN_SchemaTest::main() if file is executed directly.
-if (PHPUnit_MAIN_METHOD == "UNL_UCBCN_SchemaTest::main") {
-    UNL_UCBCN_SchemaTest::main();
-}
+
 
 ?>

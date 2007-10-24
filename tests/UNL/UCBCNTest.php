@@ -1,8 +1,4 @@
 <?php
-// Call UNL_UCBCNTest::main() if this source file is executed directly.
-if (!defined("PHPUnit_MAIN_METHOD")) {
-    define("PHPUnit_MAIN_METHOD", "UNL_UCBCNTest::main");
-}
 
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
@@ -45,7 +41,7 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * @access protected
      */
     protected function setUp() {
-       $this->b = new UNL_UCBCN(array('dsn'=>$this->dsn));
+        $this->b = new UNL_UCBCN(array('dsn'=>$this->dsn));
     }
 
     /**
@@ -86,22 +82,13 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($_UNL_UCBCN['template'],'davey');
     }
 
-    /**
-     * @todo Implement testGetEventCount().
-     */
-    public function testGetEventCount() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
 
     /**
-     * @todo Implement testFactory().
+     * Test the factory method.
      */
     public function testFactory() {
         $a = $this->b->factory('account');
-        $this->assertEquals(get_class($a),'UNL_UCBCN_Account');
+        $this->assertEquals('UNL_UCBCN_Account', get_class($a));
     }
 
     /**
@@ -114,15 +101,23 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
+     * @todo Implement testCreateAccount().
+     */
+    public function testCreateAccount() {
+        $a = $this->b->createAccount();
+        $this->assertEquals('UNL_UCBCN_Account', get_class($a));
+    }
+    
+    /**
      * @todo Implement testCreateUser().
      */
     public function testCreateUser() {
         
     	$a = $this->b->factory('account');
-    	$a->find();
+    	$this->assertNotEquals(0, $a->find(), 'ERROR NO Account!');
     	$a->fetch();
-    	$u = $this->b->createUser($a,'foo');
-    	$this->assertEquals($u->uid,'foo');
+    	$u = $this->b->createUser($a, 'foo');
+    	$this->assertEquals($u->uid, 'foo');
     	$u->delete();
     }
 
@@ -147,17 +142,16 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * @todo Implement testUserHasPermission().
      */
     public function testUserHasPermission() {
-    	$u =& $this->b->getUser('myuser');
-    	$a =& $this->b->getAccount($u);
-    	$c =& $this->b->getCalendar($u,$a,true);
-    	$this->assertEquals(is_object($c),true);
+    	$u = $this->b->getUser('myuser');
+    	$a = $this->b->getAccount($u);
+    	$c = $this->b->getCalendar($u, $a, false);
+    	$this->assertEquals(true, is_object($c), 'The calendar is not an object!');
     	$c->addUser($u);
-    	
-    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),1);
+    	$this->assertEquals(1, $this->b->userHasPermission($u,'Event Create',$c));
     	$c->removeUser($u);
-    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),false);
+    	$this->assertEquals(0, $this->b->userHasPermission($u,'Event Create',$c));
     	$c->addUser($u);
-    	$this->assertEquals($this->b->userHasPermission($u,'Event Create',$c),true);
+    	$this->assertEquals(1, $this->b->userHasPermission($u,'Event Create',$c));
     }
 
     /**
@@ -196,24 +190,26 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      */
     public function testGrantPermission() {
     	$r = $this->b->grantPermission('foo',1,1);
-    	$this->assertEquals($r->user_uid,'foo');
+    	$this->assertEquals('foo', $r->user_uid);
     	$r->delete();
     }
 
-    /**
-     * @todo Implement testCreateAccount().
-     */
-    public function testCreateAccount() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
+
 
     /**
      * @todo Implement testAddCalendarHasEvent().
      */
     public function testAddCalendarHasEvent() {
+        // Remove the following line when you implement this test.
+        $this->markTestIncomplete(
+          "This test has not been implemented yet."
+        );
+    }
+    
+    /**
+     * @todo Implement testGetEventCount().
+     */
+    public function testGetEventCount() {
         // Remove the following line when you implement this test.
         $this->markTestIncomplete(
           "This test has not been implemented yet."
@@ -237,7 +233,6 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
     	
     	$u = $this->b->getUser('myuser');
     	$a = $this->b->getAccount($u);
-    	
     	$this->assertEquals(get_class($a),'UNL_UCBCN_Account');
     	$this->assertEquals('Myuser Calendar Manager',$a->name);
     }
@@ -250,13 +245,7 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
     	$u = $this->b->getUser('myuser');
     	$a = $this->b->getAccount($u);
     	$c = $this->b->getCalendar($u,$a,true);
-    	
-    	$this->assertEquals('Myuser\'s Event Publisher!',$c->shortname);
-    	
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
+    	$this->assertEquals('myuser',$c->shortname);
     }
 
     /**
@@ -358,10 +347,5 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
           "This test has not been implemented yet."
         );
     }
-}
-
-// Call UNL_UCBCNTest::main() if this source file is executed directly.
-if (PHPUnit_MAIN_METHOD == "UNL_UCBCNTest::main") {
-    UNL_UCBCNTest::main();
 }
 ?>

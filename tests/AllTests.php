@@ -1,6 +1,6 @@
 <?php
 /**
- * Test suite for Services_W3C_HTMLValidator
+ * Test suite for UNL_UCBCN
  *
  * PHP versions 5
  *
@@ -16,13 +16,13 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once 'UNL/UCBCNTest.php';
-require_once 'InstallTest.php';
-require_once 'SchemaTest.php';
-require_once 'UNL/UCBCN/AccountTest.php';
-require_once 'UNL/UCBCN/CalendarTest.php';
-require_once 'UNL/UCBCN/EventInstanceTest.php';
-require_once 'UNL/UCBCN/UserTest.php';
+require_once dirname(__FILE__) . '/UNL/UCBCNTest.php';
+require_once dirname(__FILE__) . '/InstallTest.php';
+require_once dirname(__FILE__) . '/SchemaTest.php';
+require_once dirname(__FILE__) . '/UNL/UCBCN/AccountTest.php';
+require_once dirname(__FILE__) . '/UNL/UCBCN/CalendarTest.php';
+require_once dirname(__FILE__) . '/UNL/UCBCN/EventInstanceTest.php';
+require_once dirname(__FILE__) . '/UNL/UCBCN/UserTest.php';
 
 class UNL_UCBCN_AllTests
 {
@@ -38,7 +38,7 @@ class UNL_UCBCN_AllTests
     }
 
     /**
-     * Adds the Services_W3C_HTMLValidatorTest suite.
+     * Adds the UNL_UCBCNTest suite.
      *
      * @return $suite
      */
