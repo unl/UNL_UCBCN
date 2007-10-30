@@ -68,10 +68,18 @@ class UNL_UCBCN_User extends DB_DataObject
     }
     
 	public function prepareLinkedDataObject(&$ldo, $field) {
-		//you may want to include one or both of these
-		if ($ldo->tableName() == 'user_has_permission' && isset($_SESSION['calendar_id'])) {
-		    $ldo->calendar_id = $_SESSION['calendar_id'];
-		}
+	    switch($ldo->tableName()) {
+	        case 'user_has_permission':
+	            if (isset($_SESSION['calendar_id'])) {
+	                $ldo->calendar_id = $_SESSION['calendar_id'];
+	            }
+	            break;
+	        case 'calendar':
+	            if (isset($_SESSION['calendar_id'])) {
+	               $ldo->whereAdd('id = '.$_SESSION['calendar_id']);
+	            }
+	            break;
+	    }
 	}
     
     public function update()
