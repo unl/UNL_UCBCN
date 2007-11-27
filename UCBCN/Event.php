@@ -409,7 +409,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     {
         // Delete child elements that would be orphaned.
         if (ctype_digit($this->id)) {
-            foreach (array('event_has_keyword',
+            foreach (array('calendar_has_event',
+                            'event_has_keyword',
                             'eventdatetime',
                             'event_has_eventtype',
                             'event_has_sponsor',
