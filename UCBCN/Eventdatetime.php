@@ -114,10 +114,19 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             }
         }
         $form->addRule('starttime_group','Start time is required.','required');
+        $form->registerRule('date', 'callback', 'strtotime');
+                    
+        $form->addGroupRule('starttime_group', array(
+            $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix => array(
+                array('Start Date is required', 'required'),
+                array('Invalid Date', 'date'),
+            )   
+            ));
     }
     
     public function preProcessForm(&$values, &$fb)
     {
+
         // Capture event_id foreign key if needed.
         if (isset($GLOBALS['event_id'])) {
             $values['event_id'] = $GLOBALS['event_id'];
@@ -127,8 +136,8 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             if (empty($values['starttime'])) {
                 $values['starttime'] = date('Y-m-d');
             }
-            $starttime = $values['starttime'];
-            $values['starttime'] = $values['starttime'].' '.$this->_array2date($values['starthour']);
+            $starttime = date('Y-m-d', strtotime($values['starttime']));
+            $values['starttime'] = $starttime.' '.$this->_array2date($values['starthour']);
         }
         if (isset($values['endhour'])) {
             if (empty($values['endtime'])) {
