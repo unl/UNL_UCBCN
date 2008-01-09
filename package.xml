@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.6.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -12,10 +12,16 @@
   <email>brett.bieber@gmail.com</email>
   <active>yes</active>
  </lead>
- <date>2007-09-19</date>
- <time>16:23:20</time>
+ <helper>
+  <name>Brian Steere</name>
+  <user>bsteere</user>
+  <email>bsteere@cornellcollege.edu</email>
+  <active>yes</active>
+ </helper>
+ <date>2008-01-09</date>
+ <time>11:21:21</time>
  <version>
-  <release>0.5.4</release>
+  <release>0.5.5</release>
   <api>0.5.0</api>
  </version>
  <stability>
@@ -24,9 +30,15 @@
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
  <notes>
-Database changes - add primary keys to all event_has_* tables.
-Enable sponsors for events, including some re-arrangement of event formbuilder tags.
-Additional coding standards improvements.</notes>
+Bugfix release:
+* Subscription fix - events marked private were added to subscribed calendars.
+* Add static method UNL_UCBCN_Calendar::getByShortname($shortname)
+* When events are deleted, also remove them from calendar_has_event (bsteere)
+* eventcal.links.ini file had two sections for subscription table
+* Minor ordering change for eventdatetime to put room next to location (bsteere)
+* Coding standards fixes.
+* Prevent assigning a default calendar for other users (bsteere)
+ </notes>
  <contents>
   <dir baseinstalldir="UNL" name="/">
    <dir name="UCBCN">
@@ -381,12 +393,33 @@ Fix  Bug #41  	 Ongoing events do not show up on last day.</notes>
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2007-09-19</date>
+   <date>2008-01-09</date>
    <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
-   <notes>
-Database changes - add primary keys to all event_has_* tables.
+   <notes>Database changes - add primary keys to all event_has_* tables.
 Enable sponsors for events, including some re-arrangement of event formbuilder tags.
 Additional coding standards improvements.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.5</release>
+    <api>0.5.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2008-01-09</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+   <notes>
+Bugfix release:
+* Subscription fix - events marked private were added to subscribed calendars.
+* Add static method UNL_UCBCN_Calendar::getByShortname($shortname)
+* When events are deleted, also remove them from calendar_has_event (bsteere)
+* eventcal.links.ini file had two sections for subscription table
+* Minor ordering change for eventdatetime to put room next to location (bsteere)
+* Coding standards fixes.
+* Prevent assigning a default calendar for other users (bsteere)
+   </notes>
   </release>
  </changelog>
 </package>

@@ -57,13 +57,20 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.5.0');
-$pfm->setReleaseVersion('0.5.4');
+$pfm->setReleaseVersion('0.5.5');
 $pfm->setNotes('
-Database changes - add primary keys to all event_has_* tables.
-Enable sponsors for events, including some re-arrangement of event formbuilder tags.
-Additional coding standards improvements.');
+Bugfix release:
+* Subscription fix - events marked private were added to subscribed calendars.
+* Add static method UNL_UCBCN_Calendar::getByShortname($shortname)
+* When events are deleted, also remove them from calendar_has_event (bsteere)
+* eventcal.links.ini file had two sections for subscription table
+* Minor ordering change for eventdatetime to put room next to location (bsteere)
+* Coding standards fixes.
+* Prevent assigning a default calendar for other users (bsteere)
+');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
+$pfm->addMaintainer('helper','bsteere','Brian Steere','bsteere@cornellcollege.edu');
 $pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
