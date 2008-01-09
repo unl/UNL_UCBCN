@@ -70,8 +70,8 @@ Bugfix release:
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
-$pfm->addMaintainer('helper','bsteere','Brian Steere','bsteere@cornellcollege.edu');
-$pfm->setLicense('BSD License', 'http://www.opensource.org/licenses/bsd-license.php');
+//$pfm->addMaintainer('helper','bsteere','Brian Steere','bsteere@cornellcollege.edu');
+$pfm->setLicense('BSD License', 'http://www1.unl.edu/wdn/wiki/Software_License');
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.4.3');
