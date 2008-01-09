@@ -78,7 +78,10 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
             // Clean the cache on successful insert.
             UNL_UCBCN::cleanCache();
             if (self::processSubscriptions() && $this->status != 'pending') {
-                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                $event = $this->getLink('event_id');
+                if ($event->approvedforcirculation) {
+                    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                }
             }
         }
         return $r;
@@ -124,7 +127,10 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
             // Clean the cache on successful update.
             UNL_UCBCN::cleanCache();
             if ($this->status != 'pending' && $this->status != 'archived') {
-                UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                $event = $this->getLink('event_id');
+                if ($event->approvedforcirculation) {
+                    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                }
             }
         }
         return $r;

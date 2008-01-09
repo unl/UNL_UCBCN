@@ -217,21 +217,19 @@ class UNL_UCBCN_Subscription extends DB_DataObject
                 // There are events to insert, postpone any subscription processing until we're done.
                 $process_subscriptions = UNL_UCBCN_Calendar_has_event::processSubscriptions();
                 UNL_UCBCN_Calendar_has_event::processSubscriptions(false);
-                $calendar = $this->factory('calendar');
-                $user     = $this->factory('user');
-                $user->get($this->uidcreated);
-                $calendar->get($this->calendar_id);
-                $status = $this->getApprovalStatus();
+                $calendar = $this->getLink('calendar_id');
+                $user     = $this->getLink('uidcreated');
+                $status   = $this->getApprovalStatus();
                 while ($row = $res->fetchRow()) {
                     $e = $this->factory('event');
-                    if ($e->get($row[0])) {
+                    if ($e->get($row[0]) && $calendar !== false) {
                         $calendar->addEvent($e, $status, $user, 'subscription');
                         $added++;
                     }
                 }
                 // restore process subscriptions to what it was before.
                 UNL_UCBCN_Calendar_has_event::processSubscriptions($process_subscriptions);
-                self::updateSubscribedCalendars($calendar->id);
+                self::updateSubscribedCalendars($this->calendar_id);
             }
         }
         return $added;
@@ -266,7 +264,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     {
         $mdb2 =& $this->getDatabaseConnection();
         $sql  = 'SELECT DISTINCT event.id FROM event,calendar_has_event WHERE calendar_has_event.event_id = event.id
-                 AND ('.$this->searchcriteria.') AND calendar_has_event.status != \'pending\'';
+                 AND ('.$this->searchcriteria.') AND calendar_has_event.status != \'pending\' AND event.approvedforcirculation = 1';
         if ($exclude_existing) {
             $sql .= ' AND event.id NOT IN (SELECT DISTINCT event.id FROM event, calendar_has_event AS c2 WHERE c2.calendar_id ='.$this->calendar_id.' AND c2.event_id = event.id)';
         }
