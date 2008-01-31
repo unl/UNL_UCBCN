@@ -674,7 +674,8 @@ class UNL_UCBCN
                    calendar_has_event.event_id = event.id AND 
                    eventdatetime.event_id = event.id AND 
                    eventdatetime.starttime<\''.date('Y-m-d').' 00:00:00\' AND 
-                   eventdatetime.endtime<\''.date('Y-m-d').' 00:00:00\';';
+                   (eventdatetime.endtime IS NULL 
+                   OR eventdatetime.endtime<\''.date('Y-m-d').' 00:00:00\');';
         $r = $mdb2->exec($q);
         return $r;
     }
