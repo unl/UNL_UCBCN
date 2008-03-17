@@ -4,8 +4,14 @@
  * This file installs/upgrades the database and inserts the default 
  * permissions.
  * 
- * @package		UNL_UCBCN
- * @author		Brett Bieber
+ * PHP version 5
+ * 
+ * @category  Events 
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 
 /**
@@ -20,91 +26,125 @@ require_once 'UNL/UCBCN.php';
  * post installation tasks such as database creation/updates as well as
  * replacements and configuration.
  *
- * @package UNL_UCBCN
+ * @category  Events
+ * @package   UNL_UCBCN
+ * @author    Brett Bieber <brett.bieber@gmail.com>
+ * @copyright 2007 Regents of the University of Nebraska
+ * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
+ * @link      http://pear.unl.edu/
  */
 class UNL_UCBCN_setup_postinstall
 {
-	var $createDB;
-	var $databaseExists;
+    var $createDB;
+    var $databaseExists;
     var $noDBsetup;
-	var $dsn;
-	
-	function init(&$config, &$pkg, $lastversion)
+    var $dsn;
+    
+    /**
+     * initialize the post install script
+     *
+     * @param PEAR_Config  &$config     User's PEAR configuration
+     * @param unknown_type &$pkg        Package object
+     * @param string       $lastversion Last version installed, if any
+     * 
+     * @return true
+     */
+    function init(&$config, &$pkg, $lastversion)
     {
-        $this->_config = &$config;
-        $this->_registry = &$config->getRegistry();
-        $this->_ui = &PEAR_Frontend::singleton();
-        $this->_pkg = &$pkg;
-        $this->lastversion = $lastversion;
+        $this->_config        = &$config;
+        $this->_registry      = &$config->getRegistry();
+        $this->_ui            = &PEAR_Frontend::singleton();
+        $this->_pkg           = &$pkg;
+        $this->lastversion    = $lastversion;
         $this->databaseExists = false;
         return true;
     }
-    
+
+    /**
+     * Change questions asked if necessary.
+     *
+     * @param array  $prompts questions to prompt for answers
+     * @param string $section section we're asking questions for
+     * 
+     * @return array revised prompts
+     */
     function postProcessPrompts($prompts, $section)
     {
         switch ($section) {
-            case 'databaseSetup' :
+        case 'databaseSetup' :
                 
             break;
         }
         return $prompts;
     }
     
+    /**
+     * Run the postinstall script.
+     *
+     * @param array  $answers Responses to questions
+     * @param string $phase   Which phase of the install we're in
+     * 
+     * @return bool
+     */
     function run($answers, $phase)
     {
         switch ($phase) {
-        	case 'questionCreate':
-        		$this->createDB		= ($answers['createdb']=='yes')?true:false;
-    			return $this->createDB;
-            case 'databaseSetup' :
-            	if ($this->createDB) {
-               		$r = $this->createDatabase($answers);
-               		return ($r && $this->setupPermissions($answers));
-            	} else {
-            		return true;
-            	}
-            case '_undoOnError' :
-                // answers contains paramgroups that succeeded in reverse order
-                foreach ($answers as $group) {
-                    switch ($group) {
-                        case 'makedatabase' :
-                        break;
-                        case 'databaseSetup' :
-                            if ($this->lastversion || $this->databaseExists || $this->noDBsetup) {
-                                // don't uninstall the database if it had already existed
-                                break;
-                            }
-                            /* REMOVE THE DATABASE ON FAILURE! */
+        case 'questionCreate':
+            $this->createDB = ($answers['createdb']=='yes') ? true : false;
+            return $this->createDB;
+        case 'databaseSetup' :
+            if ($this->createDB) {
+                   $r = $this->createDatabase($answers);
+                   return ($r && $this->setupPermissions($answers));
+            } else {
+                return true;
+            }
+        case '_undoOnError' :
+            // answers contains paramgroups that succeeded in reverse order
+            foreach ($answers as $group) {
+                switch ($group) {
+                case 'makedatabase' :
+                    break;
+                case 'databaseSetup' :
+                    if ($this->lastversion || $this->databaseExists || $this->noDBsetup) {
+                        // don't uninstall the database if it had already existed
                         break;
                     }
+                    /* REMOVE THE DATABASE ON FAILURE! */
+                    break;
                 }
+            }
             break;
         }
     }
+
     /**
      * Creates or updates the calendar system database.
      *
-     * @param array $answers Associative array of responses to the questsions asked.
+     * @param array $answers Responses to the questsions asked.
+     * 
      * @return bool true or false on success or error.
      */
     function createDatabase($answers)
     {
-    	$this->dsn = $answers['dbtype'].'://'.$answers['user'].':'.$answers['password'].'@'.$answers['dbhost'].'/'.$answers['database'];
-    	$db = MDB2::connect($this->dsn);
-    	if (PEAR::isError($db)) {
-		    $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
-		    $this->noDBsetup = true;
-		    return false;
-		}
-		
-		if ($answers['database'] != 'eventcal') {
-			$a = self::file_str_replace(	'<name>eventcal</name>',
-											'<name>'.$answers['database'].'</name>',
-											'@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
-			if ($a != true) {
-				$this->noDBsetup = true;
-				return $a;
-			}
+        $this->dsn = $answers['dbtype'].'://'.$answers['user'].':'.$answers['password'].'@'.$answers['dbhost'].'/'.$answers['database'];
+        
+        $db = MDB2::connect($this->dsn);
+        
+        if (PEAR::isError($db)) {
+            $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
+            $this->noDBsetup = true;
+            return false;
+        }
+        
+        if ($answers['database'] != 'eventcal') {
+            $a = self::file_str_replace('<name>eventcal</name>',
+                                        '<name>'.$answers['database'].'</name>',
+                                        '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
+            if ($a != true) {
+                $this->noDBsetup = true;
+                return $a;
+            }
             $ds = DIRECTORY_SEPARATOR;
             $this->outputData('Copying DB_DataObject config file to "@DATA_DIR@' .
                 $ds.'UNL_UCBCN'.$ds.'UCBCN'.$ds.$answers['database'].'.ini"'."\n");
@@ -117,128 +157,149 @@ class UNL_UCBCN_setup_postinstall
                 '@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
                     $answers['database'] . '.links.ini');
         }
-    	$manager =& MDB2_Schema::factory($db);
-		if (PEAR::isError($manager)) {
-		   $this->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
-		   $this->noDBsetup = true;
-		   return false;
-		} else {
-			// Check if there is an old install with no database name.
-			if (!file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old')) {
-			    if (file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old')) {
-			        // Copy the old xml file to a correctly named file.
-			        copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old',
-			                '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-			    } else {
-			        // Just touch the previous definition file.
-			        touch('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-			    }
-		    }
-		    $previous_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-		    $current_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
-		    $changes = $manager->compareDefinitions($current_definition, $previous_definition);
-		    if (($manager->verifyAlterDatabase($changes))) {
-				$operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml'
-	                , '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-	            if (PEAR::isError($operation)) {
-	                $this->outputData($operation->getMessage() . ' ' . $operation->getDebugInfo());
-	                $this->noDBsetup = true;
-	                return false;
-	            } else {
-					$this->outputData('Successfully connected and created '.$this->dsn."\n");
-	            	return true;
-	            }
-		    } else {
-		        $this->outputData('Sorry, the changes cannot be automatically applied by MDB2_Schema'."\n");
-		        return false;
-		    }
-		}
-    }
-    
-    function file_str_replace($search,$replace,$file)
-    {
-    	$a = true;
-    	if (is_array($file)) {
-    		foreach ($file as $f) {
-    			$a = self::file_str_replace($search,$replace,$f);
-    			if ($a != true) {
-    				return $a;
-    			}
-    		}
-    	} else {
-    		if (file_exists($file)) {
-				$contents = file_get_contents($file);
-				$contents = str_replace($search,$replace,$contents);
-	
-				$fp = fopen($file, 'w');
-				$a = fwrite($fp, $contents, strlen($contents));
-				fclose($fp);
-				if ($a) {
-					$this->outputData('Replacements made in '.$file."\n");
-					return true;
-				} else {
-					$this->outputData('Could not update '.$file."\n");
-					return false;
-				}
-    		} else {
-    			$this->outputData($file.' does not exist!');
-    		}
-    	}
+        $manager =& MDB2_Schema::factory($db);
+        if (PEAR::isError($manager)) {
+            $this->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
+            $this->noDBsetup = true;
+            return false;
+        } else {
+            // Check if there is an old install with no database name.
+            if (!file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old')) {
+                if (file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old')) {
+                    // Copy the old xml file to a correctly named file.
+                    copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old',
+                            '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+                } else {
+                    // Just touch the previous definition file.
+                    touch('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+                }
+            }
+            
+            $previous_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+            $current_definition  = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
+            
+            $changes = $manager->compareDefinitions($current_definition, $previous_definition);
+            if (($manager->verifyAlterDatabase($changes))) {
+                $operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml',
+                             '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
+                if (PEAR::isError($operation)) {
+                    $this->outputData($operation->getMessage() . ' ' . $operation->getDebugInfo());
+                    $this->noDBsetup = true;
+                    return false;
+                } else {
+                    $this->outputData('Successfully connected and created '.$this->dsn."\n");
+                    return true;
+                }
+            } else {
+                $this->outputData('Sorry, the changes cannot be automatically applied by MDB2_Schema'."\n");
+                return false;
+            }
+        }
     }
     
     /**
-     * This function calls the backend and inserts the default permissions for the system.
+     * Replace text within a file
+     *
+     * @param string $search  Text to search for
+     * @param string $replace What to replace with
+     * @param string $file    Filename to make replacements in
+     * 
+     * @return void
+     */
+    function file_str_replace($search, $replace, $file)
+    {
+        $a = true;
+        if (is_array($file)) {
+            foreach ($file as $f) {
+                $a = self::file_str_replace($search, $replace, $f);
+                if ($a != true) {
+                    return $a;
+                }
+            }
+        } else {
+            if (file_exists($file)) {
+                $contents = file_get_contents($file);
+                $contents = str_replace($search, $replace, $contents);
+    
+                $fp = fopen($file, 'w');
+                $a = fwrite($fp, $contents, strlen($contents));
+                fclose($fp);
+                if ($a) {
+                    $this->outputData('Replacements made in '.$file."\n");
+                    return true;
+                } else {
+                    $this->outputData('Could not update '.$file."\n");
+                    return false;
+                }
+            } else {
+                $this->outputData($file.' does not exist!');
+            }
+        }
+    }
+    
+    /**
+     * This function calls the backend and inserts the default permissions
+     * for the system.
+     * 
+     * @param array $answers User provided responses to questions
+     * 
+     * @return true
      */
     function setupPermissions($answers)
     {
-		$backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
-		$permissions = array(
-							'Event Create',
-							'Event Delete',
-							'Event Post',
-							'Event Send Event to Pending Queue',
-							'Event Edit',
-							'Event Recommend',
-							'Event Remove from Pending',
-							'Event Remove from Posted',
-							'Event Remove from System ',
-							'Event View Queue',
-							'Event Export',
-							'Event Upload',
-							'Calendar Add User',
-							'Calendar Add Subscription',
-							'Calendar Delete Subscription',
-							'Calendar Delete User',
-							'Calendar Edit Subscription',
-							'Calendar Change User Permissions',
-							'Calendar Format',
-							'Calendar Edit',
-							'Calendar Change Format',
-							'Calendar Delete');
-		foreach ($permissions as $p_type) {
-			$p = $backend->factory('permission');
-			$p->name = $p_type;
-			if (!$p->find()) {
-				$p->name = $p_type;
-				$p->description = $p_type;
-				$p->insert();
-			} else {
-				echo "Sorry, $p_type already exists.\n";
-			}
-		}
-		return true;
+        $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
+
+        $permissions = array(
+                            'Event Create',
+                            'Event Delete',
+                            'Event Post',
+                            'Event Send Event to Pending Queue',
+                            'Event Edit',
+                            'Event Recommend',
+                            'Event Remove from Pending',
+                            'Event Remove from Posted',
+                            'Event Remove from System ',
+                            'Event View Queue',
+                            'Event Export',
+                            'Event Upload',
+                            'Calendar Add User',
+                            'Calendar Add Subscription',
+                            'Calendar Delete Subscription',
+                            'Calendar Delete User',
+                            'Calendar Edit Subscription',
+                            'Calendar Change User Permissions',
+                            'Calendar Format',
+                            'Calendar Edit',
+                            'Calendar Change Format',
+                            'Calendar Delete');
+        foreach ($permissions as $p_type) {
+            $p       = $backend->factory('permission');
+            $p->name = $p_type;
+            if (!$p->find()) {
+                $p->name        = $p_type;
+                $p->description = $p_type;
+                $p->insert();
+            } else {
+                echo "Sorry, $p_type already exists.\n";
+            }
+        }
+        return true;
     }
     
     /**
      * takes in a string and sends it to the client.
+     * 
+     * @param string $msg Text of message
+     * 
+     * @return void
      */
     function outputData($msg)
     {
-    	if (isset($this->_ui)) {
-    		$this->_ui->outputData($msg);
-    	} else {
-    		echo $msg;
-    	}
+        if (isset($this->_ui)) {
+            $this->_ui->outputData($msg);
+        } else {
+            echo $msg;
+        }
     }
 }
 ?>
