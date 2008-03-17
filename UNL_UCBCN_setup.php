@@ -99,6 +99,8 @@ class UNL_UCBCN_setup_postinstall
             } else {
                 return true;
             }
+        case 'questionEventTypes':
+            return $this->setupEventTypes($answers);
         case '_undoOnError' :
             // answers contains paramgroups that succeeded in reverse order
             foreach ($answers as $group) {
@@ -317,6 +319,89 @@ class UNL_UCBCN_setup_postinstall
     }
     
     /**
+     * Add some event types to the system so they have a starting point.
+     * 
+     * @param array $answers Responses to questions
+     *
+     * @return true
+     */
+    function setupEventTypes($answers)
+    {
+        if ($answers['addeventtypes']=='yes') {
+            $this->outputData('Adding sample event types. . .');
+            $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
+            /** Add some event types to the database */
+            $eventtype = $backend->factory('eventtype');
+            $types = array( 'Career Fair',
+                            'Colloquium',
+                            'Conference/Symposium',
+                            'Course',
+                            'Deadline',
+                            'Debate/Panel Discussion',
+                            'Exhibit - Artifacts',
+                            'Exhibit - Multimedia',
+                            'Exhibit - Painting',
+                            'Exhibit - Photography',
+                            'Exhibit - Sculpture',
+                            'Film - Animated',
+                            'Film - Documentary',
+                            'Film - Feature',
+                            'Film - Series',
+                            'Film - Short',
+                            'Holiday',
+                            'Information Session',
+                            'Lecture',
+                            'Meeting',
+                            'Memorial',
+                            'Other',
+                            'Performing Arts - Dance',
+                            'Performing Arts - Music',
+                            'Performing Arts - Musical Theatre',
+                            'Performing Arts - Opera',
+                            'Performing Arts - Other',
+                            'Performing Arts - Theater',
+                            'Presentation',
+                            'Reading - Fiction/poetry',
+                            'Reading - Nonfiction',
+                            'Reception',
+                            'Sale',
+                            'Seminar',
+                            'Social Event',
+                            'Special Event',
+                            'Sport - Club',
+                            'Sport - Intercollegiate - Baseball/Softball',
+                            'Sport - Intercollegiate - Basketball',
+                            'Sport - Intercollegiate - Crew',
+                            'Sport - Intercollegiate - Cross Country',
+                            'Sport - Intercollegiate - Football',
+                            'Sport - Intercollegiate - Golf',
+                            'Sport - Intercollegiate - Gymnastics',
+                            'Sport - Intercollegiate - Rifle',
+                            'Sport - Intercollegiate - Rugby',
+                            'Sport - Intercollegiate - Soccer',
+                            'Sport - Intercollegiate - Swimming & Diving',
+                            'Sport - Intercollegiate - Tennis',
+                            'Sport - Intercollegiate - Track & Field',
+                            'Sport - Intercollegiate - Volleyball',
+                            'Sport - Intercollegiate - Wrestling',
+                            'Sport - Intramural',
+                            'Sport - Recreational',
+                            'Tour/Open House',
+                            'Workshop');
+            
+            foreach ($types as $type) {
+                $eventtype->name = $type;
+                if (!$eventtype->find()) {
+                    $eventtype->name = $type;
+                    $eventtype->description = $type;
+                    $eventtype->insert();
+                }
+            }
+        }
+        return true;
+    }
+    
+    /**
      * This function calls the backend and inserts the default permissions
      * for the system.
      * 
@@ -360,7 +445,7 @@ class UNL_UCBCN_setup_postinstall
                 $p->description = $p_type;
                 $p->insert();
             } else {
-                echo "Sorry, $p_type already exists.\n";
+                $this->outputData("Sorry, $p_type already exists.");
             }
         }
         return true;

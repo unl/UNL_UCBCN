@@ -4,8 +4,8 @@
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
  <description>This package creates and upgrades a relational database used to store event publishing details
-					formatted using the University of California Berkeley Calendar Network schema. The backend provides
-					basic functions for an event management frontend, as well as a public frontend.</description>
+                    formatted using the University of California Berkeley Calendar Network schema. The backend provides
+                    basic functions for an event management frontend, as well as a public frontend.</description>
  <lead>
   <name>Brett Bieber</name>
   <user>saltybeagle</user>
@@ -19,7 +19,7 @@
   <active>yes</active>
  </helper>
  <date>2008-03-17</date>
- <time>15:03:10</time>
+ <time>16:04:08</time>
  <version>
   <release>0.5.6</release>
   <api>0.5.0</api>
@@ -134,6 +134,15 @@ Bugfix release:
        <tasks:prompt>Database Host</tasks:prompt>
        <tasks:type>string</tasks:type>
        <tasks:default>localhost</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+     <tasks:paramgroup>
+      <tasks:id>questionEventTypes</tasks:id>
+      <tasks:param>
+       <tasks:name>addeventtypes</tasks:name>
+       <tasks:prompt>Add sample default event types to the calendar database?</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>yes</tasks:default>
       </tasks:param>
      </tasks:paramgroup>
     </tasks:postinstallscript>
