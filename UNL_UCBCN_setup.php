@@ -94,7 +94,7 @@ class UNL_UCBCN_setup_postinstall
             return $this->createDB;
         case 'databaseSetup' :
             if ($this->createDB) {
-                   $r = $this->createDatabase($answers);
+                   $r = $this->handleDatabase($answers);
                    return ($r && $this->setupPermissions($answers));
             } else {
                 return true;
@@ -117,6 +117,46 @@ class UNL_UCBCN_setup_postinstall
             break;
         }
     }
+    
+    function handleDatabase($answers)
+    {
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        $this->dsn = $answers['dbtype']   . '://'
+                   . $answers['user']     . ':' 
+                   . $answers['password'] . '@'
+                   . $answers['dbhost']   . '/' 
+                   . $answers['database'];
+        
+        if ($this->databaseExists($answers['database'])) {
+            $this->outputData('Database exists already. Upgrading.');
+            return $this->upgradeDatabase($answers);
+        } else {
+            $this->outputData('No database exists. Creating.');
+            return $this->createDatabase($answers);
+        }
+        
+        PEAR::staticPopErrorHandling();
+    }
+    
+    function createDatabase($answers)
+    {
+        $db = MDB2::factory($this->dsn);
+        
+        if (PEAR::isError($db)) {
+            $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
+            $this->noDBsetup = true;
+            return false;
+        }
+        
+        $sth = $db->prepare('CREATE DATABASE IF NOT EXISTS ?', array('text'), MDB2_PREPARE_MANIP);
+        $operation = $sth->execute(array($answers['database']));
+        if (PEAR::isError($db)) {
+            $this->outputData('Could not create database. "'.$db->getMessage().'"');
+            $this->noDBsetup = true;
+            return false;
+        }
+        return $this->upgradeDatabase($answers);
+    }
 
     /**
      * Creates or updates the calendar system database.
@@ -125,11 +165,10 @@ class UNL_UCBCN_setup_postinstall
      * 
      * @return bool true or false on success or error.
      */
-    function createDatabase($answers)
+    function upgradeDatabase($answers)
     {
-        $this->dsn = $answers['dbtype'].'://'.$answers['user'].':'.$answers['password'].'@'.$answers['dbhost'].'/'.$answers['database'];
         
-        $db = MDB2::connect($this->dsn);
+        $db = MDB2::factory($this->dsn);
         
         if (PEAR::isError($db)) {
             $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
@@ -157,41 +196,68 @@ class UNL_UCBCN_setup_postinstall
                 '@DATA_DIR@' . $ds . 'UNL_UCBCN' . $ds . 'UCBCN' . $ds .
                     $answers['database'] . '.links.ini');
         }
+        
         $manager =& MDB2_Schema::factory($db);
         if (PEAR::isError($manager)) {
             $this->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
             $this->noDBsetup = true;
             return false;
         } else {
-            // Check if there is an old install with no database name.
-            if (!file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old')) {
-                if (file_exists('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old')) {
-                    // Copy the old xml file to a correctly named file.
-                    copy('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.old',
-                            '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-                } else {
-                    // Just touch the previous definition file.
-                    touch('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-                }
+            $new_definition_file = '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml';
+            $old_definition_file = '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old';
+            
+            if (file_exists($old_definition_file)) {
+                $previous_definition = $manager->parseDatabaseDefinitionFile($old_definition_file);
+                $operation = $manager->updateDatabase($new_definition_file, $old_definition_file);
+            } else {
+                $previous_definition = $manager->getDefinitionFromDatabase();
+                $operation = $manager->updateDatabase($new_definition_file, $previous_definition);
             }
             
-            $previous_definition = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-            $current_definition  = $manager->parseDatabaseDefinitionFile('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
-            
-            $changes = $manager->compareDefinitions($current_definition, $previous_definition);
-            if (($manager->verifyAlterDatabase($changes))) {
-                $operation = $manager->updateDatabase('@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml',
-                             '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old');
-                if (PEAR::isError($operation)) {
-                    $this->outputData($operation->getMessage() . ' ' . $operation->getDebugInfo());
-                    $this->noDBsetup = true;
-                    return false;
-                } else {
-                    $this->outputData('Successfully connected and created '.$this->dsn."\n");
-                    return true;
-                }
+            if (PEAR::isError($operation)) {
+                $this->outputData('There was an error updating the database.');
+                $this->outputData($operation->getMessage() . ' ' . $operation->getDebugInfo());
+                $this->noDBsetup = true;
+                return false;
             } else {
-                $this->outputData('Sorry, the changes cannot be automatically applied by MDB2_Schema'."\n");
+                copy($new_definition_file, $old_definition_file);
+                $this->outputData('Successfully connected and created '.$this->dsn."\n");
+                return true;
+            }
+        }
+    }
+    
+    /**
+     * checks if the database exists already, or not
+     *
+     * @param string $dbname Database name
+     * 
+     * @return bool
+     */
+    function databaseExists($db_name)
+    {
+        $this->outputData('Checking for existing database, '.$db_name.'. . .');
+        
+        $db =& MDB2::factory($this->dsn);
+
+        if (PEAR::isError($db)) {
+            $this->outputData('There was an error connecting, you must resolve this issue before installation can complete.');
+            $this->outputData($db->getUserinfo());
+            die();
+        }
+        
+        $exists = $db->databaseExists($db_name);
+        if (PEAR::isError($exists)) {
+            if ($exists->getMessage() == "MDB2 Error: no such database") {
+                return false;
+            }
+            $this->outputData('There was an error checking the database, you must resolve this issue before installation can complete.');
+            $this->outputData($exists->getUserinfo());
+            die();
+        } else {
+            if ($exists) {
+                return true;
+            } else {
                 return false;
             }
         }
@@ -247,6 +313,7 @@ class UNL_UCBCN_setup_postinstall
      */
     function setupPermissions($answers)
     {
+        $this->outputData('Adding default permissions. . .');
         $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
 
         $permissions = array(
