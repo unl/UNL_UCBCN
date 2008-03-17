@@ -118,6 +118,13 @@ class UNL_UCBCN_setup_postinstall
         }
     }
     
+    /**
+     * handle database postinstall script
+     *
+     * @param array $answers responses
+     * 
+     * @return bool
+     */
     function handleDatabase($answers)
     {
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
@@ -138,6 +145,13 @@ class UNL_UCBCN_setup_postinstall
         PEAR::staticPopErrorHandling();
     }
     
+    /**
+     * Create an empty database for use.
+     *
+     * @param array $answers answers to questions
+     * 
+     * @return bool
+     */
     function createDatabase($answers)
     {
         $db = MDB2::factory($this->dsn);
@@ -148,7 +162,7 @@ class UNL_UCBCN_setup_postinstall
             return false;
         }
         
-        $sth = $db->prepare('CREATE DATABASE IF NOT EXISTS ?', array('text'), MDB2_PREPARE_MANIP);
+        $sth       = $db->prepare('CREATE DATABASE IF NOT EXISTS ?', array('text'), MDB2_PREPARE_MANIP);
         $operation = $sth->execute(array($answers['database']));
         if (PEAR::isError($db)) {
             $this->outputData('Could not create database. "'.$db->getMessage().'"');
@@ -230,7 +244,7 @@ class UNL_UCBCN_setup_postinstall
     /**
      * checks if the database exists already, or not
      *
-     * @param string $dbname Database name
+     * @param string $db_name Database name
      * 
      * @return bool
      */
