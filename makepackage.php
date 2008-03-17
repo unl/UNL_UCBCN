@@ -74,6 +74,7 @@ $pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'savant.pearified.com', '3.0.0');
 $pfm->addPackageDepWithChannel('required', 'NET_URL', 'pear.php.net', '1.0');
+$pfm->addPackageDepWithChannel('required', 'MDB2', 'pear.php.net', '2.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.5.0');
 foreach (array('UCBCN.php','dataobject.ini','UNL_UCBCN_setup.php','UNL_UCBCN_db.xml') as $file) {
 	$pfm->addReplacement($file, 'pear-config', '@PHP_BIN@', 'php_bin');
