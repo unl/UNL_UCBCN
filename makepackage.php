@@ -62,6 +62,7 @@ $pfm->setNotes('
 Bugfix release:
 * Gracefully handle installs where the database exists already.
 * Improve error reporting when database errors occur.
+* Increase MDB2 dependency for databaseExists functionality - remember to upgrade MDB2_Driver_mysqli drivers as well.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
