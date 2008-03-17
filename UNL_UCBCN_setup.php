@@ -221,7 +221,6 @@ class UNL_UCBCN_setup_postinstall
             $old_definition_file = '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old';
             
             if (file_exists($old_definition_file)) {
-                $previous_definition = $manager->parseDatabaseDefinitionFile($old_definition_file);
                 $operation = $manager->updateDatabase($new_definition_file, $old_definition_file);
             } else {
                 $previous_definition = $manager->getDefinitionFromDatabase();
