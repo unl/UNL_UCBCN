@@ -57,16 +57,11 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.5.0');
-$pfm->setReleaseVersion('0.5.5');
+$pfm->setReleaseVersion('0.5.6');
 $pfm->setNotes('
 Bugfix release:
-* Subscription fix - events marked private were added to subscribed calendars.
-* Add static method UNL_UCBCN_Calendar::getByShortname($shortname)
-* When events are deleted, also remove them from calendar_has_event (bsteere)
-* eventcal.links.ini file had two sections for subscription table
-* Minor ordering change for eventdatetime to put room next to location (bsteere)
-* Coding standards fixes.
-* Prevent assigning a default calendar for other users (bsteere)
+* Gracefully handle installs where the database exists already.
+* Improve error reporting when database errors occur.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
