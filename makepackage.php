@@ -34,8 +34,8 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
 //$pfm->setOptions(array(
     'packagedirectory' => dirname(__FILE__),
     'baseinstalldir' => 'UNL',
-    'filelistgenerator' => 'cvs',
-    'ignore' => array(    'package.xml',
+    'filelistgenerator' => 'svn',
+    'ignore' => array(  'package.xml',
                         '.project',
                         '*.tgz',
                         'makepackage.php',
@@ -50,7 +50,7 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
                         '*tests*',
                         '*scripts*'),
     'simpleoutput' => true,
-    'roles'=>array('php'=>'php'    ),
+    'roles'=>array('php'=>'php'),
     'exceptions'=>array()
 ));
 $pfm->setPackage('UNL_UCBCN');
