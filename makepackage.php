@@ -62,13 +62,17 @@ $pfm->setDescription('This package creates and upgrades a relational database us
 $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
-$pfm->setAPIVersion('0.5.0');
-$pfm->setReleaseVersion('0.5.6');
+$pfm->setAPIVersion('0.6.0');
+$pfm->setReleaseVersion('0.6.0');
 $pfm->setNotes('
-Bugfix release:
-* Gracefully handle installs where the database exists already.
-* Improve error reporting when database errors occur.
-* Increase MDB2 dependency for databaseExists functionality - remember to upgrade MDB2_Driver_mysqli drivers as well.
+NOTE: This release contains database changes!
+Please backup your database before installing this update.
+
+Feature Release:
+* Add field to calendar table - recommendationswithinaccount. Used to store
+  whether this calendar will accept recommendations from other calendars under
+  the same account. This calendar users under the same account to recommend
+  events to one another without requiring specific permissions over each calendar.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');

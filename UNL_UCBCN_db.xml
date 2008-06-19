@@ -465,6 +465,14 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+   
+   <field>
+    <name>recommendationswithinaccount</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>n</default>
+   </field>
 
    <field>
     <name>eventreleasepreference</name>

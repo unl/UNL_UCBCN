@@ -37,19 +37,20 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public $account_id;                      // int(10)  not_null multiple_key unsigned
     public $name;                            // string(255)  
     public $shortname;                       // string(100)  multiple_key
+    public $website;                         // string(255)  
     public $eventreleasepreference;          // string(255)  
     public $calendardaterange;               // int(10)  unsigned
-    public $formatcalendardata;              // blob(-1)  blob
-    public $uploadedcss;                     // blob(-1)  blob
-    public $uploadedxsl;                     // blob(-1)  blob
-    public $emaillists;                      // blob(-1)  blob
+    public $formatcalendardata;              // blob(4294967295)  blob
+    public $uploadedcss;                     // blob(4294967295)  blob
+    public $uploadedxsl;                     // blob(4294967295)  blob
+    public $emaillists;                      // blob(4294967295)  blob
     public $calendarstatus;                  // string(255)  
     public $datecreated;                     // datetime(19)  binary
     public $uidcreated;                      // string(255)  
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(255)  
     public $externalforms;                   // string(255)  
-    public $website;                         // string(255)  
+    public $recommendationswithinaccount;    // int(1)  
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Calendar',$k,$v); }
