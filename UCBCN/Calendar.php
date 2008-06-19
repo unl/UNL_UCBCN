@@ -71,7 +71,8 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 	                                        'externalforms');
     public  $fb_fieldLabels       = array('eventreleasepreference' => 'Event Release Preference',
 	                                      'shortname'  => 'Short Name (this will change your calendar web address)',
-	                                      'emaillists' => 'Email Lists (separated by commas)');
+	                                      'emaillists' => 'Email Lists (separated by commas)',
+                                          'recommendationswithinaccount' => 'Allow event recommendations within this account');
     public  $fb_enumFields        = array('eventreleasepreference');
     public  $fb_enumOptions       = array('eventreleasepreference'=>array('Immediate','Pending'));
     public  $fb_linkDisplayFields = array('name','shortname');
