@@ -37,7 +37,7 @@ class UNL_UCBCN_Sponsor extends DB_DataObject
     public $name;                            // string(255)  
     public $standard;                        // int(1)  
     public $sponsortype;                     // string(255)  
-    public $webpageurl;                      // blob(-1)  blob
+    public $webpageurl;                      // blob(4294967295)  blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Sponsor',$k,$v); }

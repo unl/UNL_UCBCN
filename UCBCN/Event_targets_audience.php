@@ -31,9 +31,9 @@ class UNL_UCBCN_Event_targets_audience extends DB_DataObject
     /* the code below is auto generated do not remove the above tag */
 
     public $__table = 'event_targets_audience';          // table name
+    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $audience_id;                     // int(10)  not_null multiple_key unsigned
-    public $id;                              // int(10)  not_null primary_key unsigned auto_increment
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Event_targets_audience',$k,$v); }

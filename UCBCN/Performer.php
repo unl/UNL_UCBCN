@@ -39,8 +39,8 @@ class UNL_UCBCN_Performer extends DB_DataObject
     public $name;                            // string(255)  
     public $jobtitle;                        // string(100)  
     public $organizationname;                // string(100)  
-    public $personalwebpageurl;              // blob(-1)  blob
-    public $organizationwebpageurl;          // blob(-1)  blob
+    public $personalwebpageurl;              // blob(4294967295)  blob
+    public $organizationwebpageurl;          // blob(4294967295)  blob
     public $type;                            // string(255)  
 
     /* Static get */

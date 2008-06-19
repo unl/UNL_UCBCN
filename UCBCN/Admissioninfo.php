@@ -38,9 +38,9 @@ class UNL_UCBCN_Admissioninfo extends DB_DataObject
     public $contactname;                     // string(100)  
     public $contactphone;                    // string(50)  
     public $contactemail;                    // string(255)  
-    public $contacturl;                      // blob(-1)  blob
+    public $contacturl;                      // blob(4294967295)  blob
     public $status;                          // string(255)  
-    public $additionalinfo;                  // blob(-1)  blob
+    public $additionalinfo;                  // blob(4294967295)  blob
     public $deadline;                        // datetime(19)  binary
     public $opendate;                        // datetime(19)  binary
 

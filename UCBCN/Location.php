@@ -41,10 +41,10 @@ class UNL_UCBCN_Location extends DB_DataObject
     public $city;                            // string(100)  
     public $state;                           // string(2)  
     public $zip;                             // string(10)  
-    public $mapurl;                          // blob(-1)  blob
-    public $webpageurl;                      // blob(-1)  blob
+    public $mapurl;                          // blob(4294967295)  blob
+    public $webpageurl;                      // blob(4294967295)  blob
     public $hours;                           // string(255)  
-    public $directions;                      // blob(-1)  blob
+    public $directions;                      // blob(4294967295)  blob
     public $additionalpublicinfo;            // string(255)  
     public $type;                            // string(100)  
     public $phone;                           // string(50)  

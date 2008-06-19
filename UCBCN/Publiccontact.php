@@ -45,7 +45,7 @@ class UNL_UCBCN_Publiccontact extends DB_DataObject
     public $emailaddress;                    // string(100)  
     public $phone;                           // string(50)  
     public $fax;                             // string(50)  
-    public $webpageurl;                      // blob(-1)  blob
+    public $webpageurl;                      // blob(4294967295)  blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Publiccontact',$k,$v); }

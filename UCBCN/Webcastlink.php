@@ -33,7 +33,7 @@ class UNL_UCBCN_Webcastlink extends DB_DataObject
     public $__table = 'webcastlink';                     // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $webcast_id;                      // int(10)  not_null unsigned
-    public $url;                             // blob(-1)  blob
+    public $url;                             // blob(4294967295)  blob
     public $sequencenumber;                  // int(10)  unsigned
     public $related;                         // string(1)  
 

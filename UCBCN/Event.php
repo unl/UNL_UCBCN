@@ -37,24 +37,24 @@ class UNL_UCBCN_Event extends DB_DataObject
     public $title;                           // string(100)  not_null multiple_key
     public $subtitle;                        // string(100)  
     public $othereventtype;                  // string(255)  
-    public $description;                     // blob(-1)  blob
+    public $description;                     // blob(4294967295)  blob
     public $shortdescription;                // string(255)  
     public $refreshments;                    // string(255)  
     public $classification;                  // string(100)  
     public $approvedforcirculation;          // int(1)  
     public $transparency;                    // string(255)  
     public $status;                          // string(100)  
-    public $privatecomment;                  // blob(-1)  blob
+    public $privatecomment;                  // blob(4294967295)  blob
     public $otherkeywords;                   // string(255)  
     public $imagetitle;                      // string(100)  
-    public $imageurl;                        // blob(-1)  blob
-    public $webpageurl;                      // blob(-1)  blob
+    public $imageurl;                        // blob(4294967295)  blob
+    public $webpageurl;                      // blob(4294967295)  blob
     public $listingcontactuid;               // string(255)  
     public $listingcontactname;              // string(100)  
     public $listingcontactphone;             // string(255)  
     public $listingcontactemail;             // string(255)  
-    public $icalendar;                       // blob(-1)  blob
-    public $imagedata;                       // blob(-1)  blob binary
+    public $icalendar;                       // blob(4294967295)  blob
+    public $imagedata;                       // blob(4294967295)  blob binary
     public $imagemime;                       // string(255)  
     public $datecreated;                     // datetime(19)  binary
     public $uidcreated;                      // string(100)  

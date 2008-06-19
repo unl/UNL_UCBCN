@@ -39,8 +39,8 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public $endtime;                         // datetime(19)  multiple_key binary
     public $room;                            // string(255)  
     public $hours;                           // string(255)  
-    public $directions;                      // blob(-1)  blob
-    public $additionalpublicinfo;            // blob(-1)  blob
+    public $directions;                      // blob(4294967295)  blob
+    public $additionalpublicinfo;            // blob(4294967295)  blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Eventdatetime',$k,$v); }

@@ -38,7 +38,7 @@ class UNL_UCBCN_Webcast extends DB_DataObject
     public $dateavailable;                   // datetime(19)  binary
     public $playertype;                      // string(100)  
     public $bandwidth;                       // string(255)  
-    public $additionalinfo;                  // blob(-1)  blob
+    public $additionalinfo;                  // blob(4294967295)  blob
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Webcast',$k,$v); }
