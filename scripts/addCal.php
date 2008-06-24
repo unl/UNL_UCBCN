@@ -10,7 +10,7 @@
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2008 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
- * @link      http://pear.unl.edu/
+ * @link      http://code.google.com/p/unl-event-publisher/
  */
 if (!isset($_SERVER['argv'],$_SERVER['argv'][1])
     || $_SERVER['argv'][1] == '--help' || $_SERVER['argc'] != 4) {
