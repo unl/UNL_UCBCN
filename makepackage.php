@@ -66,13 +66,25 @@ $pfm->setAPIVersion('0.6.0');
 $pfm->setReleaseVersion('0.6.0');
 $pfm->setNotes('
 NOTE: This release contains database changes!
-Please backup your database before installing this update.
+Please backup your database before installing this upgrade.
 
 Feature Release:
 * Add field to calendar table - recommendationswithinaccount. Used to store
   whether this calendar will accept recommendations from other calendars under
   the same account. This calendar users under the same account to recommend
   events to one another without requiring specific permissions over each calendar.
+  Defaults to NO.
+* Post install script now asks if the user would like sample event types added.
+* Add console script to make grouping calendars under accounts easy.
+    Ex: php calGrouper.php "New or Existing Account Name" calshortname1 calshortname2
+* Add console script for adding accounts.
+    Ex: php addAccount.php "College of Engineering"
+
+Fixes:
+* Update BSD license link to the UNL copy.
+* Update copyright date to 2008.
+* Change homepage URLs to Google Code project page.
+* Minor Coding Standards fixes.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
