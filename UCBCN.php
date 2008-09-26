@@ -90,8 +90,8 @@ class UNL_UCBCN
         $dboptions = array(
             'database'        => $this->dsn,
             'schema_location' => '@DATA_DIR@/UNL_UCBCN/UCBCN',
-            'class_location'  => '@PHP_DIR@/UNL/UCBCN',
-            'require_prefix'  => '@PHP_DIR@/UNL/UCBCN',
+            'class_location'  => dirname(__FILE__).'/UCBCN',
+            'require_prefix'  => dirname(__FILE__).'/UCBCN',
             'class_prefix'    => 'UNL_UCBCN_',
             'db_driver'       => 'MDB2'
         );
