@@ -101,7 +101,6 @@ $pfm->addPackageDepWithChannel('required', 'MDB2', 'pear.php.net', '2.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.5.0');
 foreach (array('UCBCN.php','dataobject.ini','UNL_UCBCN_setup.php','UNL_UCBCN_db.xml') as $file) {
     $pfm->addReplacement($file, 'pear-config', '@PHP_BIN@', 'php_bin');
-    $pfm->addReplacement($file, 'pear-config', '@PHP_DIR@', 'php_dir');
     $pfm->addReplacement($file, 'pear-config', '@DATA_DIR@', 'data_dir');
     $pfm->addReplacement($file, 'pear-config', '@DOC_DIR@', 'doc_dir');
 }
@@ -111,14 +110,14 @@ $log = PEAR_Frontend::singleton();
 $task = new PEAR_Task_Postinstallscript_rw($pfm, $config, $log,
     array('name' => 'UNL_UCBCN_setup.php', 'role' => 'php'));
 $task->addParamGroup('questionCreate', array(
-    $task->getParam('createdb', 'Create/Upgrade database for UNL_UCBCN?', 'string', 'yes'),
+    $task->getParam('createdb', 'Create/Upgrade database for UNL Event Publisher?', 'string', 'yes'),
     ));
 $task->addParamGroup('databaseSetup', array(
-    $task->getParam('dbtype', 'Database/connection type', 'string', 'mysqli'),
-    $task->getParam('database', 'Calendar database', 'string', 'eventcal'),
-    $task->getParam('user', 'Username (must have create permision)', 'string', 'eventcal'),
-    $task->getParam('password', 'Mysql password', 'string', 'eventcal'),
-    $task->getParam('dbhost', 'Database Host', 'string', 'localhost')
+    $task->getParam('dbtype',   'Database/connection type', 'string', 'mysqli'),
+    $task->getParam('database', 'Calendar database',        'string', 'eventcal'),
+    $task->getParam('user',     'Username (must have CREATE TABLE permission)', 'string', 'eventcal'),
+    $task->getParam('password', 'Mysql password',           'string', 'eventcal'),
+    $task->getParam('dbhost',   'Database Host',            'string', 'localhost')
     ));
 $task->addParamGroup('questionEventTypes', array(
     $task->getParam('addeventtypes', 'Add sample default event types to the calendar database?', 'string', 'yes'),
