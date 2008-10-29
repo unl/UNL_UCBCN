@@ -445,7 +445,7 @@ class UNL_UCBCN_setup_postinstall
                 $p->description = $p_type;
                 $p->insert();
             } else {
-                $this->outputData("Sorry, $p_type already exists.");
+                $this->outputData("The permission $p_type already exists.");
             }
         }
         return true;
@@ -461,9 +461,9 @@ class UNL_UCBCN_setup_postinstall
     function outputData($msg)
     {
         if (isset($this->_ui)) {
-            $this->_ui->outputData($msg);
+            $this->_ui->outputData($msg.PHP_EOL);
         } else {
-            echo $msg;
+            echo $msg.PHP_EOL;
         }
     }
 }
