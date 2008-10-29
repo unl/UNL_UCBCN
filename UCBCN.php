@@ -66,6 +66,17 @@ class UNL_UCBCN
     public $default_calendar_id = 1;
     
     /**
+     * input filters
+     */
+    protected static $input_filters = array();
+    
+    /**
+     * output filters
+     */
+    protected static $output_filters = array();
+    
+    
+    /**
      * Constructor for the UCBCN object, initializes member variables and sets up 
      * connection details for the database.
      * 
@@ -130,6 +141,26 @@ class UNL_UCBCN
                      . $option . '] for object ' . get_class($this) . "\n";
             }
         }
+    }
+    
+    /**
+     * adds an input filter to this controller, the filter will be called whenever input is processed
+     *
+     * @param UNL_UCBCN_Filter $filter a filter object used for filtering input
+     */
+    public static function addInputFilter(UNL_UCBCN_Filter $filter)
+    {
+        self::$input_filters[] = $filter;
+    }
+    
+    /**
+     * adds an output filter to this controller, the filter will be called whenever output is sent
+     *
+     * @param UNL_UCBCN_Filter $filter a filter object used for filtering input
+     */
+    public static function addOutputFilter(UNL_UCBCN_Filter $filter)
+    {
+        self::$output_filters[] = $filter;
     }
     
     /**
@@ -328,8 +359,13 @@ class UNL_UCBCN
     {
         include_once 'Savant3.php';
         $savant = new Savant3();
-        foreach (get_object_vars($content) as $key=>$var) {
-            $savant->$key = $var;
+        foreach (get_object_vars($content) as $var=>$output) {
+            if (!is_object($output)) {
+                foreach (self::$output_filters as $filter) {
+                    $output = $filter->filter($output);
+                }
+            }
+            $savant->$var = $output;
         }
         $templatefile = UNL_UCBCN::getTemplateFilename(get_class($content));
         if (file_exists($templatefile)) {
