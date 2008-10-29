@@ -295,7 +295,7 @@ class UNL_UCBCN
                         $content->run();
                         UNL_UCBCN::sendObjectOutput($content);
                         $data = ob_get_contents();
-                        $cache->save($data);
+                        $cache->save($data, $key, 'UNL_UCBCN');
                         ob_end_clean();
                     }
                     echo $data;
@@ -691,10 +691,24 @@ class UNL_UCBCN
     {
         $c = new Cache_Lite();
         if (isset($o)) {
-            // Add in cache cleaning for individual objects.
+            if (is_object($o)
+                && method_exists($content, 'getCacheKey')) {
+                $key = $content->getCacheKey();
+                if ($key === false) {
+                    // This is a non-cacheable object.
+                    return true;
+                }
+            } else {
+                $key = (string) $o;
+            }
+            if ($cache->get($key) !== false) {
+                // Remove the cache for this individual object.
+                return $cache->remove($key, 'UNL_UCBCN');
+            }
         } else {
-            return $c->clean();
+            return $c->clean('UNL_UCBCN');
         }
+        return false;
     }
     
     /**
