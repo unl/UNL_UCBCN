@@ -57,6 +57,10 @@ class UNL_UCBCN_User extends DB_DataObject
     	foreach ($this->fb_hiddenFields as $el) {
     		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
     	}
+        if (isset($_SESSION['calendar_id']) && ($_SESSION['calendar_id'] != $this->calendar_id)) {
+            $this->fb_preDefElements['calendar_id'] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix."calendar_id".$fb->elementNamePostfix);
+        }
+
     }
     
     public function postGenerateForm(&$form, &$formBuilder)
