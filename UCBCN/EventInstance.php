@@ -31,13 +31,24 @@ require_once 'UNL/UCBCN.php';
  */
 class UNL_UCBCN_EventInstance extends UNL_UCBCN
 {
-    /** UNL_UCBCN_Event object */
+    /**
+     * @var UNL_UCBCN_Event Event details
+     */
     public $event;
-    /** UNL_UCBCN_Eventdatetime object */
+    
+    /**
+     * @var UNL_UCBCN_Eventdatetime Date and time details
+     */
     public $eventdatetime;
-    /** Optional calendar associated with this event instance */
-    public $calendar;    
-    /** URL to this event instance */
+    
+    /**
+     * @var UNL_UCBCN_Calendar Optional calendar associated with this instance.
+     */
+    public $calendar;
+    
+    /**
+     * @var string URL to this event instance (with html entities).
+     */
     public $url;
     
     /**
