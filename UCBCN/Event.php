@@ -4,7 +4,7 @@
  * 
  * PHP version 5
  * 
- * @category  Events 
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2008 Regents of the University of Nebraska
@@ -20,14 +20,15 @@ require_once 'UNL/UCBCN.php';
 
 /**
  * ORM for a record within the database.
- * 
+ *
+ * @category  Events 
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2008 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event extends DB_DataObject 
+class UNL_UCBCN_Event extends DB_DataObject
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -74,10 +75,10 @@ class UNL_UCBCN_Event extends DB_DataObject
                                     'title',
                                     'subtitle',
                                     'description',
-    								'__reverseLink_event_has_eventtype_event_id',
+                                    '__reverseLink_event_has_eventtype_event_id',
                                     'othereventtype',
                                     '__reverseLink_eventdatetime_event_id',
-    								'listingcontactname',
+                                    'listingcontactname',
                                     'listingcontactphone',
                                     'listingcontactemail');
     
@@ -132,34 +133,39 @@ class UNL_UCBCN_Event extends DB_DataObject
     /**
      * Called before the form values are processed and populate the object.
      *
-     * @param array                     $values Associative array of post data.
-     * @param DB_DataObject_FormBuilder $fb     Formbuilder object
+     * @param array                     &$values Associative array of post data.
+     * @param DB_DataObject_FormBuilder &$fb     Formbuilder object
+     * 
+     * @return void
      */
-    function preProcessForm(&$values, &$fb){
+    function preProcessForm(&$values, &$fb)
+    {
         if (strpos($values['listingcontactemail'], '@') === false 
             && !empty($values['listingcontactemail'])
             && isset($GLOBALS['email_domain'])) {
-    	    $values['listingcontactemail'] = $values['listingcontactemail'] . '@' . $GLOBALS['email_domain'];
+            $values['listingcontactemail'] = $values['listingcontactemail'] . '@' . $GLOBALS['email_domain'];
         }
     }
     
     /**
      * Called before the form is generated.
      * 
-     * @param DB_DataObject_FormBuilder object
+     * @param DB_DataObject_FormBuilder &$fb The FormBuilder
+     * 
+     * @return void
      */
     public function preGenerateForm(&$fb)
     {
         global $_UNL_UCBCN;
         foreach ($this->fb_hiddenFields as $el) {
-            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
+            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden', $fb->elementNamePrefix.$el.$fb->elementNamePostfix);
         }
-        $this->fb_preDefElements['imagedata'] = HTML_QuickForm::createElement('file','imagedata',$this->fb_fieldLabels['imagedata']);
+        $this->fb_preDefElements['imagedata'] = HTML_QuickForm::createElement('file', 'imagedata', $this->fb_fieldLabels['imagedata']);
         if (isset($_UNL_UCBCN['default_calendar_id']) &&
             isset($_SESSION['calendar_id']) &&
             ($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
-            require_once 'UNL/UCBCN/Calendar_has_event.php';
-            $this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox','consider',$this->fb_fieldLabels['consider'],' Please consider event for the main calendar');
+            include_once 'UNL/UCBCN/Calendar_has_event.php';
+            $this->fb_preDefElements['consider'] = HTML_QuickForm::createElement('checkbox', 'consider', $this->fb_fieldLabels['consider'], 'Please consider event for the main calendar');
             if (isset($this->id)) {
                 $che = UNL_UCBCN::factory('calendar_has_event');
                 $che->calendar_id = $_UNL_UCBCN['default_calendar_id'];
@@ -172,7 +178,7 @@ class UNL_UCBCN_Event extends DB_DataObject
             }
         }
         if (isset($this->uidcreated)) {
-            $el = HTML_QuickForm::createElement('text','uidcreated','Originally Created By',$this->uidcreated);
+            $el = HTML_QuickForm::createElement('text', 'uidcreated', 'Originally Created By', $this->uidcreated);
             $el->freeze();
             $this->fb_preDefElements['uidcreated'] =& $el;
             unset($this->fb_reverseLinks);
@@ -183,17 +189,19 @@ class UNL_UCBCN_Event extends DB_DataObject
     /**
      * Called after the form is generated for additional formatting.
      * 
-     * @param object HTML_QuickForm object of the form
-     * @param object DB_DataObject_Formbuilder
+     * @param HTML_QuickForm            &$form        The form
+     * @param DB_DataObject_Formbuilder &$formBuilder The formbuilder
+     * 
+     * @return void
      */
     public function postGenerateForm(&$form, &$formBuilder)
     {
-        $form->insertElementBefore(HTML_QuickForm::createElement('header','detailsheader','Event Details'),'title');
-        $form->insertElementBefore(HTML_QuickForm::createElement('header','contactheader','Contact Information'),'listingcontactname');
-        $form->insertElementBefore(HTML_QuickForm::createElement('header','eventlocationheader','Event Location, Date and Time'),'__reverseLink_eventdatetime_event_id');
-        $form->insertElementBefore(HTML_QuickForm::createElement('header','optionaldetailsheader','Additional Details (Optional)'),'shortdescription');
-        $form->updateElementAttr('approvedforcirculation','id="approvedforcirculation"');
-        $form->updateElementAttr('uidcreated','id="uidcreated"');
+        $form->insertElementBefore(HTML_QuickForm::createElement('header', 'detailsheader', 'Event Details'), 'title');
+        $form->insertElementBefore(HTML_QuickForm::createElement('header', 'contactheader', 'Contact Information'), 'listingcontactname');
+        $form->insertElementBefore(HTML_QuickForm::createElement('header', 'eventlocationheader', 'Event Location, Date and Time'), '__reverseLink_eventdatetime_event_id');
+        $form->insertElementBefore(HTML_QuickForm::createElement('header', 'optionaldetailsheader', 'Additional Details (Optional)'), 'shortdescription');
+        $form->updateElementAttr('approvedforcirculation', 'id="approvedforcirculation"');
+        $form->updateElementAttr('uidcreated', 'id="uidcreated"');
         
         foreach ($this->fb_textAreaFields as $name) {
             $el =& $form->getElement($name);
@@ -210,8 +218,8 @@ class UNL_UCBCN_Event extends DB_DataObject
         $el->setCols(50);
         $el->setRows(2);
         
-        $form->addRule('imageurl','Image URL must be valid, be sure to include http://','callback',array('UNL_UCBCN_Event','checkURL'));
-        $form->addRule('webpageurl','Web Page URL must be valid, be sure to include http://','callback',array('UNL_UCBCN_Event','checkURL'));
+        $form->addRule('imageurl', 'Image URL must be valid, be sure to include http://', 'callback', array('UNL_UCBCN_Event','checkURL'));
+        $form->addRule('webpageurl', 'Web Page URL must be valid, be sure to include http://', 'callback', array('UNL_UCBCN_Event','checkURL'));
         
         $defaults = array();
         if (isset($_SESSION['_authsession'])) {
@@ -241,21 +249,25 @@ class UNL_UCBCN_Event extends DB_DataObject
      * 
      * Used to check webpageurl and imageurl fields.
      *
-     * @param string $val
+     * @param string $val URL to check
+     * 
      * @return int 0 | 1
      */
     public function checkURL($val)
     {
-        return preg_match('/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i',$val);
+        return preg_match('/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i', $val);
     }
     
     /**
      * Called before linked dataobjects are used to restrict the results to a subset
      *
-     * @param object $linkedDataObject The dataobject to be linked.
-     * @param string $field            The field which the linked object is used for
+     * @param object &$linkedDataObject The dataobject to be linked.
+     * @param string $field             The field which the linked object is used for
+     * 
+     * @return void
      */
-    public function prepareLinkedDataObject(&$linkedDataObject, $field) {
+    public function prepareLinkedDataObject(&$linkedDataObject, $field)
+    {
         if ($linkedDataObject->tableName() == 'eventdatetime' ||
             $linkedDataObject->tableName() == 'event_has_eventtype' ||
             $linkedDataObject->tableName() == 'event_has_sponsor') {
@@ -293,6 +305,7 @@ class UNL_UCBCN_Event extends DB_DataObject
      * 
      * Called from insert() or update().
      *
+     * @return void
      */
     public function processFileAttachments()
     {
@@ -333,7 +346,7 @@ class UNL_UCBCN_Event extends DB_DataObject
             $GLOBALS['event_id'] = $this->id;
             if ($add_to_default && isset($_UNL_UCBCN['default_calendar_id'])) {
                 // Add this as a pending event to the default calendar.
-                $this->addToCalendar($_UNL_UCBCN['default_calendar_id'],'pending','checked consider event');
+                $this->addToCalendar($_UNL_UCBCN['default_calendar_id'], 'pending', 'checked consider event');
             }
         }
         return $result;
@@ -341,6 +354,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Updates the record for this event in the database.
+     * 
+     * @param mixed $do DataObject
      * 
      * @return bool
      */
@@ -371,7 +386,7 @@ class UNL_UCBCN_Event extends DB_DataObject
                 $che->calendar_id = $_UNL_UCBCN['default_calendar_id'];
                 $che->event_id = $this->id;
                 if ($che->find()==0) {
-                    $this->addToCalendar($_UNL_UCBCN['default_calendar_id'],'pending','checked consider event');
+                    $this->addToCalendar($_UNL_UCBCN['default_calendar_id'], 'pending', 'checked consider event');
                 }
             }
         }
@@ -382,22 +397,24 @@ class UNL_UCBCN_Event extends DB_DataObject
      * This function will add the current event to the default calendar.
      * It assumes that the global default_calendar_id is set.
      * 
-     * @param int ID of the calendar to add the event to
-     * @param string Status to add as, pending | posted | archived
-     * @param string Message for the source of this addition.
+     * @param int    $calendar_id ID of the calendar to add the event to
+     * @param string $status      Status to add as, pending | posted | archived
+     * @param string $sourcemsg   Message for the source of this addition.
+     * 
+     * @return int|false
      */
     public function addToCalendar($calendar_id, $status='pending', $sourcemsg = 'unknown')
     {
         $values = array(
-                'calendar_id'    => $calendar_id,
+                'calendar_id'     => $calendar_id,
                 'event_id'        => $this->id,
-                'uidcreated'    => $_SESSION['_authsession']['username'],
-                'datecreated'    => date('Y-m-d H:i:s'),
-                'datelastupdated'    => date('Y-m-d H:i:s'),
-                'uidlastupdated'    => $_SESSION['_authsession']['username'],
-                'status'        => $status,
-                'source'        => $sourcemsg);
-        return UNL_UCBCN::dbInsert('calendar_has_event',$values);
+                'uidcreated'      => $_SESSION['_authsession']['username'],
+                'datecreated'     => date('Y-m-d H:i:s'),
+                'datelastupdated' => date('Y-m-d H:i:s'),
+                'uidlastupdated'  => $_SESSION['_authsession']['username'],
+                'status'          => $status,
+                'source'          => $sourcemsg);
+        return UNL_UCBCN::dbInsert('calendar_has_event', $values);
     }
     
     /**
@@ -410,12 +427,12 @@ class UNL_UCBCN_Event extends DB_DataObject
         // Delete child elements that would be orphaned.
         if (ctype_digit($this->id)) {
             foreach (array('calendar_has_event',
-                            'event_has_keyword',
-                            'eventdatetime',
-                            'event_has_eventtype',
-                            'event_has_sponsor',
-                            'event_isopento_audience',
-                            'event_targets_audience') as $table) {
+                           'event_has_keyword',
+                           'eventdatetime',
+                           'event_has_eventtype',
+                           'event_has_sponsor',
+                           'event_isopento_audience',
+                           'event_targets_audience') as $table) {
                 $do = DB_DataObject::factory($table);
                 $do->event_id = $this->id;
                 $do->delete();
