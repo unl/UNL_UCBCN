@@ -7,7 +7,7 @@
  * @category  Events 
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
- * @copyright 2008 Regents of the University of Nebraska
+ * @copyright 2009 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
@@ -62,29 +62,20 @@ $pfm->setDescription('This package creates and upgrades a relational database us
 $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
-$pfm->setAPIVersion('0.6.0');
-$pfm->setReleaseVersion('0.6.0');
+$pfm->setAPIVersion('0.7.0');
+$pfm->setReleaseVersion('0.7.0');
 $pfm->setNotes('
-NOTE: This release contains database changes!
-Please backup your database before installing this upgrade.
-
-Feature Release:
-* Add field to calendar table - recommendationswithinaccount. Used to store
-  whether this calendar will accept recommendations from other calendars under
-  the same account. This calendar users under the same account to recommend
-  events to one another without requiring specific permissions over each calendar.
-  Defaults to NO.
-* Post install script now asks if the user would like sample event types added.
-* Add console script to make grouping calendars under accounts easy.
-    Ex: php calGrouper.php "New or Existing Account Name" calshortname1 calshortname2
-* Add console script for adding accounts.
-    Ex: php addAccount.php "College of Engineering"
-
-Fixes:
-* Update BSD license link to the UNL copy.
-* Update copyright date to 2008.
-* Change homepage URLs to Google Code project page.
+0.7.0 Changes:
+* Caching improvements:
+    Support removing individual cache files.
+    Group all cached files under the UNL_UCBCN group.
+* Sample script calAddUser.php added for adding users to a calendar.
+    Example: php calAddUser.php chemistry jdoe
+* Switch Savant3 dependency to the official channel at phpsavant.com.
+* Add dependency on MDB2_Driver_mysqli to simplify installation.
 * Minor Coding Standards fixes.
+* Update copyright to 2009.
+* Add work on input/output filters.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
@@ -92,12 +83,13 @@ Fixes:
 $pfm->setLicense('BSD License', 'http://www1.unl.edu/wdn/wiki/Software_License');
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
-$pfm->setPearinstallerDep('1.4.3');
+$pfm->setPearinstallerDep('1.5.4');
 $pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
-$pfm->addPackageDepWithChannel('required', 'Savant3', 'savant.pearified.com', '3.0.0');
+$pfm->addPackageDepWithChannel('required', 'Savant3', 'phpsavant.com', '3.0.0');
 $pfm->addPackageDepWithChannel('required', 'NET_URL', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'MDB2', 'pear.php.net', '2.5.0b1');
+$pfm->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net', '1.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.5.0');
 foreach (array('UCBCN.php','dataobject.ini','UNL_UCBCN_setup.php','UNL_UCBCN_db.xml') as $file) {
     $pfm->addReplacement($file, 'pear-config', '@PHP_BIN@', 'php_bin');
