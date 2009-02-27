@@ -229,7 +229,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
                 }
                 // restore process subscriptions to what it was before.
                 UNL_UCBCN_Calendar_has_event::processSubscriptions($process_subscriptions);
-                self::updateSubscribedCalendars($this->calendar_id);
+                self::updateSubscribedCalendars($this->calendar_id, $event_id);
             }
         }
         return $added;
