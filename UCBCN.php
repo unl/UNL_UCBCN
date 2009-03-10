@@ -173,7 +173,7 @@ class UNL_UCBCN
      */
     public function getEventCount(UNL_UCBCN_Calendar $calendar,$status='posted')
     {
-        $e              = $this->factory('calendar_has_event');
+        $e              = UNL_UCBCN::factory('calendar_has_event');
         $e->calendar_id = $calendar->id;
         $e->status      = $status;
         return $e->find();
@@ -188,7 +188,7 @@ class UNL_UCBCN
      * 
      * @return mixed A object for the database table requested.
      */
-    public function factory($table)
+    public static function factory($table)
     {
         return DB_DataObject::factory($table);
     }
@@ -224,7 +224,7 @@ class UNL_UCBCN
      * 
      * @return object on success, failed return value on failure.
      */
-    public function dbInsert($table,$values)
+    public function dbInsert($table, $values)
     {
         $rec  = UNL_UCBCN::factory($table);
         $vars = get_object_vars($rec);
@@ -405,7 +405,8 @@ class UNL_UCBCN
     {
         $defaults = array(
                 'datecreated'     => date('Y-m-d H:i:s'),
-                'datelastupdated' => date('Y-m-d H:i:s'));
+                'datelastupdated' => date('Y-m-d H:i:s'),
+                'sponsor_id'      => 1);
         $values   = array_merge($defaults, $values);
         return $this->dbInsert('account', $values);
     }
@@ -459,7 +460,7 @@ class UNL_UCBCN
      */
     public function getUser($uid)
     {
-        $user      = $this->factory('user');
+        $user      = UNL_UCBCN::factory('user');
         $user->uid = $uid;
         if ($user->find()) {
             $user->fetch();
@@ -492,7 +493,7 @@ class UNL_UCBCN
      */
     public function getAccount(UNL_UCBCN_User $user)
     {
-        $account     = $this->factory('account');
+        $account     = UNL_UCBCN::factory('account');
         $account->id = $user->account_id;
         if ($account->find() && $account->fetch()) {
             return $account;
@@ -530,7 +531,7 @@ class UNL_UCBCN
                             GROUP BY calendar.id');
         if (!(PEAR::isError($res)) && ($res->numRows() > 0)) {
             $row      = $res->fetchRow();
-            $calendar = $this->factory('calendar');
+            $calendar = UNL_UCBCN::factory('calendar');
             $calendar->get($row[0]);
             return $calendar;
         } else {
@@ -546,7 +547,7 @@ class UNL_UCBCN
                             'uidlastupdated' => $user->uid,
                             'account_id'     => $account->id);
                 $calendar    = $this->createCalendar($values);
-                $permissions = $this->factory('permission');
+                $permissions = UNL_UCBCN::factory('permission');
                 //$permissions->whereAdd('name LIKE "Event%"');
                 // grant all permissions to this new user for this new calendar.
                 if (!$calendar->addUser($user)) {

@@ -130,12 +130,7 @@ class UNL_UCBCN_setup_postinstall
     function handleDatabase($answers)
     {
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $this->dsn = $answers['dbtype']   . '://'
-                   . $answers['user']     . ':' 
-                   . $answers['password'] . '@'
-                   . $answers['dbhost']   . '/' 
-                   . $answers['database'];
-        
+        $this->setDSN($answers);
         if ($this->databaseExists($answers['database'])) {
             $this->outputData('Database exists already. Upgrading.');
             return $this->upgradeDatabase($answers);
@@ -148,6 +143,21 @@ class UNL_UCBCN_setup_postinstall
     }
     
     /**
+     * Set the DSN based on user responses.
+     * 
+     * @param $answers
+     * @return void
+     */
+    function setDSN($answers)
+    {
+        $this->dsn = $answers['dbtype']   . '://'
+                   . $answers['user']     . ':' 
+                   . $answers['password'] . '@'
+                   . $answers['dbhost']   . '/' 
+                   . $answers['database'];
+    }
+    
+    /**
      * Create an empty database for use.
      *
      * @param array $answers answers to questions
@@ -156,10 +166,13 @@ class UNL_UCBCN_setup_postinstall
      */
     function createDatabase($answers)
     {
+        if (!isset($this->dsn)) {
+            $this->setDSN($answers);
+        }
         $db = MDB2::factory($this->dsn);
         
         if (PEAR::isError($db)) {
-            $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
+            $this->outputData('Could not create database connection. "'.$db->getMessage().'" "'.$db->getUserInfo().'"');
             $this->noDBsetup = true;
             return false;
         }
@@ -167,7 +180,7 @@ class UNL_UCBCN_setup_postinstall
         $sth       = $db->prepare('CREATE DATABASE IF NOT EXISTS ?', array('text'), MDB2_PREPARE_MANIP);
         $operation = $sth->execute(array($answers['database']));
         if (PEAR::isError($db)) {
-            $this->outputData('Could not create database. "'.$db->getMessage().'"');
+            $this->outputData('Could not create database. "'.$db->getUserInfo().'"');
             $this->noDBsetup = true;
             return false;
         }
@@ -183,11 +196,13 @@ class UNL_UCBCN_setup_postinstall
      */
     function upgradeDatabase($answers)
     {
-        
+        if (!isset($this->dsn)) {
+            $this->setDSN($answers);
+        }
         $db = MDB2::factory($this->dsn);
         
         if (PEAR::isError($db)) {
-            $this->outputData('Could not create database connection. "'.$db->getMessage().'"');
+            $this->outputData('Could not create database connection. "'.$db->getMessage().'" "'.$db->getUserInfo().'"');
             $this->noDBsetup = true;
             return false;
         }
@@ -331,7 +346,7 @@ class UNL_UCBCN_setup_postinstall
             $this->outputData('Adding sample event types. . .');
             $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
             /** Add some event types to the database */
-            $eventtype = $backend->factory('eventtype');
+            $eventtype = UNL_UCBCN::factory('eventtype');
             $types = array( 'Career Fair',
                             'Colloquium',
                             'Conference/Symposium',
@@ -438,7 +453,7 @@ class UNL_UCBCN_setup_postinstall
                             'Calendar Change Format',
                             'Calendar Delete');
         foreach ($permissions as $p_type) {
-            $p       = $backend->factory('permission');
+            $p       = UNL_UCBCN::factory('permission');
             $p->name = $p_type;
             if (!$p->find()) {
                 $p->name        = $p_type;

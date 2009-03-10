@@ -27,7 +27,7 @@ E;
 } else {
     require_once 'UNL/UCBCN.php';
     $b = new UNL_UCBCN(array('dsn'=>'mysqli://eventcal:eventcal@localhost/eventcal'));
-    $a = $b->factory('account');
+    $a = UNL_UCBCN::factory('account');
     if (ctype_digit($_SERVER['argv'][1])) {
         $a->id = $_SERVER['argv'][1];
     } else {
@@ -43,7 +43,7 @@ E;
     sleep(2);
     $cal_count = 2;
     while (isset($_SERVER['argv'][$cal_count])) {
-        $c = $b->factory('calendar');
+        $c = UNL_UCBCN::factory('calendar');
         $c->shortname = $_SERVER['argv'][$cal_count];
         if (!$c->find()) {
             echo 'Unknown calendar '.$_SERVER['argv'][$cal_count].PHP_EOL;

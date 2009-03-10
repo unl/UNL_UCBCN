@@ -221,7 +221,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
                 $user     = $this->getLink('uidcreated');
                 $status   = $this->getApprovalStatus();
                 while ($row = $res->fetchRow()) {
-                    $e = $this->factory('event');
+                    $e = UNL_UCBCN::factory('event');
                     if ($e->get($row[0]) && $calendar !== false) {
                         $calendar->addEvent($e, $status, $user, 'subscription');
                         $added++;

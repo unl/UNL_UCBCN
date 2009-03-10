@@ -26,7 +26,7 @@ if (!isset($_SERVER['argv'],$_SERVER['argv'][1])
 
 
 	// Backend is a UNL_UCBCN object.
-	$eventtype = $backend->factory('eventtype');
+	$eventtype = UNL_UCBCN::factory('eventtype');
 
 	$eventtype->name = $_SERVER["argv"][1];
 	if (!$eventtype->find()) {

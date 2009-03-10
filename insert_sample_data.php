@@ -18,7 +18,7 @@ echo '<pre>';
 DB_DataObject::debugLevel(1);
 
 /** Add some event types to the database */
-$eventtype = $backend->factory('eventtype');
+$eventtype = UNL_UCBCN::factory('eventtype');
 $types = array(
                 'Career Fair',
                 'Colloquium',

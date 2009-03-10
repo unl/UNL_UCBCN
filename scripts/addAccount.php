@@ -24,7 +24,7 @@ E;
 } else {
         require_once 'UNL/UCBCN.php';
         $b = new UNL_UCBCN(array('dsn'=>'mysqli://eventcal:eventcal@localhost/eventcal'));
-        $a = $b->factory('account');
+        $a = UNL_UCBCN::factory('account');
         $a->name = $_SERVER['argv'][1];
         if ($a->find()) {
             echo $_SERVER['argv'][1].' already exists!'.PHP_EOL;

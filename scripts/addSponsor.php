@@ -25,7 +25,7 @@ if (!isset($_SERVER['argv'],$_SERVER['argv'][1])
 	require_once 'UNL/UCBCN.php';
 	$backend = new UNL_UCBCN(array('dsn'=>'mysql://eventcal:eventcal@localhost/eventcal'));
 	// Backend is a UNL_UCBCN object.
-	$sponsor = $backend->factory('sponsor');
+	$sponsor = UNL_UCBCN::factory('sponsor');
 
 	if (isset($_SERVER['argv'][2])) {
 		$url = $_SERVER['argv'][2];

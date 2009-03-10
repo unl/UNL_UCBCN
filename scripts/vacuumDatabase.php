@@ -11,7 +11,7 @@ $unl = new UNL_UCBCN(array('dsn'=>'mysqli://eventcal:eventcal@localhost/eventcal
 function removeEvent ( $id ) {
     global $unl ;
     
-    $event = $unl->factory ( 'event' ) ;
+    $event = UNL_UCBCN::factory ( 'event' ) ;
     if ($event->get ( $id )) {
         echo 'Found event, id is '.$id.PHP_EOL;
         if ($event->delete()) {
@@ -47,7 +47,7 @@ function clean(){
 function getEventNoDT () {
     global $unl ;
     
-    $event = $unl->factory ( 'event' ) ;
+    $event = UNL_UCBCN::factory ( 'event' ) ;
     $event->query ( "SELECT * FROM event e WHERE e.id NOT IN (SELECT DISTINCT event_id FROM eventdatetime)" ) ;
     while ( $event->fetch () ) {
         $temp = array ( ) ;
@@ -72,7 +72,7 @@ function getOrphanedEvents () {
     
     $e_array = array();
     
-    $event = $unl->factory ( 'event' ) ;
+    $event = UNL_UCBCN::factory ( 'event' ) ;
     while ( $event->fetch () ) {
         if ($event->isOrphaned ()) {
             $temp = array ( ) ;

@@ -5,7 +5,7 @@ require_once 'UNL/UCBCN.php';
 $b = new UNL_UCBCN(array('dsn'=>'mysqli://eventcal:eventcal@localhost/eventcal'));
 
 $u            = $b->getUser('bbieber2');
-$c            = $b->factory('calendar');
+$c            = UNL_UCBCN::factory('calendar');
 
 $c->shortname = 'extension-inservice';
 
@@ -16,7 +16,7 @@ if ($c->find() == 1) {
     exit();
 }
 /*
-$e =& $b->factory('event');
+$e =& UNL_UCBCN::factory('event');
 $e->whereAdd("privatecomment LIKE 'Imported from old IANR Calendar HASH:%' AND uidlastupdated='bbieber2'");
 if ($e->find()) {
     while ($e->fetch()) {
@@ -73,7 +73,7 @@ Array
     unset($row['idate']);
     unset($row['shour']);
     unset($row['ehour']);
-	$e                  =& $b->factory('event');
+	$e                  =& UNL_UCBCN::factory('event');
 	$e->title           = $row['string'];
 	$e->uidcreated		= $u->uid;
 	$e->uidlastupdated	= $u->uid;
@@ -102,7 +102,7 @@ Array
 
 function addDateTime($b, $e, $starttime, $endtime)
 {
-    $dt =& $b->factory('eventdatetime');
+    $dt =& UNL_UCBCN::factory('eventdatetime');
 	$dt->event_id		= $e->id;
 	$dt->starttime		= $starttime;
 	if ($endtime) {

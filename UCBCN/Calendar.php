@@ -170,7 +170,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
         if (isset($source)) {
             $values['source'] = $source;
         }
-        $che =& $this->factory('calendar_has_event');
+        $che =& UNL_UCBCN::factory('calendar_has_event');
         foreach ($values as $mv=>$value) {
             $che->$mv = $value;
         }
@@ -187,7 +187,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public function removeEvent(UNL_UCBCN_Event $event)
     {
         if (isset($this->id) && isset($event->id)) {
-            $calendar_has_event              = $this->factory('calendar_has_event');
+            $calendar_has_event              = UNL_UCBCN::factory('calendar_has_event');
             $calendar_has_event->calendar_id = $this->id;
             $calendar_has_event->event_id    = $event->id;
             return $calendar_has_event->delete();
@@ -203,7 +203,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
      */
     public function processSubscriptions()
     {
-        $subscriptions = $this->factory('subscription');
+        $subscriptions = UNL_UCBCN::factory('subscription');
         $subscriptions->calendar_id = $this->id;
         if ($subscriptions->find()) {
             while ($subscriptions->fetch()) {

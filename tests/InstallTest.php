@@ -60,7 +60,7 @@ class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
     public function testPermissions()
     {
         $b = new UNL_UCBCN(array('dsn'=>$this->dsn));
-        $p = $b->factory('permission');
+        $p = UNL_UCBCN::factory('permission');
         $this->assertEquals(get_class($p),'UNL_UCBCN_Permission');
         $this->assertNotEquals(0, $p->find());
     }

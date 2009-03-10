@@ -21,7 +21,7 @@ if (!isset($_SERVER['argv'],$_SERVER['argv'][1])
 } else {
     require_once 'UNL/UCBCN.php';
     $b = new UNL_UCBCN(array('dsn'=>'mysqli://eventcal:eventcal@localhost/eventcal'));
-    $c = $b->factory('calendar');
+    $c = UNL_UCBCN::factory('calendar');
     $c->shortname = $_SERVER['argv'][1];
     if ($c->find() != 1) {
         echo "That calendar does not exist!\n\n";

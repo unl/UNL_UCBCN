@@ -145,7 +145,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
      * 
      * @return string status, or bool false
      */
-    public function calendarHasEvent(UNL_UCBCN_Calendar $calendar,UNL_UCBCN_Event $event)
+    public static function calendarHasEvent(UNL_UCBCN_Calendar $calendar, UNL_UCBCN_Event $event)
     {
         $che              = UNL_UCBCN::factory('calendar_has_event');
         $che->calendar_id = $calendar->id;

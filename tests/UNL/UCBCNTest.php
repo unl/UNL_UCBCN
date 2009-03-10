@@ -87,7 +87,7 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      * Test the factory method.
      */
     public function testFactory() {
-        $a = $this->b->factory('account');
+        $a = UNL_UCBCN::factory('account');
         $this->assertEquals('UNL_UCBCN_Account', get_class($a));
     }
 
@@ -113,7 +113,7 @@ class UNL_UCBCNTest extends PHPUnit_Framework_TestCase {
      */
     public function testCreateUser() {
         
-    	$a = $this->b->factory('account');
+    	$a = UNL_UCBCN::factory('account');
     	$this->assertNotEquals(0, $a->find(), 'ERROR NO Account!');
     	$a->fetch();
     	$u = $this->b->createUser($a, 'foo');
