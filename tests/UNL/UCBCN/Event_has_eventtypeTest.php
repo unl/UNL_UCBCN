@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'Event_has_eventtype.php';
+require_once 'UNL/UCBCN/Event_has_eventtype.php';
 
 /**
  * Test class for UNL_UCBCN_Event_has_eventtype.

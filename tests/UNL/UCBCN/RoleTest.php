@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'Role.php';
+require_once 'UNL/UCBCN/Role.php';
 
 /**
  * Test class for UNL_UCBCN_Role.

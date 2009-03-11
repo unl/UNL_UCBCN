@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'Keyword.php';
+require_once 'UNL/UCBCN/Keyword.php';
 
 /**
  * Test class for UNL_UCBCN_Keyword.

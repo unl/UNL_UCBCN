@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'Eventdatetime.php';
+require_once 'UNL/UCBCN/Eventdatetime.php';
 
 /**
  * Test class for UNL_UCBCN_Eventdatetime.

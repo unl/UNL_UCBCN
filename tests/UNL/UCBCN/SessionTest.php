@@ -7,7 +7,7 @@ if (!defined("PHPUnit_MAIN_METHOD")) {
 require_once "PHPUnit/Framework/TestCase.php";
 require_once "PHPUnit/Framework/TestSuite.php";
 
-require_once 'Session.php';
+require_once 'UNL/UCBCN/Session.php';
 
 /**
  * Test class for UNL_UCBCN_Session.
