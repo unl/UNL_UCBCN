@@ -1,10 +1,10 @@
 <?php
 /**
  * Details related to a calendar within the UNL Event Publisher system.
- * 
+ *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -19,7 +19,7 @@ require_once 'DB/DataObject.php';
 
 /**
  * ORM for a record within the database.
- * 
+ *
  * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
@@ -27,7 +27,7 @@ require_once 'DB/DataObject.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Calendar extends DB_DataObject 
+class UNL_UCBCN_Calendar extends DB_DataObject
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -35,22 +35,22 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public $__table = 'calendar';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $account_id;                      // int(10)  not_null multiple_key unsigned
-    public $name;                            // string(255)  
+    public $name;                            // string(255)
     public $shortname;                       // string(100)  multiple_key
-    public $website;                         // string(255)  
-    public $eventreleasepreference;          // string(255)  
+    public $website;                         // string(255)
+    public $eventreleasepreference;          // string(255)
     public $calendardaterange;               // int(10)  unsigned
     public $formatcalendardata;              // blob(4294967295)  blob
     public $uploadedcss;                     // blob(4294967295)  blob
     public $uploadedxsl;                     // blob(4294967295)  blob
     public $emaillists;                      // blob(4294967295)  blob
-    public $calendarstatus;                  // string(255)  
+    public $calendarstatus;                  // string(255)
     public $datecreated;                     // datetime(19)  binary
-    public $uidcreated;                      // string(255)  
+    public $uidcreated;                      // string(255)
     public $datelastupdated;                 // datetime(19)  binary
-    public $uidlastupdated;                  // string(255)  
-    public $externalforms;                   // string(255)  
-    public $recommendationswithinaccount;    // int(1)  
+    public $uidlastupdated;                  // string(255)
+    public $externalforms;                   // string(255)
+    public $recommendationswithinaccount;    // int(1)
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Calendar',$k,$v); }
@@ -77,6 +77,49 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public  $fb_enumOptions       = array('eventreleasepreference'=>array('Immediate','Pending'));
     public  $fb_linkDisplayFields = array('name','shortname');
     
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'account_id'=>129,
+            'name'=>2,
+            'shortname'=>2,
+            'website'=>2,
+            'eventreleasepreference'=>2,
+            'calendardaterange'=>1,
+            'formatcalendardata'=>66,
+            'uploadedcss'=>66,
+            'uploadedxsl'=>66,
+            'emaillists'=>66,
+            'calendarstatus'=>2,
+            'datecreated'=>14,
+            'uidcreated'=>2,
+            'datelastupdated'=>14,
+            'uidlastupdated'=>2,
+            'externalforms'=>2,
+            'recommendationswithinaccount'=>17,
+        );
+    }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
+    }
+    
+    function sequenceKey()
+    {
+        return array('id',true);
+    }
+    
+    function links()
+    {
+        return array('account_id'     => 'account:id',
+                     'uidcreated'     => 'users:uid',
+                     'uidlastupdated' => 'users:uid');
+    }
+    
     public function preGenerateForm(&$fb)
     {
         foreach ($this->fb_hiddenFields as $el) {
@@ -90,7 +133,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     }
     
     /**
-     * Adds a user to the calendar. Grants all permissions to the 
+     * Adds a user to the calendar. Grants all permissions to the
      * user for the current calendar.
      *
      * @param UNL_UCBCN_User $user
@@ -115,7 +158,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
      * Gets a calendar by shortname.
      *
      * @param string $shortname The shortname of the calendar you wish to get.
-     * 
+     *
      * @return UNL_UCBCN_Calendar
      */
     static function getByShortname($shortname)
@@ -154,7 +197,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
      * @param string          $status posted | pending | archived
      * @param UNL_UCBCN_User  $user   the user adding this event
      * @param string          $source create event form, subscription.
-     * 
+     *
      * @return int > 0 on success.
      */
     public function addEvent(UNL_UCBCN_Event $event,$status, UNL_UCBCN_User $user,$source=null)
@@ -181,7 +224,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
      * Removes the given event from the calendar_has_event table.
      *
      * @param UNL_UCBCN_Event $event The event to remove from this calendar.
-     * 
+     *
      * @return bool
      */
     public function removeEvent(UNL_UCBCN_Event $event)

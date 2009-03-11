@@ -1,10 +1,10 @@
 <?php
 /**
  * Table definition, and processing functions for calendar_has_event
- * 
+ *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -29,7 +29,7 @@ require_once 'UNL/UCBCN/Subscription.php';
 
 /**
  * ORM for a record within the database.
- * 
+ *
  * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
@@ -37,7 +37,7 @@ require_once 'UNL/UCBCN/Subscription.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Calendar_has_event extends DB_DataObject 
+class UNL_UCBCN_Calendar_has_event extends DB_DataObject
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -47,22 +47,58 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     public $calendar_id;                     // int(10)  not_null multiple_key unsigned
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $status;                          // string(100)  multiple_key
-    public $source;                          // string(100)  
+    public $source;                          // string(100)
     public $datecreated;                     // datetime(19)  binary
-    public $uidcreated;                      // string(100)  
+    public $uidcreated;                      // string(100)
     public $datelastupdated;                 // datetime(19)  binary
-    public $uidlastupdated;                  // string(100)  
+    public $uidlastupdated;                  // string(100)
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Calendar_has_event',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'calendar_id'=>129,
+            'event_id'=>129,
+            'status'=>2,
+            'source'=>2,
+            'datecreated'=>14,
+            'uidcreated'=>2,
+            'datelastupdated'=>14,
+            'uidlastupdated'=>2,
+        );
+    }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
+    }
+    
+    function sequenceKey()
+    {
+        return array('id',true);
+    }
+    
+    function links()
+    {
+        return array('event_id'       => 'event:id',
+                     'calendar_id'    => 'calendar:id',
+                     'uidcreated'     => 'users:uid',
+                     'uidlastupdated' => 'users:uid');
+    }
+    
     
     /**
      * Performs an insert of a calendar_has_event record, and updates any subscribed
      * calenars.
-     * 
+     *
      * @return int ID of the inserted record.
      */
     public function insert()
@@ -93,7 +129,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
      * in progress - a poor man's lock on the database.
      *
      * @param bool $status true or false
-     * 
+     *
      * @return bool The status of processing subscriptions.
      */
     public function processSubscriptions($status = null)
@@ -113,7 +149,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     
     /**
      * Performs an update on this calendar_has_event record.
-     * 
+     *
      * @return bool True on sucess
      */
     public function update()
@@ -137,12 +173,12 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     }
     
     /**
-     * Returns bool false if the calendar does not have the event, 
+     * Returns bool false if the calendar does not have the event,
      * otherwise returns status.
      *
      * @param UNL_UCBCN_Calendar $calendar Calendar to check.
      * @param UNL_UCBCN_Event    $event    Event to check.
-     * 
+     *
      * @return string status, or bool false
      */
     public static function calendarHasEvent(UNL_UCBCN_Calendar $calendar, UNL_UCBCN_Event $event)
@@ -160,7 +196,7 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     
     /**
      * Removes this record - effectively removing this event from the calendar.
-     * 
+     *
      * @return bool true on success.
      */
     public function delete()

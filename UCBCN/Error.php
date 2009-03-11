@@ -7,8 +7,8 @@
  *
  *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -23,7 +23,7 @@ require_once 'PEAR.php';
 
 /**
  * Extend PEAR_Error for error handling.
- * 
+ *
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -44,7 +44,7 @@ class UNL_UCBCN_Error extends PEAR_Error
 	 *
 	 * @see PEAR_Error
 	 */
-	function UNL_UCBCN_Error($message = '', $code = NULL, $mode = PEAR_ERROR_RETURN,
+	function __construct($message = '', $code = NULL, $mode = PEAR_ERROR_RETURN,
 			$level = E_USER_NOTICE)
 	{
 		$this->PEAR_Error('UNL_UCBCN Error: ' . $message, $code, $mode, $level);

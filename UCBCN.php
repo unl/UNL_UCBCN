@@ -2,18 +2,18 @@
 /**
  * This is a skeleton PEAR package attempt for the UC Berkeley Calendar Schema.
  * The class facilitates interaction between child objects and the database. It also
- * contains static functions useful throughout various frontends including 
+ * contains static functions useful throughout various frontends including
  * conversion between various formats:
  *    Database <--> iCalendar
  *    Database <--> hCalendar
  *    Database <--> xml conforming to The berkeley xml format.
- * 
+ *
  * It also provides help to frontends that want to display information through a
  * template system.
- * 
+ *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -33,7 +33,7 @@ require_once 'MDB2.php';
  * The backend system object for the UNL UCBCN calendar system.
  * This object is the master object through which most calendar system
  * interactions take place.
- * 
+ *
  * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
@@ -49,14 +49,14 @@ class UNL_UCBCN
      */
     public $template;
     /**
-     * The filesystem path to the templates. 
+     * The filesystem path to the templates.
      * @var string $template_path
      */
     public $template_path;
     /**
-     * A string containing connection details in the format 
+     * A string containing connection details in the format
      *  dbtype://user:pass@www.example.com:port/database
-     * @var string $dsn 
+     * @var string $dsn
      */
     public $dsn;
     /**
@@ -77,9 +77,9 @@ class UNL_UCBCN
     
     
     /**
-     * Constructor for the UCBCN object, initializes member variables and sets up 
+     * Constructor for the UCBCN object, initializes member variables and sets up
      * connection details for the database.
-     * 
+     *
      * @param array $options Associative array of options to set for the class.
      */
     public function __construct($options=array('dsn'=>'@DSN@',
@@ -92,7 +92,7 @@ class UNL_UCBCN
     /**
      * This function initializes the information used by the database
      * connections.
-     * 
+     *
      * @return void
      */
     public function setupDBConn()
@@ -100,7 +100,9 @@ class UNL_UCBCN
         $dboptions = &PEAR::getStaticProperty('DB_DataObject', 'options');
         $dboptions = array(
             'database'        => $this->dsn,
-            'schema_location' => '@DATA_DIR@/UNL_UCBCN/UCBCN',
+            'schema_autoload' => true,
+            'autoload'          => true,
+            //'schema_location' => '@DATA_DIR@/UNL_UCBCN/UCBCN',
             'class_location'  => dirname(__FILE__).'/UCBCN',
             'require_prefix'  => dirname(__FILE__).'/UCBCN',
             'class_prefix'    => 'UNL_UCBCN_',
@@ -110,9 +112,9 @@ class UNL_UCBCN
     
     /**
      * This function sets parameters for this class.
-     * 
+     *
      * @param array $options an associative array of options to set.
-     * 
+     *
      * @return void
      */
     public function setOptions($options)
@@ -128,10 +130,10 @@ class UNL_UCBCN
                 case 'uri':
                 case 'default_calendar_id':
                 case 'uriformat':
-                    /* 
+                    /*
                      * Set a global variable for this value, because this is
-                     * is used in static functions. 
-                     */ 
+                     * is used in static functions.
+                     */
                     $_UNL_UCBCN[$option] = $val;
                     break;
                 }
@@ -165,10 +167,10 @@ class UNL_UCBCN
     
     /**
      * This function gets the count of events for the given status.
-     * 
+     *
      * @param UNL_UCBCN_Calendar $calendar Calendar to check.
      * @param string             $status   [pending|posted|archived]
-     * 
+     *
      * @return int count
      */
     public function getEventCount(UNL_UCBCN_Calendar $calendar,$status='posted')
@@ -180,12 +182,12 @@ class UNL_UCBCN
     }
     
     /**
-     * This function allows extended classes etc to get a DB DataObject 
+     * This function allows extended classes etc to get a DB DataObject
      * for the event table they need access to.
-     * 
+     *
      * @param string $table The name of the table in the database to receive a
      *                      DataObject for.
-     * 
+     *
      * @return mixed A object for the database table requested.
      */
     public static function factory($table)
@@ -195,11 +197,11 @@ class UNL_UCBCN
     
     /**
      * creates a new user record and returns it.
-     * 
+     *
      * @param UNL_UCBCN_Account $account    The account to add this user under.
      * @param string            $uid        Unique id of the user to create
      * @param string            $uidcreated UID of the user who created this user.
-     * 
+     *
      * @return true or inserted id on success
      */
     public function createUser(UNL_UCBCN_Account $account,$uid,$uidcreated=null)
@@ -216,12 +218,12 @@ class UNL_UCBCN
     
     /**
      * This function is a general insert function,
-     * given the table name and an assoc array of values, 
+     * given the table name and an assoc array of values,
      * it will return the inserted record.
-     * 
+     *
      * @param string $table  Name of the table
      * @param array  $values assoc array of values to insert.
-     * 
+     *
      * @return object on success, failed return value on failure.
      */
     public function dbInsert($table, $values)
@@ -243,11 +245,11 @@ class UNL_UCBCN
     
     /**
      * Checks if a user has a given permission over the account.
-     * 
+     *
      * @param UNL_UCBCN_User     $user            User to check.
      * @param string             $permission_name The permission to check for.
      * @param UNL_UCBCN_Calendar $calendar        Calendar to check permissions on.
-     * 
+     *
      * @return bool true or false
      */
     public function userHasPermission(UNL_UCBCN_User $user,$permission_name,
@@ -269,9 +271,9 @@ class UNL_UCBCN
     
     /**
      * Simple function which displays the error to the end user.
-     * 
+     *
      * @param string $description Description of the error.
-     * 
+     *
      * @return void
      */
     public function showError($description)
@@ -286,7 +288,7 @@ class UNL_UCBCN
      * IE:     strings and ints get echoed
      *         objects use a corresponding savant template,
      *         arrays get rendered one by one
-     * 
+     *
      * For caching support the object being outputted must implement
      * three methods:
      * getCacheKey()                Return a unique string for the object/output.
@@ -295,10 +297,10 @@ class UNL_UCBCN
      *                              output)
      * run()                        This function must populate the object and get
      *                              it prepped for output.
-     * 
+     *
      * @param mixed  $content  The content to send out.
      * @param string $cachekey A unique key which can identify this content.
-     * 
+     *
      * @return void
      */
     public function displayRegion($content,$cachekey=null)
@@ -346,13 +348,13 @@ class UNL_UCBCN
     
     /**
      * Prepares an object for output, and displays it with a corresponding template.
-     * 
+     *
      * This function is an output controller, which takes public member variables
      * from an object and populates a Savant template with equivalent member
      * variables.
-     * 
+     *
      * @param mixed $content Object with content to send out.
-     * 
+     *
      * @return void
      */
     public function sendObjectOutput($content)
@@ -377,11 +379,11 @@ class UNL_UCBCN
     
     /**
      * This function adds the given permission for the user.
-     * 
+     *
      * @param string $uid           Username to add permission for.
      * @param int    $calendar_id   ID of the calendar to add permission for.
      * @param int    $permission_id Permission id you wish to add for the person.
-     * 
+     *
      * @return mixed ID on success false on error.
      */
     public function grantPermission($uid,$calendar_id,$permission_id)
@@ -396,9 +398,9 @@ class UNL_UCBCN
     
     /**
      * This function creates a calendar account.
-     * 
+     *
      * @param array $values assoc array of field values for the account.
-     * 
+     *
      * @return mixed ID on success false on error.
      */
     public function createAccount($values = array())
@@ -413,13 +415,13 @@ class UNL_UCBCN
     
     /**
      * Adds an event to a calendar.
-     * 
+     *
      * @param UNL_UCBCN_Calendar $calendar UNL_UCBCN_Calendar object.
      * @param UNL_UCBCN_Event    $event    The event to add to the calendar.
      * @param string             $status   [pending|posted|archived]
      * @param UNL_UCBCN_User     $user     User adding this event to a calendar.
      * @param string             $source   Where is this coming from?
-     * 
+     *
      * @return object UNL_UCBCN_Account_has_event
      */
     public function addCalendarHasEvent(UNL_UCBCN_Calendar $calendar,
@@ -430,10 +432,10 @@ class UNL_UCBCN
     
     /**
      * Checks whether a calendar has an event or not.
-     * 
+     *
      * @param UNL_UCBCN_Calendar $calendar Calendar to check
      * @param UNL_UCBCN_Event    $event    Event to check if exists on the calendar.
-     * 
+     *
      * @return bool|object false on error, object on success.
      */
     public function calendarHasEvent(UNL_UCBCN_Calendar $calendar, UNL_UCBCN_Event $event)
@@ -453,9 +455,9 @@ class UNL_UCBCN
      * This function returns a object for the user with
      * the given uid.
      * If a record does not exist, one is inserted then returned.
-     * 
+     *
      * @param string $uid The unique user identifier to get object for (username).
-     * 
+     *
      * @return UNL_UCBCN_User
      */
     public function getUser($uid)
@@ -486,9 +488,9 @@ class UNL_UCBCN
     
     /**
      * Gets the account record(s) for the user
-     * 
+     *
      * @param UNL_UCBCN_User $user User to get account for.
-     * 
+     *
      * @return object UNL_UCBCN_Account on success UNL_UCBCN_Error on error.
      */
     public function getAccount(UNL_UCBCN_User $user)
@@ -506,17 +508,17 @@ class UNL_UCBCN
     /**
      * Gets the calendar(s) for the given account that the given user has permission
      * to. Optionally the user can be redirected on creation of a new calendar.
-     * 
+     *
      * @param UNL_UCBCN_User    $user         User to get the calendar for
      * @param UNL_UCBCN_Account $account      Account to get calendar for.
-     * @param bool              $return_false If true, will return false if no 
+     * @param bool              $return_false If true, will return false if no
      *                                        account exists, if false it invokes
      *                                        createCalendar.
      * @param string            $redirecturl  A url to redirect on creation of a new
      *                                        record. If set the user will be
      *                                        redirected, otherwise the account will
      *                                        be returned.
-     * 
+     *
      * @return UNL_UCBCN_Calendar object on success false if no calendar exists and
      *                            $return_false paramter was passed as true.
      */
@@ -525,9 +527,9 @@ class UNL_UCBCN
     {
         
         $mdb2 = $account->getDatabaseConnection();
-        $res =& $mdb2->query('SELECT calendar.id FROM calendar,user_has_permission 
-                            WHERE user_has_permission.user_uid = \''.$user->uid.'\' 
-                            AND user_has_permission.calendar_id = calendar.id 
+        $res =& $mdb2->query('SELECT calendar.id FROM calendar,user_has_permission
+                            WHERE user_has_permission.user_uid = \''.$user->uid.'\'
+                            AND user_has_permission.calendar_id = calendar.id
                             GROUP BY calendar.id');
         if (!(PEAR::isError($res)) && ($res->numRows() > 0)) {
             $row      = $res->fetchRow();
@@ -559,7 +561,7 @@ class UNL_UCBCN
                 if (isset($redirecturl)) {
                     $this->localRedirect($redirecturl);
                 } else {
-                    return $calendar;    
+                    return $calendar;
                 }
             }
         }
@@ -567,9 +569,9 @@ class UNL_UCBCN
     
     /**
      * This function creates a calendar for an account.
-     * 
+     *
      * @param array $values assoc array of field values for the calendar.
-     * 
+     *
      * @return mixed int ID of calendar record on success false on error.
      */
     public function createCalendar($values = array())
@@ -591,7 +593,7 @@ class UNL_UCBCN
      *
      * @param string $url          Full/partial url to redirect to
      * @param bool   $keepProtocol Keep the https protocol or to force HTTP?
-     * 
+     *
      * @return void
      */
     public function localRedirect($url, $keepProtocol = true)
@@ -608,7 +610,7 @@ class UNL_UCBCN
      * Returns an absolute URL using Net_URL
      *
      * @param string $url All/part of a url
-     * 
+     *
      * @return string      Full url
      */
     public function getAbsoluteURL($url)
@@ -621,9 +623,9 @@ class UNL_UCBCN
     /**
      * This function takes in a class name and returns the correct template
      * for the object.
-     * 
-     * @param string $cname the name of the class to get the template for 
-     * 
+     *
+     * @param string $cname the name of the class to get the template for
+     *
      * @return string Filename of the output template to use for the given class.
      */
     public function getTemplateFilename($cname)
@@ -637,7 +639,7 @@ class UNL_UCBCN
             $templatefile = $_UNL_UCBCN['template_path']
                           . DIRECTORY_SEPARATOR . $cname . '.tpl.php';
         } else {
-            $templatefile = 'templates' . DIRECTORY_SEPARATOR 
+            $templatefile = 'templates' . DIRECTORY_SEPARATOR
                           . $_UNL_UCBCN['template'] . DIRECTORY_SEPARATOR
                           . $cname . '.tpl.php';
         }
@@ -646,7 +648,7 @@ class UNL_UCBCN
     
     /**
      * Gets an MDB2 connection object and returns it.
-     * 
+     *
      * @return object MDB2_Driver object on success, UNL_UCBCN_Error on error.
      */
     public function getDatabaseConnection()
@@ -661,10 +663,10 @@ class UNL_UCBCN
     
     /**
      * Gets or sets the output template for a given class.
-     * 
+     *
      * @param string $cname        Name of the class to set/get template for.
      * @param string $templatename Name of the template to use.
-     * 
+     *
      * @return string
      */
     public function outputTemplate($cname, $templatename=null)
@@ -678,7 +680,7 @@ class UNL_UCBCN
     
     /**
      * Returns the URL for the calendar system.
-     * 
+     *
      * @return URL to this instance.
      */
     public function getURL()
@@ -692,26 +694,26 @@ class UNL_UCBCN
     }
     
     /**
-     * This function changes the status for events in the 
+     * This function changes the status for events in the
      * past to 'archived.'
-     * 
+     *
      * @param UNL_UCBCN_Calendar $cal Calendar to archive events for.
-     * 
+     *
      * @return num of affected rows or mdb2 error object
      */
     public function archiveEvents(UNL_UCBCN_Calendar $cal=null)
     {
         $mdb2 = UNL_UCBCN::getDatabaseConnection();
-        $q    = 'UPDATE calendar_has_event,event,eventdatetime 
+        $q    = 'UPDATE calendar_has_event,event,eventdatetime
                  SET calendar_has_event.status=\'archived\' WHERE ';
         if (isset($cal)) {
             $q .= ' calendar_has_event.calendar_id = '.$cal->id.' AND ';
         }
-        $q = $q . '    calendar_has_event.status = \'posted\' AND 
-                   calendar_has_event.event_id = event.id AND 
-                   eventdatetime.event_id = event.id AND 
-                   eventdatetime.starttime<\''.date('Y-m-d').' 00:00:00\' AND 
-                   (eventdatetime.endtime IS NULL 
+        $q = $q . '    calendar_has_event.status = \'posted\' AND
+                   calendar_has_event.event_id = event.id AND
+                   eventdatetime.event_id = event.id AND
+                   eventdatetime.starttime<\''.date('Y-m-d').' 00:00:00\' AND
+                   (eventdatetime.endtime IS NULL
                    OR eventdatetime.endtime<\''.date('Y-m-d').' 00:00:00\');';
         $r = $mdb2->exec($q);
         return $r;
@@ -719,9 +721,9 @@ class UNL_UCBCN
     
     /**
      * Cleans the cache.
-     * 
+     *
      * @param mixed $o Pass a cached object to clean it's cache, or a string id.
-     * 
+     *
      * @return bool true if cache was successfully cleared.
      */
     public function cleanCache($o=null)
@@ -750,15 +752,15 @@ class UNL_UCBCN
     
     /**
      * This function determines if a user can edit the details of a specific event.
-     * 
+     *
      * Permission relies on a couple requirements:
      *  User has 'Event Edit' rights over the calendar the event was originally
      *  created under, OR the event was 'recommended for the default calendar', and
      *  this user has permission over the default calendar.
-     * 
+     *
      * @param UNL_UCBCN_User  $user  User to check
      * @param UNL_UCBCN_Event $event Event to check
-     * 
+     *
      * @return bool true or false
      */
     public function userCanEditEvent($user, UNL_UCBCN_Event $event)

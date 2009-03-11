@@ -1,10 +1,10 @@
 <?php
 /**
  * Table Definition for eventdatetime
- * 
+ *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -19,14 +19,14 @@ require_once 'DB/DataObject.php';
 
 /**
  * ORM for a record within the database.
- * 
+ *
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Eventdatetime extends DB_DataObject 
+class UNL_UCBCN_Eventdatetime extends DB_DataObject
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -37,8 +37,8 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public $location_id;                     // int(10)  not_null multiple_key unsigned
     public $starttime;                       // datetime(19)  multiple_key binary
     public $endtime;                         // datetime(19)  multiple_key binary
-    public $room;                            // string(255)  
-    public $hours;                           // string(255)  
+    public $room;                            // string(255)
+    public $hours;                           // string(255)
     public $directions;                      // blob(4294967295)  blob
     public $additionalpublicinfo;            // blob(4294967295)  blob
 
@@ -60,6 +60,39 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public $fb_formHeaderText         = 'Event Location, Date and Time';
     public $fb_dateToDatabaseCallback = array('UNL_UCBCN_Eventdatetime','dateToDatabaseCallback');
     public $fb_preDefOrder            = array('location_id','room');
+    
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'event_id'=>129,
+            'location_id'=>129,
+            'starttime'=>14,
+            'endtime'=>14,
+            'room'=>2,
+            'hours'=>2,
+            'directions'=>66,
+            'additionalpublicinfo'=>66,
+        );
+    }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
+    }
+    
+    function sequenceKey()
+    {
+        return array('id',true);
+    }
+    
+    function links()
+    {
+        return array('event_id'    => 'event:id',
+                     'location_id' => 'location:id');
+    }
     
     public function preGenerateForm(&$fb)
     {
@@ -100,7 +133,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     }
     
     public function postGenerateForm(&$form, &$fb)
-    {    
+    {
         if (isset($this->starttime)) {
             $form->setDefaults(array('starttime'=>substr($this->starttime,0,10)));
             if (substr($this->starttime,11) != '00:00:00') {
@@ -120,7 +153,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix => array(
                 array('Start Date is required', 'required'),
                 array('Invalid Date', 'date'),
-            )   
+            )
             ));
     }
     
@@ -152,7 +185,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         if (isset($dateInput['M'])) {
             $month = $dateInput['M'];
         } elseif (isset($dateInput['m'])) {
-            $month = $dateInput['m'];   
+            $month = $dateInput['m'];
         } elseif (isset($dateInput['F'])) {
             $month = $dateInput['F'];
         }
@@ -287,7 +320,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     
     /**
      * Gets an object for the location of this event date and time.
-     * 
+     *
      * @return UNL_UCBCN_Location
      */
     public function getLocation()

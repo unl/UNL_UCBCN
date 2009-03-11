@@ -1,9 +1,9 @@
 <?php
 /**
  * Table Definition for event
- * 
+ *
  * PHP version 5
- * 
+ *
  * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
@@ -21,7 +21,8 @@ require_once 'UNL/UCBCN.php';
 /**
  * ORM for a record within the database.
  *
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -36,31 +37,31 @@ class UNL_UCBCN_Event extends DB_DataObject
     public $__table = 'event';                           // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $title;                           // string(100)  not_null multiple_key
-    public $subtitle;                        // string(100)  
-    public $othereventtype;                  // string(255)  
+    public $subtitle;                        // string(100)
+    public $othereventtype;                  // string(255)
     public $description;                     // blob(4294967295)  blob
-    public $shortdescription;                // string(255)  
-    public $refreshments;                    // string(255)  
-    public $classification;                  // string(100)  
-    public $approvedforcirculation;          // int(1)  
-    public $transparency;                    // string(255)  
-    public $status;                          // string(100)  
+    public $shortdescription;                // string(255)
+    public $refreshments;                    // string(255)
+    public $classification;                  // string(100)
+    public $approvedforcirculation;          // int(1)
+    public $transparency;                    // string(255)
+    public $status;                          // string(100)
     public $privatecomment;                  // blob(4294967295)  blob
-    public $otherkeywords;                   // string(255)  
-    public $imagetitle;                      // string(100)  
+    public $otherkeywords;                   // string(255)
+    public $imagetitle;                      // string(100)
     public $imageurl;                        // blob(4294967295)  blob
     public $webpageurl;                      // blob(4294967295)  blob
-    public $listingcontactuid;               // string(255)  
-    public $listingcontactname;              // string(100)  
-    public $listingcontactphone;             // string(255)  
-    public $listingcontactemail;             // string(255)  
+    public $listingcontactuid;               // string(255)
+    public $listingcontactname;              // string(100)
+    public $listingcontactphone;             // string(255)
+    public $listingcontactemail;             // string(255)
     public $icalendar;                       // blob(4294967295)  blob
     public $imagedata;                       // blob(4294967295)  blob binary
-    public $imagemime;                       // string(255)  
+    public $imagemime;                       // string(255)
     public $datecreated;                     // datetime(19)  binary
-    public $uidcreated;                      // string(100)  
+    public $uidcreated;                      // string(100)
     public $datelastupdated;                 // datetime(19)  binary
-    public $uidlastupdated;                  // string(100)  
+    public $uidlastupdated;                  // string(100)
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Event',$k,$v); }
@@ -135,12 +136,12 @@ class UNL_UCBCN_Event extends DB_DataObject
      *
      * @param array                     &$values Associative array of post data.
      * @param DB_DataObject_FormBuilder &$fb     Formbuilder object
-     * 
+     *
      * @return void
      */
     function preProcessForm(&$values, &$fb)
     {
-        if (strpos($values['listingcontactemail'], '@') === false 
+        if (strpos($values['listingcontactemail'], '@') === false
             && !empty($values['listingcontactemail'])
             && isset($GLOBALS['email_domain'])) {
             $values['listingcontactemail'] = $values['listingcontactemail'] . '@' . $GLOBALS['email_domain'];
@@ -149,9 +150,9 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Called before the form is generated.
-     * 
+     *
      * @param DB_DataObject_FormBuilder &$fb The FormBuilder
-     * 
+     *
      * @return void
      */
     public function preGenerateForm(&$fb)
@@ -188,10 +189,10 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Called after the form is generated for additional formatting.
-     * 
+     *
      * @param HTML_QuickForm            &$form        The form
      * @param DB_DataObject_Formbuilder &$formBuilder The formbuilder
-     * 
+     *
      * @return void
      */
     public function postGenerateForm(&$form, &$formBuilder)
@@ -246,11 +247,11 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Simple function to test for a valid URL
-     * 
+     *
      * Used to check webpageurl and imageurl fields.
      *
      * @param string $val URL to check
-     * 
+     *
      * @return int 0 | 1
      */
     public function checkURL($val)
@@ -263,7 +264,7 @@ class UNL_UCBCN_Event extends DB_DataObject
      *
      * @param object &$linkedDataObject The dataobject to be linked.
      * @param string $field             The field which the linked object is used for
-     * 
+     *
      * @return void
      */
     public function prepareLinkedDataObject(&$linkedDataObject, $field)
@@ -288,7 +289,36 @@ class UNL_UCBCN_Event extends DB_DataObject
     public function table()
     {
         global $_UNL_UCBCN;
-        $table = parent::table();
+        $table = array(
+            'id'=>129,
+            'title'=>130,
+            'subtitle'=>2,
+            'othereventtype'=>2,
+            'description'=>66,
+            'shortdescription'=>2,
+            'refreshments'=>2,
+            'classification'=>2,
+            'approvedforcirculation'=>17,
+            'transparency'=>2,
+            'status'=>2,
+            'privatecomment'=>66,
+            'otherkeywords'=>2,
+            'imagetitle'=>2,
+            'imageurl'=>66,
+            'webpageurl'=>66,
+            'listingcontactuid'=>2,
+            'listingcontactname'=>2,
+            'listingcontactphone'=>2,
+            'listingcontactemail'=>2,
+            'icalendar'=>66,
+            'imagedata'=>66,
+            'imagemime'=>2,
+            'datecreated'=>14,
+            'uidcreated'=>2,
+            'datelastupdated'=>14,
+            'uidlastupdated'=>2
+        );
+        
         $table['datecreated'] = DB_DATAOBJECT_TXT;
         if (isset($_UNL_UCBCN['default_calendar_id']) &&
             isset($_SESSION['calendar_id']) &&
@@ -298,18 +328,37 @@ class UNL_UCBCN_Event extends DB_DataObject
             return $table;
         }
     }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
+    }
+    
+    function sequenceKey()
+    {
+        return array('id',true);
+    }
+    
+    function links()
+    {
+        return array('listingcontactuid' => 'users:uid',
+                     'uidcreated'        => 'users:uid',
+                     'uidlastupdated'    => 'users:uid');
+    }
     
     /**
      * This function processes any posted files,
      * sepcifically the images for an event.
-     * 
+     *
      * Called from insert() or update().
      *
      * @return void
      */
     public function processFileAttachments()
     {
-        if (isset($_FILES['imagedata']) 
+        if (isset($_FILES['imagedata'])
             && is_uploaded_file($_FILES['imagedata']['tmp_name'])
             && $_FILES['imagedata']['error']==UPLOAD_ERR_OK) {
             global $_UNL_UCBCN;
@@ -320,7 +369,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Inserts a new event in the database.
-     * 
+     *
      * @return bool
      */
     public function insert()
@@ -354,9 +403,9 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Updates the record for this event in the database.
-     * 
+     *
      * @param mixed $do DataObject
-     * 
+     *
      * @return bool
      */
     public function update($do=false)
@@ -396,11 +445,11 @@ class UNL_UCBCN_Event extends DB_DataObject
     /**
      * This function will add the current event to the default calendar.
      * It assumes that the global default_calendar_id is set.
-     * 
+     *
      * @param int    $calendar_id ID of the calendar to add the event to
      * @param string $status      Status to add as, pending | posted | archived
      * @param string $sourcemsg   Message for the source of this addition.
-     * 
+     *
      * @return int|false
      */
     public function addToCalendar($calendar_id, $status='pending', $sourcemsg = 'unknown')
@@ -419,7 +468,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Performs a delete of this event and all child records
-     * 
+     *
      * @return bool
      */
     public function delete()
@@ -443,7 +492,7 @@ class UNL_UCBCN_Event extends DB_DataObject
     
     /**
      * Check whether this event belongs to any calendars.
-     * 
+     *
      * @return bool
      */
     public function isOrphaned()

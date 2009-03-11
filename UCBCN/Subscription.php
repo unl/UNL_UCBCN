@@ -1,10 +1,10 @@
 <?php
 /**
  * Table Definition for subscription
- * 
+ *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -20,7 +20,7 @@ require_once 'UNL/UCBCN/Calendar_has_event.php';
 
 /**
  * ORM for a record within the database.
- * 
+ *
  * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
@@ -28,7 +28,7 @@ require_once 'UNL/UCBCN/Calendar_has_event.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Subscription extends DB_DataObject 
+class UNL_UCBCN_Subscription extends DB_DataObject
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -36,15 +36,15 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     public $__table = 'subscription';                    // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $calendar_id;                     // int(10)  not_null multiple_key unsigned
-    public $name;                            // string(100)  
+    public $name;                            // string(100)
     public $automaticapproval;               // int(1)  not_null
     public $timeperiod;                      // date(10)  binary
     public $expirationdate;                  // date(10)  binary
     public $searchcriteria;                  // blob(4294967295)  blob
     public $datecreated;                     // datetime(19)  binary
-    public $uidcreated;                      // string(100)  
+    public $uidcreated;                      // string(100)
     public $datelastupdated;                 // datetime(19)  binary
-    public $uidlastupdated;                  // string(100)  
+    public $uidlastupdated;                  // string(100)
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Subscription',$k,$v); }
@@ -67,11 +67,47 @@ class UNL_UCBCN_Subscription extends DB_DataObject
                                     'expirationdate');
     public $fb_linkElementTypes = array('automaticapproval'=>'radio');
     
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'calendar_id'=>129,
+            'name'=>2,
+            'automaticapproval'=>145,
+            'timeperiod'=>6,
+            'expirationdate'=>6,
+            'searchcriteria'=>66,
+            'datecreated'=>14,
+            'uidcreated'=>2,
+            'datelastupdated'=>14,
+            'uidlastupdated'=>2,
+        );
+    }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
+    }
+    
+    function sequenceKey()
+    {
+        return array('id',true);
+    }
+    
+    function links()
+    {
+        return array('calendar_id'    => 'calendar:id',
+                     'uidcreated'     => 'user:uid',
+                     'uidlastupdated' => 'user:uid');
+    }
+    
     /**
      * Called before the form is generated.
-     * 
+     *
      * @param object &$fb Formbuilder object.
-     * 
+     *
      * @return void
      */
     public function preGenerateForm(&$fb)
@@ -95,7 +131,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
      * Translates search criteria into calendars.
      *
      * @param string $searchcriteria Array of calendars to check.
-     * 
+     *
      * @return array Array of the calendars which match this criteria.
      */
     public function getCalendars($searchcriteria)
@@ -115,23 +151,23 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     
     /**
      * Called after the form is generated for form modifications.
-     * 
+     *
      * @param HTML_QuickForm            &$form        The form object
      * @param DB_DataObject_FormBuilder &$formBuilder Formbuilder object
-     * 
+     *
      * @return void
      */
     public function postGenerateForm(&$form, &$formBuilder)
-    {        
+    {
         $form->insertElementBefore(HTML_QuickForm::createElement('static', 'intro', '<p>Subscribe to events that match the following criteria:</p>'), 'searchcriteria');
     }
     
     /**
      * Called before the form is processed to modify certain values.
-     * 
+     *
      * @param array  &$values      Associative array of values posted.
      * @param object &$formBuilder Formbuilder object.
-     * 
+     *
      * @return void
      */
     public function preProcessForm(&$values, &$formBuilder)
@@ -152,7 +188,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     /**
      * Inserts a record into the subscription table, and processes the subscription
      * for matching events.
-     * 
+     *
      * @return int ID of inserted record on success.
      */
     public function insert()
@@ -177,11 +213,11 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     /**
      * Performs an update on this subscription. This will re-evaluate all the events
      * to see if they match the subscription and add them in.
-     * 
+     *
      * Calls UNL_UCBCN_process() if update was successful.
-     * 
+     *
      * @param object $do Dataobject
-     * 
+     *
      * @return bool true on success
      */
     public function update($do=false)
@@ -201,11 +237,11 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     }
     
     /**
-     * Processes this subscription and adds events not currently 
+     * Processes this subscription and adds events not currently
      * added to the calendar this subscription is for.
      *
      * @param int $event_id Optionally only add the event with the mathcing id.
-     * 
+     *
      * @return int number of events added to the calendar
      */
     public function process($event_id = null)
@@ -236,7 +272,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     }
     
     /**
-     * returns the string equivalent of the automatic approval status, for 
+     * returns the string equivalent of the automatic approval status, for
      * inserting into the calendar_has_event database.
      * It will return 'posted' if automatic approval is true.
      * 'pending' otherwise.
@@ -254,7 +290,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     
     /**
      * Finds the events matching this subscription.
-     * 
+     *
      * @param bool $exclude_existing If existing events on this calendar should be excluded.
      * @param int  $event_id         Optional parameter for checking an individual event.
      *
@@ -278,10 +314,10 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     /**
      * This function is called when a calendar has just had an event added. Called
      * from UNL_UCBCN_Calendar_has_event->insert();
-     * 
+     *
      * @param int $calendar_id The primary key of the calendar which was updated.
      * @param int $event_id    Optionally, the id of the event to add.
-     * 
+     *
      * @return int Number of calenars updated (if any).
      */
     public function updateSubscribedCalendars($calendar_id, $event_id = null)
@@ -302,9 +338,9 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     
     /**
      * Checks if a calendar has subscribers.
-     * 
+     *
      * @param int $calendar_id The id of the calendar to check.
-     * 
+     *
      * @return int
      */
     public function calendarHasSubscribers($calendar_id)

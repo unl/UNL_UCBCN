@@ -1,10 +1,10 @@
 <?php
 /**
  * Table Definition for event_has_eventtype
- * 
+ *
  * PHP version 5
- * 
- * @category  Events 
+ *
+ * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2009 Regents of the University of Nebraska
@@ -19,7 +19,7 @@ require_once 'DB/DataObject.php';
 
 /**
  * ORM for a record within the database.
- * 
+ *
  * @category  Events
  * @package   UNL_UCBCN
  * @author    Brett Bieber <brett.bieber@gmail.com>
@@ -27,7 +27,7 @@ require_once 'DB/DataObject.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event_has_eventtype extends DB_DataObject 
+class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -49,11 +49,38 @@ class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
     public $fb_addFormHeader        = false;
     public $fb_formHeaderText       = 'Event Type';
     
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'event_id'=>129,
+            'eventtype_id'=>129,
+        );
+    }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
+    }
+    
+    function sequenceKey()
+    {
+        return array('id',true);
+    }
+    
+    function links()
+    {
+        return array('event_id'     => 'event:id',
+                     'eventtype_id' => 'eventtype:id');
+    }
+    
     /**
      * Called before the form is generated.
-     * 
+     *
      * @param object &$fb Formbuilder object.
-     * 
+     *
      * @return void
      */
     public function preGenerateForm(&$fb)
@@ -65,10 +92,10 @@ class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
     
     /**
      * Called before the form is processed to modify values submitted.
-     * 
+     *
      * @param array  &$values      Associative array of values submitted.
      * @param object &$formBuilder Formbuilder object.
-     * 
+     *
      * @return void
      */
     public function preProcessForm(&$values, &$formBuilder)
