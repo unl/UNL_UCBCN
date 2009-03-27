@@ -75,6 +75,12 @@ class UNL_UCBCN
      */
     protected static $output_filters = array();
     
+    /**
+     * Cache object for output caching
+     * 
+     * @var UNL_UCBCN_CachingService
+     */
+    static protected $cache;
     
     /**
      * Constructor for the UCBCN object, initializes member variables and sets up
@@ -278,7 +284,7 @@ class UNL_UCBCN
      */
     public function showError($description)
     {
-        $this->displayRegion($description);
+        self::displayRegion($description);
     }
     
     /**
@@ -298,52 +304,90 @@ class UNL_UCBCN
      * run()                        This function must populate the object and get
      *                              it prepped for output.
      *
-     * @param mixed  $content  The content to send out.
-     * @param string $cachekey A unique key which can identify this content.
+     * @param mixed $content The content to send out.
+     * @param bool  $return  Whether to output or return the content.
      *
      * @return void
      */
-    public function displayRegion($content,$cachekey=null)
+    static public function displayRegion($mixed, $return = false)
     {
-        global $_UNL_UCBCN;
-        if (is_object($content)) {
-            if (method_exists($content, 'getCacheKey')
-                && method_exists($content, 'run')) {
-                $key = $content->getCacheKey();
-                if ($key === false) {
-                    // Content should not be cached, send output immediately.
-                    $content->preRun(false);
-                    $content->run();
-                    UNL_UCBCN::sendObjectOutput($content);
-                } else {
-                    $cache = new Cache_Lite(array('lifeTime'=>null));
-                    // We have a valid key to store the output of this object.
-                    if ($data = $cache->get($key)) {
-                        // Tell the object we have cached data and will output that.
-                        $content->preRun(true);
-                    } else {
-                        // Content should be cached, but none could be found.
-                        ob_start();
-                        $content->preRun(false);
-                        $content->run();
-                        UNL_UCBCN::sendObjectOutput($content);
-                        $data = ob_get_contents();
-                        $cache->save($data, $key, 'UNL_UCBCN');
-                        ob_end_clean();
-                    }
-                    echo $data;
-                }
-            } else {
-                // Set up the template to display.
-                UNL_UCBCN::sendObjectOutput($content);
-            }
-        } elseif (is_array($content)) {
-            foreach ($content as $contentregion) {
-                UNL_UCBCN::displayRegion($contentregion);
-            }
-        } else {
-            echo $content;
+        if (is_array($mixed)) {
+            return self::displayArray($mixed, $return);
         }
+        
+        if (is_object($mixed)) {
+            return self::displayObject($mixed, $return);
+        }
+        
+        if ($return) {
+            return $mixed;
+        }
+        
+        echo $mixed;
+        return true;
+    }
+    
+    static function displayArray($array, $return = false)
+    {
+        $output = '';
+        foreach ($array as $mixed) {
+            if ($return) {
+                $output .= self::displayRegion($mixed, true);
+            } else {
+                self::displayRegion($mixed, false);
+            }
+        }
+        
+        if ($return) {
+            return $output;
+        }
+        
+        return true;
+    }
+    
+    static function displayObject($object, $return = false)
+    {
+        if ($object instanceof UNL_UCBCN_Cacheable) {
+            $key = $object->getCacheKey();
+            
+            // We have a valid key to store the output of this object.
+            if ($key !== false && $data = self::getCachingService()->get($key)) {
+                // Tell the object we have cached data and will output that.
+                $object->preRun(true);
+            } else {
+                // Content should be cached, but none could be found.
+                //flush();
+                ob_start();
+                $object->preRun(false);
+                $object->run();
+                
+                if ($return) {
+                    $data = self::sendObjectOutput($object, $return);
+                } else {
+                    self::sendObjectOutput($object, $return);
+                    $data = ob_get_contents();
+                }
+                
+                if ($key !== false) {
+                    self::getCachingService()->save($data, $key);
+                }
+                ob_end_clean();
+            }
+            
+            if ($object instanceof UNL_UCBCN_PostRunFiltering) {
+                $data = $object->postRun($data);
+            }
+            
+            if ($return) {
+                return $data;
+            }
+            
+            echo $data;
+            return true;
+        }
+        
+        return self::sendObjectOutput($object, $return);
+
     }
     
     /**
@@ -357,24 +401,38 @@ class UNL_UCBCN
      *
      * @return void
      */
-    public function sendObjectOutput($content)
+    static protected function sendObjectOutput($object, $return = false)
     {
         include_once 'Savant3.php';
         $savant = new Savant3();
-        foreach (get_object_vars($content) as $var=>$output) {
-            if (!is_object($output)) {
-                foreach (self::$output_filters as $filter) {
-                    $output = $filter->filter($output);
-                }
+        foreach (get_object_vars($object) as $key=>$var) {
+            $savant->$key = $var;
+        }
+        if (in_array('ArrayAccess', class_implements($object))) {
+            foreach ($object->toArray() as $key=>$var) {
+                $savant->$key = $var;
             }
-            $savant->$var = $output;
         }
-        $templatefile = UNL_UCBCN::getTemplateFilename(get_class($content));
+        if ($object instanceof Exception) {
+            $savant->code    = $object->getCode();
+            $savant->line    = $object->getLine();
+            $savant->file    = $object->getFile();
+            $savant->message = $object->getMessage();
+            $savant->trace   = $object->getTrace();
+        }
+        $templatefile = self::getTemplateFilename(get_class($object));
         if (file_exists($templatefile)) {
+            if ($return) {
+                ob_start();
+                $savant->display($templatefile);
+                $output = ob_get_clean();
+                return $output;
+            }
             $savant->display($templatefile);
-        } else {
-            echo 'Sorry, '.$templatefile.' was not found.';
+            return true;
         }
+        
+        throw new Exception('Sorry, '.$templatefile.' was not found.');
     }
     
     /**
@@ -726,28 +784,23 @@ class UNL_UCBCN
      *
      * @return bool true if cache was successfully cleared.
      */
-    public function cleanCache($o=null)
+    public function cleanCache($object = null)
     {
-        $c = new Cache_Lite();
-        if (isset($o)) {
-            if (is_object($o)
-                && method_exists($content, 'getCacheKey')) {
-                $key = $content->getCacheKey();
-                if ($key === false) {
-                    // This is a non-cacheable object.
-                    return true;
-                }
-            } else {
-                $key = (string) $o;
-            }
-            if ($cache->get($key) !== false) {
-                // Remove the cache for this individual object.
-                return $cache->remove($key, 'UNL_UCBCN');
-            }
-        } else {
-            return $c->clean('UNL_UCBCN');
+        return self::getCachingService()->clean($object);
+    }
+    
+    static public function setCachingService(UNL_UCBCN_CachingService $cache)
+    {
+        self::$cache = $cache;
+    }
+    
+    static public function getCachingService()
+    {
+        if (!isset(self::$cache)) {
+            include_once 'UNL/UCBCN/CachingService/CacheLite.php';
+            self::$cache = new UNL_UCBCN_CachingService_CacheLite();
         }
-        return false;
+        return self::$cache;
     }
     
     /**

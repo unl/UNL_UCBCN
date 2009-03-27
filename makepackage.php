@@ -84,6 +84,7 @@ $pfm->setLicense('BSD License', 'http://www1.unl.edu/wdn/wiki/Software_License')
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.5.4');
+$pfm->addPackageDepWithChannel('required', 'UNL_Autoload', 'pear.unl.edu', '0.5.0');
 $pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'phpsavant.com', '3.0.0');
