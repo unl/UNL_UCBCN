@@ -41,6 +41,15 @@ class UNL_UCBCN_Relatedevent extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
+    function table()
+    {
+        return array(
+            'event_id'=>129,
+            'related_event_id'=>129,
+            'relationtype'=>2
+        );
+    }
+    
     function links()
     {
         return array('event_id'         => 'event:id',

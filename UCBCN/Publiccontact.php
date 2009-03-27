@@ -53,9 +53,37 @@ class UNL_UCBCN_Publiccontact extends DB_DataObject
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'event_id'=>129,
+            'name'=>2,
+            'jobtitle'=>2,
+            'organization'=>2,
+            'addressline1'=>2,
+            'addressline2'=>2,
+            'room'=>2,
+            'city'=>2,
+            'state'=>2,
+            'zip'=>2,
+            'emailaddress'=>2,
+            'phone'=>2,
+            'fax'=>2,
+            'webpageurl'=>66
+        );
+    }
+    
     function links()
     {
         return array('event_id' => 'event:id');
+    }
+    
+    function keys()
+    {
+        return array(
+            'id',
+        );
     }
     
     function sequenceKey()
