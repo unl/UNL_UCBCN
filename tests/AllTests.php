@@ -9,6 +9,8 @@
  * @author   Brett Bieber <brett.bieber@gmail.com>
  */
 
+set_include_path(dirname(dirname(__FILE__)).PATH_SEPARATOR.get_include_path());
+
 if (!defined('PHPUnit_MAIN_METHOD')) {
     define('PHPUnit_MAIN_METHOD', 'UNL_UCBCN_AllTests::main');
 }

@@ -33,7 +33,7 @@ $pfm = PEAR_PackageFileManager2::importOptions('package.xml', array(
 //$pfm = new PEAR_PackageFileManager2();
 //$pfm->setOptions(array(
     'packagedirectory' => dirname(__FILE__),
-    'baseinstalldir' => 'UNL',
+    'baseinstalldir' => '/',
     'filelistgenerator' => 'svn',
     'ignore' => array(  'package.xml',
                         '.project',
@@ -62,20 +62,12 @@ $pfm->setDescription('This package creates and upgrades a relational database us
 $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
-$pfm->setAPIVersion('0.7.0');
-$pfm->setReleaseVersion('0.7.0');
+$pfm->setAPIVersion('0.8.0');
+$pfm->setReleaseVersion('0.8.0');
 $pfm->setNotes('
-0.7.0 Changes:
-* Caching improvements:
-    Support removing individual cache files.
-    Group all cached files under the UNL_UCBCN group.
-* Sample script calAddUser.php added for adding users to a calendar.
-    Example: php calAddUser.php chemistry jdoe
-* Switch Savant3 dependency to the official channel at phpsavant.com.
-* Add dependency on MDB2_Driver_mysqli to simplify installation.
-* Minor Coding Standards fixes.
-* Update copyright to 2009.
-* Add work on input/output filters.
+0.8.0 Changes:
+Rearrange SVN so files can be used from checkout.
+Add dependency on UNL autoloader.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
@@ -101,7 +93,7 @@ foreach (array('UCBCN.php','dataobject.ini','UNL_UCBCN_setup.php','UNL_UCBCN_db.
 $config = PEAR_Config::singleton();
 $log = PEAR_Frontend::singleton();
 $task = new PEAR_Task_Postinstallscript_rw($pfm, $config, $log,
-    array('name' => 'UNL_UCBCN_setup.php', 'role' => 'php'));
+    array('name' => 'UNL/UCBCN_setup.php', 'role' => 'php'));
 $task->addParamGroup('questionCreate', array(
     $task->getParam('createdb', 'Create/Upgrade database for UNL Event Publisher?', 'string', 'yes'),
     ));
@@ -116,7 +108,7 @@ $task->addParamGroup('questionEventTypes', array(
     $task->getParam('addeventtypes', 'Add sample default event types to the calendar database?', 'string', 'yes'),
     ));
     
-$pfm->addPostinstallTask($task, 'UNL_UCBCN_setup.php');
+$pfm->addPostinstallTask($task, 'UNL/UCBCN_setup.php');
 $pfm->generateContents();
 if (isset($_SERVER['argv']) && $_SERVER['argv'][1] == 'make') {
     $pfm->writePackageFile();

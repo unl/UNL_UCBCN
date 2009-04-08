@@ -207,10 +207,16 @@ class UNL_UCBCN_setup_postinstall
             return false;
         }
         
+        $data_dir = '@DATA_DIR@/UNL_UCBCN';
+        
+        if ('@DATA_DIR@' == '@'.'DATA_DIR@') {
+            $data_dir = dirname(dirname(__FILE__));
+        }
+        
         if ($answers['database'] != 'eventcal') {
             $a = self::file_str_replace('<name>eventcal</name>',
                                         '<name>'.$answers['database'].'</name>',
-                                        '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml');
+                                        $data_dir.'/UNL_UCBCN_db.xml');
             if ($a != true) {
                 $this->noDBsetup = true;
                 return $a;
@@ -223,8 +229,8 @@ class UNL_UCBCN_setup_postinstall
             $this->noDBsetup = true;
             return false;
         } else {
-            $new_definition_file = '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db.xml';
-            $old_definition_file = '@DATA_DIR@/UNL_UCBCN/UNL_UCBCN_db_'.$answers['database'].'.old';
+            $new_definition_file = $data_dir.'/UNL_UCBCN_db.xml';
+            $old_definition_file = $data_dir.'/UNL_UCBCN_db_'.$answers['database'].'.old';
             
             if (file_exists($old_definition_file)) {
                 $operation = $manager->updateDatabase($new_definition_file, $old_definition_file);

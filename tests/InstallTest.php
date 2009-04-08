@@ -43,7 +43,7 @@ class UNL_UCBCN_InstallTest extends PHPUnit_Framework_TestCase
     public function testBackendInstallScript()
     {
 		require_once 'PEAR.php';
-		require_once 'UNL/UNL_UCBCN_setup.php';
+		require_once 'UNL/UCBCN_setup.php';
 		$installer = new UNL_UCBCN_setup_postinstall();
 		$res = $installer->createDatabase(array('dbtype'=>'mysqli','user'=>'eventcal','password'=>'eventcal','dbhost'=>'localhost','database'=>'eventcal'));
 		$this->assertFalse(PEAR::isError($res));
