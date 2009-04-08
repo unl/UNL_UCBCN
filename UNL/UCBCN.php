@@ -403,8 +403,17 @@ class UNL_UCBCN
      */
     static protected function sendObjectOutput($object, $return = false)
     {
+        global $_UNL_UCBCN;
         include_once 'Savant3.php';
         $savant = new Savant3();
+        if (!empty($_UNL_UCBCN['template_path'])) {
+            $savant->addPath('template', $_UNL_UCBCN['template_path']);
+        } else {
+            $savant->addPath('template', 'templates/default');
+            if ($_UNL_UCBCN['template'] != 'default') {
+                $savant->addPath('template', 'templates/'.$_UNL_UCBCN['template']);
+            }
+        }
         foreach (get_object_vars($object) as $key=>$var) {
             $savant->$key = $var;
         }
@@ -421,18 +430,11 @@ class UNL_UCBCN
             $savant->trace   = $object->getTrace();
         }
         $templatefile = self::getTemplateFilename(get_class($object));
-        if (file_exists($templatefile)) {
-            if ($return) {
-                ob_start();
-                $savant->display($templatefile);
-                $output = ob_get_clean();
-                return $output;
-            }
-            $savant->display($templatefile);
-            return true;
+        if ($return) {
+            return $savant->fetch($templatefile);
         }
-        
-        throw new Exception('Sorry, '.$templatefile.' was not found.');
+        $savant->display($templatefile);
+        return true;
     }
     
     /**
@@ -686,21 +688,14 @@ class UNL_UCBCN
      *
      * @return string Filename of the output template to use for the given class.
      */
-    public function getTemplateFilename($cname)
+    public static function getTemplateFilename($cname)
     {
         global $_UNL_UCBCN;
         if (isset($_UNL_UCBCN['output_template'][$cname])) {
             $cname = $_UNL_UCBCN['output_template'][$cname];
         }
         $cname = str_replace('UNL_UCBCN_', '', $cname);
-        if (!empty($_UNL_UCBCN['template_path'])) {
-            $templatefile = $_UNL_UCBCN['template_path']
-                          . DIRECTORY_SEPARATOR . $cname . '.tpl.php';
-        } else {
-            $templatefile = 'templates' . DIRECTORY_SEPARATOR
-                          . $_UNL_UCBCN['template'] . DIRECTORY_SEPARATOR
-                          . $cname . '.tpl.php';
-        }
+        $templatefile = $cname . '.tpl.php';
         return $templatefile;
     }
     
@@ -727,7 +722,7 @@ class UNL_UCBCN
      *
      * @return string
      */
-    public function outputTemplate($cname, $templatename=null)
+    public static function outputTemplate($cname, $templatename=null)
     {
         global $_UNL_UCBCN;
         if (isset($templatename)) {
