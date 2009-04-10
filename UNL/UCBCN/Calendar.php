@@ -125,11 +125,24 @@ class UNL_UCBCN_Calendar extends DB_DataObject
         foreach ($this->fb_hiddenFields as $el) {
             $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
         }
+        
     }
     
-    public function postGenerateForm(&$form,&$formBuilder) {
+    public function postGenerateForm(&$form, &$formBuilder)
+    {
         $el =& $form->getElement('shortname');
         $el->freeze();
+        
+        $date = date('Y-m-d H:i:s');
+        
+        $defaults = array('datecreated'     => $date,
+                          'datelastupdated' => $date);
+        
+        if (!empty($this->datecreated)) {
+            $defaults['datecreated'] = $this->datecreated;
+        }
+        
+        $form->setDefaults($defaults);
     }
     
     /**

@@ -134,18 +134,26 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     
     public function postGenerateForm(&$form, &$fb)
     {
+        $defaults = array(
+            $fb->elementNamePrefix.'eventdatetime'.$fb->elementNamePostfix => '',
+            $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix     => '',
+            $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix       => ''
+        );
         if (isset($this->starttime)) {
-            $form->setDefaults(array('starttime'=>substr($this->starttime,0,10)));
+            $defaults[$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix] = substr($this->starttime,0,10);
             if (substr($this->starttime,11) != '00:00:00') {
-                $form->setDefaults(array($fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix=>substr($this->starttime,11)));
+                $defaults[$fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix] = substr($this->starttime,11);
             }
         }
         if (isset($this->endtime)) {
-            $form->setDefaults(array('endtime'=>substr($this->endtime,0,10)));
+            $defaults[$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix] = substr($this->endtime,0,10);
             if (substr($this->endtime,11) != '00:00:00') {
-                $form->setDefaults(array($fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix=>substr($this->endtime,11)));
+                $defaults[$fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix] = substr($this->endtime,11);
             }
         }
+        
+        $form->setDefaults($defaults);
+        
         $form->addRule('starttime_group','Start time is required.','required');
         $form->registerRule('date', 'callback', 'strtotime');
                     

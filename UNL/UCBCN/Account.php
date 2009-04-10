@@ -75,6 +75,20 @@ class UNL_UCBCN_Account extends DB_DataObject
         }
     }
     
+    public function postGenerateForm(&$form, &$formBuilder)
+    {
+        $date = date('Y-m-d H:i:s');
+        
+        $defaults = array('datecreated'     => $date,
+                          'datelastupdated' => $date);
+        
+        if (!empty($this->datecreated)) {
+            $defaults['datecreated'] = $this->datecreated;
+        }
+        
+        $form->setDefaults($defaults);
+    }
+    
     /**
      * Adds a calendar under this account.
      *

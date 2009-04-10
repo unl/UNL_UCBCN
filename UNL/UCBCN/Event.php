@@ -222,7 +222,11 @@ class UNL_UCBCN_Event extends DB_DataObject
         $form->addRule('imageurl', 'Image URL must be valid, be sure to include http://', 'callback', array('UNL_UCBCN_Event','checkURL'));
         $form->addRule('webpageurl', 'Web Page URL must be valid, be sure to include http://', 'callback', array('UNL_UCBCN_Event','checkURL'));
         
-        $defaults = array();
+        $date = date('Y-m-d H:i:s');
+        
+        $defaults = array('datecreated'     => $date,
+                          'datelastupdated' => $date);
+
         if (isset($_SESSION['_authsession'])) {
             if (!isset($this->uidcreated)) {
                 $defaults['uidcreated']=$_SESSION['_authsession']['username'];
@@ -230,11 +234,10 @@ class UNL_UCBCN_Event extends DB_DataObject
             $defaults['uidlastupdated']=$_SESSION['_authsession']['username'];
         }
         
-        if (isset($this->datecreated)) {
+        if (!empty($this->datecreated)) {
             $defaults['datecreated'] = $this->datecreated;
-        } else {
-            $defaults['datecreated'] = date('Y-m-d H:i:s');
         }
+        
         if (isset($this->approvedforcirculation)) {
             $defaults['approvedforcirculation'] = $this->approvedforcirculation;
         } else {

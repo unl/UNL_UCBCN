@@ -160,6 +160,19 @@ class UNL_UCBCN_Subscription extends DB_DataObject
     public function postGenerateForm(&$form, &$formBuilder)
     {
         $form->insertElementBefore(HTML_QuickForm::createElement('static', 'intro', '<p>Subscribe to events that match the following criteria:</p>'), 'searchcriteria');
+        
+        $date = date('Y-m-d H:i:s');
+        
+        $defaults = array('datecreated'     => $date,
+                          'datelastupdated' => $date,
+                          'expirationdate'  => '',
+                          'timeperiod'      => '');
+        
+        if (!empty($this->datecreated)) {
+            $defaults['datecreated'] = $this->datecreated;
+        }
+        
+        $form->setDefaults($defaults);
     }
     
     /**
