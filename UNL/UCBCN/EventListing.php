@@ -132,7 +132,7 @@ class UNL_UCBCN_EventListing
                                                 'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
                                                 'AND calendar_has_event.event_id = eventdatetime.event_id ' .
                                                 'AND calendar_has_event.event_id = event.id ' .
-                                                'AND eventdatetime.starttime > \'' . date('Y-m-d') . '\' '.
+                                                'AND eventdatetime.starttime >= \'' . date('Y-m-d') . '\' '.
                                 'ORDER BY '.$orderby.' LIMIT '.$limit;
         } else {
             $mdb2     = UNL_UCBCN::getDatabaseConnection();
