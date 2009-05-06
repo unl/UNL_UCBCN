@@ -122,6 +122,16 @@ while ($row = mysql_fetch_assoc($result)) {
 
 }
 
+/**
+ * Because one event can have multiple dates & times, we add it separately.
+ * 
+ * @param UNL_UCBCN       $b         The backend
+ * @param UNL_UCBCN_Event $e         The event
+ * @param string          $starttime Event start time in MySQL date format YYYY-MM-DD HH:ii
+ * @param string          $endtime   Event end time (optional)
+ * 
+ * @return bool
+ */
 function addDateTime(UNL_UCBCN $b, UNL_UCBCN_Event $e, $starttime, $endtime)
 {
     $dt =& UNL_UCBCN::factory('eventdatetime');
