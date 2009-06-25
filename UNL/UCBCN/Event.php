@@ -322,7 +322,6 @@ class UNL_UCBCN_Event extends DB_DataObject
             'uidlastupdated'=>2
         );
         
-        $table['datecreated'] = DB_DATAOBJECT_TXT;
         if (isset($_UNL_UCBCN['default_calendar_id']) &&
             isset($_SESSION['calendar_id']) &&
             ($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
