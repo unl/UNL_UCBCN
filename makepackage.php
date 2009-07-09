@@ -67,7 +67,20 @@ $pfm->setReleaseVersion('0.8.0');
 $pfm->setNotes('
 0.8.0 Changes:
 Rearrange SVN so files can be used from checkout.
-Add dependency on UNL autoloader.
+Add an autoloader.
+
+Output/Caching Service Changes
+    Cacheable objects must implement UNL_UCBCN_Cacheable
+    Added an interface for custom caching services
+    Added an interface for post run filtering for template output
+    
+Templating Improvements
+    Templates can now be specified using multiple paths.
+    The system will check in the first directory specified and if none exists, check the next in the path similar to include_path.
+    This means templates do not have to copy every .tpl.php file, just the files they customize.
+    Use $_UNL_UCBCN[\'template_path\'] to specify the path.
+
+Properly declare UNL_UCBCN::factory() as static.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
@@ -76,7 +89,6 @@ $pfm->setLicense('BSD License', 'http://www1.unl.edu/wdn/wiki/Software_License')
 $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.5.4');
-$pfm->addPackageDepWithChannel('required', 'UNL_Autoload', 'pear.unl.edu', '0.5.0');
 $pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'phpsavant.com', '3.0.0');
@@ -84,7 +96,7 @@ $pfm->addPackageDepWithChannel('required', 'NET_URL', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'MDB2', 'pear.php.net', '2.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net', '1.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.5.0');
-foreach (array('UCBCN.php','dataobject.ini','UNL_UCBCN_setup.php','UNL_UCBCN_db.xml') as $file) {
+foreach (array('UNL/UCBCN.php','UNL/UCBCN_setup.php','UNL_UCBCN_db.xml') as $file) {
     $pfm->addReplacement($file, 'pear-config', '@PHP_BIN@', 'php_bin');
     $pfm->addReplacement($file, 'pear-config', '@DATA_DIR@', 'data_dir');
     $pfm->addReplacement($file, 'pear-config', '@DOC_DIR@', 'doc_dir');
@@ -107,7 +119,10 @@ $task->addParamGroup('databaseSetup', array(
 $task->addParamGroup('questionEventTypes', array(
     $task->getParam('addeventtypes', 'Add sample default event types to the calendar database?', 'string', 'yes'),
     ));
-    
+
+$task->addParamGroup('questionSponsors', array(
+    $task->getParam('addsponsors', 'Add sample sponsors to the calendar database?', 'string', 'yes'),
+    ));
 $pfm->addPostinstallTask($task, 'UNL/UCBCN_setup.php');
 $pfm->generateContents();
 if (isset($_SERVER['argv']) && $_SERVER['argv'][1] == 'make') {
