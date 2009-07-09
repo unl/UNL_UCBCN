@@ -99,6 +99,8 @@ class UNL_UCBCN_setup_postinstall
             } else {
                 return true;
             }
+        case 'questionSponsors':
+            return $this->setupSponsors($answers);
         case 'questionEventTypes':
             return $this->setupEventTypes($answers);
         case '_undoOnError' :
@@ -213,16 +215,6 @@ class UNL_UCBCN_setup_postinstall
             $data_dir = dirname(dirname(__FILE__));
         }
         
-        if ($answers['database'] != 'eventcal') {
-            $a = self::file_str_replace('<name>eventcal</name>',
-                                        '<name>'.$answers['database'].'</name>',
-                                        $data_dir.'/UNL_UCBCN_db.xml');
-            if ($a != true) {
-                $this->noDBsetup = true;
-                return $a;
-            }
-        }
-        
         $manager =& MDB2_Schema::factory($db);
         if (PEAR::isError($manager)) {
             $this->outputData($manager->getMessage() . ' ' . $manager->getUserInfo());
@@ -230,14 +222,28 @@ class UNL_UCBCN_setup_postinstall
             return false;
         } else {
             $new_definition_file = $data_dir.'/UNL_UCBCN_db.xml';
-            $old_definition_file = $data_dir.'/UNL_UCBCN_db_'.$answers['database'].'.old';
             
-            if (file_exists($old_definition_file)) {
-                $operation = $manager->updateDatabase($new_definition_file, $old_definition_file);
-            } else {
-                $previous_definition = $manager->getDefinitionFromDatabase();
-                $operation = $manager->updateDatabase($new_definition_file, $previous_definition);
+            $db->exec('DROP TABLE `ongoingcheck`;');
+            
+            if (!file_exists($new_definition_file)) {
+                $this->outputData('File '.$new_definition_file.' does not exist! Cannot upgrade DB.');
+                return false;
             }
+            
+            $new_schema = $manager->parseDatabaseDefinitionFile($new_definition_file);
+            $old_schema = $manager->getDefinitionFromDatabase();
+
+			if(PEAR::isError($old_schema)){
+				$this->outputData('Something is wrong with the old database');
+				$this->outputData($old_schema->getMessage() . ' ' . $old_schema->getDebugInfo());
+
+				$this->noDBsetup = true;
+				return false;
+			}
+            
+            // Set the correct database name
+            $new_schema['name'] = $answers['database'];
+            $operation = $manager->updateDatabase($new_schema, $old_schema);
             
             if (PEAR::isError($operation)) {
                 $this->outputData('There was an error updating the database.');
@@ -245,7 +251,6 @@ class UNL_UCBCN_setup_postinstall
                 $this->noDBsetup = true;
                 return false;
             } else {
-                copy($new_definition_file, $old_definition_file);
                 $this->outputData('Successfully connected and created '.$this->dsn."\n");
                 return true;
             }
@@ -454,12 +459,40 @@ class UNL_UCBCN_setup_postinstall
                 $p->name        = $p_type;
                 $p->description = $p_type;
                 $p->insert();
-            } else {
-                $this->outputData("The permission $p_type already exists.");
             }
         }
+        $this->outputData('Permissions have been updated.');
         return true;
     }
+
+	/**
+     * Add some sponsors to the system so they have a starting point.
+     *
+     * @param array $answers Responses to questions
+     *
+     * @return true
+     */
+	function setupSponsors($answers) {
+		if ($answers['addsponsors']=='yes') {
+			$this->outputData('Adding sample sponsors. . .');
+			$backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
+            /** Add some event types to the database */
+			$sponsor = UNL_UCBCN::factory('sponsor');
+			$types = array( 'Faculty',
+                            'Student Organization',
+                            'Athletics',
+                            'Course');
+
+			foreach ($types as $type) {
+				$sponsor->name = $type;
+				if (!$sponsor->find()) {
+					$sponsor->name = $type;
+					$sponsor->insert();
+				}
+			}
+		}
+		return true;
+	}
     
     /**
      * takes in a string and sends it to the client.
@@ -473,7 +506,7 @@ class UNL_UCBCN_setup_postinstall
         if (isset($this->_ui)) {
             $this->_ui->outputData($msg.PHP_EOL);
         } else {
-            echo $msg.PHP_EOL;
+            echo $msg.PHP_EOL."<br />";
         }
     }
 }
