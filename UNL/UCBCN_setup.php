@@ -39,6 +39,7 @@ class UNL_UCBCN_setup_postinstall
     var $databaseExists;
     var $noDBsetup;
     var $dsn;
+    var $data_dir = '@DATA_DIR@/UNL_UCBCN';
     
     /**
      * initialize the post install script
@@ -209,10 +210,8 @@ class UNL_UCBCN_setup_postinstall
             return false;
         }
         
-        $data_dir = '@DATA_DIR@/UNL_UCBCN';
-        
-        if ('@DATA_DIR@' == '@'.'DATA_DIR@') {
-            $data_dir = dirname(dirname(__FILE__));
+        if (substr($this->data_dir, 0, 10) == '@'.'DATA_DIR@') {
+            $this->data_dir = dirname(dirname(__FILE__));
         }
         
         $manager =& MDB2_Schema::factory($db);
@@ -221,11 +220,11 @@ class UNL_UCBCN_setup_postinstall
             $this->noDBsetup = true;
             return false;
         } else {
-            $new_definition_file = $data_dir.'/UNL_UCBCN_db.xml';
+            $new_definition_file = $this->data_dir.'/UNL_UCBCN_db.xml';
             
             $db->exec('DROP TABLE `ongoingcheck`;');
             
-            if (!file_exists($new_definition_file)) {
+            if (!fopen($new_definition_file, 'r')) {
                 $this->outputData('File '.$new_definition_file.' does not exist! Cannot upgrade DB.');
                 return false;
             }
@@ -233,13 +232,13 @@ class UNL_UCBCN_setup_postinstall
             $new_schema = $manager->parseDatabaseDefinitionFile($new_definition_file);
             $old_schema = $manager->getDefinitionFromDatabase();
 
-			if(PEAR::isError($old_schema)){
-				$this->outputData('Something is wrong with the old database');
-				$this->outputData($old_schema->getMessage() . ' ' . $old_schema->getDebugInfo());
+            if(PEAR::isError($old_schema)){
+                $this->outputData('Something is wrong with the old database');
+                $this->outputData($old_schema->getMessage() . ' ' . $old_schema->getDebugInfo());
 
-				$this->noDBsetup = true;
-				return false;
-			}
+                $this->noDBsetup = true;
+                return false;
+            }
             
             // Set the correct database name
             $new_schema['name'] = $answers['database'];
@@ -465,34 +464,35 @@ class UNL_UCBCN_setup_postinstall
         return true;
     }
 
-	/**
+    /**
      * Add some sponsors to the system so they have a starting point.
      *
      * @param array $answers Responses to questions
      *
      * @return true
      */
-	function setupSponsors($answers) {
-		if ($answers['addsponsors']=='yes') {
-			$this->outputData('Adding sample sponsors. . .');
-			$backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
+    function setupSponsors($answers)
+    {
+        if ($answers['addsponsors']=='yes') {
+            $this->outputData('Adding sample sponsors. . .');
+            $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
             /** Add some event types to the database */
-			$sponsor = UNL_UCBCN::factory('sponsor');
-			$types = array( 'Faculty',
-                            'Student Organization',
-                            'Athletics',
-                            'Course');
+            $sponsor = UNL_UCBCN::factory('sponsor');
+            $types = array('Faculty',
+                           'Student Organization',
+                           'Athletics',
+                           'Course');
 
-			foreach ($types as $type) {
-				$sponsor->name = $type;
-				if (!$sponsor->find()) {
-					$sponsor->name = $type;
-					$sponsor->insert();
-				}
-			}
-		}
-		return true;
-	}
+            foreach ($types as $type) {
+                $sponsor->name = $type;
+                if (!$sponsor->find()) {
+                    $sponsor->name = $type;
+                    $sponsor->insert();
+                }
+            }
+        }
+        return true;
+    }
     
     /**
      * takes in a string and sends it to the client.
