@@ -18,10 +18,10 @@
   <email>bsteere@cornellcollege.edu</email>
   <active>yes</active>
  </helper>
- <date>2009-07-09</date>
- <time>09:22:35</time>
+ <date>2009-07-31</date>
+ <time>09:25:09</time>
  <version>
-  <release>0.8.0</release>
+  <release>0.8.1</release>
   <api>0.8.0</api>
  </version>
  <stability>
@@ -30,22 +30,9 @@
  </stability>
  <license uri="http://www1.unl.edu/wdn/wiki/Software_License">BSD License</license>
  <notes>
-0.8.0 Changes:
-Rearrange SVN so files can be used from checkout.
-Add an autoloader.
-
-Output/Caching Service Changes
-    Cacheable objects must implement UNL_UCBCN_Cacheable
-    Added an interface for custom caching services
-    Added an interface for post run filtering for template output
-    
-Templating Improvements
-    Templates can now be specified using multiple paths.
-    The system will check in the first directory specified and if none exists, check the next in the path similar to include_path.
-    This means templates do not have to copy every .tpl.php file, just the files they customize.
-    Use $_UNL_UCBCN[&apos;template_path&apos;] to specify the path.
-
-Properly declare UNL_UCBCN::factory() as static.
+0.8.1 Changes:
+Restore details required by forms used in the manager, until the manager
+rewrite is complete.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -592,6 +579,23 @@ Templating Improvements
     Use $_UNL_UCBCN[&apos;template_path&apos;] to specify the path.
 
 Properly declare UNL_UCBCN::factory() as static.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.1</release>
+    <api>0.8.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2009-07-31</date>
+   <license uri="http://www1.unl.edu/wdn/wiki/Software_License">BSD License</license>
+   <notes>
+0.8.1 Changes:
+Restore details required by forms used in the manager, until the manager
+rewrite is complete.
    </notes>
   </release>
  </changelog>

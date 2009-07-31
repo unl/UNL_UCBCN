@@ -63,24 +63,11 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.8.0');
-$pfm->setReleaseVersion('0.8.0');
+$pfm->setReleaseVersion('0.8.1');
 $pfm->setNotes('
-0.8.0 Changes:
-Rearrange SVN so files can be used from checkout.
-Add an autoloader.
-
-Output/Caching Service Changes
-    Cacheable objects must implement UNL_UCBCN_Cacheable
-    Added an interface for custom caching services
-    Added an interface for post run filtering for template output
-    
-Templating Improvements
-    Templates can now be specified using multiple paths.
-    The system will check in the first directory specified and if none exists, check the next in the path similar to include_path.
-    This means templates do not have to copy every .tpl.php file, just the files they customize.
-    Use $_UNL_UCBCN[\'template_path\'] to specify the path.
-
-Properly declare UNL_UCBCN::factory() as static.
+0.8.1 Changes:
+Restore details required by forms used in the manager, until the manager
+rewrite is complete.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
