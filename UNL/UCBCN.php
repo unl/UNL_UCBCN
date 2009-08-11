@@ -414,12 +414,10 @@ class UNL_UCBCN
                 $savant->addPath('template', 'templates/'.$_UNL_UCBCN['template']);
             }
         }
-        foreach (get_object_vars($object) as $key=>$var) {
-            $savant->$key = $var;
-        }
-        if (in_array('ArrayAccess', class_implements($object))) {
-            foreach ($object->toArray() as $key=>$var) {
-                $savant->$key = $var;
+        $savant->assign($object);
+        if ($object instanceof ArrayAccess) {
+            foreach ($object->toArray() as $key=>$val) {
+                $savant->$key = $val;
             }
         }
         if ($object instanceof Exception) {
