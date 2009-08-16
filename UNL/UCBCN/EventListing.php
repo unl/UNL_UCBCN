@@ -28,12 +28,22 @@ require_once 'UNL/UCBCN.php';
  */
 class UNL_UCBCN_EventListing
 {
-    /** holds the type for this eventlisting... could be upcoming, ongoing, search etc */
+    /**
+     * The type of eventlisting.
+     * 
+     * @param string One of upcoming, ongoing, search
+     */
     public $type;
-    /** Events of a given status */
+    /**
+     * Events of a given status
+     * 
+     * @param string 
+     */
     public $status;
     /**
      * Array of UNL_UCBCN_Event or UNL_UCBCN_EventInstance objects for this listing.
+     * 
+     * @param array UNL_UCBCN_Event or UNL_UCBCN_EventInstance objects
      */
     public $events = array();
     
@@ -65,11 +75,11 @@ class UNL_UCBCN_EventListing
      * Populates events with a listing of events for the calendar given.
      *
      * @param array $options Associative array of options
-     *         'year'        int        Year of the events
-     *         'month'        int        Month
-     *         'day'        int        Day
-     *         'calendar'    UNL_UCBCN_Calendar    Calendar to fetch events for (optional).
-     *         'orderby'    string    ORDER BY sql clause.
+     *         'year'      int                Year of the events
+     *         'month'     int                Month
+     *         'day'       int                Day
+     *         'calendar'  UNL_UCBCN_Calendar Calendar to fetch events for (optional).
+     *         'orderby'   string             ORDER BY sql clause.
      * 
      * @return void
      */
@@ -104,7 +114,7 @@ class UNL_UCBCN_EventListing
         }
     }
     
-     /**
+    /**
      * Constructs a list of upcoming events for the given calendar.
      *
      * @param array $options Associative array of options, orderby, limit, calendar
