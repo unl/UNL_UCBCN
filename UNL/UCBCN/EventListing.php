@@ -124,6 +124,7 @@ class UNL_UCBCN_EventListing
         } else {
             $limit = 10;
         }
+        
         if (isset($options['calendar'])) {
             $calendar =& $options['calendar'];
             $mdb2     = $calendar->getDatabaseConnection();
@@ -138,7 +139,7 @@ class UNL_UCBCN_EventListing
             $mdb2     = UNL_UCBCN::getDatabaseConnection();
             $calendar = null;
             $sql      = 'SELECT eventdatetime.id FROM eventdatetime WHERE '.
-                        'eventdatetime.starttime > \'' . date('Y-m-d') . '\' '.
+                        'eventdatetime.starttime >= \'' . date('Y-m-d') . '\' '.
                         'ORDER BY '.$orderby.' LIMIT '.$limit;
         }
         $res = $mdb2->query($sql);
