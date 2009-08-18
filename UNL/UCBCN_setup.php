@@ -506,7 +506,7 @@ class UNL_UCBCN_setup_postinstall
         if (isset($this->_ui)) {
             $this->_ui->outputData($msg.PHP_EOL);
         } else {
-            echo $msg.PHP_EOL."<br />";
+            echo $msg.PHP_EOL.'<br />'.PHP_EOL;
         }
     }
 }
