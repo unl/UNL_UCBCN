@@ -250,7 +250,7 @@ class UNL_UCBCN_setup_postinstall
                 $this->noDBsetup = true;
                 return false;
             } else {
-                $this->outputData('Successfully connected and created '.$this->dsn."\n");
+                $this->outputData('Successfully connected and created '.str_replace(':'.$answers['password'], ':****', $this->dsn));
                 return true;
             }
         }
@@ -341,7 +341,8 @@ class UNL_UCBCN_setup_postinstall
      */
     function setupEventTypes($answers)
     {
-        if ($answers['addeventtypes']=='yes') {
+        if (isset($answers['addeventtypes'])
+            && $answers['addeventtypes'] == 'yes') {
             $this->outputData('Adding sample event types. . .');
             $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
             /** Add some event types to the database */
@@ -473,7 +474,8 @@ class UNL_UCBCN_setup_postinstall
      */
     function setupSponsors($answers)
     {
-        if ($answers['addsponsors']=='yes') {
+        if (isset($answers['addsponsors'])
+            && $answers['addsponsors'] == 'yes') {
             $this->outputData('Adding sample sponsors. . .');
             $backend = new UNL_UCBCN(array('dsn'=>$this->dsn));
             /** Add some event types to the database */
