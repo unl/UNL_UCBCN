@@ -210,6 +210,11 @@ class UNL_UCBCN_setup_postinstall
             return false;
         }
         
+        if ((substr($this->dsn, 0, 5)) == 'mysql') {
+            // Use UTF-8 always
+            $db->exec('SET NAMES "utf8";');
+        }
+
         if (substr($this->data_dir, 0, 10) == '@'.'DATA_DIR@') {
             $this->data_dir = dirname(dirname(__FILE__));
         }
@@ -283,13 +288,13 @@ class UNL_UCBCN_setup_postinstall
             $this->outputData('There was an error checking the database, you must resolve this issue before installation can complete.');
             $this->outputData($exists->getUserinfo());
             die();
-        } else {
-            if ($exists) {
-                return true;
-            } else {
-                return false;
-            }
         }
+
+        if ($exists) {
+            return true;
+        }
+
+        return false;
     }
     
     /**

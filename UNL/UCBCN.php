@@ -114,6 +114,13 @@ class UNL_UCBCN
             'class_prefix'    => 'UNL_UCBCN_',
             'db_driver'       => 'MDB2'
         );
+
+        if ((substr($this->dsn, 0, 5)) == 'mysql') {
+            // Use UTF-8 always
+            $db = new DB_DataObject();
+            $db->query('SET NAMES "utf8";');
+            unset($db);
+        }
     }
     
     /**
@@ -707,9 +714,14 @@ class UNL_UCBCN
         $mdb2 =& MDB2::connect($this->dsn);
         if (PEAR::isError($mdb2)) {
             return new UNL_UCBCN_Error($mdb2->getMessage());
-        } else {
-            return $mdb2;
         }
+
+        if ((substr($this->dsn, 0, 5)) == 'mysql') {
+            // Use UTF-8 always
+            $mdb2->exec('SET NAMES "utf8";');
+        }
+
+        return $mdb2;
     }
     
     /**
