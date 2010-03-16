@@ -689,6 +689,9 @@ class UNL_UCBCN
         if (!isset($baseUri)) {
             $baseUri = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
             $baseUri .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+            if (!empty($_SERVER['QUERY_STRING'])) {
+                $baseUri = substr($baseUri, -1*strlen($_SERVER['QUERY_STRING']));
+            }
         }
 
         $new_base_url = $baseUri;
