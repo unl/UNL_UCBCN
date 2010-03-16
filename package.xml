@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>UNL_UCBCN</name>
  <channel>pear.unl.edu</channel>
  <summary>This package provides the database interactions for a UC Berkeley Calendar system.</summary>
@@ -18,10 +18,10 @@
   <email>bsteere@cornellcollege.edu</email>
   <active>yes</active>
  </helper>
- <date>2009-07-31</date>
- <time>09:25:09</time>
+ <date>2010-03-16</date>
+ <time>15:57:21</time>
  <version>
-  <release>0.8.1</release>
+  <release>0.8.2</release>
   <api>0.8.0</api>
  </version>
  <stability>
@@ -30,9 +30,8 @@
  </stability>
  <license uri="http://www1.unl.edu/wdn/wiki/Software_License">BSD License</license>
  <notes>
-0.8.1 Changes:
-Restore details required by forms used in the manager, until the manager
-rewrite is complete.
+0.8.2 Changes:
+Remove Net_URL dependency.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -183,11 +182,6 @@ rewrite is complete.
     <name>Savant3</name>
     <channel>phpsavant.com</channel>
     <min>3.0.0</min>
-   </package>
-   <package>
-    <name>NET_URL</name>
-    <channel>pear.php.net</channel>
-    <min>1.0</min>
    </package>
    <package>
     <name>MDB2</name>
@@ -596,6 +590,22 @@ Properly declare UNL_UCBCN::factory() as static.
 0.8.1 Changes:
 Restore details required by forms used in the manager, until the manager
 rewrite is complete.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.8.2</release>
+    <api>0.8.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2010-03-16</date>
+   <license uri="http://www1.unl.edu/wdn/wiki/Software_License">BSD License</license>
+   <notes>
+0.8.2 Changes:
+Remove Net_URL dependency.
    </notes>
   </release>
  </changelog>

@@ -663,7 +663,7 @@ class UNL_UCBCN
      */
     public function localRedirect($url, $keepProtocol = true)
     {
-        $url = self::getAbsoluteURL($url, $keepProtocol);
+        $url = self::getAbsoluteURL($url);
         if ($keepProtocol == false) {
             $url = preg_replace('/^https/', 'http', $url);
         }
@@ -672,17 +672,48 @@ class UNL_UCBCN
     }
     
     /**
-     * Returns an absolute URL using Net_URL
+     * Returns an absolute URL
      *
-     * @param string $url All/part of a url
+     * @param string $relativeUri All/part of a url
+     * @param string $baseUri     The URI to use as the base
      *
      * @return string      Full url
      */
-    public function getAbsoluteURL($url)
+    public static function getAbsoluteURL($relativeUri, $baseUri = null)
     {
-        include_once 'Net/URL.php';
-        $obj = new Net_URL($url);
-        return $obj->getURL();
+        if (filter_var($relativeUri, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
+            // URL is already absolute
+            return $relativeUri;
+        }
+
+        if (!isset($baseUri)) {
+            $baseUri = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
+            $baseUri .= $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        }
+
+        $new_base_url = $baseUri;
+        $base_url_parts = parse_url($baseUri);
+
+        if (substr($baseUri, -1) != '/') {
+            $path = pathinfo($base_url_parts['path']);
+            $new_base_url = substr($new_base_url, 0, strlen($new_base_url)-strlen($path['basename']));
+        }
+
+        $new_txt = '';
+
+        if (substr($relativeUri, 0, 1) == '/') {
+            $new_base_url = $base_url_parts['scheme'].'://'.$base_url_parts['host'];
+        }
+        $new_txt .= $new_base_url;
+
+        $absoluteUri = $new_txt.$relativeUri;
+
+        // Convert /dir/../ into /
+        while (preg_match('/\/[^\/]+\/\.\.\//', $absoluteUri)) {
+            $absoluteUri = preg_replace('/\/[^\/]+\/\.\.\//', '/', $absoluteUri);
+        }
+
+        return $absoluteUri;
     }
     
     /**

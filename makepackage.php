@@ -63,11 +63,10 @@ $pfm->setChannel('pear.unl.edu');
 $pfm->setAPIStability('beta');
 $pfm->setReleaseStability('beta');
 $pfm->setAPIVersion('0.8.0');
-$pfm->setReleaseVersion('0.8.1');
+$pfm->setReleaseVersion('0.8.2');
 $pfm->setNotes('
-0.8.1 Changes:
-Restore details required by forms used in the manager, until the manager
-rewrite is complete.
+0.8.2 Changes:
+Remove Net_URL dependency.
 ');
 
 //$pfm->addMaintainer('lead','saltybeagle','Brett Bieber','brett.bieber@gmail.com');
@@ -79,7 +78,6 @@ $pfm->setPearinstallerDep('1.5.4');
 $pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'phpsavant.com', '3.0.0');
-$pfm->addPackageDepWithChannel('required', 'NET_URL', 'pear.php.net', '1.0');
 $pfm->addPackageDepWithChannel('required', 'MDB2', 'pear.php.net', '2.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net', '1.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.5.0');
