@@ -112,7 +112,8 @@ class UNL_UCBCN
             'class_location'  => dirname(__FILE__).'/UCBCN',
             'require_prefix'  => dirname(__FILE__).'/UCBCN',
             'class_prefix'    => 'UNL_UCBCN_',
-            'db_driver'       => 'MDB2'
+            'db_driver'       => 'MDB2',
+            'quote_identifiers' => true
         );
 
         if ((substr($this->dsn, 0, 5)) == 'mysql') {
