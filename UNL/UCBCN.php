@@ -105,14 +105,13 @@ class UNL_UCBCN
     {
         $dboptions = &PEAR::getStaticProperty('DB_DataObject', 'options');
         $dboptions = array(
-            'database'        => $this->dsn,
-            'schema_autoload' => true,
+            'database'          => $this->dsn,
+            'schema_autoload'   => true,
             'autoload'          => true,
-            //'schema_location' => '@DATA_DIR@/UNL_UCBCN/UCBCN',
-            'class_location'  => dirname(__FILE__).'/UCBCN',
-            'require_prefix'  => dirname(__FILE__).'/UCBCN',
-            'class_prefix'    => 'UNL_UCBCN_',
-            'db_driver'       => 'MDB2',
+            'class_location'    => dirname(__FILE__).'/UCBCN',
+            'require_prefix'    => dirname(__FILE__).'/UCBCN',
+            'class_prefix'      => 'UNL_UCBCN_',
+            'db_driver'         => 'MDB2',
             'quote_identifiers' => true
         );
 
