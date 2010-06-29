@@ -101,6 +101,42 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
         }
         return UNL_UCBCN_Frontend::formatURL($f);
     }
+    
+    public function fixRecurringEvent(&$event, $startdate, $rec_id=0, $isongoing=false) {
+        // Update URL
+        $date = explode('-', $startdate);
+        $day  = explode(' ', $date[2]);
+        $f    = array('y'=>$date[0],
+                      'm'=>$date[1],
+                      'd'=>$day[0],
+                      'eventdatetime_id'=>$event->eventdatetime->id,
+                      'event_id'=>$event->eventdatetime->event_id);
+        if (isset($event->calendar)) {
+            $f['calendar'] = $event->calendar->id;
+        }
+        $event->url = UNL_UCBCN_Frontend::formatURL($f);
+        // Update starttime and endtime
+        $starttime =& $event->eventdatetime->starttime;
+        $original = strtotime($starttime);
+        if ($isongoing) {
+            // Get the real startdate
+            $id = $event->eventdatetime->event_id;
+            $db = $event->eventdatetime->getDatabaseConnection();
+            $sql = 'SELECT recurringdate FROM recurringdate WHERE event_id='.$id.' 
+            		AND recurrence_id='.$rec_id.' AND ongoing=FALSE;';
+            $res = $db->query($sql);
+            $startdate = $res->fetchOne();
+        }
+        $starttime = $startdate.substr($starttime,10);
+        // get difference between now and the original starttime
+        $updated = strtotime($starttime);
+        $updated -= $original;
+        // add the difference to endtime
+        $endtime =& $event->eventdatetime->endtime;
+        $original = strtotime($endtime);
+        $updated += $original;
+        $endtime = date('Y-m-d H:i:s' , $updated);
+    }
 }
 
 ?>

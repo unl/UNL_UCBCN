@@ -38,7 +38,6 @@ class UNL_UCBCN_setup_postinstall
     var $createDB;
     var $databaseExists;
     var $noDBsetup;
-    var $dsn;
     var $data_dir = '@DATA_DIR@/UNL_UCBCN';
     
     /**
@@ -241,6 +240,13 @@ class UNL_UCBCN_setup_postinstall
                 $this->outputData('Something is wrong with the old database');
                 $this->outputData($old_schema->getMessage() . ' ' . $old_schema->getDebugInfo());
 
+                $this->noDBsetup = true;
+                return false;
+            }
+            
+            if(PEAR::isError($new_schema)){
+                $this->outputData('Something is wrong with the new database');
+                $this->outputData($new_schema->getMessage() . ' ' . $new_schema->getDebugInfo());
                 $this->noDBsetup = true;
                 return false;
             }

@@ -1357,6 +1357,29 @@
    </field>
 
    <field>
+    <name>recurringtype</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>recurs_until</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>rectypemonth</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
     <name>room</name>
     <type>text</type>
     <length>255</length>
@@ -1995,7 +2018,68 @@
   </declaration>
 
  </table>
-
+ 
+ <table>
+  
+  <name>recurringdate</name>
+  
+  <declaration>
+  
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+    <autoincrement>1</autoincrement>
+   </field>
+   
+   <field>
+    <name>recurringdate</name>
+    <type>date</type>
+    <notnull>true</notnull>
+   </field>
+   
+   <field>
+    <name>event_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>recurrence_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+   
+   <field>
+    <name>ongoing</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+  
+   <index>
+    <name>PRIMARY</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   
+  </declaration>
+  
+ </table> 
+ 
  <table>
 
   <name>relatedevent</name>
