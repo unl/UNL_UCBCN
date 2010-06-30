@@ -183,7 +183,7 @@ class UNL_UCBCN_Event extends DB_DataObject
             $el->freeze();
             $this->fb_preDefElements['uidcreated'] =& $el;
             unset($this->fb_reverseLinks);
-            unset($fb->reverseLinks);
+            $fb->reverseLinks = array();
         }
     }
     
