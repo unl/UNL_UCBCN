@@ -155,11 +155,11 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         $this->fb_preDefElements['rectypemonth'] = new HTML_QuickForm_select($fb->elementNamePrefix.'rectypemonth'.$fb->elementNamePostfix, $rtmlabel, null, $rmattr);
         $options['setup']['inputField'] = $fb->elementNamePrefix.'recurs_until'.$fb->elementNamePostfix;
         $this->fb_preDefElements['recurs_until'] = new HTML_QuickForm_group('recurs_until_group','Recurs Until',
-        	array(
-        		HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'recurs_until'.$fb->elementNamePostfix, null, $ruattr),
-        		HTML_QuickForm::createElement('jscalendar', 'date3_calendar', null, $options),
-        		HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'recurs_untilhour'.$fb->elementNamePostfix,null, $dateoptions)
-        	), null, false);
+            array(
+                HTML_QuickForm::createElement('text', $fb->elementNamePrefix.'recurs_until'.$fb->elementNamePostfix, null, $ruattr),
+                HTML_QuickForm::createElement('jscalendar', 'date3_calendar', null, $options),
+                HTML_QuickForm::createElement('date',$fb->elementNamePrefix.'recurs_untilhour'.$fb->elementNamePostfix,null, $dateoptions)
+            ), null, false);
     }
     
     public function postGenerateForm(&$form, &$fb)
@@ -182,10 +182,10 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             }
         }
         if (isset($this->recurs_until)) {
-        	$defaults[$fb->elementNamePrefix.'recurs_until'.$fb->elementNamePostfix] = substr($this->recurs_until,0,10);
-        	if (substr($this->recurs_until,11) != '00:00:00') {
-        	    $defaults[$fb->elementNamePrefix.'recurs_untilhour'.$fb->elementNamePostfix] = substr($this->recurs_until,11);
-        	}
+            $defaults[$fb->elementNamePrefix.'recurs_until'.$fb->elementNamePostfix] = substr($this->recurs_until,0,10);
+            if (substr($this->recurs_until,11) != '00:00:00') {
+                $defaults[$fb->elementNamePrefix.'recurs_untilhour'.$fb->elementNamePostfix] = substr($this->recurs_until,11);
+            }
         }
         if (isset($this->rectypemonth)) {
             $this->rtmAddOptions();
@@ -244,13 +244,13 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     
     public function check_recurrence()
     {
-		$rtvalue = $this->fb_preDefElements['recurringtype']->_values[0];
-		$ruvalue = $this->fb_preDefElements['recurs_until']->_elements[0]->_attributes['value'];
-		
-		if ($rtvalue != "none" && empty($ruvalue)) {
-			return false;
-		}
-    	
+        $rtvalue = $this->fb_preDefElements['recurringtype']->_values[0];
+        $ruvalue = $this->fb_preDefElements['recurs_until']->_elements[0]->_attributes['value'];
+        
+        if ($rtvalue != "none" && empty($ruvalue)) {
+            return false;
+        }
+        
         return true;
     }
     
@@ -409,15 +409,20 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         }
     }
     
-    private function rtmAddOptions() {
-        $nth = array(1=>"First", 2=>"Second", 3=>"Third", 4=>"Fourth", 5=>"Last");
-        $time = strtotime($this->recurs_until);
-        $date = date("d", $time);
-        $longweekday = date("l", $time);
-        $weekday = date("D", $time);
-        $daysinmonth = date("t", $time);
-        $month = date("m", $time);
-        $week = 1;
+    protected function rtmAddOptions()
+    {
+        $nth             = array(1 => "First",
+                                 2 => "Second",
+                                 3 => "Third",
+                                 4 => "Fourth",
+                                 5 => "Last");
+        $time            = strtotime($this->recurs_until);
+        $date            = date("d", $time);
+        $longweekday     = date("l", $time);
+        $weekday         = date("D", $time);
+        $daysinmonth     = date("t", $time);
+        $month           = date("m", $time);
+        $week            = 1;
         $weekdaysinmonth = 1; // how many times $weekday occurs in this month
         // make $date look pretty
         if (($tempdate = substr($date, 1)) == "1" || $tempdate == "2" || $tempdate == "3") {
@@ -442,24 +447,24 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         // actually add the options
         $startweekday = date('l', strtotime($this->starttime));
         if ($startweekday == $longweekday) {
-	        $text  = $nth[$week]." $longweekday of every month";
-	        $value = strtolower($nth[$week]);
-	        $attr  = array("id"=>"nth");
-	        $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
-	        if ($week == 4 && $weekdaysinmonth == 4) {
-	            $text = "Last $longweekday of every month";
-	            $value = "last";
-	            $attr = array("id"=>"last");
-	            $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
-	        }
+            $text  = $nth[$week]." $longweekday of every month";
+            $value = strtolower($nth[$week]);
+            $attr  = array("id"=>"nth");
+            $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
+            if ($week == 4 && $weekdaysinmonth == 4) {
+                $text = "Last $longweekday of every month";
+                $value = "last";
+                $attr = array("id"=>"last");
+                $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
+            }
         }
         $startday = date('d', strtotime($this->starttime));
         $day = date('d', strtotime($this->recurs_until));
         if ($startday == $day) {
-	        $text  = "$date of every month";
-	        $value = "date";
-	        $attr  = array("id"=>"date");
-	        $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
+            $text  = "$date of every month";
+            $value = "date";
+            $attr  = array("id"=>"date");
+            $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
         }
     }
 }
