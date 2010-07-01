@@ -90,20 +90,31 @@ class UNL_UCBCN_EventListing
         include_once 'Calendar/Day.php';
         $day           = new Calendar_Day($options['year'], $options['month'], $options['day']);
         $eventdatetime = UNL_UCBCN::factory('eventdatetime');
+        $recurringdate = UNL_UCBCN::factory('recurringdate');
         if (isset($options['orderby'])) {
             $orderby =     $options['orderby'];
         } else {
             $orderby = 'eventdatetime.starttime ASC';
         }
+        // determine if there are any recurring dates
+        $rstr = array();
+        $recurringdate->query('SELECT * FROM recurringdate');
+        if ($recurringdate->fetch()) {
+            $rstr[0]  = ', recurringdate ';
+            $rstr[1]  = 'OR (eventdatetime.event_id = recurringdate.event_id ' .
+                        'AND recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\')';
+        } else {
+            $rstr[0] = '';
+            $rstr[1] = '';
+        }
         if (isset($options['calendar'])) {
             $calendar =& $options['calendar'];
-            $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM calendar_has_event,eventdatetime,recurringdate ' .
+            $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM calendar_has_event,eventdatetime '.$rstr[0].
                             'WHERE calendar_has_event.calendar_id='.$calendar->id.' ' .
                                     'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
                                     'AND calendar_has_event.event_id = eventdatetime.event_id ' .
                                     'AND (eventdatetime.starttime LIKE \''.date('Y-m-d ', $day->getTimestamp()).'%\'' .
-                                    'OR (eventdatetime.event_id = recurringdate.event_id ' .
-                                        'AND recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\')) ' .
+                                    $rstr[1] . ') ' .
                             'ORDER BY '.$orderby);
         } else {
             $calendar = null;
