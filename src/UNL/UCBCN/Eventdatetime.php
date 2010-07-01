@@ -466,5 +466,11 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             $attr  = array("id"=>"date");
             $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
         }
+        if ($day == $daysinmonth) {
+            $text  = "Last day of every month";
+            $value = "lastday";
+            $attr  = array("id"=>"lastday");
+            $this->fb_preDefElements['rectypemonth']->addOption($text, $value, $attr);
+        }
     }
 }

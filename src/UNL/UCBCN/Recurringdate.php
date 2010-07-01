@@ -127,6 +127,10 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 if ($rct[$i] != 'monthly' || $rtm[$i] == 'date') {
                     $cur = date('D Y-m-d H:i:s', strtotime($recurrence[$rct[$i]], strtotime($cur)));
                     $end[$i] = date('D Y-m-d H:i:s', strtotime($recurrence[$rct[$i]], strtotime($end[$i])));
+                } else if ($rtm[$i] == 'lastday') { 
+                    $nextmon = date('F Y H:i:s', strtotime('+1 day', strtotime($cur)));
+                    $nextmon = date('F Y H:i:s', strtotime('+1 month', strtotime($nextmon)));
+                    $cur = date('D Y-m-d H:i:s', strtotime('-1 day', strtotime($nextmon)));
                 } else {
                     // Update current
                     $weekday = date('l', strtotime($cur));
