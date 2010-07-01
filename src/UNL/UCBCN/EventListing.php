@@ -121,10 +121,9 @@ class UNL_UCBCN_EventListing
             //$eventdatetime->whereAdd('starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).'%\'');
             //$eventdatetime->orderBy($orderby);
             //$eventdatetime->find();
-            $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM eventdatetime, recurringdate
-                                   WHERE eventdatetime.starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).
-                                  '%\' OR (eventdatetime.event_id = recurringdate.event_id AND
-                                   recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\')');
+            $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM eventdatetime '.$rstr[0].
+                                  'WHERE eventdatetime.starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).
+                                  '%\' '.$rstr[1]);
         }
         while ($eventdatetime->fetch()) {
             // Populate the events to display.
