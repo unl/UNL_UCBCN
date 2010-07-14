@@ -52,7 +52,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
      * 
      * @return an array with values representing the days with recurring events.
      */
-    public function getRecurringEventDates($month)
+    public function getRecurringDates($month)
     {
         $mdays = $month->fetchAll();
         $first = date('Y-m-d H:i:s', array_shift($mdays)->getTimestamp());
