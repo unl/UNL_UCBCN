@@ -52,7 +52,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
      * 
      * @return an array with values representing the days with recurring events.
      */
-    public function getRecurringEvents($month)
+    public function getRecurringEventDates($month)
     {
         $mdays = $month->fetchAll();
         $first = date('Y-m-d H:i:s', array_shift($mdays)->getTimestamp());
@@ -173,5 +173,62 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 $res[0][$i] = date('m-d', strtotime($res[0][$i]));
             }
         }
+    }
+    
+    /**
+     * Takes an event_id and turns every recurrence of that event into
+     * an independent event.
+     * 
+     * @param int id of event to clone $event_id
+     */
+    public function cloneRecurrences($event_id) {
+        $calendar_has_event = UNL_UCBCN::factory('calendar_has_event');
+        $event = UNL_UCBCN::factory('event');
+        $eventdatetime = UNL_UCBCN::factory('eventdatetime');
+        $recurringdate = UNL_UCBCN::factory('recurringdate');
+        $calendar_has_event->whereAdd("event_id = $event_id");
+        $calendar_has_event->find(true);
+        $event->get($event_id);
+        $eventdatetime->whereAdd("event_id = $event_id");
+        $eventdatetime->find(true);
+        $recurringdate->whereAdd("event_id = $event_id");
+        $recurringdate->find();
+        $dates = array();
+        //$rec_ids = array();
+        $is_ongoing = array();
+        while ($recurringdate->fetch()) {
+            $dates[] = $recurringdate->recurringdate;
+            //$rec_ids[] = $recurringdate->recurrence_id;
+            $is_ongoing[] = $recurringdate->ongoing;
+        }
+        for ($i = 0; $i < count($dates); $i++) {
+            if ($is_ongoing[$i]) {
+                continue;
+            }
+            $che = clone($calendar_has_event);
+            $e = clone($event);
+            $edt = clone($eventdatetime);
+            $e->insert();
+            // update event_id
+            $edt->event_id = $e->id;
+            // update starttime and endtime
+            $starttime = strtotime($edt->starttime);
+            $endtime = strtotime($edt->endtime);
+            $diff = strtotime($dates[$i]) - $starttime;
+            $edt->starttime = date('Y-m-d H:i:s', $diff + $starttime);
+            $edt->endtime = date('Y-m-d H:i:s', $diff + $endtime);
+            // remove recurrence info
+            $edt->recurringtype = 'none';
+            $edt->recurs_until = '';
+            $edt->rectypemonth = '';
+            $edt->insert();
+            // add to calendar
+            $che->event_id = $e->id;
+            $che->insert();
+        }
+        // remove original event
+        $calendar_has_event->delete();
+        $event->delete();
+        $eventdatetime->delete();
     }
 }
