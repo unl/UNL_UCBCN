@@ -307,7 +307,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             } else {
                 $year = '0000';
             }
-            if(isset($month) && ($len = strlen($month)) > 0) {
+            if (isset($month) && ($len = strlen($month)) > 0) {
                 if ($len < 2) {
                     $month = '0'.$month;
                 }
@@ -430,7 +430,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         } else {
             $date .= substr($nth[4], -2);
         }
-        if(($tempdate = substr($date, 0, 1)) == "0") {
+        if (($tempdate = substr($date, 0, 1)) == "0") {
             $date = substr($date, 1);
         }
         $t = $time;

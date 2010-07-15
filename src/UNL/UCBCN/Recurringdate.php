@@ -68,7 +68,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
         
         $res = array();
         
-        while($rd->fetch()) {
+        while ($rd->fetch()) {
             $res[] = date('m-d', strtotime($rd->recurringdate));
         }
         
@@ -187,9 +187,10 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
      * Takes an event_id and turns every recurrence of that event into
      * an independent event.
      * 
-     * @param int id of event to clone $event_id
+     * @param int $event_id id of event to clone $event_id
      */
-    public function cloneRecurrences($event_id) {
+    public function cloneRecurrences($event_id)
+    {
         $calendar_has_event = UNL_UCBCN::factory('calendar_has_event');
         $event = UNL_UCBCN::factory('event');
         $eventdatetime = UNL_UCBCN::factory('eventdatetime');

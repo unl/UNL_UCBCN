@@ -203,7 +203,7 @@ class UNL_UCBCN_EventListing
                     $recurring_events[$i][2] = true; // Set recurrence flag
                     $front = ($j == 0) ? array() : array_slice($res, 0, $j);
                     $end = array_slice($res, $j);
-	                $res = array_merge($front, array($recurring_events[$i]), $end);
+                    $res = array_merge($front, array($recurring_events[$i]), $end);
                     break;
                 }
             }

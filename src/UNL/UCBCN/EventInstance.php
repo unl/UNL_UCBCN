@@ -102,7 +102,8 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
         return UNL_UCBCN_Frontend::formatURL($f);
     }
     
-    public function fixRecurringEvent(&$event, $startdate, $rec_id=0, $isongoing=false) {
+    public function fixRecurringEvent(&$event, $startdate, $rec_id=0, $isongoing=false)
+    {
         // Update URL
         $date = explode('-', $startdate);
         $day  = explode(' ', $date[2]);
@@ -127,7 +128,7 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
             $res = $db->query($sql);
             $startdate = $res->fetchOne();
         }
-        $starttime = $startdate.substr($starttime,10);
+        $starttime = $startdate.substr($starttime, 10);
         // get difference between now and the original starttime
         $updated = strtotime($starttime);
         $updated -= $original;
@@ -135,7 +136,7 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
         $endtime =& $event->eventdatetime->endtime;
         $original = strtotime($endtime);
         $updated += $original;
-        $endtime = date('Y-m-d H:i:s' , $updated);
+        $endtime = date('Y-m-d H:i:s', $updated);
     }
 }
 
