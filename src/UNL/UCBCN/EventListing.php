@@ -189,19 +189,27 @@ class UNL_UCBCN_EventListing
                         'ORDER BY '.$orderby.' LIMIT '.$limit;
         }
         $res = $mdb2->query($sql)->fetchAll();
-        $sql = 'SELECT event_id, recurringdate, recurrence_id FROM recurringdate ' .
-               'WHERE recurringdate > \'' . date('Y-m-d') . '\' ORDER BY recurringdate DESC LIMIT 10;';
+        $sql = 'SELECT eventdatetime.id, recurringdate.recurringdate, ' .
+               'recurringdate.recurrence_id FROM recurringdate, eventdatetime ' .
+               'WHERE recurringdate > \'' . date('Y-m-d') . '\' ' .
+               'AND eventdatetime.event_id = recurringdate.event_id ' .
+               'AND recurringdate.ongoing = FALSE ' .
+               'ORDER BY recurringdate LIMIT 10;';
         $rec_res = $mdb2->query($sql);
         $recurring_events = $rec_res->fetchAll();
         for ($i = 0; $i < count($recurring_events); $i++) {
             for ($j = 0; $j < count($res); $j++) {
-                if (strtotime($recurring_events[$i][0]) < strtotime($res[$j][1])) {
-                    // Set recurrence flag
-                    $recurring_events[$i][2] = true;
-                    // Join with results
-                    $res = array_merge(array_slice($res, 0, $j+1), array($recurring_events[$i]), array_slice($res, $j+1));
+                if (strtotime($recurring_events[$i][1]) < strtotime($res[$j][1])) {
+                    $recurring_events[$i][2] = true; // Set recurrence flag
+                    $front = ($j == 0) ? array() : array_slice($res, 0, $j);
+                    $end = array_slice($res, $j);
+	                $res = array_merge($front, array($recurring_events[$i]), $end);
                     break;
                 }
+            }
+            if (strtotime($recurring_events[$i][1]) > strtotime($res[count($res)-1][1])) {
+                $recurring_events[$i][2] = true; // Set recurrence flag
+                array_push($res, $recurring_events[$i]);
             }
         }
         while (count($res) > 10) {

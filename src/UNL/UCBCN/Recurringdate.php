@@ -106,12 +106,19 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
         $sql    = "SELECT DATE_FORMAT(recurs_until, '%a %Y-%m-%d %T'), starttime 
                    FROM eventdatetime WHERE recurringtype != 'none' GROUP BY starttime;";
         $rcu    =& $db->queryCol($sql);
+        // Events with a negative recurrence_id will be considered unlinked.
+        //$sql    =  "SELECT id, recurrence_id FROM recurringdate;";
+        //$ule    =& $db->queryCol($sql);
         
-        // [0] => recurringdate, [1] => event_id, [4] => recurrence_id, [3] => ongoing
+        // [0] => recurringdate, [1] => event_id, [2] => recurrence_id, [3] => ongoing
         $res = array(array(), array(), array(), array());
-        for ($i = 0, $j = 0, $k = 0; $i < count($days); $i++, $k=0) {
+        for ($i = 0, $j = 0, $k = 0, $r = 0; $i < count($days); $i++, $k=0) {
             $cur = $days[$i];
             while (strtotime($cur) <= strtotime($rcu[$i])) {
+                $sql = "SELECT recurrence_id FROM recurringdate
+                        WHERE event_id={$eid[$i]}
+                            AND (recurrence_id = 0
+                            OR recurrence_id = -1);";
                 $res[0][$j] = date('Y-m-d', strtotime($cur));
                 $res[1][$j] = $eid[$i];
                 $res[2][$j] = $k;
@@ -120,10 +127,11 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 while (strtotime($temp) <= strtotime($end[$i])) {
                     $res[0][$j] = date('Y-m-d', strtotime($temp));
                     $res[1][$j] = $eid[$i];
-                    $res[2][$j] = $k++;
+                    $res[2][$j] = $k;
                     $res[3][$j++] = 'TRUE';
                     $temp = date('D Y-m-d H:i:s', strtotime('next day', strtotime($temp)));
                 }
+                $k++;
                 if ($rct[$i] != 'monthly' || $rtm[$i] == 'date') {
                     $cur = date('D Y-m-d H:i:s', strtotime($recurrence[$rct[$i]], strtotime($cur)));
                     $end[$i] = date('D Y-m-d H:i:s', strtotime($recurrence[$rct[$i]], strtotime($end[$i])));
