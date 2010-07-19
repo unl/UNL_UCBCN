@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * This file will add an account.

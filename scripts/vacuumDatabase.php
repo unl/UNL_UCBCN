@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 require_once 'UNL/UCBCN.php';
 global $unl;

@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 header('Content-type:text/html;charset=UTF-8');
 set_include_path(implode(PATH_SEPARATOR, array( 

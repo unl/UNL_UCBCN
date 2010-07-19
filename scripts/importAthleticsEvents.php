@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * This is a sample script which was used to import events from an RSS feed of

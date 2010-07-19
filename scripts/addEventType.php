@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * Sample script for adding event types.

@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * This file is intended to insert some sample data into the calendar system.

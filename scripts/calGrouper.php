@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 /**
  * This script will group calendars all under one account.
