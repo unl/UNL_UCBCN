@@ -169,14 +169,28 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             $fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix     => '',
             $fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix       => '',
         );
+        $diff = 0;
         if (isset($this->starttime)) {
-            $defaults[$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix] = substr($this->starttime,0,10);
+            if (isset($_REQUEST['rec']) && isset($_REQUEST['recid'])) {
+                $rd = UNL_UCBCN::factory('recurringdate');
+                $rd->event_id = $this->event_id;
+                $rd->recurrence_id = $_REQUEST['recid'];
+                $rd->find(true);
+                $defaults[$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix] = $rd->recurringdate;
+                $diff = strtotime($rd->recurringdate) - strtotime(substr($this->starttime, 0, 10));
+            } else {
+                $defaults[$fb->elementNamePrefix.'starttime'.$fb->elementNamePostfix] = substr($this->starttime,0,10);
+            }
             if (substr($this->starttime,11) != '00:00:00') {
                 $defaults[$fb->elementNamePrefix.'starthour'.$fb->elementNamePostfix] = substr($this->starttime,11);
             }
         }
         if (isset($this->endtime)) {
-            $defaults[$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix] = substr($this->endtime,0,10);
+            if ($diff && isset($_REQUEST['rec'])) {
+                $defaults[$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix] = date('Y-m-d', strtotime(substr($this->endtime, 0, 10)) + $diff);
+            } else {
+                $defaults[$fb->elementNamePrefix.'endtime'.$fb->elementNamePostfix] = substr($this->endtime,0,10);
+            }
             if (substr($this->endtime,11) != '00:00:00') {
                 $defaults[$fb->elementNamePrefix.'endhour'.$fb->elementNamePostfix] = substr($this->endtime,11);
             }
@@ -209,6 +223,10 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     
     public function preProcessForm(&$values, &$fb)
     {
+        // Holds the changed starttime and endtime for recurring events
+        $datetime = array();
+        // Time of recurring date since epoch.
+        $rdtime = array();
         // Capture event_id foreign key if needed.
         if (isset($GLOBALS['event_id'])) {
             $values['event_id'] = $GLOBALS['event_id'];
@@ -219,11 +237,56 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
                 $values['starttime'] = date('Y-m-d');
             }
             $starttime = date('Y-m-d', strtotime($values['starttime']));
-            $values['starttime'] = $starttime.' '.$this->_array2date($values['starthour']);
+            //Transpose starttime if this is a recurring event
+            if (isset($values['rec']) && isset($values['recid'])) {
+                //Save changed starttime
+                $datetime['starttime'] = $starttime.' '.$this->_array2date($values['starthour']);
+                //Get this date
+                $rd = $this->factory('recurringdate');
+                $rd->event_id = $values['event_id'];
+                $rd->recurrence_id = $values['recid'];
+                $rd->ongoing = 'FALSE';
+                $rd->find(true);
+                $rdtime[0] = strtotime($rd->recurringdate);
+                $sttime = strtotime($starttime);
+                $diff = $sttime - $rdtime[0];
+                //Get first date
+                $rd = $this->factory('recurringdate');
+                $rd->event_id = $values['event_id'];
+                $rd->recurrence_id = 0;
+                $rd->ongoing = 'FALSE';
+                $rd->find(true);
+                $rdtime[1] = strtotime($rd->recurringdate);
+                //Set starttime
+                $starttime = date('Y-m-d', $rdtime[1] + $diff);
+            }
+            if (isset($values['rec']) && $values['rec'] != 'all') {
+                //Save master starttime
+                $edt = UNL_UCBCN::factory('eventdatetime');
+                $edt->get($values['id']);
+                $values['starttime'] = $edt->starttime;
+            } else {
+                $values['starttime'] = $starttime.' '.$this->_array2date($values['starthour']);
+            }
         }
         if (isset($values['endhour'])) {
             if (empty($values['endtime'])) {
                 $values['endtime'] = $starttime;
+            } else if (isset($values['rec']) && isset($values['recid'])) {
+                $edt = UNL_UCBCN::factory('eventdatetime');
+                $edt->get($values['id']);
+                if ($values['rec'] == 'all') {
+                    $endtime = date('Y-m-d', strtotime($values['endtime']));
+                    $edtime = strtotime($endtime);
+                    $diff = $edtime - $rdtime[0];
+                    $values['endtime'] = date('Y-m-d', $rdtime[1] + $diff);
+                } else {
+                    $datetime['endtime'] = $values['endtime'].' '.$this->_array2date($values['starthour']);
+                    $values['endtime'] = $edt->endtime;
+                    if ($datetime['endtime'] < strtotime($datetime['starttime'])) {
+                        $datetime['endtime'] = $datetime['starttime'];
+                    }
+                }
             }
             $values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
             //endtime cannot be less than starttime 
@@ -239,6 +302,11 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         }
         if ($values['recurringtype'] != 'monthly') {
             $values['rectypemonth'] = '';
+        }
+        if (isset($values['rec']) && isset($values['recid'])) {
+            $rd = $this->factory('recurringdate');
+            //$rd->unlinkEvents($values['rec'], $values['recid'], $values['event_id'], $datetime);
+            $rd->unlinkEvents($this->__table, $values, $datetime);
         }
     }
     

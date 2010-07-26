@@ -101,8 +101,11 @@ class UNL_UCBCN_EventListing
         $recurringdate->query('SELECT * FROM recurringdate');
         if ($recurringdate->fetch()) {
             $rstr[0]  = ', recurringdate ';
-            $rstr[1]  = 'OR (eventdatetime.event_id = recurringdate.event_id ' .
-                        'AND recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\')';
+            $rstr[1]  = 'AND (eventdatetime.recurringtype = \'none\'' .
+                            'OR eventdatetime.recurringtype = \'\')' . 
+                        'OR (eventdatetime.event_id = recurringdate.event_id ' .
+                            'AND recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\'' .
+                            'AND recurringdate.unlinked = FALSE)';
         } else {
             $rstr[0] = '';
             $rstr[1] = '';
@@ -133,7 +136,8 @@ class UNL_UCBCN_EventListing
             $rec = $eventdatetime->getDatabaseConnection();
             $sql = 'SELECT recurringdate, recurrence_id, ongoing FROM recurringdate '.
                    'WHERE event_id='.$eventdatetime->event_id.' '.
-                   'AND recurringdate LIKE \''.date('Y-m-d', $day->getTimestamp()).'\';';
+                   'AND recurringdate LIKE \''.date('Y-m-d', $day->getTimestamp()).'\'' .
+                   'AND unlinked = FALSE;';
             $res =& $rec->query($sql);
             $recurrences = $res->fetchRow();
             if ($recurrences) {
@@ -194,6 +198,7 @@ class UNL_UCBCN_EventListing
                'WHERE recurringdate > \'' . date('Y-m-d') . '\' ' .
                'AND eventdatetime.event_id = recurringdate.event_id ' .
                'AND recurringdate.ongoing = FALSE ' .
+               'AND recurringdate.unlinked = FALSE ' .
                'ORDER BY recurringdate LIMIT 10;';
         $rec_res = $mdb2->query($sql);
         $recurring_events = $rec_res->fetchAll();

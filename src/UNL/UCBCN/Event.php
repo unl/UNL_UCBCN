@@ -146,6 +146,16 @@ class UNL_UCBCN_Event extends DB_DataObject
             && isset($GLOBALS['email_domain'])) {
             $values['listingcontactemail'] = $values['listingcontactemail'] . '@' . $GLOBALS['email_domain'];
         }
+        if (isset($values['rec']) && isset($values['recid']) && $values['rec']) {
+            $edt = UNL_UCBCN::factory('eventdatetime');
+            $edt->get('event_id', $values['id']);
+            $rec = UNL_UCBCN::factory('recurringdate');
+            $edt = $rec->getInstanceDateTime($values['recid'], $edt);
+            $datetime['starttime'] = $edt->starttime;
+            $datetime['endtime'] = $edt->endtime;
+            //$rec->unlinkEvents($values['rec'], $values['recid'], $values['id'], $datetime);
+            $rec->unlinkEvents($this->__table, $values, $datetime);
+        }
     }
     
     /**

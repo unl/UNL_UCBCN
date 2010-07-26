@@ -188,10 +188,56 @@ class UNL_UCBCN
      */
     public function getEventCount(UNL_UCBCN_Calendar $calendar,$status='posted')
     {
-        $e              = UNL_UCBCN::factory('calendar_has_event');
-        $e->calendar_id = $calendar->id;
-        $e->status      = $status;
-        return $e->find();
+        if ($status == 'posted') {
+            $e              = UNL_UCBCN::factory('calendar_has_event');
+            $e->calendar_id = $calendar_id;
+            $e->whereAdd("status != 'pending'");
+            $e->find();
+            //$count = 0;
+        } else {
+            $e              = UNL_UCBCN::factory('calendar_has_event');
+            $e->calendar_id = $calendar->id;
+            $e->status      = $status;
+            /*$sql = "SELECT calendar_has_event.*
+                    FROM calendar_has_event, recurringdate
+                    WHERE calendar_has_event.calendar_id = {$calendar->id}
+                    AND calendar_has_event.status = {$calendar->status}
+                    AND calendar_has_event.event_id = recurringdate.event_id
+                    AND recurringdate.recurrence_id = 0";*/
+            //$count          = $e->find();
+        }
+        $count = 0;
+        $e->find();
+        //$count = $e->find();
+        $today = date('Y-m-d');
+        while ($e->fetch()) {
+            $rec           = UNL_UCBCN::factory('recurringdate');
+            $rec->event_id = $e->event_id;
+            $rec->whereAdd("ongoing = FALSE");
+            $rec->whereAdd("unlinked = FALSE");
+            if ($status != 'posted') {
+                //$rec->whereAdd('recurrence_id != 0');
+            }
+            if ($status == 'posted') {
+                $rec->whereAdd("recurringdate >= '$today'");
+            } else if ($status == 'archived') {
+                $rec->whereAdd("recurringdate < '$today'");
+            }
+            $found = $rec->find();
+            if ($found) {
+                $count += $found;
+            } else {
+                $edt = UNL_UCBCN::factory('eventdatetime');
+                $edt->event_id = $e->event_id;
+                $edt->find(true);
+                if ($edt->recurringtype == 'none' || $edt->recurringtype == '') {
+                    //if ($status != 'archived' && $e->status != 'archived') {
+                        $count++;
+                    //}
+                }
+            }
+        }
+        return $count;
     }
     
     /**
