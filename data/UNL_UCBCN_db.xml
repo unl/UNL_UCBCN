@@ -1360,8 +1360,8 @@
     <name>recurringtype</name>
     <type>text</type>
     <length>255</length>
-    <notnull>false</notnull>
-    <default></default>
+    <notnull>true</notnull>
+    <default>none</default>
    </field>
    
    <field>
@@ -2066,7 +2066,15 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-  
+   
+   <field>
+    <name>unlinked</name>
+    <type>boolean</type>
+    <length>1</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+   
    <index>
     <name>PRIMARY</name>
     <primary>true</primary>
