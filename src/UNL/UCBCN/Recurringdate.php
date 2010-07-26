@@ -208,12 +208,13 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     /**
      * Get eventdatetime information for an instance of a recurring event.
      * 
-     * @param int $recid recurringdate.recurrence_id of instance
-     * @param object $edt Eventdatetime
+     * @param int    $recid recurringdate.recurrence_id of instance
+     * @param object $edt   Eventdatetime
      * 
      * @return object of UNL_UCBCN_Eventdatetime
      */
-    function getInstanceDateTime($recid, $edt) {
+    function getInstanceDateTime($recid, $edt)
+    {
         $rec = UNL_UCBCN::factory('recurringdate');
         $rec->event_id = $edt->event_id;
         $rec->recurrence_id = $recid;
@@ -234,151 +235,17 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     }
     
     /**
-     * Takes an event_id and turns every recurrence of that event into
-     * an independent event.
+     * Unlinks events from the recurringdate table, 
+     * adding new events where necesary.
      * 
-     * @param int $event_id id of event to clone
+     * @param string $table    name of table that called this function
+     * @param array  &$values  values passed from preProcessForm()
+     * @param array  $datetime associative array of datetime values
+     * 
+     * @return void
      */
-    /*public function cloneRecurrences($event_id)
+    public function unlinkEvents($table, &$values, $datetime)
     {
-        $calendar_has_event = UNL_UCBCN::factory('calendar_has_event');
-        $event = UNL_UCBCN::factory('event');
-        $eventdatetime = UNL_UCBCN::factory('eventdatetime');
-        $recurringdate = UNL_UCBCN::factory('recurringdate');
-        $calendar_has_event->whereAdd("event_id = $event_id");
-        $calendar_has_event->find(true);
-        $event->get($event_id);
-        $eventdatetime->whereAdd("event_id = $event_id");
-        $eventdatetime->find(true);
-        $recurringdate->whereAdd("event_id = $event_id");
-        $recurringdate->find();
-        $dates = array();
-        //$rec_ids = array();
-        $is_ongoing = array();
-        while ($recurringdate->fetch()) {
-            $dates[] = $recurringdate->recurringdate;
-            //$rec_ids[] = $recurringdate->recurrence_id;
-            $is_ongoing[] = $recurringdate->ongoing;
-        }
-        for ($i = 0; $i < count($dates); $i++) {
-            if ($is_ongoing[$i]) {
-                continue;
-            }
-            $che = clone($calendar_has_event);
-            $e = clone($event);
-            $edt = clone($eventdatetime);
-            $e->insert();
-            // update event_id
-            $edt->event_id = $e->id;
-            // update starttime and endtime
-            $starttime = strtotime($edt->starttime);
-            $endtime = strtotime($edt->endtime);
-            $diff = strtotime($dates[$i]) - $starttime;
-            $edt->starttime = date('Y-m-d H:i:s', $diff + $starttime);
-            $edt->endtime = date('Y-m-d H:i:s', $diff + $endtime);
-            // remove recurrence info
-            $edt->recurringtype = 'none';
-            $edt->recurs_until = '';
-            $edt->rectypemonth = '';
-            $edt->insert();
-            // add to calendar
-            $che->event_id = $e->id;
-            $che->insert();
-        }
-        // remove original event
-        $calendar_has_event->delete();
-        $event->delete();
-        $eventdatetime->delete();
-    }*/
-    
-    /**
-     * 
-     * Unlink recurring events from the master event. Unlinked events
-     * will still show up in the recurringdate table, but they will have
-     * a negative recurrence_id.
-     * 
-     * @param string $rec Which event(s) to unlink. 
-     * @param int $recid recurrence_id of event that made request to unlink.
-     * @param int $event_id ID of event tthat made request to unlink.
-     * @param array $datetime Associative array containing starttime and endtime
-     */
-    /*public function unlinkEvents($rec, $recid, $event_id, $datetime) {
-        if ($rec != 'this' && $rec != 'following') {
-            return;
-        }
-        $calendar_has_event = UNL_UCBCN::factory('calendar_has_event');
-        $event = UNL_UCBCN::factory('event');
-        $eventdatetime = UNL_UCBCN::factory('eventdatetime');
-        $recurringdate = UNL_UCBCN::factory('recurringdate');
-        $calendar_has_event->whereAdd("event_id = $event_id");
-        $calendar_has_event->find(true);
-        $event->get($event_id);
-        $eventdatetime->whereAdd("event_id = $event_id");
-        $eventdatetime->find(true);
-        $recurringdate->whereAdd("event_id = $event_id");
-        $recurringdate->whereAdd("ongoing = FALSE");
-        if ($rec == 'this') {
-            $recurringdate->whereAdd("recurrence_id = $recid");
-        }*//* else if ($rec == 'following') {
-            $starttime = date('Y-m-d', $eventdatetime->starttime);
-            $recurringdate->whereAdd("recurringdate >= $starttime");
-        }*/
-        /*$recurringdate->find();
-        while ($recurringdate->fetch()) {
-            $dates[] = $recurringdate->recurringdate;
-            $rec_ids[] = $recurringdate->recurrence_id;
-        }
-	    for ($i = 0; $i < count($dates); $i++) {
-            $che = clone($calendar_has_event);
-            $e = clone($event);
-            $edt = clone($eventdatetime);
-            $e->insert();
-            // update event_id
-            $edt->event_id = $e->id;
-            // update starttime and endtime
-            //$starttime = strtotime($edt->starttime);
-            //$endtime = strtotime($edt->endtime);
-            //$diff = strtotime($dates[$i]) - $starttime;
-            //$edt->starttime = date('Y-m-d H:i:s', $diff + $starttime);
-            //$edt->endtime = date('Y-m-d H:i:s', $diff + $endtime);
-            $edt->starttime = $datetime['starttime'];
-            $edt->endtime = $datetime['endtime'];
-            // remove recurrence info
-            $edt->recurringtype = 'none';
-            $edt->recurs_until = '';
-            $edt->rectypemonth = '';
-            $edt->insert();
-            // add to calendar
-            $che->event_id = $e->id;
-            if ($che->status == 'archived') {
-                $today = strtotime(date('Y-m-d'));
-                $starttime = strtotime($datetime['starttime']);
-                if ($starttime > $today) {
-                    $endtime = strtotime($datetime['endtime']);
-                    if (!$datetime['endtime'] || $endtime > $today) {
-                        $che->status = 'posted';
-                    }
-                }
-            }
-            $che->insert();
-        }
-        // update recurringdate
-        if ($rec == 'this') {
-            $sql = "UPDATE recurringdate
-                    SET unlinked=1
-                    WHERE event_id = {$event_id}
-                    AND recurrence_id = {$recurringdate->recurrence_id}";
-            $recurringdate->query($sql);
-        }*/
-        /*if ($rec == '') {
-            // remove original event
-            $calendar_has_event->delete();
-            $event->delete();
-            $eventdatetime->delete();
-        }*/
-    //}
-    
-    public function unlinkEvents($table, &$values, $datetime) {
         if ($values['rec'] != 'this' && $values['rec'] != 'following') {
             return;
         }
@@ -398,10 +265,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
         $recurringdate->whereAdd("ongoing = FALSE");
         if ($rec == 'this') {
             $recurringdate->whereAdd("recurrence_id = $recid");
-        }/* else if ($rec == 'following') {
-            $starttime = date('Y-m-d', $eventdatetime->starttime);
-            $recurringdate->whereAdd("recurringdate >= $starttime");
-        }*/
+        }
         $recurringdate->find(true);
         $che = clone($calendar_has_event);
         $e = clone($event);
