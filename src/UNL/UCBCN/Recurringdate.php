@@ -48,6 +48,34 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     }
     
     /**
+     * Unlinks an event.
+     * 
+     * @param int $event_id      event_id of instance
+     * @param int $recurrence_id recurrence_id of instance
+     * 
+     * @return void
+     */
+    public function removeInstance($event_id, $recurrence_id) {
+        $db =& $this->getDatabaseConnection();
+        // unlink this instance
+        $sql = "UPDATE recurringdate SET unlinked=1
+                WHERE event_id=$event_id
+                AND recurrence_id=$recurrence_id";
+        $db->query($sql);
+        // if all instances are unlinked, remove from table
+        $sql = "SELECT * FROM recurringdate
+                WHERE event_id = {$event_id}
+                AND unlinked=FALSE";
+        $res =& $db->query($sql);
+        $row = $res->fetchRow();
+        if (!$row) {
+            $event = UNL_UCBCN::factory('event');
+            $event->get($event_id);
+            $event->delete();
+        }
+    }
+    
+    /**
      * Determines the days of this month with recurring events.
      * 
      * @param Calendar_Month_Weekdays $month Month to find events in.
@@ -162,11 +190,6 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                     }
                 }
             }
-            /*for ($it = 0; $it < count($res[0]); $it++) {
-                if ($res[0][$it] == $ule[$it]) {
-                    $res[4][$it] = 'TRUE';
-                }
-            }*/
             foreach ($ule as $unlinked_date) {
                 if ($keys = array_keys($res[0], $unlinked_date)) {
                     foreach ($keys as $key) { 
@@ -175,13 +198,6 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 }
             }
         }
-        
-        // make counting easier for UNL_UCBCN::getEventCount()
-        /*while ($res[4][0] == 'TRUE') {
-            foreach ($res as $resrow) {
-                array_shift($resrow);
-            }
-        }*/
         
         // Clean this month
         $sql = "DROP TABLE IF EXISTS recurringdate;";
