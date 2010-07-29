@@ -72,6 +72,8 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
             $event = UNL_UCBCN::factory('event');
             $event->get($event_id);
             $event->delete();
+        } else {
+            UNL_UCBCN::cleanCache();
         }
     }
     
