@@ -281,9 +281,9 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
                     $diff = $edtime - $rdtime[0];
                     $values['endtime'] = date('Y-m-d', $rdtime[1] + $diff);
                 } else {
-                    $datetime['endtime'] = $values['endtime'].' '.$this->_array2date($values['starthour']);
+                    $datetime['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
                     $values['endtime'] = $edt->endtime;
-                    if ($datetime['endtime'] < strtotime($datetime['starttime'])) {
+                    if (strtotime($datetime['endtime']) < strtotime($datetime['starttime'])) {
                         $datetime['endtime'] = $datetime['starttime'];
                     }
                 }
