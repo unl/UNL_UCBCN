@@ -55,7 +55,8 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
      * 
      * @return void
      */
-    public function removeInstance($event_id, $recurrence_id) {
+    public function removeInstance($event_id, $recurrence_id)
+    {
         $db =& $this->getDatabaseConnection();
         // unlink this instance
         $sql = "UPDATE recurringdate SET unlinked=1
@@ -110,6 +111,8 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     
     /**
      * Updates table containing all dates with recurring events.
+     * 
+     * @return void
      */
     public function updateRecurringEvents()
     {
@@ -227,11 +230,11 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
      * Get eventdatetime information for an instance of a recurring event.
      * 
      * @param int    $recid recurringdate.recurrence_id of instance
-     * @param object $edt   Eventdatetime
+     * @param object $edt   Eventdatetime of event
      * 
      * @return object of UNL_UCBCN_Eventdatetime
      */
-    function getInstanceDateTime($recid, $edt)
+    public function getInstanceDateTime($recid, $edt)
     {
         $rec = UNL_UCBCN::factory('recurringdate');
         $rec->event_id = $edt->event_id;
@@ -250,6 +253,115 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
         $edate = date('Y-m-d', strtotime(substr($edt->endtime, 0, 10)) + $diff);
         $edt->endtime = $edate.' '.substr($edt->endtime, 11);
         return $edt; 
+    }
+    
+    /**
+     * Takes an EventListing, finds the related recurring events,
+     * and returns them merged in sorted order with the EventListing. 
+     * 
+     * @param UNL_UCBCN_EventListing $listing Event listing
+     * 
+     * @return UNL_UCBCN_EventListin $listing Sorted event listing
+     */
+    public function getInstanceEvents($listing)
+    {
+        $status = $listing->status;
+        $events = array();
+        // find related events, separate into recurring and non-recurring
+        foreach ($listing->events as $e) {
+            $is_array = is_array($e);
+            $e = (object) $e;
+            $recurringdate = UNL_UCBCN_Manager::factory('recurringdate');
+            $recurringdate->event_id = $e->id;
+            $recurringdate->whereAdd("ongoing = FALSE");
+            if ($status == 'posted') {
+                $recurringdate->whereAdd('recurringdate >= "'.date('Y-m-d').'"');
+            } else if ($status == 'archived') {
+                $recurringdate->whereAdd('recurringdate < "'.date('Y-m-d').'"');
+            }
+            $recurringdate->orderBy("recurringdate DESC");
+            $recurring = $recurringdate->find();
+            while ($recurringdate->fetch()) {
+                if (!$recurringdate->unlinked) {
+                    if (is_null($status) && isset($e->calendarhasevent)) {
+                        $edt = UNL_UCBCN::factory('eventdatetime');
+                        $edt->get('event_id', $e->id);
+                        $edt = UNL_UCBCN_Recurringdate::getInstanceDateTime(
+                                    $recurringdate->recurrence_id, $edt);
+                        if (strtotime($edt->starttime) < strtotime(date('Y-m-d'))) {
+                            $e->calendarhasevent = 'archived';
+                        } else {
+                            $e->calendarhasevent = 'posted';
+                        }
+                    }
+                    $event = UNL_UCBCN_Event::arrayToEvent($e);
+                    $event->recurrence_id = $recurringdate->recurrence_id;
+                    // if this function was called from showSearchResults
+                    if ($is_array) {
+                        $event = UNL_UCBCN_Event::eventToarray($event);
+                    }
+                    $recurring_events[] = $event;
+                }
+            }
+            if (!$recurring) {
+                $events[] = $e;
+            }
+        }
+        // merge and sort recurring and non-recurring events
+        while ($recurring_event = array_pop($recurring_events)) {
+            $is_array = is_array($recurring_event);
+            $recurring_event = UNL_UCBCN_Event::arrayToEvent($recurring_event);
+            // eventdatetime info on the recurring event
+            $rec_edt = UNL_UCBCN::factory('eventdatetime');
+            // recurrence info on the recurring event
+            $rec_rec = UNL_UCBCN::factory('recurringdate');
+            $rec_edt->get('event_id', $recurring_event->id);
+            $rec_rec->event_id = $rec_edt->event_id;
+            $rec_rec->recurrence_id = $recurring_event->recurrence_id;
+            $rec_rec->find(true);
+            $rec_starttime = $rec_rec->recurringdate .
+                                substr($rec_edt->starttime, 10);
+            $inserted = false;
+            // insert recurring events in order
+            for ($i = 0; $i < count($events); $i++) {
+                $edt  = UNL_UCBCN::factory('eventdatetime');
+                $id = is_array($events[$i]) ? $events[$i]['id'] : $events[$i]->id;
+                $edt->get('event_id', $id);
+                $start = '';
+                // get information about this event if it is recurring
+                if (isset($events[$i]->recurrence_id)) {
+                    $recurrence_id = is_array($events[$i]) ? $events[$i]['recurrence_id'] : $events[$i]->recurrence_id;
+                    $rec  = UNL_UCBCN::factory('recurringdate');
+                    $rec->event_id = $id;
+                    $rec->recurrence_id = $events[$i]->recurrence_id;
+                    $rec->find(true);
+                    $start = $rec->recurringdate.substr($edt->starttime, 10);
+                } else {
+                    $start = $edt->starttime;
+                }
+                if (strtotime($rec_starttime) > strtotime($start)) {
+                    if ($is_array) {
+                        $recurring_event = UNL_UCBCN_Event::eventToArray($recurring_event); 
+                    }
+                    // insert event ahead of this location
+                    $beg = array_splice($events, 0, $i);
+                    $end = array_splice($events, 0);
+                    $events = array_merge($beg, array($recurring_event), $end);
+                    $inserted = true;
+                    break;
+                }
+            }
+            if (!$inserted) {
+                if ($is_array) {
+                    $recurring_event = UNL_UCBCN_Event::eventToArray($recurring_event); 
+                }
+                // insert at end
+                $events[] = $recurring_event;
+            }
+        }
+        $listing->events = $events;
+       
+        return $listing;
     }
     
     /**

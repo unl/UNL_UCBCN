@@ -279,7 +279,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
                     $endtime = date('Y-m-d', strtotime($values['endtime']));
                     $edtime = strtotime($endtime);
                     $diff = $edtime - $rdtime[0];
-                    $values['endtime'] = date('Y-m-d', $rdtime[1] + $diff);
+                    $values['endtime'] = date('Y-m-d', $rdtime[1] + $diff).' '.$this->_array2date($values['endhour']);
                 } else {
                     $datetime['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
                     $values['endtime'] = $edt->endtime;
@@ -287,8 +287,9 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
                         $datetime['endtime'] = $datetime['starttime'];
                     }
                 }
+            } else {
+                $values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
             }
-            $values['endtime'] = $values['endtime'].' '.$this->_array2date($values['endhour']);
             //endtime cannot be less than starttime 
             if (strtotime($values['endtime']) < strtotime($values['starttime'])) {
                 $values['endtime'] = $values['starttime'];
@@ -298,6 +299,15 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             $values['recurs_until'] = '';
         }
         if (!empty($values['recurs_until'])) {
+            $recurs_untilhour = $this->_array2date($values['recurs_untilhour']);
+            if ($values['rec'] == 'all') {
+                $starthour = $this->_array2date($values['starthour']); 
+            } else {
+                $starthour = substr($datetime['starttime'], 11);
+            } 
+            if (strtotime($recurs_untilhour) < strtotime($starthour)) {
+                $values['recurs_untilhour'] = $values['starthour'];
+            }
             $values['recurs_until'] .= ' '.$this->_array2date($values['recurs_untilhour']);
         }
         if ($values['recurringtype'] != 'monthly') {

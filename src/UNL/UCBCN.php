@@ -190,7 +190,7 @@ class UNL_UCBCN
     {
         if ($status == 'posted') {
             $e              = UNL_UCBCN::factory('calendar_has_event');
-            $e->calendar_id = $calendar_id;
+            $e->calendar_id = $calendar->id;
             $e->whereAdd("status != 'pending'");
             $e->find();
         } else {
@@ -219,7 +219,9 @@ class UNL_UCBCN
                 $edt->event_id = $e->event_id;
                 $edt->find(true);
                 if ($edt->recurringtype == 'none' || $edt->recurringtype == '') {
-                    $count++;
+                    if ($e->status == $status) {
+                        $count++;
+                    }
                 }
             }
         }
