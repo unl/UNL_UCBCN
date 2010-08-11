@@ -268,7 +268,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
         $status = $listing->status;
         $events = array();
         // find related events, separate into recurring and non-recurring
-        foreach ($listing->events as $e) {
+        foreach ($listing->events as $key => $e) {
             $is_array = is_array($e);
             $e = (object) $e;
             $recurringdate = UNL_UCBCN_Manager::factory('recurringdate');
@@ -304,7 +304,15 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 }
             }
             if (!$recurring) {
-                $events[] = $e;
+                $edt = UNL_UCBCN::factory('eventdatetime');
+                $edt->get('event_id', $e->id);
+                $rtype = $edt->recurringtype;
+                if ($rtype == 'none' || $rtype == '') {
+                    $events[] = $e;
+                } else {
+                    // no recurrences for this event are in this listing
+                    unset($listing->events[$key]);
+                }
             }
         }
         // merge and sort recurring and non-recurring events
