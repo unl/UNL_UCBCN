@@ -267,6 +267,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     {
         $status = $listing->status;
         $events = array();
+        $recurring_events = array();
         // find related events, separate into recurring and non-recurring
         foreach ($listing->events as $key => $e) {
             $is_array = is_array($e);
