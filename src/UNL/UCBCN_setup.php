@@ -61,6 +61,19 @@ class UNL_UCBCN_setup_postinstall
     }
 
     /**
+     * Post-install initialization method for installation with Pyrus.
+     * 
+     * @param PEAR2\Pyrus\Package $pkg         The package being installed
+     * @param string              $lastversion The last version installed (if any)
+     */
+    function init2($pkg, $lastversion)
+    {
+        $this->lastversion    = $lastversion;
+        $this->databaseExists = false;
+        return true;
+    }
+
+    /**
      * Change questions asked if necessary.
      *
      * @param array  $prompts questions to prompt for answers
@@ -120,6 +133,19 @@ class UNL_UCBCN_setup_postinstall
             }
             break;
         }
+    }
+
+    /**
+     * Postinstall script runner for installation with Pyrus.
+     *
+     * @param array  $answers Responses to questions
+     * @param string $phase   Which phase of the install we're in
+     * 
+     * @return bool
+     */
+    function run2(array $answers, $section)
+    {
+        return $this->run($answers, $section);
     }
     
     /**
