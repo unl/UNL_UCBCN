@@ -465,6 +465,14 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+
+   <field>
+    <name>theme</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default>base</default>
+   </field>
    
    <field>
     <name>recommendationswithinaccount</name>
