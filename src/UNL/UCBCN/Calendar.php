@@ -51,6 +51,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public $uidlastupdated;                  // string(255)
     public $externalforms;                   // string(255)
     public $recommendationswithinaccount;    // int(1)
+    public $theme;							 // string(255)
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Calendar',$k,$v); }
@@ -72,9 +73,16 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public  $fb_fieldLabels       = array('eventreleasepreference' => 'Event Release Preference',
 	                                      'shortname'  => 'Short Name (this will change your calendar web address)',
 	                                      'emaillists' => 'Email Lists (separated by commas)',
-                                          'recommendationswithinaccount' => 'Allow event recommendations within this account');
-    public  $fb_enumFields        = array('eventreleasepreference');
-    public  $fb_enumOptions       = array('eventreleasepreference'=>array('Immediate','Pending'));
+                                          'recommendationswithinaccount' => 'Allow event recommendations within this account',
+    									  'theme' => 'Theme (preview available themes <a href="http://jqueryui.com/themeroller/#themeGallery" target="_blank">here</a>)');
+    public  $fb_enumFields        = array('eventreleasepreference', 'theme');
+    public  $fb_enumOptions       = array('eventreleasepreference'=>array('Immediate','Pending'), 
+    									  'theme'=>array('base' => 'Base','black-tie' => 'Black Tie','blitzer' => 'Blitzer','cupertino' => 'Cupertino','dark-hive' => 'Dark Hive',
+    									  				 'dot-luv' => 'Dot Luv','eggplant' => 'Eggplant','excite-bike' => 'Excite Bike','flick' => 'Flick','hot-sneaks' => 'Hot Sneaks',
+    									  				 'humanity' => 'Humanity','le-frog' => 'Le Frog','mint-choc' => 'Mint Choc','overcast' => 'Overcast',
+    									  				 'pepper-grinder' => 'Pepper Grinder','redmond' => 'Redmond','smoothness' => 'Smoothness','south-street' => 'South Street',
+    									  				 'start' => 'Start','sunny' => 'Sunny','swanky-purse' => 'Swanky Purse','trontastic' => 'Trontastic',
+    									  				 'ui-darkness' => 'UI Darkness','ui-lightness' => 'UI Lightness','vader' => 'Vader'));
     public  $fb_linkDisplayFields = array('name','shortname');
     
     function table()
@@ -98,6 +106,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
             'uidlastupdated'=>2,
             'externalforms'=>2,
             'recommendationswithinaccount'=>17,
+        	'theme'=>2,
         );
     }
 
