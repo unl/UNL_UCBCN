@@ -563,26 +563,28 @@ class UNL_UCBCN
     {
         $user      = UNL_UCBCN::factory('user');
         $user->uid = $uid;
+
         if ($user->find()) {
             $user->fetch();
             return $user;
-        } else {
-            if (!isset($this->account)) {
-                // No account is currently set, create one for this user.
-                $values  = array('name' => ucfirst($user->uid).' Calendar Manager');
-                $account = $this->createAccount($values);
-            } else {
-                $account = $this->account;
-            }
-            if (!isset($this->user)) {
-                // No current user... this user has created his own user entry.
-                $created_by = $uid;
-            } else {
-                // Another user has created this user.
-                $created_by = $this->user->uid;
-            }
-            return $this->createUser($account, $uid, $created_by);
         }
+
+        if (!isset($this->account)) {
+            // No account is currently set, create one for this user.
+            $values  = array('name' => ucfirst($user->uid).' Calendar Manager');
+            $account = $this->createAccount($values);
+        } else {
+            $account = $this->account;
+        }
+
+        if (!isset($this->user)) {
+            // No current user... this user has created his own user entry.
+            $created_by = $uid;
+        } else {
+            // Another user has created this user.
+            $created_by = $this->user->uid;
+        }
+        return $this->createUser($account, $uid, $created_by);
     }
     
     /**
