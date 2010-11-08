@@ -545,9 +545,9 @@ class UNL_UCBCN
         if ($che->find()) {
             $che->fetch();
             return $che;
-        } else {
-            return false;
         }
+
+        return false;
     }
     
     /**
@@ -572,9 +572,7 @@ class UNL_UCBCN
         if (!isset($this->account)) {
             // No account is currently set, create one for this user.
             $values  = array('name' => ucfirst($user->uid).' Calendar Manager');
-            $account = $this->createAccount($values);
-        } else {
-            $account = $this->account;
+            $this->account = $this->createAccount($values);
         }
 
         if (!isset($this->user)) {
@@ -584,7 +582,7 @@ class UNL_UCBCN
             // Another user has created this user.
             $created_by = $this->user->uid;
         }
-        return $this->createUser($account, $uid, $created_by);
+        return $this->createUser($this->account, $uid, $created_by);
     }
     
     /**
@@ -598,12 +596,13 @@ class UNL_UCBCN
     {
         $account     = UNL_UCBCN::factory('account');
         $account->id = $user->account_id;
+
         if ($account->find() && $account->fetch()) {
             return $account;
-        } else {
-            // No account exists!
-            return new UNL_UCBCN_Error('No Account exists for the given user.');
         }
+
+        // No account exists!
+        return new UNL_UCBCN_Error('No Account exists for the given user.');
     }
     
     /**
@@ -637,35 +636,36 @@ class UNL_UCBCN
             $calendar = UNL_UCBCN::factory('calendar');
             $calendar->get($row[0]);
             return $calendar;
-        } else {
-            // No Calendar exists for the given account...
-            if ($return_false == true) {
-                return false;
-            } else {
-                // Create a new calendar and account and return the calendar.
-                $values      = array(
-                            'name'           => ucfirst($user->uid).'\'s Event Publisher!',
-                            'shortname'      => $user->uid,
-                            'uidcreated'     => $user->uid,
-                            'uidlastupdated' => $user->uid,
-                            'account_id'     => $account->id);
-                $calendar    = $this->createCalendar($values);
-                $permissions = UNL_UCBCN::factory('permission');
-                //$permissions->whereAdd('name LIKE "Event%"');
-                // grant all permissions to this new user for this new calendar.
-                if (!$calendar->addUser($user)) {
-                    // Setup default permissions...?
-                    return new UNL_UCBCN_Error('No permissions could be added for '
-                                            . 'the new user! Permissions need to'
-                                            . ' be added to the permission table.');
-                }
-                if (isset($redirecturl)) {
-                    $this->localRedirect($redirecturl);
-                } else {
-                    return $calendar;
-                }
-            }
         }
+
+        // No Calendar exists for the given account...
+        if ($return_false == true) {
+            return false;
+        }
+
+        // Create a new calendar and account and return the calendar.
+        $values      = array(
+                    'name'           => ucfirst($user->uid).'\'s Event Publisher!',
+                    'shortname'      => $user->uid,
+                    'uidcreated'     => $user->uid,
+                    'uidlastupdated' => $user->uid,
+                    'account_id'     => $account->id);
+        $calendar    = $this->createCalendar($values);
+        $permissions = UNL_UCBCN::factory('permission');
+        //$permissions->whereAdd('name LIKE "Event%"');
+        // grant all permissions to this new user for this new calendar.
+        if (!$calendar->addUser($user)) {
+            // Setup default permissions...?
+            return new UNL_UCBCN_Error('No permissions could be added for '
+                                    . 'the new user! Permissions need to'
+                                    . ' be added to the permission table.');
+        }
+        if (isset($redirecturl)) {
+            $this->localRedirect($redirecturl);
+        } else {
+            return $calendar;
+        }
+
     }
     
     /**
