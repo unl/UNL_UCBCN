@@ -285,9 +285,9 @@ class UNL_UCBCN
         $result = $rec->insert();
         if (!$result) {
             return $result;
-        } else {
-            return $rec;
         }
+
+        return $rec;
     }
     
     /**
@@ -310,10 +310,10 @@ class UNL_UCBCN
             $user_has_permission->calendar_id   = $calendar->id;
             $user_has_permission->user_uid      = $user->uid;
             return $user_has_permission->find();
-        } else {
-            return new UNL_UCBCN_Error('The permission you requested to check for \''
-                                       . $permission_name . '\', does not exist.');
         }
+
+        return new UNL_UCBCN_Error('The permission you requested to check for \''
+                                   . $permission_name . '\', does not exist.');
     }
     
     /**
@@ -660,11 +660,12 @@ class UNL_UCBCN
                                     . 'the new user! Permissions need to'
                                     . ' be added to the permission table.');
         }
+
         if (isset($redirecturl)) {
             $this->localRedirect($redirecturl);
-        } else {
-            return $calendar;
         }
+
+        return $calendar;
 
     }
     
@@ -821,9 +822,9 @@ class UNL_UCBCN
         global $_UNL_UCBCN;
         if (isset($_UNL_UCBCN['frontenduri'])) {
             return $_UNL_UCBCN['frontenduri'];
-        } else {
-            return '?';
         }
+
+        return '?';
     }
     
     /**
@@ -900,6 +901,7 @@ class UNL_UCBCN
                 return false;
             }
         }
+
         // Find the originating calendar:
         $che           = UNL_UCBCN::factory('calendar_has_event');
         $che->event_id = $event->id;
@@ -912,10 +914,9 @@ class UNL_UCBCN
                     return true;
                 }
             }
-            return false;
-        } else {
-            return false;
         }
+
+        return false;
     }
 }
 ?>
