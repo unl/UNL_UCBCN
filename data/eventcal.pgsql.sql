@@ -203,6 +203,7 @@ CREATE TABLE "calendar" (
   "uidlastupdated" varchar(255) DEFAULT NULL,
   "externalforms" varchar(255) DEFAULT NULL,
   "website" varchar(255) DEFAULT NULL,
+  "theme" varchar(255) DEFAULT 'base',
   PRIMARY KEY ("id"),
   KEY "account_id_idx" ("account_id"),
   KEY "shortname_idx" ("shortname")
