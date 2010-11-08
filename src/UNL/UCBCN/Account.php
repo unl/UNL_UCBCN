@@ -99,21 +99,23 @@ class UNL_UCBCN_Account extends DB_DataObject
      *
      * @return bool
      */
-    public function addCalendar($name,$shortname,UNL_UCBCN_User $user,$grant = true)
+    public function addCalendar($name, $shortname, UNL_UCBCN_User $user, $grant = true)
     {
         
         $calendar = UNL_UCBCN::factory('calendar');
         $calendar->shortname = $shortname;
+
         if ($calendar->find()) {
             // calendar name already exists
             return false;
         }
-        $calendar->shortname = $shortname;
-        $calendar->name = $name;
-        $calendar->account_id = $this->id;
-        $calendar->uidcreated = $user->uid;
+
+        $calendar->shortname      = $shortname;
+        $calendar->name           = $name;
+        $calendar->account_id     = $this->id;
+        $calendar->uidcreated     = $user->uid;
         $calendar->uidlastupdated = $user->uid;
-        $calendar->datecreated = $calendar->datelastupdated = date('Y-m-d H:i:s');
+        $calendar->datecreated    = $calendar->datelastupdated = date('Y-m-d H:i:s');
         
         $res = $calendar->insert();
         if ($res && $grant) {
@@ -125,21 +127,21 @@ class UNL_UCBCN_Account extends DB_DataObject
     function table()
     {
         return array(
-            'id'=>129,
-            'name'=>2,
-            'streetaddress1'=>2,
-            'streetaddress2'=>2,
-            'city'=>2,
-            'state'=>2,
-            'zip'=>2,
-            'phone'=>2,
-            'fax'=>2,
-            'email'=>2,
-            'accountstatus'=>2,
-            'datecreated'=>14,
-            'datelastupdated'=>14,
-            'sponsor_id'=>129,
-            'website'=>2,
+            'id'              => 129,
+            'name'            => 2,
+            'streetaddress1'  => 2,
+            'streetaddress2'  => 2,
+            'city'            => 2,
+            'state'           => 2,
+            'zip'             => 2,
+            'phone'           => 2,
+            'fax'             => 2,
+            'email'           => 2,
+            'accountstatus'   => 2,
+            'datecreated'     => 14,
+            'datelastupdated' => 14,
+            'sponsor_id'      => 129,
+            'website'         => 2,
         );
     }
 
@@ -157,6 +159,6 @@ class UNL_UCBCN_Account extends DB_DataObject
     
     function sequenceKey()
     {
-        return array('id',true);
+        return array('id', true);
     }
 }
