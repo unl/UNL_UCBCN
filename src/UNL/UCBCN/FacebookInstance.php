@@ -142,15 +142,19 @@ class UNL_UCBCN_FacebookInstance
      * 
      * @return int - unix formated facebook time.
      **/
-    function prepareFacebookEventTime($time){
-        $localOffset=date('Z',$time);
-        $defaultTimezone=date_default_timezone_get();
+    function prepareFacebookEventTime($time)
+    {
+        $localOffset     = date('Z',$time);
+        $defaultTimezone = date_default_timezone_get();
+
+        // Set to Los Angeles, (Facebook HQ)
         date_default_timezone_set('America/Los_Angeles');
-        $offset=date('Z',$time);
+        $offset          = date('Z',$time);
+        
         date_default_timezone_set($defaultTimezone);
-        $dateTimeCurrent = new DateTimeZone(date_default_timezone_get());
-        $dateTimeFacebook = new DateTimeZone("America/Los_Angeles");
-        $time=$time-$offset*2+$localOffset;
+        $dateTimeCurrent  = new DateTimeZone(date_default_timezone_get());
+        $dateTimeFacebook = new DateTimeZone('America/Los_Angeles');
+        $time             = $time-$offset*2+$localOffset;
         return $time;
     }
     
@@ -188,8 +192,8 @@ class UNL_UCBCN_FacebookInstance
                         $this->createFacebookEvent();
                     }
                 }
-            }else{
-                if(isset($this->facebook->facebook_id)){
+            } else {
+                if (isset($this->facebook->facebook_id)) {
                     //facebook event exists, but the event is currently pending.  So... delete it.
                     $this->deleteEvent();
                 }
@@ -255,10 +259,6 @@ class UNL_UCBCN_FacebookInstance
                          array('access_token' => $this->account->access_token),
                         'POST'
                     );
-                    if ($this->debug == true) {
-                        echo "<br>Responce: <br>";
-                        print_r($result);
-                    }
                     $this->facebook->delete();
                 }
             }
@@ -291,7 +291,8 @@ class UNL_UCBCN_FacebookInstance
      * 
      * @return string (url)
      **/
-    function getEventDescription(){
+    function getEventDescription()
+    {
         //TODO: actually append the URL...
         //return $this->event->description . "(Learn more at " . UNL_UCBCN::getFrontEndURL() . ")";
         return $this->event->description;
@@ -302,7 +303,8 @@ class UNL_UCBCN_FacebookInstance
      * 
      * @return string (url)
      **/
-    function getURL(){
+    function getURL()
+    {
         return "http://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
     }
 
@@ -334,4 +336,4 @@ class UNL_UCBCN_FacebookInstance
         }
     }
 }//Class
-?>
+
