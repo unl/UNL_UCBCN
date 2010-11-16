@@ -90,11 +90,18 @@ class UNL_UCBCN_FacebookInstance
     public function getConfig()
     {
         //Load vars from config file.
-        include dirname(dirname(dirname(dirname(dirname(__file__))))).'/config.inc.php';
-        if(!isset($fb_appId) || $fb_appId=0)
+        $config_file = dirname(dirname(dirname(dirname(dirname(__file__))))).'/config.inc.php';
+        if (file_exists($config_file)) {
+            include $config_file;
+        }
+
+        if (!isset($fb_appId) || $fb_appId=0) {
             return false;
-        if(!isset($fb_secret) || $fb_secret="")
+        }
+
+        if (!isset($fb_secret) || $fb_secret="") {
             return false;
+        }
         //TODO: check other vars in config.
 
         return array("appID"           => $fb_appId, 
