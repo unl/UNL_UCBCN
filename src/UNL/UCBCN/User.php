@@ -88,9 +88,9 @@ class UNL_UCBCN_User extends DB_DataObject
     
     public function preGenerateForm(&$fb)
     {
-    	foreach ($this->fb_hiddenFields as $el) {
-    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
-    	}
+        foreach ($this->fb_hiddenFields as $el) {
+            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
+        }
         if (isset($_SESSION['calendar_id']) && ($_SESSION['calendar_id'] != $this->calendar_id)) {
             $this->fb_preDefElements['calendar_id'] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix."calendar_id".$fb->elementNamePostfix);
         }
@@ -99,42 +99,42 @@ class UNL_UCBCN_User extends DB_DataObject
     
     public function postGenerateForm(&$form, &$formBuilder)
     {
-    	if (isset($this->uid) && !empty($this->uid)) {
-    		$el =& $form->getElement('uid');
-    		$el->freeze();
-    	}
+        if (isset($this->uid) && !empty($this->uid)) {
+            $el =& $form->getElement('uid');
+            $el->freeze();
+        }
     }
     
-	public function prepareLinkedDataObject(&$ldo, $field) {
-	    switch($ldo->tableName()) {
-	        case 'user_has_permission':
-	            if (isset($_SESSION['calendar_id'])) {
-	                $ldo->calendar_id = $_SESSION['calendar_id'];
-	            }
-	            break;
-	        case 'calendar':
-	            if (isset($_SESSION['calendar_id'])) {
-	               $ldo->whereAdd('id = '.$_SESSION['calendar_id']);
-	            }
-	            break;
-	    }
-	}
+    public function prepareLinkedDataObject(&$ldo, $field) {
+        switch($ldo->tableName()) {
+            case 'user_has_permission':
+                if (isset($_SESSION['calendar_id'])) {
+                    $ldo->calendar_id = $_SESSION['calendar_id'];
+                }
+                break;
+            case 'calendar':
+                if (isset($_SESSION['calendar_id'])) {
+                   $ldo->whereAdd('id = '.$_SESSION['calendar_id']);
+                }
+                break;
+        }
+    }
     
     public function update()
     {
-    	$this->datelastupdated = date('Y-m-d H:i:s');
-		return parent::update();
+        $this->datelastupdated = date('Y-m-d H:i:s');
+        return parent::update();
     }
     
     public function insert()
-	{
-		$this->datecreated     = date('Y-m-d H:i:s');
-		$this->datelastupdated = date('Y-m-d H:i:s');
-		return parent::insert();
-	}
-	
-	public function __toString()
-	{
-	    return $this->uid;
-	}
+    {
+        $this->datecreated     = date('Y-m-d H:i:s');
+        $this->datelastupdated = date('Y-m-d H:i:s');
+        return parent::insert();
+    }
+    
+    public function __toString()
+    {
+        return $this->uid;
+    }
 }
