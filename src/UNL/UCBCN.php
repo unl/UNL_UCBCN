@@ -347,8 +347,8 @@ class UNL_UCBCN
      * run()                        This function must populate the object and get
      *                              it prepped for output.
      *
-     * @param mixed $content The content to send out.
-     * @param bool  $return  Whether to output or return the content.
+     * @param mixed $mixed  The content to send out.
+     * @param bool  $return Whether to output or return the content.
      *
      * @return void
      */
@@ -369,7 +369,15 @@ class UNL_UCBCN
         echo $mixed;
         return true;
     }
-    
+
+    /**
+     * Iterate over an array of content, and display
+     *
+     * @param array $array  The array of mixed content to display
+     * @param bool  $return Whether to return or send to output
+     * 
+     * @return mixed
+     */
     static function displayArray($array, $return = false)
     {
         $output = '';
@@ -440,7 +448,8 @@ class UNL_UCBCN
      * from an object and populates a Savant template with equivalent member
      * variables.
      *
-     * @param mixed $content Object with content to send out.
+     * @param mixed $object Object with content to send out.
+     * @param bool  $return Whether to return rendered content or send to output
      *
      * @return void
      */
@@ -525,8 +534,12 @@ class UNL_UCBCN
      *
      * @return object UNL_UCBCN_Account_has_event
      */
-    public function addCalendarHasEvent(UNL_UCBCN_Calendar $calendar,
-        UNL_UCBCN_Event $event, $status, UNL_UCBCN_User $user, $source=null)
+    public function addCalendarHasEvent(
+        UNL_UCBCN_Calendar $calendar,
+        UNL_UCBCN_Event $event,
+        $status,
+        UNL_UCBCN_User $user,
+        $source=null)
     {
         return $calendar->addEvent($event, $status, $user, $source);
     }
@@ -624,15 +637,20 @@ class UNL_UCBCN
      * @return UNL_UCBCN_Calendar object on success false if no calendar exists and
      *                            $return_false paramter was passed as true.
      */
-    public function getCalendar(UNL_UCBCN_User $user, UNL_UCBCN_Account $account,
-        $return_false = true, $redirecturl=null)
+    public function getCalendar(
+        UNL_UCBCN_User $user,
+        UNL_UCBCN_Account $account,
+        $return_false = true,
+        $redirecturl=null)
     {
         
         $mdb2 = $account->getDatabaseConnection();
-        $res =& $mdb2->query('SELECT calendar.id FROM calendar,user_has_permission
-                            WHERE user_has_permission.user_uid = \''.$user->uid.'\'
-                            AND user_has_permission.calendar_id = calendar.id
-                            GROUP BY calendar.id');
+        $res =& $mdb2->query(
+            'SELECT calendar.id FROM calendar,user_has_permission
+                WHERE user_has_permission.user_uid = \''.$user->uid.'\'
+                    AND user_has_permission.calendar_id = calendar.id
+                GROUP BY calendar.id'
+                            );
         if (!(PEAR::isError($res)) && ($res->numRows() > 0)) {
             $row      = $res->fetchRow();
             $calendar = UNL_UCBCN::factory('calendar');
@@ -681,10 +699,10 @@ class UNL_UCBCN
     public function createCalendar($values = array())
     {
         $defaults = array(
-			                'datecreated'     => date('Y-m-d H:i:s'),
-			                'datelastupdated' => date('Y-m-d H:i:s'),
-			                'uidlastupdated'  => 'system',
-			                'uidcreated'      => 'system');
+                            'datecreated'     => date('Y-m-d H:i:s'),
+                            'datelastupdated' => date('Y-m-d H:i:s'),
+                            'uidlastupdated'  => 'system',
+                            'uidcreated'      => 'system');
         $values   = array_merge($defaults, $values);
         return $this->dbInsert('calendar', $values);
     }
@@ -715,10 +733,11 @@ class UNL_UCBCN
      *
      * @return string URL to the server without a URI.
      */
-    function getBaseURL() {
-       $url = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
+    function getBaseURL()
+    {
+       $url  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
        $base = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-       $url = $url.$_SERVER["SERVER_NAME"].$base;
+       $url  = $url.$_SERVER["SERVER_NAME"].$base;
        return $url;
     }
     
@@ -727,7 +746,8 @@ class UNL_UCBCN
      *
      * @return string URL to the server without a URI.
      */
-    function getFrontEndURL() {
+    function getFrontEndURL()
+    {
        $url = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
        $url = $url.$_SERVER["SERVER_NAME"];
        return $url;
@@ -881,7 +901,7 @@ class UNL_UCBCN
     /**
      * Cleans the cache.
      *
-     * @param mixed $o Pass a cached object to clean it's cache, or a string id.
+     * @param mixed $object Pass a cached object to clean it's cache, or a string id.
      *
      * @return bool true if cache was successfully cleared.
      */
