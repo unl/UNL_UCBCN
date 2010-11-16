@@ -282,7 +282,9 @@ class UNL_UCBCN
                 $rec->$var = $value;
             }
         }
+
         $result = $rec->insert();
+
         if (!$result) {
             return $result;
         }
@@ -602,7 +604,7 @@ class UNL_UCBCN
         }
 
         // No account exists!
-        return new UNL_UCBCN_Error('No Account exists for the given user.');
+        throw new UNL_UCBCN_UnexpectedValueException('No Account exists for the given user.');
     }
     
     /**
