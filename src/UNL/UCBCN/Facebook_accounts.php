@@ -93,17 +93,17 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
     
     public function createEvents(){
         //check account.
-        if($this->create_events != true){
+        if ($this->create_events != true) {
             return false;
         }
-        if(!isset($this->facebook_account)){
+        if (!isset($this->facebook_account)) {
             return false;
         }
-        if(!isset($this->access_token)){
+        if (!isset($this->access_token)) {
             return false;
         }
         //Check facebook App settings
-        if(!UNL_UCBCN_FacebookInstance::getConfig()){
+        if (!UNL_UCBCN_FacebookInstance::getConfig()) {
             return false;
         }
         return true;
