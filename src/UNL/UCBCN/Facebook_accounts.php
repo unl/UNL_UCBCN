@@ -103,11 +103,7 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
             return false;
         }
         //Check facebook App settings
-        $config = UNL_UCBCN_FacebookInstance::getConfig();
-        if(!isset($config['appID'])){
-            return false;
-        }
-        if(!isset($config['secret'])){
+        if(!UNL_UCBCN_FacebookInstance::getConfig()){
             return false;
         }
         return true;
