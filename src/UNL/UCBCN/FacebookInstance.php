@@ -91,10 +91,10 @@ class UNL_UCBCN_FacebookInstance
     {
         //Load vars from config file.
         include dirname(dirname(dirname(dirname(dirname(__file__))))).'/config.inc.php';
-        if(!isset($fb_appId))
-            throw new exception("Could not get the facebook appID.  Please check the facebook config file.");
-        if(!isset($fb_secret))
-            throw new exception("Could not get the facebook secret.  Please check the facebook config file.");
+        if(!isset($fb_appId) || $fb_appId=0)
+            return false;
+        if(!isset($fb_secret) || $fb_secret="")
+            return false;
         //TODO: check other vars in config.
 
         return array("appID"           => $fb_appId, 
