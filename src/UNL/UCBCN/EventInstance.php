@@ -51,6 +51,9 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
      */
     public $url;
     
+    public $facebook;
+    
+    public $facebookRSVP;
     /**
      * constructor
      * 
@@ -81,6 +84,8 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
             }
         }
         $this->url = $this->getURL();
+        $this->facebook = new UNL_UCBCN_FacebookInstance($this->eventdatetime->id);
+        $this->facebookRSVP = new UNL_UCBCN_FacebookRSVP($this->eventdatetime->id, $this->calendar->id);
     }
     
     /**

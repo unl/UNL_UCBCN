@@ -709,6 +709,29 @@ class UNL_UCBCN
     }
     
     /**
+     * Returns the base URL of the server.
+     *
+     * @return string URL to the server without a URI.
+     */
+    function getBaseURL() {
+       $url = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
+       $base = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+       $url = $url.$_SERVER["SERVER_NAME"].$base;
+       return $url;
+    }
+    
+    /**
+     * Returns the front end url of the server.
+     *
+     * @return string URL to the server without a URI.
+     */
+    function getFrontEndURL() {
+       $url = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'); 
+       $url = $url.$_SERVER["SERVER_NAME"];
+       return $url;
+    }
+    
+    /**
      * Returns an absolute URL
      *
      * @param string $relativeUri All/part of a url

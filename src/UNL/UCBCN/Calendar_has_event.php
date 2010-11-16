@@ -119,6 +119,14 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
                     UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
+            //loop though all eventdatetimes for this event, creating facebook events.
+            $eventdatetimes = UNL_UCBCN::factory('eventdatetime');
+            $eventdatetimes->event_id = $this->event_id;
+            $rows = $eventdatetimes->find();
+            while ($eventdatetimes->fetch()) {
+                $facebook = new UNL_UCBCN_FacebookInstance($eventdatetimes->id);
+                $facebook->updateEvent();
+            }
         }
         return $r;
     }
@@ -168,6 +176,14 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
                     UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
+        }
+        //loop though all eventdatetimes for this event, updating facebook events.
+        $eventdatetimes = UNL_UCBCN::factory('eventdatetime');
+        $eventdatetimes->event_id = $this->event_id;
+        $rows = $eventdatetimes->find();
+        while ($eventdatetimes->fetch()) {
+            $facebook = new UNL_UCBCN_FacebookInstance($eventdatetimes->id);
+            $facebook->updateEvent();
         }
         return $r;
     }

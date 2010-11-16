@@ -460,11 +460,20 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             UNL_UCBCN::cleanCache();
             $this->factory('recurringdate')->updateRecurringEvents();
         }
+        //update a facebook event.
+        $facebook = new UNL_UCBCN_FacebookInstance($this->id);
+        $facebook->updateEvent();
         return $r;
     }
     
     public function delete()
     {
+        //delete the facebook event.
+        if ($this->id != null) {
+            $facebook = new UNL_UCBCN_FacebookInstance($this->id);
+            $facebook->deleteEvent();
+        }
+        //delete the actual event.
         $r = parent::delete();
         if ($r) {
             UNL_UCBCN::cleanCache();
