@@ -11,9 +11,8 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  *
- * TODO: Reoccuring dates.
  * TODO: Create JSON encoded Location info for Facebook.
- * TODO: Only create events if asked to by the user in the edit/create event page.
+ * TODO: Add support for added to pages instead of just profiles.
  */
 
 /**
