@@ -43,7 +43,7 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
     public $access_token;
     public $calendar_id;
     public $create_events;
-    
+    public $show_like_buttons;
 
     
     //Static get for DB
@@ -88,6 +88,7 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
             'access_token'=>66,
             'calendar_id'=>17,
             'create_events'=>17,
+            'show_like_buttons'=>17,
         );
     }
     
