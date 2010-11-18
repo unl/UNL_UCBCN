@@ -57,9 +57,6 @@ class UNL_UCBCN_FacebookInstance
         $config                 = $this->getConfig();
         $this->appID            = $config["appID"];
         $this->secret           = $config["secret"];
-        $this->access_token     = $config["access_token"];
-        $this->profileID        = $config["profileID"];
-        $this->showLikeButtons  = $config["showLikeButtons"];
         
         $this->facebookInterface = $this->initFacebook($this->appID,$this->secret);
         $this->facebook = UNL_UCBCN::factory('facebook');
@@ -95,18 +92,15 @@ class UNL_UCBCN_FacebookInstance
             include $config_file;
         }
 
-        if (!isset($fb_appId) || $fb_appId=0) {
+        if (!isset($fb_appId) || $fb_appId==0) {
             return false;
         }
 
-        if (!isset($fb_secret) || $fb_secret="") {
+        if (!isset($fb_secret) || $fb_secret=="") {
             return false;
         }
-        //TODO: check other vars in config.
-
         return array("appID"           => $fb_appId, 
-                     "secret"          => $fb_secret, 
-                     "showLikeButtons" => $fb_showLikeButtons);
+                     "secret"          => $fb_secret);
     }
     
     /** initFacebook
@@ -132,12 +126,14 @@ class UNL_UCBCN_FacebookInstance
      * displays a facebook "like" box.
      * 
      * @param string $url = the request uri of the event.
+     * @param int $calID  = The calendar ID.
      * 
      * @return string The HTML for the facebook "like" box.
      **/
-    function like($url)
+    function like($url,$calID)
     {
-        if ($this->showLikeButtons) {
+        $this->loadAccount($calID);
+        if ($this->account->show_like_buttons) {
             return "<iframe src='http://www.facebook.com/plugins/like.php?href=".urlencode(UNL_UCBCN::getBaseURL().$url)."&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80' scrolling='no' frameborder='0' style='border:none; overflow:hidden; width:450px; height:80px;' allowTransparency='true'></iframe>";
         }
     }
