@@ -14,6 +14,9 @@
  * TODO: Create JSON encoded Location info for Facebook.
  */
 
+//Require the PHP facebook SDK
+require_once dirname(dirname(dirname((dirname(__file__))))).'/facebook/src/facebook.php';
+
 /**
  * Facebook integration class.
  * This class contains methods for creating and updating facebook events.
