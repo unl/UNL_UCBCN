@@ -1621,6 +1621,13 @@
     <notnull>true</notnull>
     <default>false</default>
    </field>
+   
+   <field>
+    <name>show_like_buttons</name>
+    <type>boolean</type>
+    <notnull>true</notnull>
+    <default>false</default>
+   </field>
 
   </declaration>
 
