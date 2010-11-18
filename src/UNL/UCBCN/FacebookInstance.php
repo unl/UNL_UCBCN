@@ -28,7 +28,6 @@
  */
 class UNL_UCBCN_FacebookInstance
 {
-    //Private vars.
     public $appID;
     public $secret;
     public $access_token;
@@ -58,10 +57,10 @@ class UNL_UCBCN_FacebookInstance
         $this->appID            = $config["appID"];
         $this->secret           = $config["secret"];
         
-        $this->facebookInterface = $this->initFacebook($this->appID,$this->secret);
-        $this->facebook = UNL_UCBCN::factory('facebook');
-        $this->facebook->eventdatetime_id = $id;
-        $this->eventdatetime = UNL_UCBCN::factory('eventdatetime');
+        $this->facebookInterface            = $this->initFacebook($this->appID, $this->secret);
+        $this->facebook                     = UNL_UCBCN::factory('facebook');
+        $this->facebook->eventdatetime_id   = $id;
+        $this->eventdatetime                = UNL_UCBCN::factory('eventdatetime');
         if ($this->eventdatetime->get($id)) {
             $number_of_rows = $this->facebook->find();
             while ($this->facebook->fetch()) {
@@ -106,8 +105,8 @@ class UNL_UCBCN_FacebookInstance
     /** initFacebook
      * Initializes a facebook interface object.
      * 
-     * @param int $appID = the facebook appID.
-     * @param int $secret = the facebook secret.
+     * @param int $appID the facebook appID.
+     * @param int $secret the facebook secret.
      * 
      * @return Facebook object (facebookInterface)
      **/
@@ -125,12 +124,12 @@ class UNL_UCBCN_FacebookInstance
     /** like
      * displays a facebook "like" box.
      * 
-     * @param string $url = the request uri of the event.
-     * @param int $calID  = The calendar ID.
+     * @param string $url   the request uri of the event.
+     * @param int    $calID The calendar ID.
      * 
      * @return string The HTML for the facebook "like" box.
      **/
-    function like($url,$calID)
+    function like($url, $calID)
     {
         $this->loadAccount($calID);
         if ($this->account->show_like_buttons) {
@@ -141,22 +140,25 @@ class UNL_UCBCN_FacebookInstance
     /** prepareFacebookEventTime
      * Computes the proper time to be given to facebook.
      * 
-     * @param int $time = unix formated time to be converted.
+     * @param int $time unix formated time to be converted.
      * 
-     * @return int - unix formated facebook time.
+     * @return int unix formated facebook time.
      **/
     function prepareFacebookEventTime($time)
     {
-        $localOffset     = date('Z',$time);
+        $localOffset     = date('Z', $time);
         $defaultTimezone = date_default_timezone_get();
 
         // Set to Los Angeles, (Facebook HQ)
         date_default_timezone_set('America/Los_Angeles');
-        $offset          = date('Z',$time);
-        
+        $offset          = date('Z', $time);
+
+        // Return to the default timezone.
         date_default_timezone_set($defaultTimezone);
         $dateTimeCurrent  = new DateTimeZone(date_default_timezone_get());
         $dateTimeFacebook = new DateTimeZone('America/Los_Angeles');
+
+        //Caculate the new time.
         $time             = $time-$offset*2+$localOffset;
         return $time;
     }
@@ -172,18 +174,22 @@ class UNL_UCBCN_FacebookInstance
     function updateEvent()
     {
         //Create an event for all calendars with this event.
-        $check = UNL_UCBCN::factory('calendar_has_event');
+        $check           = UNL_UCBCN::factory('calendar_has_event');
         $check->event_id = $this->event->id;
-        $rows = $check->find();
-        while ($check->fetch()) { //Loop though the calanders for this event.
+        $rows            = $check->find();
+        //Loop though the calanders for this event.
+        while ($check->fetch()) {
             $this->loadAccount($check->calendar_id);
-            if ($this->account->createEvents() && $check->status != "pending") { //Are we susposed to create events?
-                $facebook = UNL_UCBCN::factory('facebook');
+            //Are we susposed to create events?
+            if ($this->account->createEvents() && $check->status != "pending") {
+                //Find the facebook event.
+                $facebook                   = UNL_UCBCN::factory('facebook');
                 $facebook->eventdatetime_id = $this->facebook->eventdatetime_id;
-                $facebook->calendar_id = $check->calendar_id;
-                $rows = $facebook->find(true);
-                $this->facebook = $facebook;
-                if ($this->eventdatetime->recurringtype == "none"){
+                $facebook->calendar_id      = $check->calendar_id;
+                $rows                       = $facebook->find(true);
+                $this->facebook             = $facebook;
+                if ($this->eventdatetime->recurringtype == "none") {
+                    //Update the event or create a new one.
                     if (isset($this->facebook->facebook_id)) {
                         if ($this->event->approvedforcirculation && isset($this->facebook->facebook_id)) {
                             $this->updateFacebookEvent();
@@ -192,6 +198,7 @@ class UNL_UCBCN_FacebookInstance
                             $this->deleteEvent();
                         }
                     } else {
+                        //Facebook event was not found, we need to create a new one.
                         $this->createFacebookEvent();
                     }
                 }
@@ -213,22 +220,22 @@ class UNL_UCBCN_FacebookInstance
     function setLocation()
     {
         $this->location = $this->eventdatetime->getLocation()->streetaddress1 . " " 
-                                         . $this->eventdatetime->getLocation()->streetaddress2 . " "
-                                         . $this->eventdatetime->getLocation()->city . " "
-                                         . $this->eventdatetime->getLocation()->state . " "
-                                         . $this->eventdatetime->getLocation()->zip . " ";
+        . $this->eventdatetime->getLocation()->streetaddress2 . " "
+        . $this->eventdatetime->getLocation()->city . " "
+        . $this->eventdatetime->getLocation()->state . " "
+        . $this->eventdatetime->getLocation()->zip . " ";
     }
     
     /** loadAccount
      * loads the proper facebook Account based on calendar ID.
      * 
-     * @param int $calender_id
+     * @param int $calender_id = the calendar ID;
      * 
      * @return void
      **/
     function loadAccount($calender_id)
     {
-        $this->account = UNL_UCBCN::factory('facebook_accounts');
+        $this->account              = UNL_UCBCN::factory('facebook_accounts');
         $this->account->calendar_id = $calender_id;
         $this->account->find(true);
     }
@@ -242,24 +249,25 @@ class UNL_UCBCN_FacebookInstance
      **/
     function deleteEvent($recurringdate_id=null)
     {
-        $check = UNL_UCBCN::factory('calendar_has_event');
+        $check           = UNL_UCBCN::factory('calendar_has_event');
         $check->event_id = $this->event->id;
-        $rows = $check->find();
-        while ($check->fetch()) { //TODO: Move this loop to update(); inorder to prevent duplicates.
+        $rows            = $check->find();
+        //Loop though calendars with this event.
+        while ($check->fetch()) {
             //Set account.
             $this->loadAccount($check->calendar_id);
-            $this->facebook->calendar_id = $check->calendar_id;
-            $facebook = UNL_UCBCN::factory('facebook');
-            $facebook->eventdatetime_id = $this->facebook->eventdatetime_id;
-            $facebook->calendar_id = $check->calendar_id;
-            $rows = $facebook->find(true);
-            $this->facebook = $facebook;
+            //Get the facebook event
+            $facebook                    = UNL_UCBCN::factory('facebook');
+            $facebook->eventdatetime_id  = $this->facebook->eventdatetime_id;
+            $facebook->calendar_id       = $check->calendar_id;
+            $rows                        = $facebook->find(true);
+            $this->facebook              = $facebook;
             //check to see if it is a recurring event.
             if ($this->eventdatetime->recurringtype == "none") {
                 if (isset($this->facebook->facebook_id)) {
                     $result = $this->facebookInterface->api(
                         '/'.$this->facebook->facebook_id.'?method=delete&access_token='.$this->account->access_token,
-                         array('access_token' => $this->account->access_token),
+                        array('access_token' => $this->account->access_token),
                         'POST'
                     );
                     $this->facebook->delete();
@@ -280,11 +288,11 @@ class UNL_UCBCN_FacebookInstance
             '/'.$this->facebook->facebook_id,
             'post',
             array('access_token' => $this->account->access_token, 
-            'description' => $this->event->description . $this->getEventDescription(), 
-            'location' => $this->location,
-            'name' => $this->event->title,
-            'start_time' => $this->startTime,
-            'end_time' => $this->endTime)
+            'description'        => $this->event->description . $this->getEventDescription(), 
+            'location'           => $this->location,
+            'name'               => $this->event->title,
+            'start_time'         => $this->startTime,
+            'end_time'           => $this->endTime)
         );
         $this->facebook->update();
     }
@@ -322,17 +330,17 @@ class UNL_UCBCN_FacebookInstance
             $this->setLocation();
             try{
                 $result = $this->facebookInterface->api(
-                    '/'.$this->account->facebook_account.'/events',  //WTFFFF THE PROFILE ID APPARENTY DOES NOTHING
+                    '/'.$this->account->facebook_account.'/events',  //WUUUUUUT THE PROFILE ID APPARENTY DOES NOTHING
                     'post',
                     array('access_token' => $this->account->access_token, 
-                          'description' => $this->event->description . $this->getEventDescription(), 
-                          'location' => $this->location,
-                          'name' => $this->event->title,
-                          'start_time' => $this->startTime, //32400
-                          'end_time' => $this->endTime)
-                    );
-                    $this->facebook->facebook_id = (int)$result['id'];
-                    $this->facebook->insert();
+                          'description'  => $this->event->description . $this->getEventDescription(), 
+                          'location'     => $this->location,
+                          'name'         => $this->event->title,
+                          'start_time'   => $this->startTime,
+                          'end_time'     => $this->endTime)
+                );
+                $this->facebook->facebook_id = (int)$result['id'];
+                $this->facebook->insert();
             } catch (FacebookApiException $e) {
                 error_log($e);
             }
