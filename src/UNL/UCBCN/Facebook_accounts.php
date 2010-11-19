@@ -41,6 +41,7 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
     public $id;
     public $facebook_account;
     public $access_token;
+    public $page_name;
     public $calendar_id;
     public $create_events;
     public $show_like_buttons;
@@ -86,6 +87,7 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
             'id'=>129,
             'facebook_account'=>17,
             'access_token'=>66,
+            'page_name'=>129,
             'calendar_id'=>17,
             'create_events'=>17,
             'show_like_buttons'=>17,

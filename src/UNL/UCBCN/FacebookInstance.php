@@ -268,15 +268,49 @@ class UNL_UCBCN_FacebookInstance
             //check to see if it is a recurring event.
             if ($this->eventdatetime->recurringtype == "none") {
                 if (isset($this->facebook->facebook_id)) {
+                    $access = $this->getAccess();
+                    
                     $result = $this->facebookInterface->api(
-                        '/'.$this->facebook->facebook_id.'?method=delete&access_token='.$this->account->access_token,
-                        array('access_token' => $this->account->access_token),
+                        '/'.$this->facebook->facebook_id.'?method=delete&access_token='.$access['access_token'],
+                        array('access_token' => $access['access_token']),
                         'POST'
                     );
                     $this->facebook->delete();
                 }
             }
         }//cal loop.
+    }
+    
+    
+    function getAccess()
+    {
+ 
+        //$this->loadAccount(1);
+        //echo '/'.$this->account->facebook_account.'/accounts?access_token='.$this->account->access_token;
+        $result = $this->facebookInterface->api(
+            '/'.$this->account->facebook_account.'/accounts?access_token='.$this->account->access_token,
+                        array('access_token' => $this->account->access_token)
+        );
+        //print_r($result);
+        //print_r($result['data']);
+        $pageInfo = false; //return false if nothing was found.
+        for ($i=0; $i< count($result['data']); $i++) {
+            echo "page_name: " .$this->account->page_name;
+            if ($result['data'][$i]['name'] == $this->account->page_name) {
+                $pageInfo['name']         = $result['data'][$i]['name'];
+                $pageInfo['id']           = $result['data'][$i]['id'];
+                $pageInfo['access_token'] = $result['data'][$i]['access_token'];
+            }
+        }
+        print_r($pageInfo);
+        if($pageInfo){
+            $access['access_token'] = $pageInfo['access_token'];
+            $access['id']           = $pageInfo['id'];
+        }else{
+            $access['access_token'] = $this->account->access_token;
+            $access['id']           = $this->account->facebook_account;
+        }
+        return $access;
     }
 
     /** updaeFacebookEvent
@@ -286,11 +320,12 @@ class UNL_UCBCN_FacebookInstance
      **/
     function updateFacebookEvent()
     {
+        $access = $this->getAccess();
         $this->setLocation();
         $result = $this->facebookInterface->api(
-            '/'.$this->facebook->facebook_id,
+            '/'.$access['id'],
             'post',
-            array('access_token' => $this->account->access_token, 
+            array('access_token' => $access['access_token'], 
             'description'        => $this->event->description . $this->getEventDescription(), 
             'location'           => $this->location,
             'name'               => $this->event->title,
@@ -331,11 +366,12 @@ class UNL_UCBCN_FacebookInstance
     {
         if (!isset($this->facebook->facebook_id)) { //Check to see if an event has already been made.
             $this->setLocation();
+            $access = $this->getAccess();
             try{
                 $result = $this->facebookInterface->api(
-                    '/'.$this->account->facebook_account.'/events',  //WUUUUUUT THE PROFILE ID APPARENTY DOES NOTHING
+                    '/'.$access['id'].'/events',  //WUUUUUUT THE PROFILE ID APPARENTY DOES NOTHING
                     'post',
-                    array('access_token' => $this->account->access_token, 
+                    array('access_token' => $access['access_token'], 
                           'description'  => $this->event->description . $this->getEventDescription(), 
                           'location'     => $this->location,
                           'name'         => $this->event->title,
