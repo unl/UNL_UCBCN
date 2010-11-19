@@ -1607,6 +1607,14 @@
    </field>
    
    <field>
+    <name>page_name</name>
+    <type>text</type>
+    <length>30</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+   
+   <field>
     <name>calendar_id</name>
     <type>integer</type>
     <unsigned>true</unsigned>
