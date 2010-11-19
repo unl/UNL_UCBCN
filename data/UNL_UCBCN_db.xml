@@ -1569,6 +1569,14 @@
     <notnull>true</notnull>
     <default>0</default>
    </field>
+   
+   <field>
+    <name>page_name</name>
+    <type>text</type>
+    <length>30</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
 
   </declaration>
 
