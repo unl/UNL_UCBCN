@@ -40,6 +40,7 @@ class UNL_UCBCN_Facebook extends DB_DataObject
     public $facebook_id;
     public $eventdatetime_id;
     public $calendar_id;
+    public $page_name;
     
 
     
@@ -78,6 +79,7 @@ class UNL_UCBCN_Facebook extends DB_DataObject
             'facebook_id'=>129,
             'eventdatetime_id'=>129,
             'calendar_id'=>129,
+            'page_name'=>130,
         );
     }
     

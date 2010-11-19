@@ -281,32 +281,38 @@ class UNL_UCBCN_FacebookInstance
         }//cal loop.
     }
     
-    
+    /** deleteEvent
+     * Determins the proper access method for the event. Either account or page access.
+     * 
+     * @return array(access_token=>the access token, id=>the id, name=> the page name).
+     **/
     function getAccess()
     {
- 
-        //$this->loadAccount(1);
-        //echo '/'.$this->account->facebook_account.'/accounts?access_token='.$this->account->access_token;
+        //Get page info from facebook.
         $result = $this->facebookInterface->api(
             '/'.$this->account->facebook_account.'/accounts?access_token='.$this->account->access_token,
                         array('access_token' => $this->account->access_token)
         );
-        //print_r($result);
-        //print_r($result['data']);
         $pageInfo = false; //return false if nothing was found.
+        //Check results for the page that you are looking for.
         for ($i=0; $i< count($result['data']); $i++) {
-            echo "page_name: " .$this->account->page_name;
-            if ($result['data'][$i]['name'] == $this->account->page_name) {
+            if (isset($result['data'][$i]['name']) && ($result['data'][$i]['name'] == $this->account->page_name)) {
                 $pageInfo['name']         = $result['data'][$i]['name'];
                 $pageInfo['id']           = $result['data'][$i]['id'];
                 $pageInfo['access_token'] = $result['data'][$i]['access_token'];
             }
         }
-        print_r($pageInfo);
-        if($pageInfo){
+        //If the event has already been set up, but by account, use the account access.
+        if (isset($this->facebook->facebook_id) && !isset($this->facebook->page_name)) {
+            $pageInfo = false;
+        }
+        if ($pageInfo) {
+            //We are going to edit using the page access info.
             $access['access_token'] = $pageInfo['access_token'];
             $access['id']           = $pageInfo['id'];
-        }else{
+            $access['page_name']    = $pageInfo['name'];
+        } else {
+            //We are going to edit using the account access info.
             $access['access_token'] = $this->account->access_token;
             $access['id']           = $this->account->facebook_account;
         }
@@ -378,6 +384,10 @@ class UNL_UCBCN_FacebookInstance
                           'start_time'   => $this->startTime,
                           'end_time'     => $this->endTime)
                 );
+                if(isset($access['page_name'])){
+                    $this->facebook->page_name = $access['page_name'];
+                    echo "pgggge" . $access['page_name'];
+                }
                 $this->facebook->facebook_id = (int)$result['id'];
                 $this->facebook->insert();
             } catch (FacebookApiException $e) {
