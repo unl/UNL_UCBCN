@@ -329,7 +329,7 @@ class UNL_UCBCN_FacebookInstance
         $access = $this->getAccess();
         $this->setLocation();
         $result = $this->facebookInterface->api(
-            '/'.$access['id'].'/events',
+            '/'.$this->facebook->facebook_id,
             'post',
             array('access_token' => $access['access_token'], 
             'description'        => $this->event->description . $this->getEventDescription(), 
@@ -349,7 +349,7 @@ class UNL_UCBCN_FacebookInstance
     function getEventDescription()
     {
         //TODO: actually append the URL...
-        //return $this->event->description . "(Learn more at " . UNL_UCBCN::getFrontEndURL() . ")";
+        return $this->event->description . "(Learn more at " . UNL_UCBCN::getFrontEndURL() . ")";
         return $this->event->description;
     }
     
