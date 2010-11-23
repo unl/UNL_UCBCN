@@ -329,7 +329,7 @@ class UNL_UCBCN_FacebookInstance
         $access = $this->getAccess();
         $this->setLocation();
         $result = $this->facebookInterface->api(
-            '/'.$access['id'],
+            '/'.$access['id'].'/events',
             'post',
             array('access_token' => $access['access_token'], 
             'description'        => $this->event->description . $this->getEventDescription(), 
