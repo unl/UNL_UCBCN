@@ -36,7 +36,6 @@ class UNL_UCBCN_FacebookInstance
     public $access_token;
     public $profileID;
     public $showLikeButtons;
-    public $eventInstance;
     public $facebookInterface;
     public $startTime;
     public $endTime;
@@ -348,9 +347,22 @@ class UNL_UCBCN_FacebookInstance
      **/
     function getEventDescription()
     {
-        //TODO: actually append the URL...
-        return $this->event->description . "(Learn more at " . UNL_UCBCN::getFrontEndURL() . ")";
-        return $this->event->description;
+        //Compile the URL for the event...
+        $date = explode('-', $this->eventdatetime->starttime);
+        $day  = explode(' ', $date[2]);
+        $date    = array('y'=>$date[0],
+                      'm'=>$date[1],
+                      'd'=>$day[0],
+                      'eventdatetime_id'=>$this->eventdatetime->id);
+        //Get the path.
+        $folder = explode('/', $_SERVER["REQUEST_URI"]);
+        $path = "";
+        //Start from the begining of the request uri (ignoring the last two 'folders' (/manager/index.php....)
+        for($i=0; $i<(count($folder)-2); $i++){
+            $path .= $folder[$i] . "/";
+        }
+        $url = "http://".$_SERVER["SERVER_NAME"]."$path?y=".$date['y']."&m=".$date['m']."&eventdatetime_id=".$date['eventdatetime_id'];
+        return $this->event->description . "(Learn more at " . $url . ")";
     }
     
     /** getURL
