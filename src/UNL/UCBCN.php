@@ -186,46 +186,12 @@ class UNL_UCBCN
      *
      * @return int count
      */
-    public function getEventCount(UNL_UCBCN_Calendar $calendar,$status='posted')
+    public function getEventCount(UNL_UCBCN_Calendar $calendar, $status = 'posted')
     {
-        if ($status == 'posted') {
-            $e              = UNL_UCBCN::factory('calendar_has_event');
-            $e->calendar_id = $calendar->id;
-            $e->whereAdd("status != 'pending'");
-            $e->find();
-        } else {
-            $e              = UNL_UCBCN::factory('calendar_has_event');
-            $e->calendar_id = $calendar->id;
-            $e->status      = $status;
-        }
-        $count = 0;
-        $e->find();
-        $today = date('Y-m-d');
-        while ($e->fetch()) {
-            $rec           = UNL_UCBCN::factory('recurringdate');
-            $rec->event_id = $e->event_id;
-            $rec->whereAdd("ongoing = FALSE");
-            $rec->whereAdd("unlinked = FALSE");
-            if ($status == 'posted') {
-                $rec->whereAdd("recurringdate >= '$today'");
-            } else if ($status == 'archived') {
-                $rec->whereAdd("recurringdate < '$today'");
-            }
-            $found = $rec->find();
-            if ($found) {
-                $count += $found;
-            } else {
-                $edt = UNL_UCBCN::factory('eventdatetime');
-                $edt->event_id = $e->event_id;
-                $edt->find(true);
-                if ($edt->recurringtype == 'none' || $edt->recurringtype == '') {
-                    if ($e->status == $status) {
-                        $count++;
-                    }
-                }
-            }
-        }
-        return $count;
+        $e              = UNL_UCBCN::factory('calendar_has_event');
+        $e->calendar_id = $calendar->id;
+        $e->status      = $status;
+        return $e->find();
     }
     
     /**
