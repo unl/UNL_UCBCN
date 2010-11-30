@@ -268,12 +268,15 @@ class UNL_UCBCN_FacebookInstance
             if ($this->eventdatetime->recurringtype == "none") {
                 if (isset($this->facebook->facebook_id)) {
                     $access = $this->getAccess();
-                    
-                    $result = $this->facebookInterface->api(
-                        '/'.$this->facebook->facebook_id.'?method=delete&access_token='.$access['access_token'],
-                        array('access_token' => $access['access_token']),
-                        'POST'
-                    );
+                    try{
+                        $result = $this->facebookInterface->api(
+                            '/'.$this->facebook->facebook_id.'?method=delete&access_token='.$access['access_token'],
+                            array('access_token' => $access['access_token']),
+                            'POST'
+                        );
+                    } catch (FacebookApiException $e) {
+                        error_log($e);
+                    }
                     $this->facebook->delete();
                 }
             }
@@ -327,16 +330,20 @@ class UNL_UCBCN_FacebookInstance
     {
         $access = $this->getAccess();
         $this->setLocation();
-        $result = $this->facebookInterface->api(
-            '/'.$this->facebook->facebook_id,
-            'post',
-            array('access_token' => $access['access_token'], 
-            'description'        => $this->event->description . $this->getEventDescription(), 
-            'location'           => $this->location,
-            'name'               => $this->event->title,
-            'start_time'         => $this->startTime,
-            'end_time'           => $this->endTime)
-        );
+        try{
+            $result = $this->facebookInterface->api(
+                '/'.$this->facebook->facebook_id,
+                'post',
+                array('access_token' => $access['access_token'], 
+                'description'        => $this->event->description . $this->getEventDescription(), 
+                'location'           => $this->location,
+                'name'               => $this->event->title,
+                'start_time'         => $this->startTime,
+                'end_time'           => $this->endTime)
+            );
+        } catch (FacebookApiException $e) {
+            error_log($e);
+        }
         $this->facebook->update();
     }
     
