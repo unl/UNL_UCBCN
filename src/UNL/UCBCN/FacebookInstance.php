@@ -370,7 +370,7 @@ class UNL_UCBCN_FacebookInstance
             $path .= $folder[$i] . "/";
         }
         $url = "http://".$_SERVER["SERVER_NAME"]."$path?y=".$date['y']."&m=".$date['m']."&eventdatetime_id=".$date['eventdatetime_id'];
-        return $this->event->description . "(Learn more at " . $url . ")";
+        return $this->event->description . "\n\nLearn more at " . $url;
     }
     
     /** getURL
