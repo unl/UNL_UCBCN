@@ -355,13 +355,6 @@ class UNL_UCBCN_FacebookInstance
      **/
     function getEventDescription()
     {
-        //Compile the URL for the event...
-        $date = explode('-', $this->eventdatetime->starttime);
-        $day  = explode(' ', $date[2]);
-        $date    = array('y'=>$date[0],
-                      'm'=>$date[1],
-                      'd'=>$day[0],
-                      'eventdatetime_id'=>$this->eventdatetime->id);
         //Get the path.
         $folder = explode('/', $_SERVER["REQUEST_URI"]);
         $path = "";
@@ -369,7 +362,8 @@ class UNL_UCBCN_FacebookInstance
         for($i=0; $i<(count($folder)-2); $i++){
             $path .= $folder[$i] . "/";
         }
-        $url = "http://".$_SERVER["SERVER_NAME"]."$path?y=".$date['y']."&m=".$date['m']."&eventdatetime_id=".$date['eventdatetime_id'];
+        $e = new UNL_UCBCN_EventInstance($this->eventdatetime->id);
+        $url = "http://".$_SERVER["SERVER_NAME"].$path.html_entity_decode($e->url);
         return $this->event->description . "\n\nLearn more at " . $url;
     }
     
