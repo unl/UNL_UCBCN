@@ -148,21 +148,22 @@ class UNL_UCBCN_FacebookInstance
      **/
     function prepareFacebookEventTime($time)
     {
-        $localOffset     = date('Z', $time);
-        $defaultTimezone = date_default_timezone_get();
-
-        // Set to Los Angeles, (Facebook HQ)
-        date_default_timezone_set('America/Los_Angeles');
-        $offset          = date('Z', $time);
-
-        // Return to the default timezone.
-        date_default_timezone_set($defaultTimezone);
-        $dateTimeCurrent  = new DateTimeZone(date_default_timezone_get());
-        $dateTimeFacebook = new DateTimeZone('America/Los_Angeles');
-
-        //Caculate the new time.
-        $time             = $time-$offset*2+$localOffset;
-        return $time;
+        $d = new Date($time);
+        
+        //Get the timezone offset in seconds.
+        $original = $d->getTZOffset()/1000;
+        
+        //Convert to Los_angeles timezone where the facebook servers are located.
+        $timezone = new Date_TimeZone('America/Los_Angeles');
+        $d->convertTZ($timezone);
+        
+        //Get the timezone offset in seconds.
+        $new = $d->getTZOffset()/1000;
+        
+        //Calculate the difference in seconds between the two timezones.
+        $newOffset = $original - $new;
+ 
+        return $d->getTime()+$newOffset;
     }
     
     /** updateEvent
