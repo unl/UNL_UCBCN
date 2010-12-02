@@ -2158,6 +2158,7 @@
     <name>recurringdate</name>
     <type>date</type>
     <notnull>true</notnull>
+    <default>1970-01-01</default>
    </field>
    
    <field>
