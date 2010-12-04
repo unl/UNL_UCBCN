@@ -235,9 +235,6 @@ class UNL_UCBCN_setup_postinstall
             return false;
         }
         
-        //Ugly hack to fix error: MDB2_Schema Error: schema validation error default value of "recurringdate" is incorrect: "" is not of type "date"
-        $fix = $db->query("ALTER TABLE recurringdate MODIFY recurringdate INT");
-        
         if ((substr($this->dsn, 0, 5)) == 'mysql') {
             // Use UTF-8 always
             $db->exec('SET NAMES "utf8";');
