@@ -70,8 +70,9 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 	                                        'datelastupdated',
 	                                        'uidlastupdated',
 	                                        'externalforms');
-    public  $fb_fieldLabels       = array('eventreleasepreference' => 'Event Release Preference',
-	                                      'shortname'  => 'Short Name (this will change your calendar web address)',
+    public  $fb_fieldLabels       = array('name' => 'Name*',
+                                          'eventreleasepreference' => 'Event Release Preference',
+	                                      'shortname'  => 'Short Name* (this will change your calendar web address and must be only numbers and/or lowercase letters)',
 	                                      'emaillists' => 'Email Lists (separated by commas)',
                                           'recommendationswithinaccount' => 'Allow event recommendations within this account',
     									  'theme' => 'Theme (preview available themes <a href="http://jqueryui.com/themeroller/#themeGallery" target="_blank">here</a>)');
