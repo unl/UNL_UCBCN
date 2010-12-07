@@ -139,8 +139,14 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     
     public function postGenerateForm(&$form, &$formBuilder)
     {
+        $additional = true;
         $el =& $form->getElement('shortname');
-        $el->freeze();
+        if (!isset($_GET['calendar_id']) && $_GET['calendar_id'] != 'new' && $_GET['action'] != 'newCal') {
+            $additional = false;
+        }
+        
+        if (!$additional)
+            $el->freeze();
         
         $date = date('Y-m-d H:i:s');
         
