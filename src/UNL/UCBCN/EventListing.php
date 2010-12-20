@@ -235,20 +235,25 @@ class UNL_UCBCN_EventListing
      * Constructs a list of ongoing events.
      *
      * @param array $options Associative array of options, year, month, day, orderby
+     * @param array $oar     Events which are ongoing and recurring
      * 
      * @return void
      */
     public function constructOngoingEventList($options, $oar)
     {
         $this->type = 'ongoing';
+
         include_once 'Calendar/Day.php';
+
         $day           = new Calendar_Day($options['year'], $options['month'], $options['day']);
         $eventdatetime = UNL_UCBCN::factory('eventdatetime');
+
+        $orderby = 'eventdatetime.starttime ASC';
         if (isset($options['orderby'])) {
-            $orderby =     $options['orderby'];
-        } else {
-            $orderby = 'eventdatetime.starttime ASC';
+            $orderby = $options['orderby'];
         }
+
+        $calendar = null;
         if (isset($options['calendar'])) {
             $calendar =& $options['calendar'];
             $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM calendar_has_event,eventdatetime ' .
@@ -259,15 +264,16 @@ class UNL_UCBCN_EventListing
                                     'AND eventdatetime.endtime >= \''.date('Y-m-d', $day->getTimestamp()).'\' ' .
                             'ORDER BY '.$orderby);
         } else {
-            $calendar = null;
             $eventdatetime->whereAdd('starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).'%\'');
             $eventdatetime->orderBy($orderby);
             $eventdatetime->find();
         }
+
         while ($eventdatetime->fetch()) {
             // Populate the events to display.
             $this->events[] = new UNL_UCBCN_EventInstance($eventdatetime, $calendar);
         }
+
         while (count($oar)) {
             $this->events[] = array_shift($oar);
         }
