@@ -224,8 +224,10 @@ class UNL_UCBCN_EventListing
             $event =& $this->events[];
             // Populate the events to display.
             $event = new UNL_UCBCN_EventInstance($row[0], $calendar);
+
             // Check recurrence flag
-            if ($row[2]) {
+            if (isset($row[2])
+                && $row[2]) {
                 $event->fixRecurringEvent($event, $row[1]);
             }
         }
