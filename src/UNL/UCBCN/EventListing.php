@@ -91,13 +91,14 @@ class UNL_UCBCN_EventListing
         $day           = new Calendar_Day($options['year'], $options['month'], $options['day']);
         $eventdatetime = UNL_UCBCN::factory('eventdatetime');
         $recurringdate = UNL_UCBCN::factory('recurringdate');
+        $orderby       = 'eventdatetime.starttime ASC';
+
         if (isset($options['orderby'])) {
             $orderby =     $options['orderby'];
-        } else {
-            $orderby = 'eventdatetime.starttime ASC';
         }
+
         // determine if there are any recurring dates
-        $rstr = array();
+        $rstr = array('', '');
         $recurringdate->query('SELECT * FROM recurringdate');
         if ($recurringdate->fetch()) {
             $rstr[0]  = ', recurringdate ';
@@ -106,10 +107,10 @@ class UNL_UCBCN_EventListing
                         'OR (eventdatetime.event_id = recurringdate.event_id ' .
                             'AND recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\'' .
                             'AND recurringdate.unlinked = FALSE)';
-        } else {
-            $rstr[0] = '';
-            $rstr[1] = '';
         }
+
+        $calendar = null;
+
         if (isset($options['calendar'])) {
             $calendar =& $options['calendar'];
             $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM calendar_has_event,eventdatetime '.$rstr[0].
@@ -120,7 +121,6 @@ class UNL_UCBCN_EventListing
                                     $rstr[1] . ') ' .
                             'ORDER BY '.$orderby);
         } else {
-            $calendar = null;
             //$eventdatetime->whereAdd('starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).'%\'');
             //$eventdatetime->orderBy($orderby);
             //$eventdatetime->find();
@@ -128,6 +128,7 @@ class UNL_UCBCN_EventListing
                                   'WHERE eventdatetime.starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).
                                   '%\' '.$rstr[1]);
         }
+
         while ($eventdatetime->fetch()) {
             // Populate the events to display.
             $event =& $this->events[];
