@@ -43,16 +43,7 @@ require_once 'MDB2.php';
  */
 class UNL_UCBCN
 {
-    /**
-     * The template chosen to display in, defaults to default.
-     * @var string $template
-     */
-    public $template;
-    /**
-     * The filesystem path to the templates.
-     * @var string $template_path
-     */
-    public $template_path;
+
     /**
      * A string containing connection details in the format
      *  dbtype://user:pass@www.example.com:port/database
@@ -64,23 +55,7 @@ class UNL_UCBCN
      * @var int $default_calendar
      */
     public $default_calendar_id = 1;
-    
-    /**
-     * input filters
-     */
-    protected static $input_filters = array();
-    
-    /**
-     * output filters
-     */
-    protected static $output_filters = array();
-    
-    /**
-     * Cache object for output caching
-     * 
-     * @var UNL_UCBCN_CachingService
-     */
-    static protected $cache;
+
     
     /**
      * Constructor for the UCBCN object, initializes member variables and sets up
@@ -88,8 +63,7 @@ class UNL_UCBCN
      *
      * @param array $options Associative array of options to set for the class.
      */
-    public function __construct($options=array('dsn'=>'@DSN@',
-                                               'template_path'=>''))
+    public function __construct($options=array('dsn'=>'@DSN@'))
     {
         $this->setOptions($options);
         $this->setupDBConn();
@@ -136,8 +110,6 @@ class UNL_UCBCN
         foreach ($options as $option=>$val) {
             if (property_exists($this, $option)) {
                 switch($option) {
-                case 'template':
-                case 'template_path':
                 case 'frontenduri':
                 case 'manageruri':
                 case 'uri':
@@ -157,27 +129,7 @@ class UNL_UCBCN
             }
         }
     }
-    
-    /**
-     * adds an input filter to this controller, the filter will be called whenever input is processed
-     *
-     * @param UNL_UCBCN_Filter $filter a filter object used for filtering input
-     */
-    public static function addInputFilter(UNL_UCBCN_Filter $filter)
-    {
-        self::$input_filters[] = $filter;
-    }
-    
-    /**
-     * adds an output filter to this controller, the filter will be called whenever output is sent
-     *
-     * @param UNL_UCBCN_Filter $filter a filter object used for filtering input
-     */
-    public static function addOutputFilter(UNL_UCBCN_Filter $filter)
-    {
-        self::$output_filters[] = $filter;
-    }
-    
+
     /**
      * This function gets the count of events for the given status.
      *
@@ -283,176 +235,7 @@ class UNL_UCBCN
         return new UNL_UCBCN_Error('The permission you requested to check for \''
                                    . $permission_name . '\', does not exist.');
     }
-    
-    /**
-     * Simple function which displays the error to the end user.
-     *
-     * @param string $description Description of the error.
-     *
-     * @return void
-     */
-    public function showError($description)
-    {
-        self::displayRegion($description);
-    }
-    
-    /**
-     * The heart of the template/display portions of this system.
-     * A simple function which renders the given content using a savant
-     * formatted template based on the type of the object.
-     * IE:     strings and ints get echoed
-     *         objects use a corresponding savant template,
-     *         arrays get rendered one by one
-     *
-     * For caching support the object being outputted must implement
-     * three methods:
-     * getCacheKey()                Return a unique string for the object/output.
-     * preRun(bool $cache_hit)      Function which will be called before run
-     *                              (implement cache hit recording here and header()
-     *                              output)
-     * run()                        This function must populate the object and get
-     *                              it prepped for output.
-     *
-     * @param mixed $mixed  The content to send out.
-     * @param bool  $return Whether to output or return the content.
-     *
-     * @return void
-     */
-    static public function displayRegion($mixed, $return = false)
-    {
-        if (is_array($mixed)) {
-            return self::displayArray($mixed, $return);
-        }
-        
-        if (is_object($mixed)) {
-            return self::displayObject($mixed, $return);
-        }
-        
-        if ($return) {
-            return $mixed;
-        }
-        
-        echo $mixed;
-        return true;
-    }
 
-    /**
-     * Iterate over an array of content, and display
-     *
-     * @param array $array  The array of mixed content to display
-     * @param bool  $return Whether to return or send to output
-     * 
-     * @return mixed
-     */
-    static function displayArray($array, $return = false)
-    {
-        $output = '';
-        foreach ($array as $mixed) {
-            if ($return) {
-                $output .= self::displayRegion($mixed, true);
-            } else {
-                self::displayRegion($mixed, false);
-            }
-        }
-        
-        if ($return) {
-            return $output;
-        }
-        
-        return true;
-    }
-    
-    static function displayObject($object, $return = false)
-    {
-        if ($object instanceof UNL_UCBCN_Cacheable) {
-            $key = $object->getCacheKey();
-            
-            // We have a valid key to store the output of this object.
-            if ($key !== false && $data = self::getCachingService()->get($key)) {
-                // Tell the object we have cached data and will output that.
-                $object->preRun(true);
-            } else {
-                // Content should be cached, but none could be found.
-                //flush();
-                ob_start();
-                $object->preRun(false);
-                $object->run();
-                
-                if ($return) {
-                    $data = self::sendObjectOutput($object, $return);
-                } else {
-                    self::sendObjectOutput($object, $return);
-                    $data = ob_get_contents();
-                }
-                
-                if ($key !== false) {
-                    self::getCachingService()->save($data, $key);
-                }
-                ob_end_clean();
-            }
-            
-            if ($object instanceof UNL_UCBCN_PostRunFiltering) {
-                $data = $object->postRun($data);
-            }
-            
-            if ($return) {
-                return $data;
-            }
-            
-            echo $data;
-            return true;
-        }
-        
-        return self::sendObjectOutput($object, $return);
-
-    }
-    
-    /**
-     * Prepares an object for output, and displays it with a corresponding template.
-     *
-     * This function is an output controller, which takes public member variables
-     * from an object and populates a Savant template with equivalent member
-     * variables.
-     *
-     * @param mixed $object Object with content to send out.
-     * @param bool  $return Whether to return rendered content or send to output
-     *
-     * @return void
-     */
-    static protected function sendObjectOutput($object, $return = false)
-    {
-        global $_UNL_UCBCN;
-        include_once 'Savant3.php';
-        $savant = new Savant3();
-        if (!empty($_UNL_UCBCN['template_path'])) {
-            $savant->addPath('template', $_UNL_UCBCN['template_path']);
-        } else {
-            $savant->addPath('template', 'templates/default');
-            if ($_UNL_UCBCN['template'] != 'default') {
-                $savant->addPath('template', 'templates/'.$_UNL_UCBCN['template']);
-            }
-        }
-        $savant->assign($object);
-        if ($object instanceof ArrayAccess) {
-            foreach ($object->toArray() as $key=>$val) {
-                $savant->$key = $val;
-            }
-        }
-        if ($object instanceof Exception) {
-            $savant->code    = $object->getCode();
-            $savant->line    = $object->getLine();
-            $savant->file    = $object->getFile();
-            $savant->message = $object->getMessage();
-            $savant->trace   = $object->getTrace();
-        }
-        $templatefile = self::getTemplateFilename(get_class($object));
-        if ($return) {
-            return $savant->fetch($templatefile);
-        }
-        $savant->display($templatefile);
-        return true;
-    }
-    
     /**
      * This function adds the given permission for the user.
      *
@@ -766,26 +549,7 @@ class UNL_UCBCN
 
         return $absoluteUri;
     }
-    
-    /**
-     * This function takes in a class name and returns the correct template
-     * for the object.
-     *
-     * @param string $cname the name of the class to get the template for
-     *
-     * @return string Filename of the output template to use for the given class.
-     */
-    public static function getTemplateFilename($cname)
-    {
-        global $_UNL_UCBCN;
-        if (isset($_UNL_UCBCN['output_template'][$cname])) {
-            $cname = $_UNL_UCBCN['output_template'][$cname];
-        }
-        $cname = str_replace('UNL_UCBCN_', '', $cname);
-        $templatefile = $cname . '.tpl.php';
-        return $templatefile;
-    }
-    
+
     /**
      * Gets an MDB2 connection object and returns it.
      *
@@ -805,24 +569,7 @@ class UNL_UCBCN
 
         return $mdb2;
     }
-    
-    /**
-     * Gets or sets the output template for a given class.
-     *
-     * @param string $cname        Name of the class to set/get template for.
-     * @param string $templatename Name of the template to use.
-     *
-     * @return string
-     */
-    public static function outputTemplate($cname, $templatename=null)
-    {
-        global $_UNL_UCBCN;
-        if (isset($templatename)) {
-            $_UNL_UCBCN['output_template'][$cname] = $templatename;
-        }
-        return UNL_UCBCN::getTemplateFilename($cname);
-    }
-    
+
     /**
      * Returns the URL for the calendar system.
      *
@@ -863,33 +610,7 @@ class UNL_UCBCN
         $r = $mdb2->exec($q);
         return $r;
     }
-    
-    /**
-     * Cleans the cache.
-     *
-     * @param mixed $object Pass a cached object to clean it's cache, or a string id.
-     *
-     * @return bool true if cache was successfully cleared.
-     */
-    public function cleanCache($object = null)
-    {
-        return self::getCachingService()->clean($object);
-    }
-    
-    static public function setCachingService(UNL_UCBCN_CachingService $cache)
-    {
-        self::$cache = $cache;
-    }
-    
-    static public function getCachingService()
-    {
-        if (!isset(self::$cache)) {
-            include_once 'UNL/UCBCN/CachingService/CacheLite.php';
-            self::$cache = new UNL_UCBCN_CachingService_CacheLite();
-        }
-        return self::$cache;
-    }
-    
+
     /**
      * This function determines if a user can edit the details of a specific event.
      *
