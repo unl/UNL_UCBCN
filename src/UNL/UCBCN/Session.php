@@ -23,8 +23,8 @@
  */
 class UNL_UCBCN_Session extends DB_DataObject
 {
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+
+
 
     public $__table = 'session';                         // table name
     public $user_uid;                        // string(255)  not_null primary_key
@@ -34,8 +34,8 @@ class UNL_UCBCN_Session extends DB_DataObject
 
 
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
+
+
     
     function table()
     {
