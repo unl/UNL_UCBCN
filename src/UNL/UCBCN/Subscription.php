@@ -51,22 +51,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    
-    public $fb_fieldLabels  = array('automaticapproval'=>'Automatically approve events (send to posted)?',
-                                    'expirationdate'=>'Expiration Date',
-                                    'name'=>'Subscription Title');
-    public $fb_enumFields   = array('automaticapproval');
-    public $fb_enumOptions  = array('automaticapproval'=>array('No (send to pending)','Yes (send to posted)'));
-    public $fb_hiddenFields = array('datecreated',
-                                    'uidcreated',
-                                    'datelastupdated',
-                                    'uidlastupdated',
-                                    'calendar_id',
-                                    'timeperiod',
-                                    'expirationdate');
-    public $fb_linkElementTypes = array('automaticapproval'=>'radio');
-    
+
     function table()
     {
         return array(
@@ -102,31 +87,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
                      'uidcreated'     => 'user:uid',
                      'uidlastupdated' => 'user:uid');
     }
-    
-    /**
-     * Called before the form is generated.
-     *
-     * @param object &$fb Formbuilder object.
-     *
-     * @return void
-     */
-    public function preGenerateForm(&$fb)
-    {
-        global $_UNL_UCBCN;
-        foreach ($this->fb_hiddenFields as $el) {
-            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden', $fb->elementNamePrefix.$el.$fb->elementNamePostfix);
-        }
-        
-        $calendars = UNL_UCBCN::factory('calendar');
-        $calendars->orderBy('name');
-        if ($calendars->find()) {
-            while ($calendars->fetch()) {
-                $cal_opts[$calendars->id] = $calendars->name;
-            }
-        }
-        $this->fb_preDefElements['searchcriteria'] = HTML_QuickForm::createElement('select', 'searchcriteria', 'Events Posted to the Calendar(s)', $cal_opts, 'multiple');
-    }
-    
+
     /**
      * Translates search criteria into calendars.
      *
@@ -148,56 +109,7 @@ class UNL_UCBCN_Subscription extends DB_DataObject
         }
         return $cals;
     }
-    
-    /**
-     * Called after the form is generated for form modifications.
-     *
-     * @param HTML_QuickForm            &$form        The form object
-     * @param DB_DataObject_FormBuilder &$formBuilder Formbuilder object
-     *
-     * @return void
-     */
-    public function postGenerateForm(&$form, &$formBuilder)
-    {
-        $form->insertElementBefore(HTML_QuickForm::createElement('static', 'intro', '<p>Subscribe to events that match the following criteria:</p>'), 'searchcriteria');
-        
-        $date = date('Y-m-d H:i:s');
-        
-        $defaults = array('datecreated'     => $date,
-                          'datelastupdated' => $date,
-                          'expirationdate'  => '',
-                          'timeperiod'      => '');
-        
-        if (!empty($this->datecreated)) {
-            $defaults['datecreated'] = $this->datecreated;
-        }
-        
-        $form->setDefaults($defaults);
-    }
-    
-    /**
-     * Called before the form is processed to modify certain values.
-     *
-     * @param array  &$values      Associative array of values posted.
-     * @param object &$formBuilder Formbuilder object.
-     *
-     * @return void
-     */
-    public function preProcessForm(&$values, &$formBuilder)
-    {
-        if (isset($_SESSION['calendar_id'])) {
-            $values['calendar_id'] = $_SESSION['calendar_id'];
-        }
-        if (isset($values['searchcriteria'])) {
-            $where = '';
-            foreach ($values['searchcriteria'] as $calendar_id) {
-                $where .= 'calendar_has_event.calendar_id='.intval($calendar_id).' OR ';
-            }
-            $where                   .= 'calendar_has_event.calendar_id = 0';
-            $values['searchcriteria'] = $where;
-        }
-    }
-    
+
     /**
      * Inserts a record into the subscription table, and processes the subscription
      * for matching events.

@@ -44,10 +44,7 @@ class UNL_UCBCN_Sponsor extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    public $fb_linkDisplayFields = array('name');
-    public $fb_linkNewValue      = true;
-    
+
     function table()
     {
         return array(
