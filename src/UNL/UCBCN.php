@@ -232,7 +232,7 @@ class UNL_UCBCN
             return $user_has_permission->find();
         }
 
-        return new UNL_UCBCN_Error('The permission you requested to check for \''
+        throw new UNL_UCBCN_UnexpectedValueException('The permission you requested to check for \''
                                    . $permission_name . '\', does not exist.');
     }
 
@@ -354,7 +354,9 @@ class UNL_UCBCN
      *
      * @param UNL_UCBCN_User $user User to get account for.
      *
-     * @return object UNL_UCBCN_Account on success UNL_UCBCN_Error on error.
+     * @throws UNL_UCBCN_UnexpectedValueException
+     *
+     * @return object UNL_UCBCN_Account on success
      */
     public function getAccount(UNL_UCBCN_User $user)
     {
@@ -425,7 +427,7 @@ class UNL_UCBCN
         // grant all permissions to this new user for this new calendar.
         if (!$calendar->addUser($user)) {
             // Setup default permissions...?
-            return new UNL_UCBCN_Error('No permissions could be added for '
+            throw new UNL_UCBCN_RuntimeException('No permissions could be added for '
                                     . 'the new user! Permissions need to'
                                     . ' be added to the permission table.');
         }
@@ -553,13 +555,13 @@ class UNL_UCBCN
     /**
      * Gets an MDB2 connection object and returns it.
      *
-     * @return object MDB2_Driver object on success, UNL_UCBCN_Error on error.
+     * @return object MDB2_Driver object on success
      */
     public function getDatabaseConnection()
     {
         $mdb2 =& MDB2::connect($this->dsn);
         if (PEAR::isError($mdb2)) {
-            return new UNL_UCBCN_Error($mdb2->getMessage());
+            throw new Exception($mdb2->getMessage());
         }
 
         if ((substr($this->dsn, 0, 5)) == 'mysql') {

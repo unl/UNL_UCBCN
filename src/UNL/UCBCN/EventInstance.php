@@ -70,7 +70,7 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
             if ($this->eventdatetime->get($edt)) {
                 $this->event = $this->eventdatetime->getLink('event_id');
             } else {
-                return new UNL_UCBCN_Error('Could not find that event instance.');
+                throw new UNL_UCBCN_UnexpectedValueException('Could not find that event instance.');
             }
         }
         if (isset($calendar)) {
