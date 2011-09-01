@@ -25,8 +25,8 @@
  */
 class UNL_UCBCN_Account extends DB_DataObject
 {
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+
+
 
     public $__table = 'account';                         // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -45,8 +45,8 @@ class UNL_UCBCN_Account extends DB_DataObject
     public $sponsor_id;                      // int(11)  not_null
     public $website;                         // string(255)
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
+
+
 
     /**
      * Adds a calendar under this account.

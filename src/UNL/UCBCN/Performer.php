@@ -23,8 +23,8 @@
  */
 class UNL_UCBCN_Performer extends DB_DataObject
 {
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+
+
 
     public $__table = 'performer';                       // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -42,8 +42,8 @@ class UNL_UCBCN_Performer extends DB_DataObject
 
 
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
+
+
     
     function links()
     {

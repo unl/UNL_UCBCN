@@ -24,8 +24,8 @@
  */
 class UNL_UCBCN_User extends DB_DataObject
 {
-    ###START_AUTOCODE
-    /* the code below is auto generated do not remove the above tag */
+
+
 
     public $__table = 'user';                            // table name
     public $uid;                             // string(100)  not_null primary_key
@@ -40,8 +40,8 @@ class UNL_UCBCN_User extends DB_DataObject
 
 
 
-    /* the code above is auto generated do not remove the tag below */
-    ###END_AUTOCODE
+
+
 
     function table()
     {
