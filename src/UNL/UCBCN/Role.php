@@ -31,8 +31,8 @@ class UNL_UCBCN_Role extends DB_DataObject
     public $name;                            // string(255)  not_null
     public $standard;                        // int(1)
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Role',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

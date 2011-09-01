@@ -30,8 +30,8 @@ class UNL_UCBCN_Keyword extends DB_DataObject
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)  not_null
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Keyword',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

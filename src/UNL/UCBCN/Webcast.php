@@ -36,8 +36,8 @@ class UNL_UCBCN_Webcast extends DB_DataObject
     public $bandwidth;                       // string(255)
     public $additionalinfo;                  // blob(4294967295)  blob
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Webcast',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

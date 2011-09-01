@@ -40,9 +40,6 @@ class UNL_UCBCN_Admissioninfo extends DB_DataObject
     public $deadline;                        // datetime(19)  binary
     public $opendate;                        // datetime(19)  binary
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Admissioninfo',$k,$v); }
-
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     

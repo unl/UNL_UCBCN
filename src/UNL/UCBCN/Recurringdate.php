@@ -12,8 +12,8 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     public $ongoing;                         // int(1)  
     public $unlinked;                        // int(1)
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Recurringdate',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

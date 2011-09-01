@@ -31,9 +31,6 @@ class UNL_UCBCN_Attendancerestriction extends DB_DataObject
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $description;                     // blob(4294967295)  blob
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Attendancerestriction',$k,$v); }
-
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
     

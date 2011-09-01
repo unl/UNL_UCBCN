@@ -45,8 +45,8 @@ class UNL_UCBCN_Location extends DB_DataObject
     public $phone;                           // string(50)
     public $standard;                        // int(1)
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Location',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
