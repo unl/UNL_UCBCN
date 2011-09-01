@@ -15,10 +15,6 @@
  * TODO: Add support for added to pages instead of just profiles.
  */
 
-/**
- * Require DB_DataObject to extend from it, as well as the backend UNL_UCBCN.
- */
-require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN.php';
 
 /**

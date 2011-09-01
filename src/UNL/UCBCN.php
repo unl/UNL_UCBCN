@@ -21,10 +21,6 @@
  * @link      http://code.google.com/p/unl-event-publisher/
  */
 
-/**
- * Dependencies on DB_DataObject Error object, Cache_Lite, and MDB2
- */
-require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN/Error.php';
 require_once 'Cache/Lite.php';
 require_once 'MDB2.php';

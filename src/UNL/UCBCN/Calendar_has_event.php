@@ -13,11 +13,6 @@
  */
 
 /**
- * Require DB_DataObject to extend from it.
- */
-require_once 'DB/DataObject.php';
-
-/**
  * Backend is required for UNL_UCBCN::factory
  */
 require_once 'UNL/UCBCN.php';

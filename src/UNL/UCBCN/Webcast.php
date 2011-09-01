@@ -13,10 +13,6 @@
  */
 
 /**
- * Require DB_DataObject to extend from it.
- */
-require_once 'DB/DataObject.php';
-/**
  * ORM for a record within the database.
  *
  * @package   UNL_UCBCN

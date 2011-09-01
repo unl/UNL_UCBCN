@@ -13,11 +13,6 @@
  */
 
 /**
- * Extend DB_DataObject
- */
-require_once 'DB/DataObject.php';
-
-/**
  * UNL_UCBCN_Account object stores information for an account record within
  * the database.
  *
