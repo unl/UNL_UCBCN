@@ -59,8 +59,8 @@ class UNL_UCBCN_Event extends DB_DataObject
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(100)
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Event',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

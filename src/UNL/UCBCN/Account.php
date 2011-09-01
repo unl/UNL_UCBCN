@@ -45,9 +45,6 @@ class UNL_UCBCN_Account extends DB_DataObject
     public $sponsor_id;                      // int(11)  not_null
     public $website;                         // string(255)
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Account',$k,$v); }
-
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 

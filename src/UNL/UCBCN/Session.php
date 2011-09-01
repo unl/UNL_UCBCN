@@ -31,8 +31,8 @@ class UNL_UCBCN_Session extends DB_DataObject
     public $lastaction;                      // datetime(19)  not_null binary
     public $data;                            // blob(4294967295)  blob
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Session',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

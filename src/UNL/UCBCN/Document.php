@@ -32,8 +32,8 @@ class UNL_UCBCN_Document extends DB_DataObject
     public $name;                            // string(100)
     public $url;                             // string(255)
 
-    /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Document',$k,$v); }
+
+
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
