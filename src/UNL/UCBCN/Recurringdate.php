@@ -1,9 +1,4 @@
 <?php
-/**
- * Table Definition for recurringdate
- */
-require_once 'DB/DataObject.php';
-
 class UNL_UCBCN_Recurringdate extends DB_DataObject 
 {
     ###START_AUTOCODE

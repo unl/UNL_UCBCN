@@ -16,10 +16,6 @@
  * TODO: Only create events if asked to by the user in the edit/create event page.
  */
 
-/**
- * Require DB_DataObject to extend from it, as well as the backend UNL_UCBCN.
- */
-require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN.php';
 
 /**

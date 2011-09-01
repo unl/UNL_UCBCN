@@ -12,10 +12,6 @@
  * @link      http://code.google.com/p/unl-event-publisher/
  */
 
-/**
- * Require DB_DataObject to extend from it, as well as the Calendar has event class.
- */
-require_once 'DB/DataObject.php';
 require_once 'UNL/UCBCN/Calendar_has_event.php';
 
 /**
