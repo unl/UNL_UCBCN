@@ -58,34 +58,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    public $fb_hiddenFields      = array(   'account_id',
-	                                        'uploadedcss',
-	                                        'uploadedxsl',
-	                                        'calendarstatus',
-	                                        'formatcalendardata',
-	                                        'calendardaterange',
-	                                        'datecreated',
-	                                        'uidcreated',
-	                                        'datelastupdated',
-	                                        'uidlastupdated',
-	                                        'externalforms');
-    public  $fb_fieldLabels       = array('name' => 'Name',
-                                          'eventreleasepreference' => 'Event Release Preference',
-	                                      'shortname'  => 'Short Name (this will change your calendar web address and must be only numbers and/or lowercase letters)',
-	                                      'emaillists' => 'Email Lists (separated by commas)',
-                                          'recommendationswithinaccount' => 'Allow event recommendations within this account',
-    									  'theme' => 'Theme (preview available themes <a href="http://jqueryui.com/themeroller/#themeGallery" target="_blank">here</a>)');
-    public  $fb_enumFields        = array('eventreleasepreference', 'theme');
-    public  $fb_enumOptions       = array('eventreleasepreference'=>array('Immediate','Pending'), 
-    									  'theme'=>array('base' => 'Base','black-tie' => 'Black Tie','blitzer' => 'Blitzer','cupertino' => 'Cupertino','dark-hive' => 'Dark Hive',
-    									  				 'dot-luv' => 'Dot Luv','eggplant' => 'Eggplant','excite-bike' => 'Excite Bike','flick' => 'Flick','hot-sneaks' => 'Hot Sneaks',
-    									  				 'humanity' => 'Humanity','le-frog' => 'Le Frog','mint-choc' => 'Mint Choc','overcast' => 'Overcast',
-    									  				 'pepper-grinder' => 'Pepper Grinder','redmond' => 'Redmond','smoothness' => 'Smoothness','south-street' => 'South Street',
-    									  				 'start' => 'Start','sunny' => 'Sunny','swanky-purse' => 'Swanky Purse','trontastic' => 'Trontastic',
-    									  				 'ui-darkness' => 'UI Darkness','ui-lightness' => 'UI Lightness','vader' => 'Vader'));
-    public  $fb_linkDisplayFields = array('name','shortname');
-    
+
     function table()
     {
         return array(
@@ -129,38 +102,7 @@ class UNL_UCBCN_Calendar extends DB_DataObject
                      'uidcreated'     => 'users:uid',
                      'uidlastupdated' => 'users:uid');
     }
-    
-    public function preGenerateForm(&$fb)
-    {
-        foreach ($this->fb_hiddenFields as $el) {
-            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
-        }
-        
-    }
-    
-    public function postGenerateForm(&$form, &$formBuilder)
-    {
-        $additional = true;
-        $el =& $form->getElement('shortname');
-        if (!isset($_GET['calendar_id']) && $_GET['calendar_id'] != 'new' && $_GET['action'] != 'newCal') {
-            $additional = false;
-        }
-        
-        if (!$additional)
-            $el->freeze();
-        
-        $date = date('Y-m-d H:i:s');
-        
-        $defaults = array('datecreated'     => $date,
-                          'datelastupdated' => $date);
-        
-        if (!empty($this->datecreated)) {
-            $defaults['datecreated'] = $this->datecreated;
-        }
-        
-        $form->setDefaults($defaults);
-    }
-    
+
     /**
      * Adds a user to the calendar. Grants all permissions to the
      * user for the current calendar.

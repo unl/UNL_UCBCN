@@ -42,13 +42,7 @@ class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    public $fb_hiddenFields         = array('event_id');
-    public $fb_excludeFromAutoRules = array('event_id');
-    public $fb_fieldLabels          = array('eventtype_id'=>'Event Type');
-    public $fb_addFormHeader        = false;
-    public $fb_formHeaderText       = 'Event Type';
-    
+
     function table()
     {
         return array(
@@ -74,35 +68,5 @@ class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
     {
         return array('event_id'     => 'event:id',
                      'eventtype_id' => 'eventtype:id');
-    }
-    
-    /**
-     * Called before the form is generated.
-     *
-     * @param object &$fb Formbuilder object.
-     *
-     * @return void
-     */
-    public function preGenerateForm(&$fb)
-    {
-        foreach ($this->fb_hiddenFields as $el) {
-            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden', $fb->elementNamePrefix.$el.$fb->elementNamePostfix);
-        }
-    }
-    
-    /**
-     * Called before the form is processed to modify values submitted.
-     *
-     * @param array  &$values      Associative array of values submitted.
-     * @param object &$formBuilder Formbuilder object.
-     *
-     * @return void
-     */
-    public function preProcessForm(&$values, &$formBuilder)
-    {
-        // Capture event_id foreign key if needed.
-        if (isset($GLOBALS['event_id'])) {
-            $values['event_id'] = $GLOBALS['event_id'];
-        }
     }
 }

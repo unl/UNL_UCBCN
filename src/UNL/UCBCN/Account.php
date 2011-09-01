@@ -55,40 +55,7 @@ class UNL_UCBCN_Account extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
-    public $fb_fieldLabels = array(
-                            'name'           => 'Account Name',
-                            'streetaddress1' => 'Address',
-                            'streetaddress2' => '',
-                            'sponsor_id'     => 'Sponsor'
-                            );
-    
-    public $fb_hiddenFields = array(
-                                'datecreated',
-                                'datelastupdated',
-                                'accountstatus');
 
-    public function preGenerateForm(&$fb)
-    {
-        foreach ($this->fb_hiddenFields as $el) {
-            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$el,$el);
-        }
-    }
-    
-    public function postGenerateForm(&$form, &$formBuilder)
-    {
-        $date = date('Y-m-d H:i:s');
-        
-        $defaults = array('datecreated'     => $date,
-                          'datelastupdated' => $date);
-        
-        if (!empty($this->datecreated)) {
-            $defaults['datecreated'] = $this->datecreated;
-        }
-        
-        $form->setDefaults($defaults);
-    }
-    
     /**
      * Adds a calendar under this account.
      *

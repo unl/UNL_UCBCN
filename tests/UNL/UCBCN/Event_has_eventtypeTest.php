@@ -55,25 +55,6 @@ class UNL_UCBCN_Event_has_eventtypeTest extends PHPUnit_Framework_TestCase {
         );
     }
 
-    /**
-     * @todo Implement testPreGenerateForm().
-     */
-    public function testPreGenerateForm() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
-
-    /**
-     * @todo Implement testPreProcessForm().
-     */
-    public function testPreProcessForm() {
-        // Remove the following line when you implement this test.
-        $this->markTestIncomplete(
-          "This test has not been implemented yet."
-        );
-    }
 }
 
 // Call UNL_UCBCN_Event_has_eventtypeTest::main() if this source file is executed directly.

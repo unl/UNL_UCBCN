@@ -40,13 +40,7 @@ class UNL_UCBCN_Event_has_sponsor extends DB_DataObject
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-	
-	public $fb_hiddenFields			    = array('event_id');
-    public $fb_excludeFromAutoRules	    = array('event_id');
-    public $fb_fieldLabels        		= array('sponsor_id'=>'Sponsor');
-    public $fb_addFormHeader			= false;
-    public $fb_formHeaderText			= 'Sponsor';
-    
+
     function table()
     {
         return array(
@@ -72,21 +66,6 @@ class UNL_UCBCN_Event_has_sponsor extends DB_DataObject
     {
         return array('event_id'   => 'event:id',
                      'sponsor_id' => 'sponsor:id');
-    }
-    
-    public function preGenerateForm(&$fb)
-    {
-    	foreach ($this->fb_hiddenFields as $el) {
-    		$this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
-    	}
-    }
-    
-    public function preProcessForm(&$values, &$formBuilder)
-    {
-    	// Capture event_id foreign key if needed.
-    	if (isset($GLOBALS['event_id'])) {
-    		$values['event_id'] = $GLOBALS['event_id'];
-    	}
     }
 
 }
