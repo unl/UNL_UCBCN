@@ -41,56 +41,61 @@ class UNL_UCBCN
 {
 
     /**
-     * A string containing connection details in the format
-     *  dbtype://user:pass@www.example.com:port/database
-     * @var string $dsn
-     */
-    public $dsn;
-    /**
      * Default calendar to use throughout the system.
      * @var int $default_calendar
      */
     public $default_calendar_id = 1;
 
-    
+    protected static $db_settings = array(
+        'host'     => 'localhost',
+        'user'     => 'eventcal',
+        'password' => 'eventcal',
+        'dbname'   => 'eventcal'
+    );
+
     /**
      * Constructor for the UCBCN object, initializes member variables and sets up
      * connection details for the database.
      *
      * @param array $options Associative array of options to set for the class.
      */
-    public function __construct($options=array('dsn'=>'@DSN@'))
+    public function __construct($options=array())
     {
         $this->setOptions($options);
-        $this->setupDBConn();
     }
-    
-    /**
-     * This function initializes the information used by the database
-     * connections.
-     *
-     * @return void
-     */
-    public function setupDBConn()
-    {
-        $dboptions = &PEAR::getStaticProperty('DB_DataObject', 'options');
-        $dboptions = array(
-            'database'          => $this->dsn,
-            'schema_autoload'   => true,
-            'autoload'          => true,
-            'class_location'    => dirname(__FILE__).'/UCBCN',
-            'require_prefix'    => dirname(__FILE__).'/UCBCN',
-            'class_prefix'      => 'UNL_UCBCN_',
-            'db_driver'         => 'MDB2',
-            'quote_identifiers' => true
-        );
 
-        if ((substr($this->dsn, 0, 5)) == 'mysql') {
-            // Use UTF-8 always
-            $db = new DB_DataObject();
-            $db->query('SET NAMES "utf8";');
-            unset($db);
+    public static function setDbSettings($settings = array())
+    {
+        self::$db_settings = $settings + self::$db_settings;
+    }
+
+    public static function getDbSettings()
+    {
+        if (empty(self::$db_settings)) {
+            self::setDbSettings();
         }
+
+        return self::$db_settings;
+    }
+
+    /**
+     * Connect to the database and return it
+     *
+     * @return mysqli
+     */
+    public static function getDB()
+    {
+        static $db = false;
+        if (!$db) {
+            $settings = self::getDbSettings();
+            $db = new mysqli($settings['host'], $settings['user'], $settings['password'], $settings['dbname']);
+            if ($db->connect_error) {
+                die('Connect Error (' . $db->connect_errno . ') '
+                        . $db->connect_error);
+            }
+            $db->set_charset('utf8');
+        }
+        return $db;
     }
     
     /**
