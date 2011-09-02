@@ -83,7 +83,6 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
      */
     public function table()
     {
-        global $_UNL_UCBCN;
         $table = array(
             'id'=>129,
             'title'=>130,
