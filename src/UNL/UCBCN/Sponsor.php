@@ -25,20 +25,16 @@
 class UNL_UCBCN_Sponsor extends DB_DataObject
 {
 
-
-
-    public $__table = 'sponsor';                         // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(255)
     public $standard;                        // int(1)
     public $sponsortype;                     // string(255)
     public $webpageurl;                      // blob(4294967295)  blob
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'sponsor';
+    }
 
     function table()
     {

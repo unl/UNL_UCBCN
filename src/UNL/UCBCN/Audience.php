@@ -24,10 +24,14 @@
 class UNL_UCBCN_Audience extends DB_DataObject
 {
 
-    public $__table = 'audience';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)
     public $standard;                        // int(1)
+
+    function getTable()
+    {
+        return 'audience';
+    }
 
     function table()
     {

@@ -32,8 +32,7 @@ require_once 'UNL/UCBCN.php';
  */
 class UNL_UCBCN_Facebook_accounts extends DB_DataObject
 {
-    //DB table and cols.
-    public $__table = 'facebook_accounts';
+
     public $id;
     public $facebook_account;
     public $access_token;
@@ -42,11 +41,9 @@ class UNL_UCBCN_Facebook_accounts extends DB_DataObject
     public $create_events;
     public $show_like_buttons;
 
-    
-    //Static get for DB
-    function staticGet($k,$v=null)
+    public function getTable()
     {
-        return DB_DataObject::staticGet('UNL_UCBCN_Facebook_accounts', $k, $v);
+        return 'facebook_accounts';
     }
     
     /** keys for the db table.

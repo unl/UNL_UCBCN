@@ -24,18 +24,14 @@
 class UNL_UCBCN_Event_isopento_audience extends DB_DataObject
 {
 
-
-
-    public $__table = 'event_isopento_audience';         // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $audience_id;                     // int(10)  not_null multiple_key unsigned
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'event_isopento_audience';
+    }
 
     function table()
     {

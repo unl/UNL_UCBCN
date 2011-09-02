@@ -31,21 +31,18 @@ require_once 'UNL/UCBCN.php';
  */
 class UNL_UCBCN_Facebook extends DB_DataObject
 {
-    //DB table and cols.
-    public $__table = 'facebook';
+
     public $facebook_id;
     public $eventdatetime_id;
     public $calendar_id;
     public $page_name;
     
 
-    
-    //Static get for DB
-    function staticGet($k,$v=null)
+    public function getTable()
     {
-        return DB_DataObject::staticGet('UNL_UCBCN_Facebook', $k, $v);
+        return 'facebook';
     }
-    
+
     /** keys for the db table.
      * 
      *  @return The array containing a list of keyes used in the DB table.

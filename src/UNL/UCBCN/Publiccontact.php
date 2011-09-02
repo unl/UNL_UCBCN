@@ -24,9 +24,6 @@
 class UNL_UCBCN_Publiccontact extends DB_DataObject
 {
 
-
-
-    public $__table = 'publiccontact';                   // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null unsigned
     public $name;                            // string(100)
@@ -43,12 +40,11 @@ class UNL_UCBCN_Publiccontact extends DB_DataObject
     public $fax;                             // string(50)
     public $webpageurl;                      // blob(4294967295)  blob
 
+    public function getTable()
+    {
+        return 'publiccontact';
+    }
 
-
-
-
-
-    
     function table()
     {
         return array(

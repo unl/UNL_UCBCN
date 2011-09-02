@@ -24,19 +24,15 @@
 class UNL_UCBCN_Role extends DB_DataObject
 {
 
-
-
-    public $__table = 'role';                            // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(255)  not_null
     public $standard;                        // int(1)
 
+    public function getTable()
+    {
+        return 'role';
+    }
 
-
-
-
-
-    
     function table()
     {
         return array(

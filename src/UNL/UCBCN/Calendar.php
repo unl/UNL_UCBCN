@@ -25,9 +25,6 @@
 class UNL_UCBCN_Calendar extends DB_DataObject
 {
 
-
-
-    public $__table = 'calendar';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $account_id;                      // int(10)  not_null multiple_key unsigned
     public $name;                            // string(255)
@@ -46,13 +43,12 @@ class UNL_UCBCN_Calendar extends DB_DataObject
     public $uidlastupdated;                  // string(255)
     public $externalforms;                   // string(255)
     public $recommendationswithinaccount;    // int(1)
-    public $theme;							 // string(255)
+    public $theme;                           // string(255)
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'calendar';
+    }
 
     function table()
     {

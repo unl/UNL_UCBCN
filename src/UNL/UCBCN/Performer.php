@@ -24,9 +24,6 @@
 class UNL_UCBCN_Performer extends DB_DataObject
 {
 
-
-
-    public $__table = 'performer';                       // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $performer_id;                    // int(10)  not_null unsigned
     public $role_id;                         // int(10)  not_null unsigned
@@ -39,12 +36,11 @@ class UNL_UCBCN_Performer extends DB_DataObject
     public $organizationwebpageurl;          // blob(4294967295)  blob
     public $type;                            // string(255)
 
+    public function getTable()
+    {
+        return 'performer';
+    }
 
-
-
-
-
-    
     function links()
     {
         return array('event_id' => 'event:id');

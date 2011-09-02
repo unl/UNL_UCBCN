@@ -28,9 +28,6 @@ require_once 'UNL/UCBCN.php';
 class UNL_UCBCN_Event extends DB_DataObject
 {
 
-
-
-    public $__table = 'event';                           // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $title;                           // string(100)  not_null multiple_key
     public $subtitle;                        // string(100)
@@ -59,11 +56,10 @@ class UNL_UCBCN_Event extends DB_DataObject
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(100)
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'event';
+    }
 
     /**
      * Simple function to test for a valid URL

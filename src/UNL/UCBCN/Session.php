@@ -24,19 +24,15 @@
 class UNL_UCBCN_Session extends DB_DataObject
 {
 
-
-
-    public $__table = 'session';                         // table name
     public $user_uid;                        // string(255)  not_null primary_key
     public $lastaction;                      // datetime(19)  not_null binary
     public $data;                            // blob(4294967295)  blob
 
+    public function getTable()
+    {
+        return 'session';
+    }
 
-
-
-
-
-    
     function table()
     {
         return array(

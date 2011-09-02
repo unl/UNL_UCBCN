@@ -24,17 +24,14 @@
 class UNL_UCBCN_Relatedevent extends DB_DataObject
 {
 
-
-
-    public $__table = 'relatedevent';                    // table name
     public $event_id;                        // int(10)  not_null unsigned
     public $related_event_id;                // int(10)  not_null unsigned
     public $relationtype;                    // string(100)  not_null
 
-
-
-
-
+    public function getTable()
+    {
+        return 'relatedevent';
+    }
 
     
     function table()

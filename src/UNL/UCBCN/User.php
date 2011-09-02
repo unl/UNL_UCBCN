@@ -25,9 +25,6 @@
 class UNL_UCBCN_User extends DB_DataObject
 {
 
-
-
-    public $__table = 'user';                            // table name
     public $uid;                             // string(100)  not_null primary_key
     public $account_id;                      // int(10)  not_null unsigned
     public $calendar_id;                     // int(10)  unsigned
@@ -37,11 +34,10 @@ class UNL_UCBCN_User extends DB_DataObject
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(100)
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'user';
+    }
 
     function table()
     {
