@@ -22,7 +22,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_User extends DB_DataObject
+class UNL_UCBCN_User extends UNL_UCBCN_Record
 {
 
     public $uid;                             // string(100)  not_null primary_key
