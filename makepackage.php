@@ -76,7 +76,6 @@ $pfm->clearDeps();
 $pfm->setPhpDep('5.0.0');
 $pfm->setPearinstallerDep('1.5.4');
 $pfm->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net', '1.0');
-$pfm->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '0.8');
 $pfm->addPackageDepWithChannel('required', 'Savant3', 'phpsavant.com', '3.0.0');
 $pfm->addPackageDepWithChannel('required', 'MDB2', 'pear.php.net', '2.5.0b1');
 $pfm->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net', '1.5.0b1');
