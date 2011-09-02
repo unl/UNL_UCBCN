@@ -113,14 +113,9 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
             'datelastupdated'=>14,
             'uidlastupdated'=>2
         );
-        
-        if (isset($_UNL_UCBCN['default_calendar_id']) &&
-            isset($_SESSION['calendar_id']) &&
-            ($_SESSION['calendar_id'] != $_UNL_UCBCN['default_calendar_id'])) {
-            return array_merge($table, array('consider' => DB_DATAOBJECT_INT));
-        } else {
-            return $table;
-        }
+
+        return $table;
+
     }
 
     function keys()
