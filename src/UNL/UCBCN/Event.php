@@ -294,9 +294,7 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
                            'event_has_sponsor',
                            'event_isopento_audience',
                            'event_targets_audience') as $table) {
-                $do = DB_DataObject::factory($table);
-                $do->event_id = $this->id;
-                $do->delete();
+                self::getDB()->query('DELETE FROM '.$table.' WHERE event_id = '.$this->id);
             }
         }
         return parent::delete();
