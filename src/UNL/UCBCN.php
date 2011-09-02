@@ -146,21 +146,7 @@ class UNL_UCBCN
         $e->status      = $status;
         return $e->find();
     }
-    
-    /**
-     * This function allows extended classes etc to get a DB DataObject
-     * for the event table they need access to.
-     *
-     * @param string $table The name of the table in the database to receive a
-     *                      DataObject for.
-     *
-     * @return mixed A object for the database table requested.
-     */
-    public static function factory($table)
-    {
-        return DB_DataObject::factory($table);
-    }
-    
+
     /**
      * creates a new user record and returns it.
      *
