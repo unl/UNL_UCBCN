@@ -24,9 +24,6 @@
 class UNL_UCBCN_Eventdatetime extends DB_DataObject
 {
 
-
-
-    public $__table = 'eventdatetime';                   // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $location_id;                     // int(10)  not_null multiple_key unsigned
@@ -40,11 +37,10 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public $directions;                      // blob(4294967295)  blob
     public $additionalpublicinfo;            // blob(4294967295)  blob
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'eventdatetime';
+    }
 
     function table()
     {

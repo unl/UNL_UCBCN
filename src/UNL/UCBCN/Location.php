@@ -25,9 +25,6 @@
 class UNL_UCBCN_Location extends DB_DataObject
 {
 
-
-
-    public $__table = 'location';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)  multiple_key
     public $streetaddress1;                  // string(255)
@@ -45,11 +42,10 @@ class UNL_UCBCN_Location extends DB_DataObject
     public $phone;                           // string(50)
     public $standard;                        // int(1)
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'location';
+    }
 
     function table()
     {

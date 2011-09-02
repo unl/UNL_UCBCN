@@ -25,9 +25,6 @@
 class UNL_UCBCN_Eventtype extends DB_DataObject
 {
 
-
-
-    public $__table = 'eventtype';                       // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $calendar_id;                     // int(10)  not_null unsigned
     public $name;                            // string(100)  not_null multiple_key
@@ -35,11 +32,10 @@ class UNL_UCBCN_Eventtype extends DB_DataObject
     public $eventtypegroup;                  // string(8)
     public $standard;                        // int(1)
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'eventtype';
+    }
 
     function table()
     {

@@ -35,9 +35,6 @@ require_once 'UNL/UCBCN/Subscription.php';
 class UNL_UCBCN_Calendar_has_event extends DB_DataObject
 {
 
-
-
-    public $__table = 'calendar_has_event';              // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $calendar_id;                     // int(10)  not_null multiple_key unsigned
     public $event_id;                        // int(10)  not_null multiple_key unsigned
@@ -48,8 +45,10 @@ class UNL_UCBCN_Calendar_has_event extends DB_DataObject
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(100)
 
-
-
+    public function getTable()
+    {
+        return 'calendar_has_event';
+    }
 
     function table()
     {

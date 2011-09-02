@@ -24,9 +24,6 @@
 class UNL_UCBCN_Admissioninfo extends DB_DataObject
 {
 
-
-
-    public $__table = 'admissioninfo';                   // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $type;                            // string(255)
@@ -40,9 +37,11 @@ class UNL_UCBCN_Admissioninfo extends DB_DataObject
     public $deadline;                        // datetime(19)  binary
     public $opendate;                        // datetime(19)  binary
 
+    public function getTable()
+    {
+        return 'admissioninfo';
+    }
 
-
-    
     function table()
     {
         return array(

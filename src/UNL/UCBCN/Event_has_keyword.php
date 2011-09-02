@@ -24,19 +24,15 @@
 class UNL_UCBCN_Event_has_keyword extends DB_DataObject
 {
 
-
-
-    public $__table = 'event_has_keyword';               // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $keyword_id;                      // int(10)  not_null multiple_key unsigned
 
+    public function getTable()
+    {
+        return 'event_has_keyword';
+    }
 
-
-
-
-
-    
     function table()
     {
         return array(

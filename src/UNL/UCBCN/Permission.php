@@ -24,18 +24,14 @@
 class UNL_UCBCN_Permission extends DB_DataObject
 {
 
-
-
-    public $__table = 'permission';                      // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)
     public $description;                     // string(255)
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'permission';
+    }
 
     function table()
     {

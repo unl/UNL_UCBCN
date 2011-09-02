@@ -26,9 +26,6 @@
 class UNL_UCBCN_Account extends DB_DataObject
 {
 
-
-
-    public $__table = 'account';                         // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)
     public $streetaddress1;                  // string(255)
@@ -45,8 +42,10 @@ class UNL_UCBCN_Account extends DB_DataObject
     public $sponsor_id;                      // int(11)  not_null
     public $website;                         // string(255)
 
-
-
+    public function getTable()
+    {
+        return 'account';
+    }
 
     /**
      * Adds a calendar under this account.

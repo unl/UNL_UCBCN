@@ -24,17 +24,16 @@
 class UNL_UCBCN_Admissioncharge extends DB_DataObject
 {
 
-
-
-    public $__table = 'admissioncharge';                 // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $admissioninfogroup_id;           // int(10)  not_null unsigned
     public $price;                           // string(100)
     public $description;                     // string(255)
 
+    public function getTable()
+    {
+        return 'admissioncharge';
+    }
 
-
-    
     function table()
     {
         return array(

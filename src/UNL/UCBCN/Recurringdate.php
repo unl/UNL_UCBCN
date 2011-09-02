@@ -2,9 +2,6 @@
 class UNL_UCBCN_Recurringdate extends DB_DataObject 
 {
 
-
-
-    public $__table = 'recurringdate';                  // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $recurringdate;                   // date(10)  not_null binary
     public $event_id;                        // int(10)  not_null unsigned
@@ -12,12 +9,11 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     public $ongoing;                         // int(1)  
     public $unlinked;                        // int(1)
 
+    public function getTable()
+    {
+        return 'recurringdate';
+    }
 
-
-
-
-
-    
     function table()
     {
         return array(

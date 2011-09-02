@@ -25,18 +25,14 @@
 class UNL_UCBCN_Event_has_eventtype extends DB_DataObject
 {
 
-
-
-    public $__table = 'event_has_eventtype';             // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $eventtype_id;                    // int(10)  not_null multiple_key unsigned
 
-
-
-
-
-
+    public function getTable()
+    {
+        return 'event_has_eventtype';
+    }
 
     function table()
     {

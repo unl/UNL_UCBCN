@@ -24,20 +24,16 @@
 class UNL_UCBCN_Document extends DB_DataObject
 {
 
-
-
-    public $__table = 'document';                        // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null unsigned
     public $name;                            // string(100)
     public $url;                             // string(255)
 
+    public function getTable()
+    {
+        return 'document';
+    }
 
-
-
-
-
-    
     function table()
     {
         return array(

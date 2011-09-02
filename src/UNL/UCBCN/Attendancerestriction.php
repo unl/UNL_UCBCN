@@ -24,19 +24,13 @@
 class UNL_UCBCN_Attendancerestriction extends DB_DataObject
 {
 
-    public $__table = 'attendancerestriction';           // table name
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $description;                     // blob(4294967295)  blob
 
-    
-    function table()
+    public function getTable()
     {
-        return array(
-            'id'=>129,
-            'event_id'=>129,
-            'description'=>66,
-        );
+        return 'attendancerestriction';
     }
 
     function keys()
