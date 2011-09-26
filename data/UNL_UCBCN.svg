@@ -140,9 +140,9 @@
 <ellipse cx="9510" cy="154" rx="134" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="9510" y="162">UNL_UCBCN_Event_Webcast</text>
 </g>
-<g id="node34" class="node"><title>UNL_UCBCN_Event_Webcastlink</title>
+<g id="node34" class="node"><title>UNL_UCBCN_Event_Webcast_Link</title>
 <ellipse cx="9816" cy="154" rx="152" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="9816" y="162">UNL_UCBCN_Event_Webcastlink</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="9816" y="162">UNL_UCBCN_Event_Webcast_Link</text>
 </g>
 <g id="node35" class="node"><title>class</title>
 <ellipse cx="10879" cy="30" rx="38" ry="25" style="fill:none;stroke:black;"/>
@@ -280,7 +280,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5492,30C6038,33 8583,49 9366,128 9383,130 9401,132 9418,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5492,33 5482,30 5492,26 5492,33"/>
 </g>
-<g id="edge64" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_Webcastlink</title>
+<g id="edge64" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_Webcast_Link</title>
 <path style="fill:none;stroke:#36648a;" d="M5492,30C6061,33 8809,51 9654,128 9673,130 9692,132 9711,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5492,33 5482,30 5492,26 5492,33"/>
 </g>
