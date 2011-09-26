@@ -40,9 +40,9 @@
 <ellipse cx="2202" cy="154" rx="190" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="2202" y="162">UNL_UCBCN_Calendar_Event</text>
 </g>
-<g id="node9" class="node"><title>UNL_UCBCN_Document</title>
+<g id="node9" class="node"><title>UNL_UCBCN_Event_Document</title>
 <ellipse cx="2554" cy="154" rx="142" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="2554" y="162">UNL_UCBCN_Document</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="2554" y="162">UNL_UCBCN_Event_Document</text>
 </g>
 <g id="node10" class="node"><title>UNL_UCBCN_Error</title>
 <ellipse cx="10106" cy="154" rx="118" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -192,7 +192,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4652,144 3042,79 2402,128 2379,130 2355,132 2332,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
-<g id="edge16" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Document</title>
+<g id="edge16" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_Document</title>
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4151,214 3848,15 2706,128 2688,130 2670,132 2652,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
