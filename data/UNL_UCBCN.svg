@@ -36,9 +36,9 @@
 <ellipse cx="1856" cy="154" rx="136" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="1856" y="162">UNL_UCBCN_Calendar</text>
 </g>
-<g id="node8" class="node"><title>UNL_UCBCN_Calendar_Events</title>
+<g id="node8" class="node"><title>UNL_UCBCN_Calendar_Event</title>
 <ellipse cx="2202" cy="154" rx="190" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="2202" y="162">UNL_UCBCN_Calendar_Events</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="2202" y="162">UNL_UCBCN_Calendar_Event</text>
 </g>
 <g id="node9" class="node"><title>UNL_UCBCN_Document</title>
 <ellipse cx="2554" cy="154" rx="142" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -60,25 +60,25 @@
 <ellipse cx="10666" cy="30" rx="155" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="10666" y="38">UNL_UCBCN_EventListing</text>
 </g>
-<g id="node14" class="node"><title>UNL_UCBCN_Event_EventTypes</title>
+<g id="node14" class="node"><title>UNL_UCBCN_Event_EventType</title>
 <ellipse cx="3173" cy="154" rx="195" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="3173" y="162">UNL_UCBCN_Event_EventTypes</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="3173" y="162">UNL_UCBCN_Event_EventType</text>
 </g>
-<g id="node15" class="node"><title>UNL_UCBCN_Event_KeyWords</title>
+<g id="node15" class="node"><title>UNL_UCBCN_Event_KeyWord</title>
 <ellipse cx="3578" cy="154" rx="190" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="3578" y="162">UNL_UCBCN_Event_KeyWords</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="3578" y="162">UNL_UCBCN_Event_KeyWord</text>
 </g>
-<g id="node16" class="node"><title>UNL_UCBCN_Event_Sponsors</title>
+<g id="node16" class="node"><title>UNL_UCBCN_Event_Sponsor</title>
 <ellipse cx="3974" cy="154" rx="186" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="3974" y="162">UNL_UCBCN_Event_Sponsors</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="3974" y="162">UNL_UCBCN_Event_Sponsor</text>
 </g>
-<g id="node17" class="node"><title>UNL_UCBCN_Event_OpenToAudiences</title>
+<g id="node17" class="node"><title>UNL_UCBCN_Event_OpenToAudience</title>
 <ellipse cx="4396" cy="154" rx="216" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="4396" y="162">UNL_UCBCN_Event_OpenToAudiences</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="4396" y="162">UNL_UCBCN_Event_OpenToAudience</text>
 </g>
-<g id="node18" class="node"><title>UNL_UCBCN_Event_TargetsAudiences</title>
+<g id="node18" class="node"><title>UNL_UCBCN_Event_TargetsAudience</title>
 <ellipse cx="4839" cy="154" rx="207" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="4839" y="162">UNL_UCBCN_Event_TargetsAudiences</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="4839" y="162">UNL_UCBCN_Event_TargetsAudience</text>
 </g>
 <g id="node19" class="node"><title>UNL_UCBCN_Eventdatetime</title>
 <ellipse cx="5228" cy="154" rx="162" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -132,9 +132,9 @@
 <ellipse cx="8829" cy="154" rx="115" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="8829" y="162">UNL_UCBCN_User</text>
 </g>
-<g id="node32" class="node"><title>UNL_UCBCN_User_Permissions</title>
+<g id="node32" class="node"><title>UNL_UCBCN_User_Permission</title>
 <ellipse cx="9160" cy="154" rx="196" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="9160" y="162">UNL_UCBCN_User_Permissions</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="9160" y="162">UNL_UCBCN_User_Permission</text>
 </g>
 <g id="node33" class="node"><title>UNL_UCBCN_Webcast</title>
 <ellipse cx="9510" cy="154" rx="134" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -188,7 +188,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4564,155 2729,56 2002,128 1985,130 1967,132 1950,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
-<g id="edge14" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Calendar_Events</title>
+<g id="edge14" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Calendar_Event</title>
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4652,144 3042,79 2402,128 2379,130 2355,132 2332,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
@@ -200,23 +200,23 @@
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4266,200 3993,12 2968,128 2953,130 2937,132 2921,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
-<g id="edge24" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_EventTypes</title>
+<g id="edge24" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_EventType</title>
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4447,178 4225,59 3378,128 3355,130 3331,133 3308,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
-<g id="edge26" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_KeyWords</title>
+<g id="edge26" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_KeyWord</title>
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4623,156 4447,69 3778,128 3756,130 3732,133 3709,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
-<g id="edge28" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_Sponsors</title>
+<g id="edge28" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_Sponsor</title>
 <path style="fill:none;stroke:#36648a;" d="M5315,51C5305,52 5296,55 5287,56 4796,134 4666,80 4170,128 4149,130 4126,133 4104,136"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5315,48 5325,49 5316,54 5315,48"/>
 </g>
-<g id="edge30" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_OpenToAudiences</title>
+<g id="edge30" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_OpenToAudience</title>
 <path style="fill:none;stroke:#36648a;" d="M5314,50C5305,53 5296,55 5287,56 4995,109 4918,96 4622,128 4599,131 4576,134 4552,136"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5314,47 5324,48 5315,53 5314,47"/>
 </g>
-<g id="edge32" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_TargetsAudiences</title>
+<g id="edge32" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_TargetsAudience</title>
 <path style="fill:none;stroke:#36648a;" d="M5312,50C5304,53 5295,55 5287,56 5170,84 5036,113 4945,132"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5312,47 5322,48 5313,53 5312,47"/>
 </g>
@@ -272,7 +272,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5492,31C5981,34 8061,53 8704,128 8719,130 8735,132 8750,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5492,34 5482,31 5492,27 5492,34"/>
 </g>
-<g id="edge60" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_User_Permissions</title>
+<g id="edge60" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_User_Permission</title>
 <path style="fill:none;stroke:#36648a;" d="M5492,31C6002,39 8255,75 8954,128 8977,130 9002,133 9025,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5492,34 5482,31 5492,27 5492,34"/>
 </g>

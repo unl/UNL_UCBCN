@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for event_has_keyword
+ * Table Definition for event_isopento_audience
  *
  * PHP version 5
  *
@@ -21,16 +21,16 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event_KeyWords extends UNL_UCBCN_Record
+class UNL_UCBCN_Event_OpenToAudience extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $event_id;                        // int(10)  not_null multiple_key unsigned
-    public $keyword_id;                      // int(10)  not_null multiple_key unsigned
+    public $audience_id;                     // int(10)  not_null multiple_key unsigned
 
     public function getTable()
     {
-        return 'event_has_keyword';
+        return 'event_isopento_audience';
     }
 
     function table()
@@ -38,7 +38,7 @@ class UNL_UCBCN_Event_KeyWords extends UNL_UCBCN_Record
         return array(
             'id'=>129,
             'event_id'=>129,
-            'keyword_id'=>129,
+            'audience_id'=>129,
         );
     }
 
@@ -56,7 +56,8 @@ class UNL_UCBCN_Event_KeyWords extends UNL_UCBCN_Record
     
     function links()
     {
-        return array('event_id'   => 'event:id',
-                     'keyword_id' => 'keyword:id');
+        return array('event_id'    => 'event:id',
+                     'audience_id' => 'audience:id');
     }
+
 }
