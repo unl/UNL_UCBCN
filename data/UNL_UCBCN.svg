@@ -20,9 +20,9 @@
 <ellipse cx="468" cy="154" rx="176" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="468" y="162">UNL_UCBCN_Admissioncharge</text>
 </g>
-<g id="node4" class="node"><title>UNL_UCBCN_Admissioninfo</title>
+<g id="node4" class="node"><title>UNL_UCBCN_Event_AdmissionInfo</title>
 <ellipse cx="828" cy="154" rx="164" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="828" y="162">UNL_UCBCN_Admissioninfo</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="828" y="162">UNL_UCBCN_Event_AdmissionInfo</text>
 </g>
 <g id="node5" class="node"><title>UNL_UCBCN_Attendancerestriction</title>
 <ellipse cx="1208" cy="154" rx="196" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -172,7 +172,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4267,192 1681,49 654,128 633,130 610,132 588,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
-<g id="edge6" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Admissioninfo</title>
+<g id="edge6" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_AdmissionInfo</title>
 <path style="fill:none;stroke:#36648a;" d="M5316,51C5306,53 5297,55 5287,56 4344,182 1952,50 1002,128 982,130 961,132 940,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5316,48 5326,49 5317,54 5316,48"/>
 </g>
