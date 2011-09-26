@@ -115,7 +115,7 @@ class UNL_UCBCN_Calendar_Events extends UNL_UCBCN_Record
             $eventdatetimes->event_id = $this->event_id;
             $rows = $eventdatetimes->find();
             while ($eventdatetimes->fetch()) {
-                $facebook = new UNL_UCBCN_FacebookInstance($eventdatetimes->id);
+                $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
                 $facebook->updateEvent();
             }
         }
@@ -173,7 +173,7 @@ class UNL_UCBCN_Calendar_Events extends UNL_UCBCN_Record
         $eventdatetimes->event_id = $this->event_id;
         $rows = $eventdatetimes->find();
         while ($eventdatetimes->fetch()) {
-            $facebook = new UNL_UCBCN_FacebookInstance($eventdatetimes->id);
+            $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
             $facebook->updateEvent();
         }
         return $r;

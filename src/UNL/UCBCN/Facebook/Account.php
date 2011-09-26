@@ -99,7 +99,7 @@ class UNL_UCBCN_Facebook_Account extends UNL_UCBCN_Record
             return false;
         }
         //Check facebook App settings
-        if (!UNL_UCBCN_FacebookInstance::getConfig()) {
+        if (!UNL_UCBCN_Facebook_Instance::getConfig()) {
             return false;
         }
         return true;

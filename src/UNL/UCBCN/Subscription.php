@@ -168,8 +168,8 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
             $res =& $this->matchingEvents(true, $event_id);
             if ($res->numRows()) {
                 // There are events to insert, postpone any subscription processing until we're done.
-                $process_subscriptions = UNL_UCBCN_Calendar_has_event::processSubscriptions();
-                UNL_UCBCN_Calendar_has_event::processSubscriptions(false);
+                $process_subscriptions = UNL_UCBCN_Calendar_Events::processSubscriptions();
+                UNL_UCBCN_Calendar_Events::processSubscriptions(false);
                 $calendar = $this->getLink('calendar_id');
                 $user     = $this->getLink('uidcreated');
                 $status   = $this->getApprovalStatus();
@@ -181,7 +181,7 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
                     }
                 }
                 // restore process subscriptions to what it was before.
-                UNL_UCBCN_Calendar_has_event::processSubscriptions($process_subscriptions);
+                UNL_UCBCN_Calendar_Events::processSubscriptions($process_subscriptions);
                 self::updateSubscribedCalendars($this->calendar_id, $event_id);
             }
         }
