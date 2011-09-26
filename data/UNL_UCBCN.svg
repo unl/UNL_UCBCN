@@ -124,9 +124,9 @@
 <ellipse cx="8236" cy="154" rx="132" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="8236" y="162">UNL_UCBCN_Sponsor</text>
 </g>
-<g id="node30" class="node"><title>UNL_UCBCN_Subscription</title>
+<g id="node30" class="node"><title>UNL_UCBCN_Calendar_Subscription</title>
 <ellipse cx="8541" cy="154" rx="153" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="8541" y="162">UNL_UCBCN_Subscription</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="8541" y="162">UNL_UCBCN_Calendar_Subscription</text>
 </g>
 <g id="node31" class="node"><title>UNL_UCBCN_User</title>
 <ellipse cx="8829" cy="154" rx="115" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -264,7 +264,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5492,32C5923,40 7576,71 8094,128 8111,130 8128,132 8145,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5492,35 5482,32 5492,28 5492,35"/>
 </g>
-<g id="edge56" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Subscription</title>
+<g id="edge56" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Calendar_Subscription</title>
 <path style="fill:none;stroke:#36648a;" d="M5492,31C5950,40 7800,73 8378,128 8397,130 8417,132 8436,135"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5492,34 5482,31 5492,27 5492,34"/>
 </g>

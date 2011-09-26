@@ -18,7 +18,7 @@
 require_once 'UNL/UCBCN.php';
 
 /**
- * UNL_UCBCN_Subscription is needed to determine which subscribed calendars to update.
+ * UNL_UCBCN_Calendar_Subscription is needed to determine which subscribed calendars to update.
  */
 require_once 'UNL/UCBCN/Subscription.php';
 
@@ -107,7 +107,7 @@ class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
             if (self::processSubscriptions() && $this->status != 'pending') {
                 $event = $this->getLink('event_id');
                 if ($event->approvedforcirculation) {
-                    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                    UNL_UCBCN_Calendar_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
             //loop though all eventdatetimes for this event, creating facebook events.
@@ -164,7 +164,7 @@ class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
             if ($this->status != 'pending' && $this->status != 'archived') {
                 $event = $this->getLink('event_id');
                 if ($event->approvedforcirculation) {
-                    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                    UNL_UCBCN_Calendar_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
         }
