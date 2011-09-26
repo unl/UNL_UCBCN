@@ -18,7 +18,7 @@
 require_once 'UNL/UCBCN.php';
 
 /**
- * UNL_UCBCN_Subscription is needed to determine which subscribed calendars to update.
+ * UNL_UCBCN_Calendar_Subscription is needed to determine which subscribed calendars to update.
  */
 require_once 'UNL/UCBCN/Subscription.php';
 
@@ -32,7 +32,7 @@ require_once 'UNL/UCBCN/Subscription.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Calendar_has_event extends UNL_UCBCN_Record
+class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -107,7 +107,7 @@ class UNL_UCBCN_Calendar_has_event extends UNL_UCBCN_Record
             if (self::processSubscriptions() && $this->status != 'pending') {
                 $event = $this->getLink('event_id');
                 if ($event->approvedforcirculation) {
-                    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                    UNL_UCBCN_Calendar_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
             //loop though all eventdatetimes for this event, creating facebook events.
@@ -115,7 +115,7 @@ class UNL_UCBCN_Calendar_has_event extends UNL_UCBCN_Record
             $eventdatetimes->event_id = $this->event_id;
             $rows = $eventdatetimes->find();
             while ($eventdatetimes->fetch()) {
-                $facebook = new UNL_UCBCN_FacebookInstance($eventdatetimes->id);
+                $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
                 $facebook->updateEvent();
             }
         }
@@ -164,7 +164,7 @@ class UNL_UCBCN_Calendar_has_event extends UNL_UCBCN_Record
             if ($this->status != 'pending' && $this->status != 'archived') {
                 $event = $this->getLink('event_id');
                 if ($event->approvedforcirculation) {
-                    UNL_UCBCN_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                    UNL_UCBCN_Calendar_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
         }
@@ -173,7 +173,7 @@ class UNL_UCBCN_Calendar_has_event extends UNL_UCBCN_Record
         $eventdatetimes->event_id = $this->event_id;
         $rows = $eventdatetimes->find();
         while ($eventdatetimes->fetch()) {
-            $facebook = new UNL_UCBCN_FacebookInstance($eventdatetimes->id);
+            $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
             $facebook->updateEvent();
         }
         return $r;

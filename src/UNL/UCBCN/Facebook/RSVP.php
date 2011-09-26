@@ -25,7 +25,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_FacebookRSVP
+class UNL_UCBCN_Facebook_RSVP
 {
     public $facebook;
     public $config;
@@ -45,7 +45,7 @@ class UNL_UCBCN_FacebookRSVP
         $this->facebook->eventdatetime_id = $eventdatetimeId;
         $this->facebook->calendar_id = $calendarId; //search by current calendar...
         $this->facebook->find(true);  //Assumes non-recurring events
-        $this->config = UNL_UCBCN_FacebookInstance::getConfig();
+        $this->config = UNL_UCBCN_Facebook_Instance::getConfig();
         $this->account = UNL_UCBCN::factory('facebook_accounts');
         $this->account->calendar_id = $calendarId;
         $this->account->find(true);

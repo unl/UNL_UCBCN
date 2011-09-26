@@ -1,5 +1,5 @@
 <?php
-class UNL_UCBCN_Recurringdate extends UNL_UCBCN_Record 
+class UNL_UCBCN_Event_RecurringDate extends UNL_UCBCN_Record 
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -223,7 +223,7 @@ class UNL_UCBCN_Recurringdate extends UNL_UCBCN_Record
      * @param int    $recid recurringdate.recurrence_id of instance
      * @param object $edt   Eventdatetime of event
      * 
-     * @return object of UNL_UCBCN_Eventdatetime
+     * @return object of UNL_UCBCN_Event_DateTime
      */
     public function getInstanceDateTime($recid, $edt)
     {
@@ -278,7 +278,7 @@ class UNL_UCBCN_Recurringdate extends UNL_UCBCN_Record
                     if (is_null($status) && isset($e->calendarhasevent)) {
                         $edt = UNL_UCBCN::factory('eventdatetime');
                         $edt->get('event_id', $e->id);
-                        $edt = UNL_UCBCN_Recurringdate::getInstanceDateTime(
+                        $edt = UNL_UCBCN_Event_RecurringDate::getInstanceDateTime(
                                     $recurringdate->recurrence_id, $edt);
                         if (strtotime($edt->starttime) < strtotime(date('Y-m-d'))) {
                             $e->calendarhasevent = 'archived';

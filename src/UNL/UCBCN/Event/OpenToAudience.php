@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for performer
+ * Table Definition for event_isopento_audience
  *
  * PHP version 5
  *
@@ -21,33 +21,43 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Performer extends UNL_UCBCN_Record
+class UNL_UCBCN_Event_OpenToAudience extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $performer_id;                    // int(10)  not_null unsigned
-    public $role_id;                         // int(10)  not_null unsigned
-    public $event_id;                        // int(10)  not_null unsigned
-    public $personalname;                    // string(100)
-    public $name;                            // string(255)
-    public $jobtitle;                        // string(100)
-    public $organizationname;                // string(100)
-    public $personalwebpageurl;              // blob(4294967295)  blob
-    public $organizationwebpageurl;          // blob(4294967295)  blob
-    public $type;                            // string(255)
+    public $event_id;                        // int(10)  not_null multiple_key unsigned
+    public $audience_id;                     // int(10)  not_null multiple_key unsigned
 
     public function getTable()
     {
-        return 'performer';
+        return 'event_isopento_audience';
     }
 
-    function links()
+    function table()
     {
-        return array('event_id' => 'event:id');
+        return array(
+            'id'=>129,
+            'event_id'=>129,
+            'audience_id'=>129,
+        );
+    }
+
+    function keys()
+    {
+        return array(
+            'id',
+        );
     }
     
     function sequenceKey()
     {
         return array('id',true);
     }
+    
+    function links()
+    {
+        return array('event_id'    => 'event:id',
+                     'audience_id' => 'audience:id');
+    }
+
 }

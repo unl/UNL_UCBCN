@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for webcast
+ * Table Definition for event_has_keyword
  *
  * PHP version 5
  *
@@ -21,35 +21,24 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Webcast extends UNL_UCBCN_Record
+class UNL_UCBCN_Event_KeyWord extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $event_id;                        // int(10)  not_null unsigned
-    public $title;                           // string(100)
-    public $status;                          // string(100)
-    public $dateavailable;                   // datetime(19)  binary
-    public $playertype;                      // string(100)
-    public $bandwidth;                       // string(255)
-    public $additionalinfo;                  // blob(4294967295)  blob
+    public $event_id;                        // int(10)  not_null multiple_key unsigned
+    public $keyword_id;                      // int(10)  not_null multiple_key unsigned
 
     public function getTable()
     {
-        return 'webcast';
+        return 'event_has_keyword';
     }
 
-    
     function table()
     {
         return array(
             'id'=>129,
             'event_id'=>129,
-            'title'=>2,
-            'status'=>2,
-            'dateavailable'=>14,
-            'playertype'=>2,
-            'bandwidth'=>2,
-            'additionalinfo'=>66,
+            'keyword_id'=>129,
         );
     }
 
@@ -67,6 +56,7 @@ class UNL_UCBCN_Webcast extends UNL_UCBCN_Record
     
     function links()
     {
-        return array('event_id' => 'event:id');
+        return array('event_id'   => 'event:id',
+                     'keyword_id' => 'keyword:id');
     }
 }

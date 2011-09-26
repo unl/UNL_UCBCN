@@ -21,7 +21,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Eventdatetime extends UNL_UCBCN_Record
+class UNL_UCBCN_Event_DateTime extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -196,7 +196,7 @@ class UNL_UCBCN_Eventdatetime extends UNL_UCBCN_Record
             $this->factory('recurringdate')->updateRecurringEvents();
         }
         //update a facebook event.
-        $facebook = new UNL_UCBCN_FacebookInstance($this->id);
+        $facebook = new UNL_UCBCN_Facebook_Instance($this->id);
         $facebook->updateEvent();
         return $r;
     }
@@ -205,7 +205,7 @@ class UNL_UCBCN_Eventdatetime extends UNL_UCBCN_Record
     {
         //delete the facebook event.
         if ($this->id != null) {
-            $facebook = new UNL_UCBCN_FacebookInstance($this->id);
+            $facebook = new UNL_UCBCN_Facebook_Instance($this->id);
             $facebook->deleteEvent();
         }
         //delete the actual event.
