@@ -230,7 +230,7 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
     
     /**
      * This function is called when a calendar has just had an event added. Called
-     * from UNL_UCBCN_Calendar_has_event->insert();
+     * from UNL_UCBCN_Calendar_Event->insert();
      *
      * @param int $calendar_id The primary key of the calendar which was updated.
      * @param int $event_id    Optionally, the id of the event to add.
