@@ -33,7 +33,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_setup_postinstall
+class UNL_UCBCN_Setup_PostInstall
 {
     var $createDB;
     var $databaseExists;

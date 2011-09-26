@@ -231,7 +231,7 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
             $events->whereAdd('eventdatetime.event_id = '.$this->id);
             $number = $events->find();
             while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_FacebookInstance($events->id);
+                $facebook = new UNL_UCBCN_Facebook_Instance($events->id);
                 $facebook->updateEvent();
                 
             }
@@ -275,7 +275,7 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
             $events->whereAdd('eventdatetime.event_id = '.$this->id);
             $number = $events->find();
             while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_FacebookInstance($events->id);
+                $facebook = new UNL_UCBCN_Facebook_Instance($events->id);
                 $facebook->deleteEvent();
             }
           

@@ -15,7 +15,7 @@
  */
 
 //Require the PHP facebook SDK
-require_once dirname(dirname(dirname((dirname(__file__))))).'/facebook/src/facebook.php';
+require_once dirname(dirname(dirname(dirname((dirname(__file__)))))).'/facebook/src/facebook.php';
 
 /**
  * Facebook integration class.
@@ -29,7 +29,7 @@ require_once dirname(dirname(dirname((dirname(__file__))))).'/facebook/src/faceb
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_FacebookInstance
+class UNL_UCBCN_Facebook_Instance
 {
     public $appID;
     public $secret;

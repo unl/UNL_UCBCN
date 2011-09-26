@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for event_isopento_audience
+ * Table Definition for document
  *
  * PHP version 5
  *
@@ -21,16 +21,17 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event_isopento_audience extends UNL_UCBCN_Record
+class UNL_UCBCN_Event_Document extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $event_id;                        // int(10)  not_null multiple_key unsigned
-    public $audience_id;                     // int(10)  not_null multiple_key unsigned
+    public $event_id;                        // int(10)  not_null unsigned
+    public $name;                            // string(100)
+    public $url;                             // string(255)
 
     public function getTable()
     {
-        return 'event_isopento_audience';
+        return 'document';
     }
 
     function table()
@@ -38,7 +39,8 @@ class UNL_UCBCN_Event_isopento_audience extends UNL_UCBCN_Record
         return array(
             'id'=>129,
             'event_id'=>129,
-            'audience_id'=>129,
+            'name'=>2,
+            'url'=>2,
         );
     }
 
@@ -56,8 +58,7 @@ class UNL_UCBCN_Event_isopento_audience extends UNL_UCBCN_Record
     
     function links()
     {
-        return array('event_id'    => 'event:id',
-                     'audience_id' => 'audience:id');
+        return array('event_id' => 'event:id');
     }
-
+    
 }

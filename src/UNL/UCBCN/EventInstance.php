@@ -37,7 +37,7 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
     public $event;
     
     /**
-     * @var UNL_UCBCN_Eventdatetime Date and time details
+     * @var UNL_UCBCN_Event_DateTime Date and time details
      */
     public $eventdatetime;
     
@@ -57,12 +57,12 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
     /**
      * constructor
      * 
-     * @param int|UNL_UCBCN_Eventdatetime $edt      eventdatetime.id in the database, or the actual object.
+     * @param int|UNL_UCBCN_Event_DateTime $edt      eventdatetime.id in the database, or the actual object.
      * @param int|UNL_UCBCN_Calendar      $calendar optional parameter for the calendar this event is for.
      */
     function __construct($edt, $calendar=null)
     {
-        if (is_object($edt) && get_class($edt)=='UNL_UCBCN_Eventdatetime') {
+        if (is_object($edt) && get_class($edt)=='UNL_UCBCN_Event_DateTime') {
             $this->eventdatetime = clone($edt);
             $this->event         = $this->eventdatetime->getLink('event_id');
         } else {
@@ -84,8 +84,8 @@ class UNL_UCBCN_EventInstance extends UNL_UCBCN
             }
         }
         $this->url = $this->getURL();
-        $this->facebook = new UNL_UCBCN_FacebookInstance($this->eventdatetime->id);
-        $this->facebookRSVP = new UNL_UCBCN_FacebookRSVP($this->eventdatetime->id, $this->calendar->id);
+        $this->facebook = new UNL_UCBCN_Facebook_Instance($this->eventdatetime->id);
+        $this->facebookRSVP = new UNL_UCBCN_Facebook_RSVP($this->eventdatetime->id, $this->calendar->id);
     }
     
     /**

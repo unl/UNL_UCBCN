@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for event_targets_audience
+ * Table Definition for webcastlink
  *
  * PHP version 5
  *
@@ -21,24 +21,29 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event_targets_audience extends UNL_UCBCN_Record
+class UNL_UCBCN_Calendar_Webcast_Link extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $event_id;                        // int(10)  not_null multiple_key unsigned
-    public $audience_id;                     // int(10)  not_null multiple_key unsigned
+    public $webcast_id;                      // int(10)  not_null unsigned
+    public $url;                             // blob(4294967295)  blob
+    public $sequencenumber;                  // int(10)  unsigned
+    public $related;                         // string(1)
 
     public function getTable()
     {
-        return 'event_targets_audience';
+        return 'webcastlink';
     }
 
+    
     function table()
     {
         return array(
             'id'=>129,
-            'event_id'=>129,
-            'audience_id'=>129,
+            'webcast_id'=>129,
+            'url'=>66,
+            'sequencenumber'=>1,
+            'related'=>2,
         );
     }
 
@@ -56,8 +61,6 @@ class UNL_UCBCN_Event_targets_audience extends UNL_UCBCN_Record
     
     function links()
     {
-        return array('event_id'    => 'event:id',
-                     'audience_id' => 'audience:id');
+        return array('webcast_id' => 'webcast:id');
     }
-
 }
