@@ -223,7 +223,7 @@ class UNL_UCBCN_Recurringdate extends UNL_UCBCN_Record
      * @param int    $recid recurringdate.recurrence_id of instance
      * @param object $edt   Eventdatetime of event
      * 
-     * @return object of UNL_UCBCN_Eventdatetime
+     * @return object of UNL_UCBCN_Event_DateTime
      */
     public function getInstanceDateTime($recid, $edt)
     {

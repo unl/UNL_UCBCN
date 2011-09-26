@@ -80,13 +80,13 @@
 <ellipse cx="4839" cy="154" rx="207" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="4839" y="162">UNL_UCBCN_Event_TargetsAudience</text>
 </g>
-<g id="node19" class="node"><title>UNL_UCBCN_Eventdatetime</title>
+<g id="node19" class="node"><title>UNL_UCBCN_Event_DateTime</title>
 <ellipse cx="5228" cy="154" rx="162" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="5228" y="162">UNL_UCBCN_Eventdatetime</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="5228" y="162">UNL_UCBCN_Event_DateTime</text>
 </g>
-<g id="node20" class="node"><title>UNL_UCBCN_Eventtype</title>
+<g id="node20" class="node"><title>UNL_UCBCN_EventType</title>
 <ellipse cx="5551" cy="154" rx="141" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="5551" y="162">UNL_UCBCN_Eventtype</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="5551" y="162">UNL_UCBCN_EventType</text>
 </g>
 <g id="node21" class="node"><title>UNL_UCBCN_Keyword</title>
 <ellipse cx="5849" cy="154" rx="137" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -220,11 +220,11 @@
 <path style="fill:none;stroke:#36648a;" d="M5312,50C5304,53 5295,55 5287,56 5170,84 5036,113 4945,132"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5312,47 5322,48 5313,53 5312,47"/>
 </g>
-<g id="edge34" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Eventdatetime</title>
+<g id="edge34" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_DateTime</title>
 <path style="fill:none;stroke:#36648a;" d="M5350,60C5322,82 5286,109 5261,129"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5348,57 5358,54 5352,63 5348,57"/>
 </g>
-<g id="edge36" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Eventtype</title>
+<g id="edge36" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_EventType</title>
 <path style="fill:none;stroke:#36648a;" d="M5429,60C5457,82 5493,109 5519,129"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5427,63 5421,54 5431,57 5427,63"/>
 </g>
