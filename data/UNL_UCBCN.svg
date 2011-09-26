@@ -96,9 +96,9 @@
 <ellipse cx="6141" cy="154" rx="135" ry="25" style="fill:none;stroke:#1e92ff;"/>
 <text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="6141" y="162">UNL_UCBCN_Location</text>
 </g>
-<g id="node23" class="node"><title>UNL_UCBCN_Performer</title>
+<g id="node23" class="node"><title>UNL_UCBCN_Event_Performer</title>
 <ellipse cx="6437" cy="154" rx="141" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="6437" y="162">UNL_UCBCN_Performer</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="6437" y="162">UNL_UCBCN_Event_Performer</text>
 </g>
 <g id="node24" class="node"><title>UNL_UCBCN_Permission</title>
 <ellipse cx="6744" cy="154" rx="146" ry="25" style="fill:none;stroke:#1e92ff;"/>
@@ -236,7 +236,7 @@
 <path style="fill:none;stroke:#36648a;" d="M5480,45C5599,63 5813,98 5996,128 6011,131 6028,133 6043,136"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5479,48 5470,43 5480,42 5479,48"/>
 </g>
-<g id="edge42" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Performer</title>
+<g id="edge42" class="edge"><title>DB_DataObject&#45;&gt;UNL_UCBCN_Event_Performer</title>
 <path style="fill:none;stroke:#36648a;" d="M5487,39C5653,54 5997,88 6286,128 6302,130 6320,133 6336,136"/>
 <polygon style="fill:#36648a;stroke:#36648a;" points="5487,42 5477,38 5487,36 5487,42"/>
 </g>
