@@ -8,9 +8,9 @@
  xmlns="http://www.w3.org/2000/svg">
 <g id="graph0" class="graph" style="font-family:Times-Roman;font-size:14.00;">
 <title>class_structure</title>
-<g id="node1" class="node"><title>UNL_UCBCN_setup_postinstall</title>
+<g id="node1" class="node"><title>UNL_UCBCN_Setup_PostInstall</title>
 <ellipse cx="5104" cy="30" rx="173" ry="25" style="fill:none;stroke:#1e92ff;"/>
-<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="5104" y="38">UNL_UCBCN_setup_postinstall</text>
+<text text-anchor="middle" style="font-size:24.00;fill:#104f8a;" x="5104" y="38">UNL_UCBCN_Setup_PostInstall</text>
 </g>
 <g id="node2" class="node"><title>UNL_UCBCN_Account</title>
 <ellipse cx="139" cy="154" rx="133" ry="25" style="fill:none;stroke:#1e92ff;"/>
