@@ -1,6 +1,6 @@
 <?php
 /**
- * Table Definition for eventtype
+ * Table Definition for event_has_eventtype
  *
  * PHP version 5
  *
@@ -22,30 +22,24 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Eventtype extends UNL_UCBCN_Record
+class UNL_UCBCN_Event_has_eventtype extends UNL_UCBCN_Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $calendar_id;                     // int(10)  not_null unsigned
-    public $name;                            // string(100)  not_null multiple_key
-    public $description;                     // string(255)
-    public $eventtypegroup;                  // string(8)
-    public $standard;                        // int(1)
+    public $event_id;                        // int(10)  not_null multiple_key unsigned
+    public $eventtype_id;                    // int(10)  not_null multiple_key unsigned
 
     public function getTable()
     {
-        return 'eventtype';
+        return 'event_has_eventtype';
     }
 
     function table()
     {
         return array(
             'id'=>129,
-            'calendar_id'=>129,
-            'name'=>130,
-            'description'=>2,
-            'eventtypegroup'=>2,
-            'standard'=>17,
+            'event_id'=>129,
+            'eventtype_id'=>129,
         );
     }
 
@@ -63,7 +57,7 @@ class UNL_UCBCN_Eventtype extends UNL_UCBCN_Record
     
     function links()
     {
-        return array('calendar_id' => 'calendar:id');
+        return array('event_id'     => 'event:id',
+                     'eventtype_id' => 'eventtype:id');
     }
-    
 }

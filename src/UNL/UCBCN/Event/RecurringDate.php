@@ -1,5 +1,5 @@
 <?php
-class UNL_UCBCN_Event_Recurringdate extends UNL_UCBCN_Record 
+class UNL_UCBCN_Recurringdate extends UNL_UCBCN_Record 
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment

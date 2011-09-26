@@ -30,7 +30,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Facebook_Account extends UNL_UCBCN_Record
+class UNL_UCBCN_Facebook_accounts extends UNL_UCBCN_Record
 {
 
     public $id;
