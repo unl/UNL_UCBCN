@@ -126,8 +126,8 @@ class UNL_UCBCN_Event_DateTime extends UNL_UCBCN_Record
     {
         if (isset($this->location_id)) {
             return $this->getLink('location_id');
-        } else {
-            return false;
         }
+        
+        return false;
     }
 }
