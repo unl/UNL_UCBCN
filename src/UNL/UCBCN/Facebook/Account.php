@@ -101,7 +101,7 @@ class Facebook_Account extends Record
             return false;
         }
         //Check facebook App settings
-        if (!UNL_UCBCN_Facebook_Instance::getConfig()) {
+        if (!Instance::getConfig()) {
             return false;
         }
         return true;

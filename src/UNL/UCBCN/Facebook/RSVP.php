@@ -47,7 +47,7 @@ class Facebook_RSVP
         $this->facebook->eventdatetime_id = $eventdatetimeId;
         $this->facebook->calendar_id = $calendarId; //search by current calendar...
         $this->facebook->find(true);  //Assumes non-recurring events
-        $this->config = UNL_UCBCN_Facebook_Instance::getConfig();
+        $this->config = \UNL\UCBCN\Facebook\Instance::getConfig();
         $this->account = UNL_UCBCN::factory('facebook_accounts');
         $this->account->calendar_id = $calendarId;
         $this->account->find(true);

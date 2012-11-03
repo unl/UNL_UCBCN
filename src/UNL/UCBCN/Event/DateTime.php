@@ -99,7 +99,7 @@ class DateTime extends Record
             $this->factory('recurringdate')->updateRecurringEvents();
         }
         //update a facebook event.
-        $facebook = new UNL_UCBCN_Facebook_Instance($this->id);
+        $facebook = new \UNL\UCBCN\Facebook\Instance($this->id);
         $facebook->updateEvent();
         return $r;
     }
@@ -108,7 +108,7 @@ class DateTime extends Record
     {
         //delete the facebook event.
         if ($this->id != null) {
-            $facebook = new UNL_UCBCN_Facebook_Instance($this->id);
+            $facebook = new \UNL\UCBCN\Facebook\Instance($this->id);
             $facebook->deleteEvent();
         }
         //delete the actual event.

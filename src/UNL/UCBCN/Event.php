@@ -233,7 +233,7 @@ class Event extends Record
             $events->whereAdd('eventdatetime.event_id = '.$this->id);
             $number = $events->find();
             while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_Facebook_Instance($events->id);
+                $facebook = new \UNL\UCBCN\Facebook\Instance($events->id);
                 $facebook->updateEvent();
                 
             }
@@ -277,7 +277,7 @@ class Event extends Record
             $events->whereAdd('eventdatetime.event_id = '.$this->id);
             $number = $events->find();
             while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_Facebook_Instance($events->id);
+                $facebook = new \UNL\UCBCN\Facebook\Instance($events->id);
                 $facebook->deleteEvent();
             }
           

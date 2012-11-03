@@ -82,7 +82,7 @@ class EventInstance extends UNL_UCBCN
             }
         }
         $this->url = $this->getURL();
-        $this->facebook = new UNL_UCBCN_Facebook_Instance($this->eventdatetime->id);
+        $this->facebook = new \UNL\UCBCN\Facebook\Instance($this->eventdatetime->id);
         $this->facebookRSVP = new UNL_UCBCN_Facebook_RSVP($this->eventdatetime->id, $this->calendar->id);
     }
     

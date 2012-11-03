@@ -108,7 +108,7 @@ class Event extends Record
             $eventdatetimes->event_id = $this->event_id;
             $rows = $eventdatetimes->find();
             while ($eventdatetimes->fetch()) {
-                $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
+                $facebook = new \UNL\UCBCN\Facebook\Instance($eventdatetimes->id);
                 $facebook->updateEvent();
             }
         }
@@ -166,7 +166,7 @@ class Event extends Record
         $eventdatetimes->event_id = $this->event_id;
         $rows = $eventdatetimes->find();
         while ($eventdatetimes->fetch()) {
-            $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
+            $facebook = new \UNL\UCBCN\Facebook\Instance($eventdatetimes->id);
             $facebook->updateEvent();
         }
         return $r;
