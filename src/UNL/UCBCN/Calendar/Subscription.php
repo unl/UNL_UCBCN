@@ -242,14 +242,11 @@ class Subscription extends Record
     public function updateSubscribedCalendars($calendar_id, $event_id = null)
     {
         $updated       = 0;
-        $subscriptions = UNL_UCBCN::factory('subscription');
-        $subscriptions->whereAdd('searchcriteria LIKE \'%calendar_has_event.calendar_id='.$calendar_id.' %\'');
-        if ($subscriptions->find()) {
-            while ($subscriptions->fetch()) {
-                if ($subscriptions->process($event_id)) {
-                    // Events were added.
-                    $updated++;
-                }
+        $subscriptions = new Subscribers(array('calendar_id'=>$calendar_id));
+        foreach ($subscriptions as $subscription) {
+            if ($subscription->process($event_id)) {
+                // Events were added.
+                $updated++;
             }
         }
         return $updated;
