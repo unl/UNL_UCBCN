@@ -1,6 +1,7 @@
 <?php
+namespace UNL\UCBCN;
 
-interface UNL_UCBCN_Cacheable
+interface Cacheable
 {
     public function getCacheKey();
     public function run();

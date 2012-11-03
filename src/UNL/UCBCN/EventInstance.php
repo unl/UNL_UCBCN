@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * This class is a simple container object for all the details related to an event
  * and its details.
@@ -14,11 +17,6 @@
  */
 
 /**
- * Requires the UNL_UCBCN backend class.
- */
-require_once 'UNL/UCBCN.php';
-
-/**
  * Generic object to hold a single event, and a single event date time.
  * Together, the two represent an instance of an event at a location.
  * 
@@ -29,7 +27,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_EventInstance extends UNL_UCBCN
+class EventInstance extends UNL_UCBCN
 {
     /**
      * @var UNL_UCBCN_Event Event details

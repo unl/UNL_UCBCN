@@ -1,4 +1,6 @@
-<?php 
+<?php
+namespace UNL\UCBCN\Facebook;
+
 /**
  * Facebook integration class (instance).
  * 
@@ -29,7 +31,7 @@ require_once dirname(dirname(dirname(dirname((dirname(__file__)))))).'/facebook/
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Facebook_Instance
+class Facebook_Instance
 {
     public $appID;
     public $secret;

@@ -1,4 +1,6 @@
 <?php
+namespace UNL;
+
 /**
  * This is a skeleton PEAR package attempt for the UC Berkeley Calendar Schema.
  * The class facilitates interaction between child objects and the database. It also
@@ -21,9 +23,6 @@
  * @link      http://code.google.com/p/unl-event-publisher/
  */
 
-require_once 'UNL/UCBCN/Error.php';
-require_once 'Cache/Lite.php';
-require_once 'MDB2.php';
 
 /**
  * The backend system object for the UNL UCBCN calendar system.
@@ -37,7 +36,7 @@ require_once 'MDB2.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN
+class UCBCN
 {
 
     /**

@@ -1,4 +1,6 @@
 <?php
+namespace UNL\UCBCN;
+
 /**
  * Base class for filtering
  * 
@@ -11,7 +13,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-abstract class UNL_UCBCN_Filter
+abstract class Filter
 {
     /**
      * the controller instance running this output object

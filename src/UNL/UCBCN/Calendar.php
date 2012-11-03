@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Details related to a calendar within the UNL Event Publisher system.
  *
@@ -22,7 +25,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Calendar extends UNL_UCBCN_Record
+class Calendar extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -98,58 +101,38 @@ class UNL_UCBCN_Calendar extends UNL_UCBCN_Record
      * Adds a user to the calendar. Grants all permissions to the
      * user for the current calendar.
      *
-     * @param UNL_UCBCN_User $user
+     * @param UNL\UCBCN\User $user
      */
-    public function addUser(UNL_UCBCN_User $user)
+    public function addUser(User $user)
     {
         if (isset($this->id)) {
-            $p = UNL_UCBCN::factory('permission');
-            $p->find();
-            while ($p->fetch()) {
-                    if (!UNL_UCBCN::userHasPermission($user,$p->name,$this)) {
-                            UNL_UCBCN::grantPermission($user->uid,$this->id,$p->id);
-                    }
+            $permissions = new Permissions();
+            foreach ($permissions as $permission) {
+                if (!$user->hasPermission($p->name, $this)) {
+                    $user->grantPermission($this->id, $permission->id);
+                }
             }
             return true;
-        } else {
-            return false;
         }
-    }
-    
-    /**
-     * Gets a calendar by shortname.
-     *
-     * @param string $shortname The shortname of the calendar you wish to get.
-     *
-     * @return UNL_UCBCN_Calendar
-     */
-    static function getByShortname($shortname)
-    {
-        $c = new self();
-        $c->shortname = $shortname;
-        if ($c->find()==1) {
-            $c->fetch();
-            return $c;
-        } else {
-            return false;
-        }
+
+        return false;
+
     }
     
     /**
      * Removes a user from the current calendar.
      * Basically removes all permissions for the user on the current calendar.
      *
-     * @param UNL_UCBCN_User $user
+     * @param \UNL\UCBCN\User $user
      */
-    public function removeUser(UNL_UCBCN_User $user)
+    public function removeUser(User $user)
     {
         if (isset($this->id)&&isset($user->uid)) {
             $sql = 'DELETE FROM user_has_permission WHERE user_uid = \''.$user->uid.'\' AND calendar_id ='.$this->id;
-            $mdb2 = $this->getDatabaseConnection();
-            return $mdb2->exec($sql);
-        } else {
-            return false;
+            $db = $this->getDB();
+            return $db->execute($sql);
         }
+        return false;
     }
     
     /**
@@ -208,12 +191,9 @@ class UNL_UCBCN_Calendar extends UNL_UCBCN_Record
      */
     public function processSubscriptions()
     {
-        $subscriptions = UNL_UCBCN::factory('subscription');
-        $subscriptions->calendar_id = $this->id;
-        if ($subscriptions->find()) {
-            while ($subscriptions->fetch()) {
-                $subscriptions->process();
-            }
+        $subscriptions = new Calendar\Subscriptions(array('calendar_id'=>$this->id));
+        foreach ($subscriptions as $subscription) {
+            $subscriptions->process();
         }
     }
 }

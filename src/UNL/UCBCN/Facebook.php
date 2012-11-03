@@ -1,4 +1,7 @@
-<?php 
+<?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Facebook integration class (db).
  * 
@@ -15,7 +18,6 @@
  * TODO: Add support for added to pages instead of just profiles.
  */
 
-require_once 'UNL/UCBCN.php';
 
 /**
  * Facebook integration class (db).
@@ -29,7 +31,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Facebook extends UNL_UCBCN_Record
+class Facebook extends Record
 {
 
     public $facebook_id;

@@ -1,4 +1,6 @@
 <?php
+namespace UNL\UCBCN\Facebook;
+
 /**
  * Facebook RSVP class.
  * 
@@ -25,7 +27,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Facebook_RSVP
+class Facebook_RSVP
 {
     public $facebook;
     public $config;

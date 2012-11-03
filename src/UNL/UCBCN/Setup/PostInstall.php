@@ -1,4 +1,6 @@
 <?php
+namespace UNL\UCBCN\Setup;
+
 /**
  * This is the setup file for the UNL UCBCN Calendar System.
  * This file installs/upgrades the database and inserts the default 
@@ -15,13 +17,6 @@
  */
 
 /**
- * Require MDB2_Schema for database interactions, and the UNL_UCBCN class
- * for backend interactions.
- */
-require_once 'MDB2/Schema.php';
-require_once 'UNL/UCBCN.php';
-
-/**
  * Class used by the PEAR installer which is executed after install to do
  * post installation tasks such as database creation/updates as well as
  * replacements and configuration.
@@ -33,7 +28,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Setup_PostInstall
+class Setup_PostInstall
 {
     var $createDB;
     var $databaseExists;

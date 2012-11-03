@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN\Event;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for relatedevent
  *
@@ -21,7 +24,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Relatedevent extends UNL_UCBCN_Record
+class Relatedevent extends Record
 {
 
     public $event_id;                        // int(10)  not_null unsigned

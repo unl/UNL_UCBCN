@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for user
  *
@@ -22,7 +25,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_User extends UNL_UCBCN_Record
+class User extends Record
 {
 
     public $uid;                             // string(100)  not_null primary_key

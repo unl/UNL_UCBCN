@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for admissioncharge
  *
@@ -21,7 +24,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Admissioncharge extends UNL_UCBCN_Record
+class Admissioncharge extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
