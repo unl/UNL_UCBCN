@@ -171,30 +171,23 @@ class Event extends Record
         }
         return $r;
     }
-    
+
     /**
      * Returns bool false if the calendar does not have the event,
      * otherwise returns status.
      *
-     * @param UNL_UCBCN_Calendar $calendar Calendar to check.
-     * @param UNL_UCBCN_Event    $event    Event to check.
+     * @param UNL\UCBCN\Calendar $calendar Calendar to check.
+     * @param UNL\UCBCN\Event    $event    Event to check.
      *
      * @return string status, or bool false
      */
-    public static function calendarHasEvent(UNL_UCBCN_Calendar $calendar, UNL_UCBCN_Event $event)
+    public static function getById($calendar_id, $event_id)
     {
-        $che              = UNL_UCBCN::factory('calendar_has_event');
-        $che->calendar_id = $calendar->id;
-        $che->event_id    = $event->id;
-        if ($che->find()) {
-            $che->fetch();
-            return $che->status;
-        }
 
-        return false;
+        return self::getByAnyField(__CLASS__, 'calendar_id', $calendar_id, ' AND event_id = '.(int)$event_id);
 
     }
-    
+
     /**
      * Removes this record - effectively removing this event from the calendar.
      *
