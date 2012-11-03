@@ -123,7 +123,7 @@ class DateTime extends Record
     /**
      * Gets an object for the location of this event date and time.
      *
-     * @return UNL_UCBCN_Location
+     * @return UNL\UCBCN\Location
      */
     public function getLocation()
     {
