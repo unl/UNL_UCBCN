@@ -189,9 +189,10 @@ class Event extends Record
         if ($che->find()) {
             $che->fetch();
             return $che->status;
-        } else {
-            return false;
         }
+
+        return false;
+
     }
     
     /**
