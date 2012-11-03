@@ -64,21 +64,6 @@ class Event extends Record
     }
 
     /**
-     * Simple function to test for a valid URL
-     *
-     * Used to check webpageurl and imageurl fields.
-     *
-     * @param string $val URL to check
-     *
-     * @return int 0 | 1
-     */
-    public function checkURL($val)
-    {
-        return preg_match('/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i', $val);
-    }
-    
-
-    /**
      * Returns an associative array of the fields for this table.
      *
      * @return array
