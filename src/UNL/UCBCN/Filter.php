@@ -20,7 +20,7 @@ abstract class Filter
      */
     protected $controller;
     
-    public function __construct(UNL_UCBCN $controller)
+    public function __construct(\UNL\UCBCN $controller)
     {
         $this->controller = $controller;
     }
