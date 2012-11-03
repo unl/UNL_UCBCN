@@ -254,18 +254,4 @@ class Subscription extends Record
         }
         return $updated;
     }
-    
-    /**
-     * Checks if a calendar has subscribers.
-     *
-     * @param int $calendar_id The id of the calendar to check.
-     *
-     * @return int
-     */
-    public function calendarHasSubscribers($calendar_id)
-    {
-        $subscriptions = UNL_UCBCN::factory('subscription');
-        $subscriptions->whereAdd('searchcriteria LIKE \'%calendar_has_event.calendar_id='.$calendar_id.' %\'');
-        return $subscriptions->find();
-    }
 }
