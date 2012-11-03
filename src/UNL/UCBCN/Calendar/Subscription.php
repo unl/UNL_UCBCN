@@ -201,9 +201,10 @@ class Subscription extends Record
     {
         if ($this->automaticapproval==1) {
             return 'posted';
-        } else {
-            return 'pending';
         }
+
+        return 'pending';
+
     }
     
     /**
