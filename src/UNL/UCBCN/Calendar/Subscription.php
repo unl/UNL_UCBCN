@@ -132,13 +132,11 @@ class Subscription extends Record
      * Performs an update on this subscription. This will re-evaluate all the events
      * to see if they match the subscription and add them in.
      *
-     * Calls UNL_UCBCN_process() if update was successful.
-     *
-     * @param object $do Dataobject
+     * Calls self::process() if update was successful.
      *
      * @return bool true on success
      */
-    public function update($do=false)
+    public function update()
     {
         $this->datelastupdated = date('Y-m-d H:i:s');
         if (isset($_SESSION['_authsession'])) {
