@@ -1,4 +1,7 @@
-<?php 
+<?php
+namespace UNL\UCBCN\Facebook;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Facebook integration class (db).
  * 
@@ -16,7 +19,6 @@
  * TODO: Only create events if asked to by the user in the edit/create event page.
  */
 
-require_once 'UNL/UCBCN.php';
 
 /**
  * Facebook integration class (db).
@@ -30,7 +32,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Facebook_Account extends UNL_UCBCN_Record
+class Facebook_Account extends Record
 {
 
     public $id;
@@ -99,7 +101,7 @@ class UNL_UCBCN_Facebook_Account extends UNL_UCBCN_Record
             return false;
         }
         //Check facebook App settings
-        if (!UNL_UCBCN_Facebook_Instance::getConfig()) {
+        if (!Instance::getConfig()) {
             return false;
         }
         return true;

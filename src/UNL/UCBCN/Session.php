@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for session
  *
@@ -21,7 +24,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Session extends UNL_UCBCN_Record
+class Session extends Record
 {
 
     public $user_uid;                        // string(255)  not_null primary_key

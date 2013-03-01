@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN\Calendar;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for subscription
  *
@@ -12,8 +15,6 @@
  * @link      http://code.google.com/p/unl-event-publisher/
  */
 
-require_once 'UNL/UCBCN/Calendar_has_event.php';
-
 /**
  * ORM for a record within the database.
  *
@@ -24,7 +25,7 @@ require_once 'UNL/UCBCN/Calendar_has_event.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
+class Subscription extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -131,13 +132,11 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
      * Performs an update on this subscription. This will re-evaluate all the events
      * to see if they match the subscription and add them in.
      *
-     * Calls UNL_UCBCN_process() if update was successful.
-     *
-     * @param object $do Dataobject
+     * Calls self::process() if update was successful.
      *
      * @return bool true on success
      */
-    public function update($do=false)
+    public function update()
     {
         $this->datelastupdated = date('Y-m-d H:i:s');
         if (isset($_SESSION['_authsession'])) {
@@ -168,8 +167,8 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
             $res =& $this->matchingEvents(true, $event_id);
             if ($res->numRows()) {
                 // There are events to insert, postpone any subscription processing until we're done.
-                $process_subscriptions = UNL_UCBCN_Calendar_Event::processSubscriptions();
-                UNL_UCBCN_Calendar_Event::processSubscriptions(false);
+                $process_subscriptions = Event::processSubscriptions();
+                Event::processSubscriptions(false);
                 $calendar = $this->getLink('calendar_id');
                 $user     = $this->getLink('uidcreated');
                 $status   = $this->getApprovalStatus();
@@ -181,7 +180,7 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
                     }
                 }
                 // restore process subscriptions to what it was before.
-                UNL_UCBCN_Calendar_Event::processSubscriptions($process_subscriptions);
+                Event::processSubscriptions($process_subscriptions);
                 self::updateSubscribedCalendars($this->calendar_id, $event_id);
             }
         }
@@ -200,9 +199,10 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
     {
         if ($this->automaticapproval==1) {
             return 'posted';
-        } else {
-            return 'pending';
         }
+
+        return 'pending';
+
     }
     
     /**
@@ -240,30 +240,13 @@ class UNL_UCBCN_Subscription extends UNL_UCBCN_Record
     public function updateSubscribedCalendars($calendar_id, $event_id = null)
     {
         $updated       = 0;
-        $subscriptions = UNL_UCBCN::factory('subscription');
-        $subscriptions->whereAdd('searchcriteria LIKE \'%calendar_has_event.calendar_id='.$calendar_id.' %\'');
-        if ($subscriptions->find()) {
-            while ($subscriptions->fetch()) {
-                if ($subscriptions->process($event_id)) {
-                    // Events were added.
-                    $updated++;
-                }
+        $subscriptions = new Subscribers(array('calendar_id'=>$calendar_id));
+        foreach ($subscriptions as $subscription) {
+            if ($subscription->process($event_id)) {
+                // Events were added.
+                $updated++;
             }
         }
         return $updated;
-    }
-    
-    /**
-     * Checks if a calendar has subscribers.
-     *
-     * @param int $calendar_id The id of the calendar to check.
-     *
-     * @return int
-     */
-    public function calendarHasSubscribers($calendar_id)
-    {
-        $subscriptions = UNL_UCBCN::factory('subscription');
-        $subscriptions->whereAdd('searchcriteria LIKE \'%calendar_has_event.calendar_id='.$calendar_id.' %\'');
-        return $subscriptions->find();
     }
 }

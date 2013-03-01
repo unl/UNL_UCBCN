@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN\Calendar;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table definition, and processing functions for calendar_has_event
  *
@@ -13,16 +16,6 @@
  */
 
 /**
- * Backend is required for UNL_UCBCN::factory
- */
-require_once 'UNL/UCBCN.php';
-
-/**
- * UNL_UCBCN_Calendar_Subscription is needed to determine which subscribed calendars to update.
- */
-require_once 'UNL/UCBCN/Subscription.php';
-
-/**
  * ORM for a record within the database.
  *
  * @category  Events
@@ -32,7 +25,7 @@ require_once 'UNL/UCBCN/Subscription.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
+class Event extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -107,7 +100,7 @@ class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
             if (self::processSubscriptions() && $this->status != 'pending') {
                 $event = $this->getLink('event_id');
                 if ($event->approvedforcirculation) {
-                    UNL_UCBCN_Calendar_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                    Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
             //loop though all eventdatetimes for this event, creating facebook events.
@@ -115,7 +108,7 @@ class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
             $eventdatetimes->event_id = $this->event_id;
             $rows = $eventdatetimes->find();
             while ($eventdatetimes->fetch()) {
-                $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
+                $facebook = new \UNL\UCBCN\Facebook\Instance($eventdatetimes->id);
                 $facebook->updateEvent();
             }
         }
@@ -164,7 +157,7 @@ class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
             if ($this->status != 'pending' && $this->status != 'archived') {
                 $event = $this->getLink('event_id');
                 if ($event->approvedforcirculation) {
-                    UNL_UCBCN_Calendar_Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
+                    Subscription::updateSubscribedCalendars($this->calendar_id, $this->event_id);
                 }
             }
         }
@@ -173,34 +166,28 @@ class UNL_UCBCN_Calendar_Event extends UNL_UCBCN_Record
         $eventdatetimes->event_id = $this->event_id;
         $rows = $eventdatetimes->find();
         while ($eventdatetimes->fetch()) {
-            $facebook = new UNL_UCBCN_Facebook_Instance($eventdatetimes->id);
+            $facebook = new \UNL\UCBCN\Facebook\Instance($eventdatetimes->id);
             $facebook->updateEvent();
         }
         return $r;
     }
-    
+
     /**
      * Returns bool false if the calendar does not have the event,
      * otherwise returns status.
      *
-     * @param UNL_UCBCN_Calendar $calendar Calendar to check.
-     * @param UNL_UCBCN_Event    $event    Event to check.
+     * @param UNL\UCBCN\Calendar $calendar Calendar to check.
+     * @param UNL\UCBCN\Event    $event    Event to check.
      *
      * @return string status, or bool false
      */
-    public static function calendarHasEvent(UNL_UCBCN_Calendar $calendar, UNL_UCBCN_Event $event)
+    public static function getById($calendar_id, $event_id)
     {
-        $che              = UNL_UCBCN::factory('calendar_has_event');
-        $che->calendar_id = $calendar->id;
-        $che->event_id    = $event->id;
-        if ($che->find()) {
-            $che->fetch();
-            return $che->status;
-        } else {
-            return false;
-        }
+
+        return self::getByAnyField(__CLASS__, 'calendar_id', $calendar_id, ' AND event_id = '.(int)$event_id);
+
     }
-    
+
     /**
      * Removes this record - effectively removing this event from the calendar.
      *

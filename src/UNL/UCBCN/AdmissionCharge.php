@@ -1,6 +1,9 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
- * Table Definition for attendancerestriction
+ * Table Definition for admissioncharge
  *
  * PHP version 5
  *
@@ -21,16 +24,27 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Attendancerestriction extends UNL_UCBCN_Record
+class AdmissionCharge extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
-    public $event_id;                        // int(10)  not_null multiple_key unsigned
-    public $description;                     // blob(4294967295)  blob
+    public $admissioninfogroup_id;           // int(10)  not_null unsigned
+    public $price;                           // string(100)
+    public $description;                     // string(255)
 
     public function getTable()
     {
-        return 'attendancerestriction';
+        return 'admissioncharge';
+    }
+
+    function table()
+    {
+        return array(
+            'id'=>129,
+            'admissioninfogroup_id'=>129,
+            'price'=>2,
+            'description'=>2,
+        );
     }
 
     function keys()
@@ -47,6 +61,6 @@ class UNL_UCBCN_Attendancerestriction extends UNL_UCBCN_Record
     
     function links()
     {
-        return array('event_id' => 'event:id');
+        return array('admissioninfogroup_id' => 'admissioninfo:id');
     }
 }

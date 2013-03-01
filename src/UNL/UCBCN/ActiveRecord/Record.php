@@ -1,36 +1,30 @@
 <?php
 /**
- * Simple Active Record implementation for UNL Event Publisher
- * 
+ * Simple Active Record implementation
+ *
  * PHP version 5
- * 
- * @category  Event Publishing
- * @package   UNL_UCBCN_Record
+ *
+ * @category  Publishing
  * @author    Brett Bieber <brett.bieber@gmail.com>
  * @copyright 2010 Regents of the University of Nebraska
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
- * @link      http://peoplefinder.unl.edu/
  */
+namespace UNL\UCBCN\ActiveRecord;
 
-/**
- * Simple active record implementation for UNL's online directory.
- * 
- * PHP version 5
- * 
- * @category  Event Publishing
- * @package   UNL_UCBCN_Record
- * @author    Brett Bieber <brett.bieber@gmail.com>
- * @copyright 2010 Regents of the University of Nebraska
- * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
- * @link      http://peoplefinder.unl.edu/
- */
-class UNL_UCBCN_Record
+use UNL\UCBCN\Controller as Controller;
+
+abstract class Record
 {
+    public function __construct()
+    {
+
+    }
+
     /**
      * Prepare the insert SQL for this record
      *
      * @param string &$sql The INSERT SQL query to prepare
-     * 
+     *
      * @return array Associative array of field value pairs
      */
     protected function prepareInsertSQL(&$sql)
@@ -42,12 +36,13 @@ class UNL_UCBCN_Record
         }
         $sql .= '(`'.implode('`,`', array_keys($fields)).'`)';
         $sql .= ' VALUES ('.str_repeat('?,', count($fields)-1).'?)';
+
         return $fields;
     }
 
     /**
      * Prepare the update SQL for this record
-     * 
+     *
      * @param string &$sql The UPDATE SQL query to prepare
      *
      * @return array Associative array of field value pairs
@@ -67,42 +62,33 @@ class UNL_UCBCN_Record
         $sql = substr($sql, 0, -4);
 
         $fields = $fields + get_object_vars($this);
+
         return $fields;
     }
 
     /**
-     * Get the primary keys for this table in the database
-     *
-     * @return array
-     */
-    function keys()
-    {
-        return array(
-            'id',
-        );
-    }
-    
-    /**
      * Save the record. This automatically determines if insert or update
      * should be used, based on the primary keys.
-     * 
+     *
      * @return bool
      */
-    function save()
+    public function save()
     {
-        $key_set = true;
+        $saveType = 'save';
 
         foreach ($this->keys() as $key) {
             if (empty($this->$key)) {
-                $key_set = false;
+                $saveType = 'create';
             }
         }
 
-        if (!$key_set) {
-            return $this->insert();
+        if ($saveType == 'create') {
+            $result = $this->insert();
+        } else {
+            $result = $this->update();
         }
 
-        return $this->update();
+        return $result;
     }
 
     /**
@@ -110,7 +96,7 @@ class UNL_UCBCN_Record
      *
      * @return bool
      */
-    function insert()
+    public function insert()
     {
         $sql      = '';
         $fields   = $this->prepareInsertSQL($sql);
@@ -119,6 +105,7 @@ class UNL_UCBCN_Record
         foreach ($fields as $key=>$value) {
             $values[] =& $this->$key;
         }
+
         return $this->prepareAndExecute($sql, $values);
     }
 
@@ -127,7 +114,7 @@ class UNL_UCBCN_Record
      *
      * @return bool
      */
-    function update()
+    public function update()
     {
         $sql      = '';
         $fields   = $this->prepareUpdateSQL($sql);
@@ -141,17 +128,18 @@ class UNL_UCBCN_Record
         foreach ($this->keys() as $key) {
             $values[] =& $this->$key;
         }
+
         return $this->prepareAndExecute($sql, $values);
     }
 
     /**
      * Prepare the SQL statement and execute the query
-     * 
+     *
      * @param string $sql    The SQL query to execute
      * @param array  $values Values used in the query
-     * 
+     *
      * @throws Exception
-     * 
+     *
      * @return true
      */
     protected function prepareAndExecute($sql, $values)
@@ -177,19 +165,17 @@ class UNL_UCBCN_Record
 
     /**
      * Get the type string used with prepared statements for the fields given
-     * @TODO Use the table() method for determining type
      *
      * @param array $fields Array of field names
-     * 
+     *
      * @return string
      */
-    function getTypeString($fields)
+    public function getTypeString($fields)
     {
         $types = '';
         foreach ($fields as $name) {
-            switch($name) {
+            switch ($name) {
                 case 'id':
-                case 'event_id':
                     $types .= 'i';
                     break;
                 default:
@@ -197,6 +183,7 @@ class UNL_UCBCN_Record
                     break;
             }
         }
+
         return $types;
     }
 
@@ -204,10 +191,10 @@ class UNL_UCBCN_Record
      * Convert the string given into a usable date for the RDBMS
      *
      * @param string $str A textual description of the date
-     * 
+     *
      * @return string|false
      */
-    function getDate($str)
+    public function getDate($str)
     {
         if ($time = strtotime($str)) {
             return date('Y-m-d', $time);
@@ -215,6 +202,7 @@ class UNL_UCBCN_Record
 
         if (strpos($str, '/') !== false) {
             list($month, $day, $year) = explode('/', $str);
+
             return $this->getDate($year.'-'.$month.'-'.$day);
         }
         // strtotime couldn't handle it
@@ -227,8 +215,8 @@ class UNL_UCBCN_Record
      * @param string $table Table to retrieve record from
      * @param int    $id    The primary key/ID value
      * @param string $field The field that holds the primary key
-     * 
-     * @return false | UNL_Officefinder_Record
+     *
+     * @return false | Record
      */
     public static function getRecordByID($table, $id, $field = 'id')
     {
@@ -237,7 +225,7 @@ class UNL_UCBCN_Record
         if ($result = $mysqli->query($sql)) {
             return $result->fetch_assoc();
         }
-        
+
         return false;
     }
 
@@ -246,7 +234,7 @@ class UNL_UCBCN_Record
      *
      * @return bool
      */
-    function delete()
+    public function delete()
     {
         $mysqli = self::getDB();
         $sql    = "DELETE FROM ".$this->getTable()." WHERE ";
@@ -267,19 +255,20 @@ class UNL_UCBCN_Record
         if ($result = $mysqli->query($sql)) {
             return true;
         }
+
         return false;
     }
 
     /**
      * Magic method for static calls
      *
-     * @param string $method Method called
+     * @param string $method Tsathod called
      * @param array  $args   Array of arguments passed to the method
-     * 
+     *
      * @method getBy[FIELD NAME]
-     * 
+     *
      * @throws Exception
-     * 
+     *
      * @return mixed
      */
     public static function __callStatic($method, $args)
@@ -292,10 +281,11 @@ class UNL_UCBCN_Record
             if (isset($args[1])) {
                 $whereAdd = $args[1];
             }
+
             return self::getByAnyField($class, $field, $args[0], $whereAdd);
-            
+
         }
-        throw new Exception('Invalid static method called.');
+        throw new Exception('Invalid static method called.', 500);
     }
 
     public static function getByAnyField($class, $field, $value, $whereAdd = '')
@@ -314,33 +304,37 @@ class UNL_UCBCN_Record
                     . $field . ' = "' . $mysqli->escape_string($value) . '"';
         $result = $mysqli->query($sql);
 
-        if ($result === false
-            || $result->num_rows == 0) {
+        if (false === $result) {
+            throw new Exception($mysqli->errno.':'.$mysqli->error, 500);
+        }
+
+        if ($result->num_rows == 0) {
             return false;
         }
 
         $record->synchronizeWithArray($result->fetch_assoc());
+
         return $record;
     }
 
     /**
      * Get the DB
-     * 
+     *
      * @return mysqli
      */
     public static function getDB()
     {
-        return UNL_UCBCN::getDB();
+        return Database::getDB();
     }
 
     /**
      * Synchronize member variables with the values in the array
-     * 
+     *
      * @param array $data Associative array of field=>value pairs
-     * 
+     *
      * @return void
      */
-    function synchronizeWithArray($data)
+    public function synchronizeWithArray($data)
     {
         foreach (get_object_vars($this) as $key=>$default_value) {
             if (isset($data[$key]) && !empty($data[$key])) {
@@ -351,12 +345,15 @@ class UNL_UCBCN_Record
 
     /**
      * Reload data from the database and refresh member variables
-     * 
+     *
      * @return void
      */
-    function reload()
+    public function reload()
     {
         $record = self::getById($this->id);
+        if (false === $record) {
+            throw new Exception('Could not reload from the database.', 500);
+        }
         $this->synchronizeWithArray($record->toArray());
     }
 
@@ -365,8 +362,64 @@ class UNL_UCBCN_Record
      *
      * @return array
      */
-    function toArray()
+    public function toArray()
     {
         return get_object_vars($this);
+    }
+
+    /**
+     * Get the primary keys for this table in the database
+     *
+     * @return array
+     */
+    abstract public function keys();
+
+     /**
+     * Return a string containing the table name.
+     *
+     * @return string
+     */
+    public static function getTable()
+    {
+        $className = get_called_class();
+        if ($lastNsPos = strripos($className, '\\')) {
+            $namespace = substr($className, 0, $lastNsPos);
+            $className = substr($className, $lastNsPos + 1);
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+        }
+
+        return strtolower($className).'s';
+    }
+
+    public function getURL()
+    {
+        $keys = $this->keys();
+        if (count($keys) > 1) {
+            throw new Exception('Cannot determine route for multi keys yet!', 500);
+        }
+
+        if (!isset($this->{$keys[0]})) {
+            return false;
+        }
+
+        return Controller::getURL()
+               . call_user_func(array(get_called_class(), 'getTable'))
+               . '/' . $this->{$keys[0]};
+    }
+
+    /**
+     * Get information about the table and all the columns
+     *
+     * @return \UNL\UCBCN\ActiveRecord\TableInfo
+     */
+    public function getTableInfo()
+    {
+        static $info = false;
+
+        if (!$info) {
+            $info = new TableInfo($this->getTable());
+        }
+
+        return $info;
     }
 }

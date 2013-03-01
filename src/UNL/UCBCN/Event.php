@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for event
  *
@@ -12,7 +15,6 @@
  * @link      http://code.google.com/p/unl-event-publisher/
  */
 
-require_once 'UNL/UCBCN.php';
 
 /**
  * ORM for a record within the database.
@@ -25,7 +27,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event extends UNL_UCBCN_Record
+class Event extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -60,21 +62,6 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
     {
         return 'event';
     }
-
-    /**
-     * Simple function to test for a valid URL
-     *
-     * Used to check webpageurl and imageurl fields.
-     *
-     * @param string $val URL to check
-     *
-     * @return int 0 | 1
-     */
-    public function checkURL($val)
-    {
-        return preg_match('/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/i', $val);
-    }
-    
 
     /**
      * Returns an associative array of the fields for this table.
@@ -231,7 +218,7 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
             $events->whereAdd('eventdatetime.event_id = '.$this->id);
             $number = $events->find();
             while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_Facebook_Instance($events->id);
+                $facebook = new \UNL\UCBCN\Facebook\Instance($events->id);
                 $facebook->updateEvent();
                 
             }
@@ -275,7 +262,7 @@ class UNL_UCBCN_Event extends UNL_UCBCN_Record
             $events->whereAdd('eventdatetime.event_id = '.$this->id);
             $number = $events->find();
             while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_Facebook_Instance($events->id);
+                $facebook = new \UNL\UCBCN\Facebook\Instance($events->id);
                 $facebook->deleteEvent();
             }
           

@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for account
  *
@@ -23,7 +26,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Account extends UNL_UCBCN_Record
+class Account extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -52,15 +55,15 @@ class UNL_UCBCN_Account extends UNL_UCBCN_Record
      *
      * @param string $name Name for the calendar
      * @param string $shortname shortname for the calendar.
-     * @param UNL_UCBCN_User $user
+     * @param \UNL\UCBCN\User $user
      * @param bool Grant user access to the calendar?
      *
      * @return bool
      */
-    public function addCalendar($name, $shortname, UNL_UCBCN_User $user, $grant = true)
+    public function addCalendar($name, $shortname, User $user, $grant = true)
     {
         
-        $calendar = UNL_UCBCN::factory('calendar');
+        $calendar = new Calendar();
         $calendar->shortname = $shortname;
 
         if ($calendar->find()) {

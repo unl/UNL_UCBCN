@@ -1,4 +1,6 @@
 <?php
-interface UNL_UCBCN_Exception
+namespace UNL\UCBCN;
+
+interface Exception extends \Exception
 {
 }

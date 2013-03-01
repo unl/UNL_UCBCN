@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Object related to a list of events.
  * 
@@ -13,11 +16,6 @@
  */
 
 /**
- * Requires the UNL_UCBCN backend class.
- */
-require_once 'UNL/UCBCN.php';
-
-/**
  * This class holds all the events for the list.
  * 
  * @package   UNL_UCBCN
@@ -26,7 +24,7 @@ require_once 'UNL/UCBCN.php';
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_EventListing
+class EventListing
 {
     /**
      * The type of eventlisting.

@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN\Event;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for eventdatetime
  *
@@ -21,7 +24,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Event_DateTime extends UNL_UCBCN_Record
+class Occurrence extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
@@ -96,7 +99,7 @@ class UNL_UCBCN_Event_DateTime extends UNL_UCBCN_Record
             $this->factory('recurringdate')->updateRecurringEvents();
         }
         //update a facebook event.
-        $facebook = new UNL_UCBCN_Facebook_Instance($this->id);
+        $facebook = new \UNL\UCBCN\Facebook\Instance($this->id);
         $facebook->updateEvent();
         return $r;
     }
@@ -105,7 +108,7 @@ class UNL_UCBCN_Event_DateTime extends UNL_UCBCN_Record
     {
         //delete the facebook event.
         if ($this->id != null) {
-            $facebook = new UNL_UCBCN_Facebook_Instance($this->id);
+            $facebook = new \UNL\UCBCN\Facebook\Instance($this->id);
             $facebook->deleteEvent();
         }
         //delete the actual event.
@@ -120,7 +123,7 @@ class UNL_UCBCN_Event_DateTime extends UNL_UCBCN_Record
     /**
      * Gets an object for the location of this event date and time.
      *
-     * @return UNL_UCBCN_Location
+     * @return UNL\UCBCN\Location
      */
     public function getLocation()
     {

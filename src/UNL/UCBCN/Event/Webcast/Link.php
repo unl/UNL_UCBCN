@@ -1,4 +1,7 @@
 <?php
+namespace UNL\UCBCN\Event\Webcast;
+
+use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Table Definition for webcastlink
  *
@@ -21,7 +24,7 @@
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class UNL_UCBCN_Calendar_Webcast_Link extends UNL_UCBCN_Record
+class Link extends Record
 {
 
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
