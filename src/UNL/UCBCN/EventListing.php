@@ -218,7 +218,7 @@ class UNL_UCBCN_EventListing
                 array_push($res, $recurring_events[$i]);
             }
         }
-        while (count($res) > 10) {
+        while (count($res) > $limit) {
             array_pop($res);
         }
         foreach ($res as $row) {
