@@ -185,13 +185,13 @@ class UNL_UCBCN_EventListing
                                                 'AND calendar_has_event.event_id = eventdatetime.event_id ' .
                                                 'AND calendar_has_event.event_id = event.id ' .
                                                 'AND eventdatetime.starttime >= \'' . date('Y-m-d') . '\' '.
-                                'ORDER BY '.$orderby.' LIMIT '.$limit;
+                                'ORDER BY '.$orderby.' LIMIT '.(int)$limit;
         } else {
             $mdb2     = UNL_UCBCN::getDatabaseConnection();
             $calendar = null;
             $sql      = 'SELECT eventdatetime.id FROM eventdatetime WHERE '.
                         'eventdatetime.starttime >= \'' . date('Y-m-d') . '\' '.
-                        'ORDER BY '.$orderby.' LIMIT '.$limit;
+                        'ORDER BY '.$orderby.' LIMIT '.(int)$limit;
         }
         $res = $mdb2->query($sql)->fetchAll();
         $sql = 'SELECT eventdatetime.id, recurringdate.recurringdate, ' .
