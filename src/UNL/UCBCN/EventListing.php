@@ -193,11 +193,14 @@ class EventListing
         }
         $res = $mdb2->query($sql)->fetchAll();
         $sql = 'SELECT eventdatetime.id, recurringdate.recurringdate, ' .
-               'recurringdate.recurrence_id FROM recurringdate, eventdatetime ' .
+               'recurringdate.recurrence_id FROM recurringdate, eventdatetime, calendar_has_event ' .
                'WHERE recurringdate > \'' . date('Y-m-d') . '\' ' .
+               'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
                'AND eventdatetime.event_id = recurringdate.event_id ' .
+               'AND calendar_has_event.event_id = recurringdate.event_id ' .
                'AND recurringdate.ongoing = FALSE ' .
                'AND recurringdate.unlinked = FALSE ' .
+               'AND calendar_has_event.calendar_id = '.$calendar->id.' ' .
                'ORDER BY recurringdate LIMIT 10;';
         $rec_res = $mdb2->query($sql);
         $recurring_events = $rec_res->fetchAll();
