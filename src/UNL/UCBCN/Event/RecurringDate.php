@@ -76,11 +76,12 @@ class RecurringDate extends Record
     /**
      * Determines the days of this month with recurring events.
      * 
-     * @param Calendar_Month_Weekdays $month Month to find events in.
-     * 
+     * @param Calendar_Month_Weekdays $month       Month to find events in.
+     * @param UNL\UCBCN\Calendar      $calendar    Specific calendar to search for
+     *
      * @return an array with values representing the days with recurring events.
      */
-    public function getRecurringDates($month)
+    public function getRecurringDates($month, $calendar = null)
     {
         $mdays = $month->fetchAll();
         $first = date('Y-m-d H:i:s', array_shift($mdays)->getTimestamp());
@@ -93,6 +94,14 @@ class RecurringDate extends Record
         $rd->whereAdd("recurringdate >= '$first'");
         $rd->whereAdd("recurringdate <= '$last'");
         $rd->whereAdd("unlinked = FALSE");
+        
+        if ($calendar) {
+            $che = $this->factory('calendar_has_event');
+            $rd->joinAdd($che, 'INNER');
+            $rd->whereAdd('calendar_has_event.calendar_id = '.(int) $calendar->id);
+            $rd->whereAdd('calendar_has_event.status != "pending"');
+        }
+
         $rd->find();
         
         $res = array();
