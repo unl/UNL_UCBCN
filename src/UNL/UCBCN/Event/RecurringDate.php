@@ -217,7 +217,7 @@ class RecurringDate extends Record
                   `event_id` INTEGER(10) UNSIGNED NOT NULL,
                   `recurrence_id` INTEGER(10) UNSIGNED NOT NULL,
                   `ongoing` BOOL,
-                  `unlinked` BOOL DEFAULT FALSE, PRIMARY KEY (`id`));";
+                  `unlinked` BOOL DEFAULT FALSE, PRIMARY KEY (`id`), KEY `event_id` (`event_id`), KEY `unlinked` (`unlinked`));";
         
         $table  =& $db->query($sql);
         if (!PEAR::isError($table)) {
