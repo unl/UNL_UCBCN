@@ -1,6 +1,8 @@
 <?php
 namespace UNL\UCBCN;
 
+use UNL\UCBCN\ActiveRecord\RecordList;
+
 use UNL\UCBCN\ActiveRecord\Record;
 /**
  * Object related to a list of events.
@@ -24,50 +26,14 @@ use UNL\UCBCN\ActiveRecord\Record;
  * @license   http://www1.unl.edu/wdn/wiki/Software_License BSD License
  * @link      http://code.google.com/p/unl-event-publisher/
  */
-class EventListing
+class EventListing extends RecordList
 {
-    /**
-     * The type of eventlisting.
-     * 
-     * @param string One of upcoming, ongoing, search
-     */
-    public $type;
-    /**
-     * Events of a given status
-     * 
-     * @param string 
-     */
-    public $status;
-    /**
-     * Array of UNL_UCBCN_Event or UNL_UCBCN_EventInstance objects for this listing.
-     * 
-     * @param array UNL_UCBCN_Event or UNL_UCBCN_EventInstance objects
-     */
-    public $events = array();
-    
-    /**
-     * Constructor
-     *
-     * @param string $type    Optional parameter to fetch an event listing for types of events.
-     * @param array  $options options for the specific constructor to initialize the object.
-     * @param array  $oar     Events which are ongoing and recurring
-     */
-    function __construct($type=null,$options=array(), &$oar=array())
+    public function getDefaultOptions()
     {
-        
-        switch($type) {
-        case 'day':
-            $this->constructDayEventInstanceList($options, $oar);
-            break;
-        case 'upcoming':
-            $this->constructUpcomingEventList($options);
-            break;
-        case 'ongoing':
-            $this->constructOngoingEventList($options, $oar);
-            break;
-        default:
-            break;
-        }
+        return array(
+            'listClass' =>  __CLASS__,
+            'itemClass' => __NAMESPACE__ . '\\Event\\Occurrence',
+        );
     }
 
     /**
