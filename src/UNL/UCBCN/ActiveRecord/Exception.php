@@ -1,4 +1,4 @@
 <?php
 namespace UNL\UCBCN\ActiveRecord;
 
-class Exception extends \UNL\UCBCN\Exception{}
+class Exception extends \Exception implements \UNL\UCBCN\Exception{}
