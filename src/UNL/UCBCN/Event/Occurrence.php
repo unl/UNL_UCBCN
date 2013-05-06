@@ -2,6 +2,9 @@
 namespace UNL\UCBCN\Event;
 
 use UNL\UCBCN\ActiveRecord\Record;
+use UNL\UCBCN\Event;
+use UNL\UCBCN\Location;
+
 /**
  * Table Definition for eventdatetime
  *
@@ -127,10 +130,16 @@ class Occurrence extends Record
      */
     public function getLocation()
     {
-        if (isset($this->location_id)) {
-            return $this->getLink('location_id');
-        }
-        
-        return false;
+        return Location::getById($this->location_id);
+    }
+
+    /**
+     * Get the event
+     *
+     * @return \UNL\UCBCN\Event
+     */
+    public function getEvent()
+    {
+        return Event::getById($this->event_id);
     }
 }
