@@ -34,7 +34,7 @@ class Sponsor extends Record
     public $sponsortype;                     // string(255)
     public $webpageurl;                      // blob(4294967295)  blob
 
-    public function getTable()
+    public static function getTable()
     {
         return 'sponsor';
     }

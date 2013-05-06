@@ -45,7 +45,7 @@ class Account extends Record
     public $sponsor_id;                      // int(11)  not_null
     public $website;                         // string(255)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'account';
     }

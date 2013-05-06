@@ -32,7 +32,7 @@ class User_Permission extends Record
     public $user_uid;                        // string(100)  not_null
     public $calendar_id;                     // int(10)  not_null unsigned
 
-    public function getTable()
+    public static function getTable()
     {
         return 'user_has_permission';
     }

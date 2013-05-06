@@ -48,7 +48,7 @@ class Calendar extends Record
     public $recommendationswithinaccount;    // int(1)
     public $theme;                           // string(255)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'calendar';
     }

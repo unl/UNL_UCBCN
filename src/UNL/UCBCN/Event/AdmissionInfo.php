@@ -40,7 +40,7 @@ class AdmissionInfo extends Record
     public $deadline;                        // datetime(19)  binary
     public $opendate;                        // datetime(19)  binary
 
-    public function getTable()
+    public static function getTable()
     {
         return 'admissioninfo';
     }

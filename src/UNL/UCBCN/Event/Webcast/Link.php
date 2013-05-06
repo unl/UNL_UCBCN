@@ -33,7 +33,7 @@ class Link extends Record
     public $sequencenumber;                  // int(10)  unsigned
     public $related;                         // string(1)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'webcastlink';
     }

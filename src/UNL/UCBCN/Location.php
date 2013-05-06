@@ -45,7 +45,7 @@ class Location extends Record
     public $phone;                           // string(50)
     public $standard;                        // int(1)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'location';
     }

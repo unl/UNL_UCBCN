@@ -32,7 +32,7 @@ class AdmissionCharge extends Record
     public $price;                           // string(100)
     public $description;                     // string(255)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'admissioncharge';
     }

@@ -31,7 +31,7 @@ class Session extends Record
     public $lastaction;                      // datetime(19)  not_null binary
     public $data;                            // blob(4294967295)  blob
 
-    public function getTable()
+    public static function getTable()
     {
         return 'session';
     }

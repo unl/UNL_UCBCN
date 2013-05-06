@@ -31,7 +31,7 @@ class Relatedevent extends Record
     public $related_event_id;                // int(10)  not_null unsigned
     public $relationtype;                    // string(100)  not_null
 
-    public function getTable()
+    public static function getTable()
     {
         return 'relatedevent';
     }

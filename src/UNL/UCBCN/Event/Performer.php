@@ -39,7 +39,7 @@ class Performer extends Record
     public $organizationwebpageurl;          // blob(4294967295)  blob
     public $type;                            // string(255)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'performer';
     }

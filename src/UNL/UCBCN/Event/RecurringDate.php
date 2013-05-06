@@ -13,7 +13,7 @@ class RecurringDate extends Record
     public $ongoing;                         // int(1)  
     public $unlinked;                        // int(1)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'recurringdate';
     }

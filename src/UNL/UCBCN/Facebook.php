@@ -40,7 +40,7 @@ class Facebook extends Record
     public $page_name;
     
 
-    public function getTable()
+    public static function getTable()
     {
         return 'facebook';
     }

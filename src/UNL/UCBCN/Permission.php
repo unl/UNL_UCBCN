@@ -31,7 +31,7 @@ class Permission extends Record
     public $name;                            // string(100)
     public $description;                     // string(255)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'permission';
     }

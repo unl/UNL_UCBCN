@@ -43,7 +43,7 @@ class Publiccontact extends Record
     public $fax;                             // string(50)
     public $webpageurl;                      // blob(4294967295)  blob
 
-    public function getTable()
+    public static function getTable()
     {
         return 'publiccontact';
     }

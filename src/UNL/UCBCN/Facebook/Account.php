@@ -43,7 +43,7 @@ class Facebook_Account extends Record
     public $create_events;
     public $show_like_buttons;
 
-    public function getTable()
+    public static function getTable()
     {
         return 'facebook_accounts';
     }

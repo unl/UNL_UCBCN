@@ -35,7 +35,7 @@ class EventType extends Record
     public $eventtypegroup;                  // string(8)
     public $standard;                        // int(1)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'eventtype';
     }

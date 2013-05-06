@@ -36,7 +36,7 @@ class Webcast extends Record
     public $bandwidth;                       // string(255)
     public $additionalinfo;                  // blob(4294967295)  blob
 
-    public function getTable()
+    public static function getTable()
     {
         return 'webcast';
     }

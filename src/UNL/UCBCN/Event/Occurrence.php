@@ -40,7 +40,7 @@ class Occurrence extends Record
     public $directions;                      // blob(4294967295)  blob
     public $additionalpublicinfo;            // blob(4294967295)  blob
 
-    public function getTable()
+    public static function getTable()
     {
         return 'eventdatetime';
     }

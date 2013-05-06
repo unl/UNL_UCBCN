@@ -31,7 +31,7 @@ class Role extends Record
     public $name;                            // string(255)  not_null
     public $standard;                        // int(1)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'role';
     }

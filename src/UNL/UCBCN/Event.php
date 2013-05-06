@@ -58,7 +58,7 @@ class Event extends Record
     public $datelastupdated;                 // datetime(19)  binary
     public $uidlastupdated;                  // string(100)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'event';
     }

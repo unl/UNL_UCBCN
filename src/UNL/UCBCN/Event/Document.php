@@ -32,7 +32,7 @@ class Document extends Record
     public $name;                            // string(100)
     public $url;                             // string(255)
 
-    public function getTable()
+    public static function getTable()
     {
         return 'document';
     }

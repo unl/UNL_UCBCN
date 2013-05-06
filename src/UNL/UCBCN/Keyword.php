@@ -30,7 +30,7 @@ class Keyword extends Record
     public $id;                              // int(10)  not_null primary_key unsigned auto_increment
     public $name;                            // string(100)  not_null
 
-    public function getTable()
+    public static function getTable()
     {
         return 'keyword';
     }

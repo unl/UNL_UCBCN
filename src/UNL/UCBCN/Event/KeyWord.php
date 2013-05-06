@@ -31,7 +31,7 @@ class KeyWord extends Record
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $keyword_id;                      // int(10)  not_null multiple_key unsigned
 
-    public function getTable()
+    public static function getTable()
     {
         return 'event_has_keyword';
     }

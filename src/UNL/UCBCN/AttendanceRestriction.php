@@ -31,7 +31,7 @@ class AttendanceRestriction extends Record
     public $event_id;                        // int(10)  not_null multiple_key unsigned
     public $description;                     // blob(4294967295)  blob
 
-    public function getTable()
+    public static function getTable()
     {
         return 'attendancerestriction';
     }
