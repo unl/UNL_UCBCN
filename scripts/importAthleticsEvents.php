@@ -39,34 +39,20 @@ foreach ($xml->channel->item as $event_xml) {
     $starttime = 0;
     $endtime   = null;
 
-    if ($event_xml->time !== 'TBA') {
+    if ($event_xml->time == 'TBA') {
 
-        preg_match('/([\d]+)(:[\d]+)?/', $event_xml->time, $matches);
-
-        if (isset($matches[1])) {
-            $starttime = $matches[1];
-        }
-
-        if (strpos($event_xml->time, 'p.m.')) {
-            $starttime = $starttime + 12;
-        }
-
-        if (isset($matches[2])) {
-            $starttime = $starttime . ':' . $matches[2];
-        } else {
-            $starttime = $starttime . ':00';
-        }
+        // TBA event, how to handle?
 
     }
 
-    $starttime = str_replace('00:00:00.0', '', $event_xml->date) . $starttime;
+    $starttime = date('Y-m-d H:i:s', strtotime($event_xml->date));
 
     $e                         =& UNL_UCBCN::factory('event');
     $e->title                  = (string)$event_xml->sport;
     $e->uidcreated             = $user->uid;
     $e->uidlastupdated         = $user->uid;
     $e->approvedforcirculation = 1;
-    $e->privatecomment         = 'Imported from athletics rss feed HASH:'.md5($e->title.$event_xml->date);
+    $e->privatecomment         = 'Imported from athletics rss feed HASH:'.md5($event_xml->guid);
 
     $location =& UNL_UCBCN::factory('location');
     $location->name = $event_xml->location;
