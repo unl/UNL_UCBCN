@@ -111,13 +111,15 @@ function addDateTime($e, $starttime, $endtime, $location, $additional_info)
 
     $dt->fetch();
     if ($dt->starttime != $starttime
-        || $dt->location_id != $location->id) {
+        || $dt->location_id != $location->id
+        || $dt->additionalpublicinfo != trim($additional_info)) {
 
         //Update
         $dt->fetch();
         echo 'Update Event: ' . $e->id . '-' . $e->title . PHP_EOL;
         echo "\t Eventdatetime: " . $dt->id . " from " . $dt->starttime . " to: " . $starttime . PHP_EOL;
         echo "\t Location: from " . $dt->location_id . " to: " . $location->id . PHP_EOL;
+        echo "\t Additional Public info from: '" . $dt->additionalpublicinfo . "' to '" . $additional_info . "'" . PHP_EOL;
         if ($endtime) {
             $dt->endtime = $endtime;
         }
