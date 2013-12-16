@@ -45,6 +45,11 @@ foreach ($xml->channel->item as $event_xml) {
 
     }
 
+    if ($event_xml->homeaway != 'H') {
+        //Only import home events
+        continue;
+    }
+
     $starttime = date('Y-m-d H:i:s', strtotime($event_xml->date));
 
     $e                         =& UNL_UCBCN::factory('event');
