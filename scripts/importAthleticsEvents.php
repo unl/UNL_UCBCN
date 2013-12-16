@@ -84,7 +84,7 @@ foreach ($xml->channel->item as $event_xml) {
         $e->webpageurl = preg_replace('/\&SPSID=[\d]+\&Q_SEASON=[\d]+/', '', $event_xml->link);
 
         if ($e->insert()) {
-            echo 'I';
+            echo 'Adding event' . PHP_EOL;
             $calendar->addEvent($e, 'posted', $user, 'create event form');
             addDateTime($e, $starttime, $endtime, $location, $additional_info);
         }
@@ -96,20 +96,38 @@ function addDateTime($e, $starttime, $endtime, $location, $additional_info)
 {
     $dt =& UNL_UCBCN::factory('eventdatetime');
     $dt->event_id  = $e->id;
-    $dt->starttime = $starttime;
-
-    if ($endtime) {
-        $dt->endtime = $endtime;
-    }
 
     if (!$dt->find()) {
+        //insert
+        echo "Insert event datetime" . PHP_EOL;
+        $dt->starttime = $starttime;
+        if ($endtime) {
+            $dt->endtime = $endtime;
+        }
         $dt->location_id = $location->id;
         $dt->additionalpublicinfo = $additional_info;
         return $dt->insert();
+    }
+
+    $dt->fetch();
+    if ($dt->starttime != $starttime
+        || $dt->location_id != $location->id) {
+
+        //Update
+        $dt->fetch();
+        echo 'Update Event: ' . $e->id . '-' . $e->title . PHP_EOL;
+        echo "\t Eventdatetime: " . $dt->id . " from " . $dt->starttime . " to: " . $starttime . PHP_EOL;
+        echo "\t Location: from " . $dt->location_id . " to: " . $location->id . PHP_EOL;
+        if ($endtime) {
+            $dt->endtime = $endtime;
+        }
+        $dt->starttime = $starttime;
+        $dt->location_id = $location->id;
+        $dt->additionalpublicinfo = $additional_info;
+        return $dt->update();
     }
 
     return true;
 }
 
 echo PHP_EOL.'DONE'.PHP_EOL;
-
