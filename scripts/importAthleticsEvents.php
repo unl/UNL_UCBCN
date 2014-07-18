@@ -39,34 +39,25 @@ foreach ($xml->channel->item as $event_xml) {
     $starttime = 0;
     $endtime   = null;
 
-    if ($event_xml->time !== 'TBA') {
+    if ($event_xml->time == 'TBA') {
 
-        preg_match('/([\d]+)(:[\d]+)?/', $event_xml->time, $matches);
-
-        if (isset($matches[1])) {
-            $starttime = $matches[1];
-        }
-
-        if (strpos($event_xml->time, 'p.m.')) {
-            $starttime = $starttime + 12;
-        }
-
-        if (isset($matches[2])) {
-            $starttime = $starttime . ':' . $matches[2];
-        } else {
-            $starttime = $starttime . ':00';
-        }
+        // TBA event, how to handle?
 
     }
 
-    $starttime = str_replace('00:00:00.0', '', $event_xml->date) . $starttime;
+    if ($event_xml->homeaway != 'H') {
+        //Only import home events
+        continue;
+    }
+
+    $starttime = date('Y-m-d H:i:s', strtotime($event_xml->date));
 
     $e                         =& UNL_UCBCN::factory('event');
     $e->title                  = (string)$event_xml->sport;
     $e->uidcreated             = $user->uid;
     $e->uidlastupdated         = $user->uid;
     $e->approvedforcirculation = 1;
-    $e->privatecomment         = 'Imported from athletics rss feed HASH:'.md5($e->title.$event_xml->date);
+    $e->privatecomment         = 'Imported from athletics rss feed HASH:'.md5($event_xml->guid);
 
     $location =& UNL_UCBCN::factory('location');
     $location->name = $event_xml->location;
@@ -93,7 +84,7 @@ foreach ($xml->channel->item as $event_xml) {
         $e->webpageurl = preg_replace('/\&SPSID=[\d]+\&Q_SEASON=[\d]+/', '', $event_xml->link);
 
         if ($e->insert()) {
-            echo 'I';
+            echo 'Adding event' . PHP_EOL;
             $calendar->addEvent($e, 'posted', $user, 'create event form');
             addDateTime($e, $starttime, $endtime, $location, $additional_info);
         }
@@ -105,20 +96,40 @@ function addDateTime($e, $starttime, $endtime, $location, $additional_info)
 {
     $dt =& UNL_UCBCN::factory('eventdatetime');
     $dt->event_id  = $e->id;
-    $dt->starttime = $starttime;
-
-    if ($endtime) {
-        $dt->endtime = $endtime;
-    }
 
     if (!$dt->find()) {
+        //insert
+        echo "Insert event datetime" . PHP_EOL;
+        $dt->starttime = $starttime;
+        if ($endtime) {
+            $dt->endtime = $endtime;
+        }
         $dt->location_id = $location->id;
         $dt->additionalpublicinfo = $additional_info;
         return $dt->insert();
+    }
+
+    $dt->fetch();
+    if ($dt->starttime != $starttime
+        || $dt->location_id != $location->id
+        || $dt->additionalpublicinfo != trim($additional_info)) {
+
+        //Update
+        $dt->fetch();
+        echo 'Update Event: ' . $e->id . '-' . $e->title . PHP_EOL;
+        echo "\t Eventdatetime: " . $dt->id . " from " . $dt->starttime . " to: " . $starttime . PHP_EOL;
+        echo "\t Location: from " . $dt->location_id . " to: " . $location->id . PHP_EOL;
+        echo "\t Additional Public info from: '" . $dt->additionalpublicinfo . "' to '" . $additional_info . "'" . PHP_EOL;
+        if ($endtime) {
+            $dt->endtime = $endtime;
+        }
+        $dt->starttime = $starttime;
+        $dt->location_id = $location->id;
+        $dt->additionalpublicinfo = $additional_info;
+        return $dt->update();
     }
 
     return true;
 }
 
 echo PHP_EOL.'DONE'.PHP_EOL;
-

@@ -355,11 +355,21 @@ class Event extends Record
 
     /**
      * Get event_has_eventtype records for this event
-     * 
+     *
      * @return Event\EventTypes
      */
     public function getEventTypes()
     {
         return new Event\EventTypes(array('event_id' => $this->id));
+    }
+
+    /**
+     * Get all public contacts for this event
+     *
+     * @return Event\PublicContacts
+     */
+    public function getPublicContacts()
+    {
+        return new Event\PublicContacts(array('event_id' => $this->id));
     }
 }
