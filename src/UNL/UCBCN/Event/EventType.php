@@ -2,6 +2,8 @@
 namespace UNL\UCBCN\Event;
 
 use UNL\UCBCN\ActiveRecord\Record;
+use UNL\UCBCN\Event;
+
 /**
  * Table Definition for event_has_eventtype
  *
@@ -62,5 +64,25 @@ class EventType extends Record
     {
         return array('event_id'     => 'event:id',
                      'eventtype_id' => 'eventtype:id');
+    }
+
+    /**
+     * Get the event type record (details) for this link
+     * 
+     * @return false|\UNL\UCBCN\Calendar\EventType - the event type record or false
+     */
+    public function getType()
+    {
+        return \UNL\UCBCN\Calendar\EventType::getById($this->eventtype_id);
+    }
+
+    /**
+     * Get the event for this link
+     * 
+     * @return false|Event - the event record or false
+     */
+    public function getEvent()
+    {
+        return Event::getById($this->event_id);
     }
 }
