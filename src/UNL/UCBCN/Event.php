@@ -352,4 +352,14 @@ class Event extends Record
         }
         return $e;
     }
+
+    /**
+     * Get all public contacts for this event
+     * 
+     * @return Event\PublicContacts
+     */
+    public function getPublicContacts()
+    {
+        return new Event\PublicContacts(array('event_id' => $this->id));
+    }
 }
