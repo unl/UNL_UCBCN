@@ -372,4 +372,14 @@ class Event extends Record
     {
         return new Event\PublicContacts(array('event_id' => $this->id));
     }
+
+    /**
+     * Get all webcasts for this event
+     *
+     * @return Event\Webcasts
+     */
+    public function getWebcasts()
+    {
+        return new Event\Webcasts(array('event_id' => $this->id));
+    }
 }

@@ -2,6 +2,8 @@
 namespace UNL\UCBCN\Event;
 
 use UNL\UCBCN\ActiveRecord\Record;
+use UNL\UCBCN\Event;
+
 /**
  * Table Definition for webcast
  *
@@ -71,5 +73,25 @@ class Webcast extends Record
     function links()
     {
         return array('event_id' => 'event:id');
+    }
+
+    /**
+     * Get the event related to this webcast
+     * 
+     * @return false|Event
+     */
+    public function getEvent()
+    {
+        return Event::getById($this->event_id);
+    }
+    
+    /**
+     * Get links to this webcast
+     * 
+     * @return Webcast\Links
+     */
+    function getWebcastLinks()
+    {
+        return new Webcast\Links(array('webcast_id' => $this->id));
     }
 }
