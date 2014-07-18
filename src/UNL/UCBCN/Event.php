@@ -356,7 +356,7 @@ class Event extends Record
     /**
      * Get documents for this event
      * 
-     * @return Documents
+     * @return Event\Documents
      */
     public function getDocuments()
     {
