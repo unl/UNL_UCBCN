@@ -382,4 +382,14 @@ class Event extends Record
     {
         return new Event\Webcasts(array('event_id' => $this->id));
     }
+
+    /**
+     * Get documents for this event
+     *
+     * @return Event\Documents
+     */
+    public function getDocuments()
+    {
+        return new Event\Documents(array('event_id' => $this->id));
+    }
 }
