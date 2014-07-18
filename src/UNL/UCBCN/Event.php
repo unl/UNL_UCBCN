@@ -352,4 +352,14 @@ class Event extends Record
         }
         return $e;
     }
+
+    /**
+     * Get documents for this event
+     * 
+     * @return Documents
+     */
+    public function getDocuments()
+    {
+        return new Event\Documents(array('event_id' => $this->id));
+    }
 }
