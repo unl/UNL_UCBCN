@@ -8,7 +8,7 @@ abstract class RecordList extends \LimitIterator implements \Countable
     public $options = array('limit'=>-1, 'offset'=>0);
 
     /**
-     * Get the defualt options for the list class
+     * Get the defualt options for the list class which should not be changed by $this->options
      * Required to set the following:
      *     $options['listClass'] the class of the list.
      *     $options['itemClass'] the class of each item in the list.
@@ -26,7 +26,7 @@ abstract class RecordList extends \LimitIterator implements \Countable
     {
         $this->options = $options + $this->options;
 
-        $this->options = $this->options + $this->getDefaultOptions();
+        $this->options = $this->getDefaultOptions() + $this->options;
 
         if (!isset($this->options['listClass'])) {
             throw new Exception("No List Class was set", 500);
