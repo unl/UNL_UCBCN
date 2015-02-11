@@ -101,25 +101,25 @@ class UNL_UCBCN_EventListing
         $rstr = array('', '');
         $recurringdate->query('SELECT * FROM recurringdate');
         if ($recurringdate->fetch()) {
-            $rstr[0]  = ', recurringdate ';
-            $rstr[1]  = 'AND (eventdatetime.recurringtype = \'none\'' .
-                            'OR eventdatetime.recurringtype = \'\')' . 
-                        'OR (eventdatetime.event_id = recurringdate.event_id ' .
-                            'AND recurringdate.recurringdate = \''.date('Y-m-d', $day->getTimestamp()).'\'' .
-                            'AND recurringdate.unlinked = FALSE)';
+            $rstr[0] = ' LEFT JOIN recurringdate ON eventdatetime.event_id = recurringdate.event_id ';
+            $rstr[1] = ' AND (eventdatetime.recurringtype = \'none\' OR eventdatetime.recurringtype = \'\') '.
+                       ' OR ( recurringdate.recurringdate = \'' . date('Y-m-d', $day->getTimestamp()) . '\' AND recurringdate.unlinked = FALSE)';
         }
 
         $calendar = null;
 
         if (isset($options['calendar'])) {
             $calendar =& $options['calendar'];
-            $eventdatetime->query('SELECT DISTINCT eventdatetime.* FROM calendar_has_event,eventdatetime '.$rstr[0].
-                            'WHERE calendar_has_event.calendar_id='.$calendar->id.' ' .
-                                    'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
-                                    'AND calendar_has_event.event_id = eventdatetime.event_id ' .
-                                    'AND (eventdatetime.starttime LIKE \''.date('Y-m-d ', $day->getTimestamp()).'%\'' .
-                                    $rstr[1] . ') ' .
-                            'ORDER BY '.$orderby);
+            $eventdatetime->query('SELECT eventdatetime.* FROM eventdatetime ' .
+                    ' JOIN calendar_has_event ON calendar_has_event.event_id = eventdatetime.event_id ' .
+                    ' AND calendar_has_event.calendar_id=' . $calendar->id .
+                    $rstr[0] .
+                    ' WHERE' .
+                    ' (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') ' .
+                    ' AND ( ' .
+                    ' eventdatetime.starttime LIKE \'' . date('Y-m-d', $day->getTimestamp()) . ' %\' ' .
+                    $rstr[1] . ') ' .
+                    'ORDER BY ' . $orderby);
         } else {
             //$eventdatetime->whereAdd('starttime LIKE \''.date('Y-m-d', $day->getTimestamp()).'%\'');
             //$eventdatetime->orderBy($orderby);
@@ -185,21 +185,24 @@ class UNL_UCBCN_EventListing
                                                 'AND calendar_has_event.event_id = eventdatetime.event_id ' .
                                                 'AND calendar_has_event.event_id = event.id ' .
                                                 'AND eventdatetime.starttime >= \'' . date('Y-m-d') . '\' '.
-                                'ORDER BY '.$orderby.' LIMIT '.$limit;
+                                'ORDER BY '.$orderby.' LIMIT '.(int)$limit;
         } else {
             $mdb2     = UNL_UCBCN::getDatabaseConnection();
             $calendar = null;
             $sql      = 'SELECT eventdatetime.id FROM eventdatetime WHERE '.
                         'eventdatetime.starttime >= \'' . date('Y-m-d') . '\' '.
-                        'ORDER BY '.$orderby.' LIMIT '.$limit;
+                        'ORDER BY '.$orderby.' LIMIT '.(int)$limit;
         }
         $res = $mdb2->query($sql)->fetchAll();
         $sql = 'SELECT eventdatetime.id, recurringdate.recurringdate, ' .
-               'recurringdate.recurrence_id FROM recurringdate, eventdatetime ' .
+               'recurringdate.recurrence_id FROM recurringdate, eventdatetime, calendar_has_event ' .
                'WHERE recurringdate > \'' . date('Y-m-d') . '\' ' .
+               'AND (calendar_has_event.status =\'posted\' OR calendar_has_event.status =\'archived\') '.
                'AND eventdatetime.event_id = recurringdate.event_id ' .
+               'AND calendar_has_event.event_id = recurringdate.event_id ' .
                'AND recurringdate.ongoing = FALSE ' .
                'AND recurringdate.unlinked = FALSE ' .
+               'AND calendar_has_event.calendar_id = '.$calendar->id.' ' .
                'ORDER BY recurringdate LIMIT 10;';
         $rec_res = $mdb2->query($sql);
         $recurring_events = $rec_res->fetchAll();
@@ -218,7 +221,7 @@ class UNL_UCBCN_EventListing
                 array_push($res, $recurring_events[$i]);
             }
         }
-        while (count($res) > 10) {
+        while (count($res) > $limit) {
             array_pop($res);
         }
         foreach ($res as $row) {

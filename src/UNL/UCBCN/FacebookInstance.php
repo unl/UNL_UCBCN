@@ -88,7 +88,7 @@ class UNL_UCBCN_FacebookInstance
     public function getConfig()
     {
         //Load vars from config file.
-        $config_file = dirname(dirname(dirname(dirname(dirname(__file__))))).'/config.inc.php';
+        $config_file = '/var/www/html/events.unl.edu/config.inc.php';
         if (file_exists($config_file)) {
             include $config_file;
         }
