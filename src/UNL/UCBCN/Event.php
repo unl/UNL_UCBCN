@@ -450,15 +450,6 @@ class UNL_UCBCN_Event extends DB_DataObject
                     $this->addToCalendar($_UNL_UCBCN['default_calendar_id'], 'pending', 'checked consider event');
                 }
             }
-            //loop though all eventdateandtime instances for this event.
-            $events = UNL_UCBCN_Manager::factory('eventdatetime');
-            $events->whereAdd('eventdatetime.event_id = '.$this->id);
-            $number = $events->find();
-            while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_FacebookInstance($events->id);
-                $facebook->updateEvent();
-                
-            }
         }
         return $res;
     }
@@ -494,15 +485,6 @@ class UNL_UCBCN_Event extends DB_DataObject
      */
     public function delete()
     {
-        //get all facebook events for this id and delete them.
-            $events = UNL_UCBCN_Manager::factory('eventdatetime');
-            $events->whereAdd('eventdatetime.event_id = '.$this->id);
-            $number = $events->find();
-            while ($events->fetch()) {
-                $facebook = new UNL_UCBCN_FacebookInstance($events->id);
-                $facebook->deleteEvent();
-            }
-          
         // Delete child elements that would be orphaned.
         if (ctype_digit($this->id)) {
             foreach (array('calendar_has_event',
