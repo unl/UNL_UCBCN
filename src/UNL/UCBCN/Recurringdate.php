@@ -168,9 +168,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 $new_rows[] = array(date('Y-m-d', $this_start), $event_id, $k, 0, 0);
 
                 // generate more day recurrences for each day of the event, if it is ongoing (i.e., the end date is the next day or later)
-                $next_day = $this_start + self::ONE_DAY;
-                // round down to midnight
-                $next_day = $next_day - ($next_day % self::ONE_DAY);
+                $next_day = strtotime('midnight tomorrow', $this_start);
                 while ($next_day <= $this_end) {
                     // add an entry to recurring dates for this eid, the temp date, is ongoing, not unlinked
                     $new_rows[] = array(date('Y-m-d', $next_day), $event_id, $k, 1, 0);
