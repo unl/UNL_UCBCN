@@ -17,6 +17,9 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     public $ongoing;                         // int(1)  
     public $unlinked;                        // int(1)
 
+    const ONE_DAY = 24 * 60 * 60;
+    const ONE_WEEK = 7 * 24 * 60 * 60;
+
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Recurringdate',$k,$v); }
 
@@ -117,122 +120,122 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
         
         return $res;
     }
-    
+
     /**
-     * Updates table containing all dates with recurring events.
+     * Deletes the recurring events for a given event.
+     * @param event_id     $event_id    The event id to delete recurrences for.
      * 
      * @return void
      */
-    public function updateRecurringEvents()
+    public function deleteRecurringEvents($event_id) {
+        $db =& $this->getDatabaseConnection();
+
+        // clear out the current recurring dates for this event, that are still linked
+        $sql = "DELETE FROM recurringdate WHERE event_id = {$event_id} AND unlinked = FALSE;";
+        $db->query($sql);
+    }
+    
+    /**
+     * Inserts the recurring events for a given event.
+     * @param event_id     $event_id    The event id to insert recurrences for.
+     * 
+     * @return void
+     */
+    public function insertRecurringEvents($event_id)
     {
-        return; 
-        $recurrence = array('daily'    => '+1 day',
-                            'weekly'   => '+1 week',
-                            'monthly'  => '+1 month',
-                            'annually' => '+1 year');
-        
-        $db     =& $this->getDatabaseConnection();
-        $sql    = "SELECT DATE_FORMAT(starttime,'%a %Y-%m-%d %T') AS day,
-                        event_id, recurringtype, recurs_until
-                    FROM eventdatetime WHERE recurringtype != 'none' GROUP BY starttime;";
-        $days   =& $db->queryCol($sql);
-        $sql    = "SELECT DATE_FORMAT(endtime, '%a %Y-%m-%d %T'), starttime
-                   FROM eventdatetime WHERE recurringtype != 'none' GROUP BY starttime;";
-        $end    =& $db->queryCol($sql);
-        $sql    = "SELECT event_id, starttime FROM eventdatetime
-                   WHERE recurringtype != 'none' GROUP BY starttime;";
-        $eid    =& $db->queryCol($sql);
-        $sql    = "SELECT rectypemonth, starttime FROM eventdatetime
-                   WHERE recurringtype != 'none' GROUP BY starttime;";
-        $rtm    =& $db->queryCol($sql);
-        $sql    = "SELECT recurringtype, starttime FROM eventdatetime
-                   WHERE recurringtype != 'none' GROUP BY starttime;";
-        $rct    =& $db->queryCol($sql);
-        $sql    = "SELECT DATE_FORMAT(recurs_until, '%a %Y-%m-%d %T'), starttime 
-                   FROM eventdatetime WHERE recurringtype != 'none' GROUP BY starttime;";
-        $rcu    =& $db->queryCol($sql);
-        
-        // [0] => recurringdate, [1] => event_id, [2] => recurrence_id, [3] => ongoing, [4] => unlinked
-        $res = array(array(), array(), array(), array());
-        for ($i = 0, $j = 0, $k = 0, $r = 0; $i < count($days); $i++, $k=0) {
-            $cur = $days[$i];
-            $sql = "SELECT recurringdate FROM recurringdate
-                    WHERE event_id={$eid[$i]} AND unlinked = TRUE;";
-            $ule =& $db->queryCol($sql);
-            while (strtotime($cur) <= strtotime($rcu[$i])) {
-                $res[0][$j] = date('Y-m-d', strtotime($cur));
-                $res[1][$j] = $eid[$i];
-                $res[2][$j] = $k;
-                $res[3][$j] = 'FALSE';
-                $res[4][$j] = 'FALSE';
-                $j++;
-                $temp = date('D Y-m-d H:i:s', strtotime('next day', strtotime($cur)));
-                while (strtotime($temp) <= strtotime($end[$i])) {
-                    $res[0][$j] = date('Y-m-d', strtotime($temp));
-                    $res[1][$j] = $eid[$i];
-                    $res[2][$j] = $k;
-                    $res[3][$j] = 'TRUE';
-                    $res[4][$j] = 'FALSE' ;
-                    $j++;
-                    $temp = date('D Y-m-d H:i:s', strtotime('next day', strtotime($temp)));
+        $new_rows = array();
+
+        $db =& $this->getDatabaseConnection();
+        // get all eventdatetimes for this event that are recurring (recurringtype != none)
+        $event_date_times =& $db->query("SELECT starttime, endtime, recurringtype, rectypemonth, recurs_until FROM eventdatetime WHERE recurringtype != 'none' AND event_id = {$event_id};");
+
+        while (($row = $event_date_times->fetchRow())) {
+            $start_date = strtotime($row[0]); // Y-m-d H:i:s string -> int
+            $end_date = strtotime($row[1]); // Y-m-d H:i:s string -> int
+            $recurring_type = $row[2];
+            $rec_type_month = $row[3];
+            $recurs_until = strtotime($row[4]); // Y-m-d H:i:s string -> int
+            $k = 0; // this counts the recurrence_id, i.e. which recurrence of the event it is
+
+            $this_start = $start_date;
+            $this_end = $end_date;
+            $length = $end_date - $start_date;
+
+            // while the current start time is before recurs until
+            while ($this_start <= $recurs_until) {
+                // insert initial day recurrence for this eventdatetime and recurrence, not ongoing, not unlinked
+                $new_rows[] = array(date('Y-m-d', $this_start), $event_id, $k, 0, 0);
+
+                // generate more day recurrences for each day of the event, if it is ongoing (i.e., the end date is the next day or later)
+                $next_day = $this_start + self::ONE_DAY;
+                while ($next_day <= $this_end) {
+                    // add an entry to recurring dates for this eid, the temp date, is ongoing, not unlinked
+                    $new_rows[] = array(date('Y-m-d', $next_day), $event_id, $k, 1, 0);
+                    // increment day
+                    $next_day = $next_day + self::ONE_DAY;
                 }
+
+                // increment k, which is the recurrence counter (not for the day recurrence, but for the normal recurrence)
                 $k++;
-                if ($rct[$i] != 'monthly' || $rtm[$i] == 'date') {
-                    $cur = date('D Y-m-d H:i:s', strtotime($recurrence[$rct[$i]], strtotime($cur)));
-                    $end[$i] = date('D Y-m-d H:i:s', strtotime($recurrence[$rct[$i]], strtotime($end[$i])));
-                } else if ($rtm[$i] == 'lastday') { 
-                    $nextmon = date('F Y H:i:s', strtotime('+1 day', strtotime($cur)));
-                    $nextmon = date('F Y H:i:s', strtotime('+1 month', strtotime($nextmon)));
-                    $cur = date('D Y-m-d H:i:s', strtotime('-1 day', strtotime($nextmon)));
+
+                // now we move this_start up, based on the recurrence type, and the while loop sees if that is
+                // after the recurs_until
+                if ($recurring_type == 'daily') {
+                    $this_start += self::ONE_DAY;
+                } else if ($recurring_type == 'weekly') {
+                    $this_start += self::ONE_WEEK;
+                } else if ($recurring_type == 'monthly') {
+                    // figure out some preliminary things
+                    $hour_on_start_date = date('H', $start_date);
+                    $minute_on_start_date = date('i', $start_date);
+                    $second_on_start_date = date('s', $start_date);
+
+                    $next_month_num = (int)(date('n', $this_start)) + 1;
+                    $next_month_year = (int)(date('Y', $this_start));
+                    if ($next_month_num > 12) {
+                        $next_month_num -= 12;
+                        $next_month_year += 1;
+                    }
+                    $days_in_next_month = cal_days_in_month(CAL_GREGORIAN, $next_month_num, $next_month_year);
+
+                    // now work how to get next month's day
+                    if ($rec_type_month == 'date') {
+                        $day_for_next_month = min($days_in_next_month, (int)(date('j', $start_date)));
+                        $this_start = mktime($hour_on_start_date, $minute_on_start_date, $second_on_start_date, $next_month_num, $day_for_next_month, $next_month_year);
+                    } else if ($rec_type_month == 'lastday') {
+                        $this_start = mktime($hour_on_start_date, $minute_on_start_date, $second_on_start_date, $next_month_num, $days_in_next_month, $next_month_year);
+                    } else { // first, second, third, fourth, or last
+                        $weekday = date('l', $start_date);
+                        $month_name = date('F', strtotime("2015-{$next_month_num}-01"));
+                        $this_start = strtotime("{$rec_type_month} {$weekday} of {$month_name} {$next_month_year}");
+                        $this_start = strtotime(date('Y-m-d', $this_start) . ' ' . $hour_on_start_date . ':' . $minute_on_start_date . ':' . $second_on_start_date);
+                    }
+                } else if ($recurring_type == 'annually' || $recurring_type == 'yearly') { 
+                    $this_start = strtotime('+1 year', $this_start);
                 } else {
-                    // Update current
-                    $weekday = date('l', strtotime($cur));
-                    $fstr = ($rtm[$i] == 'last') ? '+2 months': 'next month';
-                    $nextmon = date('F Y H:i:s', strtotime($fstr, strtotime($cur)));
-                    $nextmonweekday = date('l', strtotime($nextmon));
-                    $cur = date('D Y-m-d H:i:s', strtotime("{$rtm[$i]} $weekday, $nextmon")); 
-                    if ($weekday == $nextmonweekday && $rtm[$i] != 'last') {
-                        $cur = date('D Y-m-d H:i:s', strtotime('last week', strtotime($cur)));
-                    }
-                    // Update end
-                    $weekday = date('l', strtotime($end[$i]));
-                    $nextmon = date('F Y H:i:s', strtotime('next month', strtotime($end[$i])));
-                    $nextmonweekday = date('l', strtotime($nextmon));
-                    $end[$i] = date('D Y-m-d H:i:s', strtotime("{$rtm[$i]} $weekday, $nextmon"));
-                    if ($weekday == $nextmonweekday && $rtm[$i] != 'last') {
-                        $end[$i] = date('D Y-m-d H:i:s', strtotime('last week', strtotime($end[$i])));
-                    }
+                    // dont want an infinite loop
+                    break;
                 }
+                $this_end = $this_start + $length;
             }
-            foreach ($ule as $unlinked_date) {
-                if ($keys = array_keys($res[0], $unlinked_date)) {
-                    foreach ($keys as $key) { 
-                        $res[4][$key] = 'TRUE';
-                    }
-                }
+
+        }
+
+        if (!empty($new_rows)) {
+            $sql = "INSERT INTO recurringdate (recurringdate, event_id, recurrence_id, ongoing, unlinked) VALUES ";
+            $value_strings = array();
+            foreach ($new_rows as $row) {
+                $value_strings[] = "('{$row[0]}'," . implode(",", array_slice($row, 1)) . ")";
+            }
+            $sql .= implode(",", $value_strings) . ";";
+
+            $ret =& $db->query($sql);
+            if (PEAR::isError($ret)) {
+                error_log($ret->getMessage());
             }
         }
-        
-        // Clean this month
-        $sql = "DROP TABLE IF EXISTS recurringdate;";
-        $dropres = $db->query($sql);
-        $sql    = "CREATE TABLE IF NOT EXISTS `recurringdate` (
-                  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-                  `recurringdate` DATE NOT NULL, 
-                  `event_id` INTEGER(10) UNSIGNED NOT NULL,
-                  `recurrence_id` INTEGER(10) UNSIGNED NOT NULL,
-                  `ongoing` BOOL,
-                  `unlinked` BOOL DEFAULT FALSE, PRIMARY KEY (`id`), KEY `event_id` (`event_id`), KEY `unlinked` (`unlinked`));";
-        
-        $table  =& $db->query($sql);
-        if (!PEAR::isError($table)) {
-            for ($i = 0; $i < count($res[0]); $i++) {
-                $sql = "INSERT INTO recurringdate (recurringdate, event_id, recurrence_id, ongoing, unlinked) 
-                        VALUES('{$res[0][$i]}', {$res[1][$i]}, {$res[2][$i]}, {$res[3][$i]}, {$res[4][$i]});";
-                $ret = $db->query($sql);
-                //$res[0][$i] = date('m-d', strtotime($res[0][$i]));
-            }
-        }
+
+        return;
     }
     
     /**
@@ -318,9 +321,9 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 $edt->get('event_id', $e->id);
                 $rtype = $edt->recurringtype;
                 
-		//2014-10-06 - events with dates set and marked as recurring but not recurring because the end date was the same as the start date were being hidden
-		$events[] = $e;
-		if ($rtype == 'none' || $rtype == '') {
+        //2014-10-06 - events with dates set and marked as recurring but not recurring because the end date was the same as the start date were being hidden
+        $events[] = $e;
+        if ($rtype == 'none' || $rtype == '') {
 
                     //$events[] = $e;
                 } else {
