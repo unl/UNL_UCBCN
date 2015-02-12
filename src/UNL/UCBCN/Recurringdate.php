@@ -17,8 +17,8 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
     public $ongoing;                         // int(1)  
     public $unlinked;                        // int(1)
 
-    const ONE_DAY = 24 * 60 * 60;
-    const ONE_WEEK = 7 * 24 * 60 * 60;
+    const ONE_DAY = 86400;
+    const ONE_WEEK = 604800;
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Recurringdate',$k,$v); }
@@ -143,6 +143,7 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
      */
     public function insertRecurringEvents($event_id)
     {
+        $event_id = (int)($event_id);
         $new_rows = array();
 
         $db =& $this->getDatabaseConnection();
@@ -168,6 +169,8 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
 
                 // generate more day recurrences for each day of the event, if it is ongoing (i.e., the end date is the next day or later)
                 $next_day = $this_start + self::ONE_DAY;
+                // round down to midnight
+                $next_day = $next_day - ($next_day % self::ONE_DAY);
                 while ($next_day <= $this_end) {
                     // add an entry to recurring dates for this eid, the temp date, is ongoing, not unlinked
                     $new_rows[] = array(date('Y-m-d', $next_day), $event_id, $k, 1, 0);
@@ -321,10 +324,9 @@ class UNL_UCBCN_Recurringdate extends DB_DataObject
                 $edt->get('event_id', $e->id);
                 $rtype = $edt->recurringtype;
                 
-        //2014-10-06 - events with dates set and marked as recurring but not recurring because the end date was the same as the start date were being hidden
-        $events[] = $e;
-        if ($rtype == 'none' || $rtype == '') {
-
+                //2014-10-06 - events with dates set and marked as recurring but not recurring because the end date was the same as the start date were being hidden
+                $events[] = $e;
+                if ($rtype == 'none' || $rtype == '') {
                     //$events[] = $e;
                 } else {
                     // no recurrences for this event are in this listing
