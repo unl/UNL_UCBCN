@@ -448,7 +448,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         $r = parent::insert();
         if ($r) {
             UNL_UCBCN::cleanCache();
-            $this->factory('recurringdate')->updateRecurringEvents();
+            $this->factory('recurringdate')->insertRecurringEvents($this->event_id);
         }
         return $r;
     }
@@ -458,9 +458,9 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         $r = parent::update();
         if ($r) {
             UNL_UCBCN::cleanCache();
-            $this->factory('recurringdate')->updateRecurringEvents();
+            $this->factory('recurringdate')->deleteRecurringEvents($this->event_id);
+            $this->factory('recurringdate')->insertRecurringEvents($this->event_id);
         }
-      
         return $r;
     }
     
@@ -470,7 +470,7 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         $r = parent::delete();
         if ($r) {
             UNL_UCBCN::cleanCache();
-            $this->factory('recurringdate')->updateRecurringEvents();
+            $this->factory('recurringdate')->deleteRecurringEvents($this->event_id);
         }
         return $r;
     }
