@@ -41,6 +41,25 @@ class RecurringDate extends Record
     {
         return array('id',true);
     }
+
+    /**
+     * Get the first recurring date in an ongoing series
+     * 
+     * A row will be added for each date that an event occurs.
+     * This method will aid in getting the start date for an ongoing event.
+     * 
+     * @return bool|RecurringDate
+     * @throws \UNL\UCBCN\ActiveRecord\Exception
+     */
+    public function getFirstRecordInOngoingSeries()
+    {
+        return self::getByAnyField(
+            __CLASS__,
+            'recurrence_id',
+            $this->recurrence_id,
+            'event_id = ' . (int)$this->event_id . ' AND ongoing = 0'
+        );
+    }
     
     /**
      * Unlinks an event.
