@@ -447,7 +447,6 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public function insert()
     {
         $r = parent::insert();
-        error_log('edt insert result:' . print_r($r, 1));
         if ($r) {
             UNL_UCBCN::cleanCache();
             $this->factory('recurringdate')->updateRecurringEvents();
