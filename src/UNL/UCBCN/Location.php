@@ -49,6 +49,7 @@ class UNL_UCBCN_Location extends DB_DataObject
     public $type;                            // string(100)
     public $phone;                           // string(50)
     public $standard;                        // int(1)
+    public $user_id;                         // string(100)
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('UNL_UCBCN_Location',$k,$v); }
@@ -63,7 +64,10 @@ class UNL_UCBCN_Location extends DB_DataObject
                                          'additionalpublicinfo' => 'Additional Public Info',
                                          'mapurl'               => 'Map URL',
                                          'webpageurl'           => 'Web Page',
-                                         'standard'             => 'Make this location always available');
+                                         'standard'             => 'Save this location for future events?');
+    public $fb_hiddenFields      = array('user_id');
+    public $save; // boolean to track whether to save this location for the user
+
     function table()
     {
         return array(
@@ -83,6 +87,7 @@ class UNL_UCBCN_Location extends DB_DataObject
             'type'=>2,
             'phone'=>2,
             'standard'=>17,
+            'user_id'=>2
         );
     }
 
@@ -96,6 +101,33 @@ class UNL_UCBCN_Location extends DB_DataObject
     function sequenceKey()
     {
         return array('id',true);
+    }
+
+    public function preGenerateForm(&$fb)
+    {
+        foreach ($this->fb_hiddenFields as $el) {
+            $this->fb_preDefElements[$el] = HTML_QuickForm::createElement('hidden',$fb->elementNamePrefix.$el.$fb->elementNamePostfix);
+        }
+    }
+
+    /**
+     * Inserts a new location in the database.
+     *
+     * @return bool
+     */
+    public function insert()
+    {
+        if ($this->standard) {
+            if (isset($_SESSION['_authsession'])) {
+                $this->user_id = $_SESSION['_authsession']['username'];
+            }
+            $this->standard = 0;
+        } else {
+            $this->user_id = NULL;
+            $this->standard = 0;
+        }
+        $result = parent::insert();
+        return $result;
     }
     
 }
