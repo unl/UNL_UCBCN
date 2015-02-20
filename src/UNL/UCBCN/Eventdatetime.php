@@ -436,9 +436,10 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
         //you may want to include one or both of these
         if ($linkedDataObject->tableName() == 'location') {
             if (isset($this->location_id)) {
-                $linkedDataObject->whereAdd('standard=1 OR id='.$this->location_id.' OR user_id='.$_SESSION['_authsession']['username']);
+                $username = mysql_real_escape_string($_SESSION['_authsession']['username']);
+                $linkedDataObject->whereAdd('standard=1 OR id=' . $this->location_id . ' OR user_id="' . $username . '"');
             } else {
-                $linkedDataObject->whereAdd('standard=1 OR user_id="'.$_SESSION['_authsession']['username'].'"');
+                $linkedDataObject->whereAdd('standard=1 OR user_id="' . $_SESSION['_authsession']['username']. '"');
                 $linkedDataObject->orderBy('user_id DESC, name ASC');
             }
         }
