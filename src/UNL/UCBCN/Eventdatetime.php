@@ -435,10 +435,12 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
     public function prepareLinkedDataObject(&$linkedDataObject, $field) {
         //you may want to include one or both of these
         if ($linkedDataObject->tableName() == 'location') {
+            $username = $this->escape($_SESSION['_authsession']['username']);
             if (isset($this->location_id)) {
-                $linkedDataObject->whereAdd('standard=1 OR id='.$this->location_id);
+                $linkedDataObject->whereAdd('standard=1 OR id=' . $this->location_id . ' OR user_id="' . $username . '"');
             } else {
-                $linkedDataObject->standard = 1;
+                $linkedDataObject->whereAdd('standard=1 OR user_id="' . $username . '"');
+                $linkedDataObject->orderBy('user_id DESC, name ASC');
             }
         }
     }
