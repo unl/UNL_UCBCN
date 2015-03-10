@@ -1,0 +1,8 @@
+ID,DeptartmentName,ShortName,BuildingName,Address1,Address2,CampusAddress,City,State,Zip,Phone,Fax,Email,Website,Facebook,Twitter,Blog
+X,Haskell Agriculture Laboratory,HAL,,57905 866 Road,,,Concord,NE,68728,402-584-2261,402-584-3859,,http://snr.unl.edu/aboutus/where/fieldsites/haskell.asp,,,
+Y,Kimmel Education & Research Center,,,5985 G Road,,,Nebraska City,NE,68410,402-873-3166,402-873-3218,,http://kimmel.unl.edu/,,,
+Q,Nebraska Local Technical Assistance Program,NE LTAP,,3921 West Craw Street,Bldg 1472,,Lincoln,NE,68524,402-472-5748,402-472-0685,ne-ltap@unl.edu,http://www.ne-ltap.unl.edu/,,,
+NREC,Northeast Research and Extension Center,NREC,,Lifelong Learning Center,601 East Benjamin Avenue Suite 104,,Norfolk,NE,68701-0812,402-370-4000,402-370-4010,,http://nerec.unl.edu/,,,
+PREC,Panhandle Research and Extension Center,PREC,,4502 Avenue I,,,Scottsbluff,NE,69361-4939,308-632-1230,308-632-1365,,http://panhandle.unl.edu/,,,
+SREC,Southeast Research and Extension Center,SREC,,1071 County Road G,Room D,,Ithaca,NE,68033-2234,402-624-8037,402-624-8010,,http://southeast.unl.edu/,,,
+WREC,West Central Research and Extension Center,WREC,,402 W State Farm Road,,,North Platte,NE,69101-7751,308-696-6740,308-696-6780,,http://westcentral.unl.edu/,,,

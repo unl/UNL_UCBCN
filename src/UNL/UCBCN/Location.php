@@ -65,7 +65,7 @@ class UNL_UCBCN_Location extends DB_DataObject
                                          'mapurl'               => 'Map URL',
                                          'webpageurl'           => 'Web Page',
                                          'standard'             => 'Save this location for future events?');
-    public $fb_hiddenFields      = array('user_id');
+    public $fb_hiddenFields      = array('user_id', 'display_order');
     public $save; // boolean to track whether to save this location for the user
 
     function table()
@@ -87,7 +87,8 @@ class UNL_UCBCN_Location extends DB_DataObject
             'type'=>2,
             'phone'=>2,
             'standard'=>17,
-            'user_id'=>2
+            'user_id'=>2,
+            'display_order'=>129
         );
     }
 

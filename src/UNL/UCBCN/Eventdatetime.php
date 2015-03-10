@@ -438,9 +438,10 @@ class UNL_UCBCN_Eventdatetime extends DB_DataObject
             $username = $this->escape($_SESSION['_authsession']['username']);
             if (isset($this->location_id)) {
                 $linkedDataObject->whereAdd('standard=1 OR id=' . $this->location_id . ' OR user_id="' . $username . '"');
+                $linkedDataObject->orderBy('user_id DESC, display_order ASC, name ASC');
             } else {
                 $linkedDataObject->whereAdd('standard=1 OR user_id="' . $username . '"');
-                $linkedDataObject->orderBy('user_id DESC, name ASC');
+                $linkedDataObject->orderBy('user_id DESC, display_order ASC, name ASC');
             }
         }
     }
